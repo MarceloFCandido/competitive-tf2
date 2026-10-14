@@ -1,0 +1,35 @@
+{
+  "sequence": 50,
+  "message_id": "3aae940c-aa51-4279-b839-1dff9432d79c",
+  "source_timestamp": 1791993421.348783,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "tf/cfg/overrides/autoexec.cfg",
+      "repo_path": "tf/cfg/overrides/autoexec.cfg",
+      "status": "available_literal",
+      "sha256": "98dbf16337edc160e8993c6c6be86ea0948f0b248128902a040cbd9488c08d0c",
+      "bytes": 506
+    },
+    {
+      "original_path": "tf/cfg/overrides/modules.cfg",
+      "repo_path": "tf/cfg/overrides/modules.cfg",
+      "status": "available_literal",
+      "sha256": "4e5dfb1a4dd5fb28749c5b2d68275d71f758ddbb9aecd8812854815d44d5d159",
+      "bytes": 77
+    },
+    {
+      "original_path": "tf/cfg/overrides/autoexec.cfg",
+      "repo_path": "alternatives/medic/tf/cfg/overrides/autoexec.cfg",
+      "status": "static_reconstruction",
+      "sha256": "7ea8d691642882ac5a8ae2062d1f62c61d46a9e3a788946c0b4cbfaba79de438",
+      "bytes": 612,
+      "recipe": [
+        {
+          "operation": "append_optional_medic_block",
+          "message": 50
+        }
+      ]
+    }
+  ]
+}

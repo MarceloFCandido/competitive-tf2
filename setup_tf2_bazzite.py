@@ -557,7 +557,7 @@ def main() -> int:
             print('\nInstalled. Restart Steam. For keyboard/mouse, set TF2 Launch Options to:')
             print('  ' + LAUNCH)
             print('Use native Linux TF2; do not force Proton. Do not choose Legacy OpenGL.')
-            print('Keep controller launch options enabled when you use a controller.')
+            print('For a controller, omit -nojoy and -nosteamcontroller.')
             print('Verify in the TF2 console: version_comfig; preset_level; fov_desired; fps_max')
             print('Settings: ' + str(tf / 'cfg/overrides'))
         command = ['python3', str(Path(__file__).resolve()), '--restore', str(backup)]

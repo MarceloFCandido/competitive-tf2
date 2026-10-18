@@ -1,0 +1,26 @@
+{
+  "sequence": 137,
+  "message_id": "17040a52-0a39-4296-a7b0-af98bd6bfbc3",
+  "source_timestamp": 1792283710.531578,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "54bab4664b2101ed52ef1aec7e7a27c50500be78af8666204b05e66ce3848f6c",
+      "bytes": 24419,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "print('Keep controller launch options enabled when you use a controller.')",
+          "new": "print('For a controller, omit -nojoy and -nosteamcontroller.')",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

@@ -22,14 +22,15 @@
     "available_literal": 18,
     "static_reconstruction": 22,
     "partial_static_candidate": 2,
-    "original_user_upload": 3
+    "original_user_upload": 10
   },
-  "artifact_paths": 27,
-  "revision_records": 45,
+  "artifact_paths": 28,
+  "revision_records": 52,
   "validation": {
-    "sha256_revision_checks": 45,
-    "python_static_parses": 33,
-    "recovered_code_executions": 0
+    "sha256_revision_checks": 52,
+    "python_static_parses": 37,
+    "recovered_code_executions": 0,
+    "test_runs": 0
   },
   "direct_conversation_search_attempted_after_user_enabled_memory": true,
   "direct_conversation_search_content_used": false,
@@ -52,8 +53,10 @@
     "version": "1.6.0",
     "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
     "timestamp_utc": "2026-10-19T13:12:17Z",
-    "content_available": false,
-    "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+    "content_available": true,
+    "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json",
+    "original_user_upload_receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+    "announcement_text_available_in_public_snapshot": false
   },
   "visible_message_audit": {
     "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
@@ -115,7 +118,34 @@
       "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
       "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
       "all_hashes_verified": true
+    },
+    {
+      "group": "2o turno",
+      "declared_version": "1.5.0",
+      "files": 4,
+      "upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+      "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+      "content_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+      "all_hashes_verified": true
+    },
+    {
+      "group": "3o turno",
+      "declared_version": "1.6.0",
+      "files": 3,
+      "upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+      "receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+      "content_commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+      "all_hashes_verified": true
     }
   ],
-  "late_recovery_dates": "Append-only late recovery. Commit author/committer dates record this import; the earlier source announcement date is retained here without rewriting prior commits."
+  "late_recovery_dates": "All 30 earlier commits preserved. Original uploads v1.5.0 then v1.6.0 appended in acquisition order; Git dates record import. Original announcement dates are retained in source-chronology.json and receipts.",
+  "total_commits": 33,
+  "content_commits": 25,
+  "documentation_evidence_commits": 8,
+  "current_canonical_versions": {
+    "setup_tf2_bazzite.py": "1.6.0",
+    "test_setup_tf2_bazzite.py": "1.6.0",
+    "TF2_HUD_Update_README.md": "1.6.0",
+    "TF2_HUD_Visual_Comparison.html": "1.5.0 upload group; no standalone semantic version in HTML"
+  }
 }

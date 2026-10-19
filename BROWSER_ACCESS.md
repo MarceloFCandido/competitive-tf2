@@ -25,3 +25,5 @@ Os metadados de `/Applications/ChatGPT.app/Contents/Info.plist` confirmam que o 
 Nenhum anexo foi baixado pelo app. Para usar o app autenticado como fonte, o menor passo é o usuário baixar o instalador, os testes e o README atuais para `Downloads`. Os bytes recebidos poderão então ser conferidos e versionados. Links antigos com o mesmo caminho não serão tratados como versões históricas distintas sem evidência de conteúdo. O HTML e eventuais versões antigas continuam dependendo de sua disponibilidade efetiva.
 
 Evidência: `.provenance/browser-access-attempts/native-chatgpt-app-denied.json`.
+
+Atualização de recuperação em 2026-10-19T17:35:13.566448+00:00: os grupos originais v1.4.0, v1.5.0 e v1.6.0 foram recebidos por upload e verificados. Os limites de acesso e de cobertura acima são históricos; não impediram essa via de transferência. As lacunas remanescentes estão em `GAPS.md`.

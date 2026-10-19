@@ -1,0 +1,45 @@
+{
+  "recorded_at_utc": "2026-10-19T17:35:13.566448+00:00",
+  "full_recovery_claimed": false,
+  "prior_commits_preserved": 30,
+  "artifact_paths": 28,
+  "revision_records": 52,
+  "classification": {
+    "available_literal": 18,
+    "static_reconstruction": 22,
+    "partial_static_candidate": 2,
+    "original_user_upload": 10
+  },
+  "original_user_upload_groups": 3,
+  "original_user_uploaded_files": 10,
+  "new_transfer_parts_verified": 28,
+  "new_original_files_verified": 7,
+  "source_code_executions": 0,
+  "test_runs": 0,
+  "historical_attachment_references": 19,
+  "references_without_associated_original_upload": 9,
+  "remaining_reference_counts": {
+    "installer": 5,
+    "readme": 2,
+    "tests": 2
+  },
+  "hash_checked_revision_records": 52,
+  "python_revision_AST_parses": 37,
+  "new_content_commits": [
+    "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+    "8f781c29adfd62533057c4f87b28af3adb478c8b"
+  ],
+  "canonical_versions": {
+    "setup_tf2_bazzite.py": "1.6.0",
+    "test_setup_tf2_bazzite.py": "1.6.0",
+    "TF2_HUD_Update_README.md": "1.6.0",
+    "TF2_HUD_Visual_Comparison.html": "1.5.0 upload group; no standalone semantic version in HTML"
+  },
+  "remaining_gaps": [
+    "Earlier original attachment bodies and binary identity",
+    "Redacted runtime logs, fetch JSON, ZIPs, images and backup identity",
+    "Generated outputs depending on missing original inputs or execution",
+    "Later full message text and intermediate source changes not present in public snapshot"
+  ],
+  "not_a_missing_attachment": "An already repaired offline gallery was never delivered."
+}

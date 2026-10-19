@@ -76,6 +76,24 @@
         "status": "original_user_upload",
         "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
         "upload_name": "TF2_HUD_Update_README(5).md"
+      },
+      {
+        "sequence": "user-upload-turn-2",
+        "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "original_user_upload",
+        "sha256": "f638856ff114a7253afad964726d87be20558074a81366b2acab244142634f2a",
+        "upload_name": "TF2_HUD_Update_README(6).md",
+        "original_source_path_independently_known": true
+      },
+      {
+        "sequence": "user-upload-turn-3",
+        "commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "original_user_upload",
+        "sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
+        "upload_name": "TF2_HUD_Update_README(7).md",
+        "original_source_path_independently_known": false
       }
     ],
     "later_announcements": [
@@ -95,8 +113,18 @@
       577,
       589
     ],
-    "status": "unavailable",
-    "revisions": []
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": "user-upload-turn-2",
+        "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+        "repo_path": "TF2_HUD_Visual_Comparison.html",
+        "status": "original_user_upload",
+        "sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+        "upload_name": "TF2_HUD_Visual_Comparison(1).html",
+        "original_source_path_independently_known": true
+      }
+    ]
   },
   {
     "original_path": "/mnt/data/add_hud_tests.py",
@@ -206,7 +234,9 @@
       544
     ],
     "status": "unavailable",
-    "revisions": []
+    "revisions": [],
+    "related_available_original_upload": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+    "identity_note": "Related v1.4.0 original is now available, but byte identity of this historical backup path is not independently proven; no copy fabricated."
   },
   {
     "original_path": "/mnt/data/previous/test_setup_tf2_bazzite_v1_4_0.py",
@@ -214,7 +244,9 @@
       544
     ],
     "status": "unavailable",
-    "revisions": []
+    "revisions": [],
+    "related_available_original_upload": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+    "identity_note": "Related v1.4.0 original is now available, but byte identity of this historical backup path is not independently proven; no copy fabricated."
   },
   {
     "original_path": "/mnt/data/research",
@@ -355,6 +387,24 @@
         "status": "original_user_upload",
         "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
         "upload_name": "setup_tf2_bazzite(1).py"
+      },
+      {
+        "sequence": "user-upload-turn-2",
+        "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db",
+        "upload_name": "setup_tf2_bazzite(2).py",
+        "original_source_path_independently_known": true
+      },
+      {
+        "sequence": "user-upload-turn-3",
+        "commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+        "upload_name": "setup_tf2_bazzite(3).py",
+        "original_source_path_independently_known": false
       }
     ],
     "later_announcements": [
@@ -433,6 +483,24 @@
         "status": "original_user_upload",
         "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
         "upload_name": "test_setup_tf2_bazzite(1).py"
+      },
+      {
+        "sequence": "user-upload-turn-2",
+        "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "c20f3436dd4d1f1d7610277c4dbe57495d6e4e6bf2062ec7c10bdcbf693b63c2",
+        "upload_name": "test_setup_tf2_bazzite(2).py",
+        "original_source_path_independently_known": true
+      },
+      {
+        "sequence": "user-upload-turn-3",
+        "commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
+        "upload_name": "test_setup_tf2_bazzite(3).py",
+        "original_source_path_independently_known": false
       }
     ],
     "later_announcements": [

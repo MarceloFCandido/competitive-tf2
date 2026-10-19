@@ -40,3 +40,8 @@
 - 2026-10-19T15:48:55.689810+00:00: dez partes recebidas e verificadas individualmente; base64/gzip/JSON decodificados somente como dados. Os três SHA-256 finais conferem.
 - Originais recebidos: instalador 53.740 bytes, testes 27.981 bytes e README 5.823 bytes. Instalador, docstring dos testes e README identificam v1.4.0; 56 métodos de teste contados estaticamente. Nenhum código recuperado executado.
 - Bytes importados no commit 34220f09ebaae2b85b88fdc9e12a6285ca655ce5; nomes de upload e origem preservados. Busca restrita em Downloads sem cópias alternativas. Outros grupos originais ainda não recebidos.
+
+- 2026-10-19T17:35:13.566448+00:00: recebidas e verificadas todas as 12 partes do grupo 2 e 16 do grupo 3; sete hashes finais conferem. Nenhuma parte pendente ou divergente.
+- Grupo 2: v1.5.0, 4 originais, commit 618beb0913ab4670bdc0a035e4fa7fe376a99963, 75 métodos de teste contados por AST; sem execução.
+- Grupo 3: v1.6.0, 3 originais, commit 8f781c29adfd62533057c4f87b28af3adb478c8b, 103 métodos de teste contados por AST; sem execução.
+- Inventário reconciliado: 52 registros, 28 caminhos, dez originais recebidos. Trinta commits anteriores preservados; nove referências históricas anteriores continuam sem bytes originais associados. Candidatos incompletos preservados; nenhum script, teste ou CFG recuperado executado.

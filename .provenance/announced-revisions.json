@@ -67,8 +67,10 @@
       "TF2_HUD_Visual_Comparison.html"
     ],
     "evidence": "parent direct-read audit, independently matched to literal shared-snapshot links",
-    "content_status": "announcement_attachment_bytes_not_verified",
-    "note": "Recoverable literal bodies, reconstructed states and attachment announcements are separate inventories. Repeated version labels do not establish binary identity."
+    "content_status": "original_user_uploads_received_and_hash_verified",
+    "note": "Original user uploads associated with this version group by the parent; version declarations match. No byte identity across other historical links inferred.",
+    "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+    "content_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963"
   },
   {
     "version": "1.6.0",
@@ -81,7 +83,9 @@
       "test_setup_tf2_bazzite.py"
     ],
     "evidence": "parent direct-read audit; absent from earlier public snapshot",
-    "content_status": "announcement_attachment_bytes_not_verified",
-    "note": "Recoverable literal bodies, reconstructed states and attachment announcements are separate inventories. Repeated version labels do not establish binary identity."
+    "content_status": "original_user_uploads_received_and_hash_verified",
+    "note": "Original user uploads associated with this version group by the parent; version declarations match. No byte identity across other historical links inferred.",
+    "receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+    "content_commit": "8f781c29adfd62533057c4f87b28af3adb478c8b"
   }
 ]

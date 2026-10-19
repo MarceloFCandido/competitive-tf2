@@ -1508,5 +1508,135 @@
       }
     ],
     "commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5"
+  },
+  {
+    "sequence": "user-upload-turn-2",
+    "message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+    "source_timestamp": 1792413051.254311,
+    "source_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=454439cb-235e-4787-96c0-19a40f8c2b1d",
+    "upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+    "upload_label": "2o turno",
+    "received_and_verified_at_utc": "2026-10-19T17:28:45.876083+00:00",
+    "notes": [
+      "Original user-uploaded bytes; version declarations inspected statically.",
+      "Version association does not prove identity with other historical links."
+    ],
+    "writes": [
+      {
+        "original_path": "/mnt/data/setup_tf2_bazzite.py",
+        "source_filename": "setup_tf2_bazzite.py",
+        "repo_path": "setup_tf2_bazzite.py",
+        "upload_name": "setup_tf2_bazzite(2).py",
+        "status": "original_user_upload",
+        "sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db",
+        "bytes": 62680,
+        "previous_repository_sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+        "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+        "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+        "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided.",
+        "static_syntax": "parsed_without_execution"
+      },
+      {
+        "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+        "source_filename": "test_setup_tf2_bazzite.py",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "upload_name": "test_setup_tf2_bazzite(2).py",
+        "status": "original_user_upload",
+        "sha256": "c20f3436dd4d1f1d7610277c4dbe57495d6e4e6bf2062ec7c10bdcbf693b63c2",
+        "bytes": 36944,
+        "previous_repository_sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+        "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+        "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+        "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided.",
+        "static_syntax": "parsed_without_execution"
+      },
+      {
+        "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+        "source_filename": "TF2_HUD_Update_README.md",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "upload_name": "TF2_HUD_Update_README(6).md",
+        "status": "original_user_upload",
+        "sha256": "f638856ff114a7253afad964726d87be20558074a81366b2acab244142634f2a",
+        "bytes": 6881,
+        "previous_repository_sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+        "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+        "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+        "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided."
+      },
+      {
+        "original_path": "/mnt/data/TF2_HUD_Visual_Comparison.html",
+        "source_filename": "TF2_HUD_Visual_Comparison.html",
+        "repo_path": "TF2_HUD_Visual_Comparison.html",
+        "upload_name": "TF2_HUD_Visual_Comparison(1).html",
+        "status": "original_user_upload",
+        "sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+        "bytes": 16867,
+        "previous_repository_sha256": null,
+        "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+        "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+        "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided."
+      }
+    ],
+    "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963"
+  },
+  {
+    "sequence": "user-upload-turn-3",
+    "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+    "source_timestamp": 1792415537.0,
+    "source_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e",
+    "upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+    "upload_label": "3o turno",
+    "received_and_verified_at_utc": "2026-10-19T17:28:58.557101+00:00",
+    "notes": [
+      "Original user-uploaded bytes; version declarations inspected statically.",
+      "Version association does not prove identity with other historical links."
+    ],
+    "writes": [
+      {
+        "original_path": null,
+        "source_filename": "TF2_HUD_Update_README.md",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "upload_name": "TF2_HUD_Update_README(7).md",
+        "status": "original_user_upload",
+        "sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
+        "bytes": 10782,
+        "previous_repository_sha256": "f638856ff114a7253afad964726d87be20558074a81366b2acab244142634f2a",
+        "source_upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+        "source_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "library_file_id": "libfile_7a042a998dc48191bf928795bb801000",
+        "source_path_status": "Canonical filename reported by parent; exact v1.6.0 sandbox link was not supplied. No original absolute path guessed."
+      },
+      {
+        "original_path": null,
+        "source_filename": "test_setup_tf2_bazzite.py",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "upload_name": "test_setup_tf2_bazzite(3).py",
+        "status": "original_user_upload",
+        "sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
+        "bytes": 52991,
+        "previous_repository_sha256": "c20f3436dd4d1f1d7610277c4dbe57495d6e4e6bf2062ec7c10bdcbf693b63c2",
+        "source_upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+        "source_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "library_file_id": "libfile_1a8a088f185c8191ac6d48b3bee294b3",
+        "source_path_status": "Canonical filename reported by parent; exact v1.6.0 sandbox link was not supplied. No original absolute path guessed.",
+        "static_syntax": "parsed_without_execution"
+      },
+      {
+        "original_path": null,
+        "source_filename": "setup_tf2_bazzite.py",
+        "repo_path": "setup_tf2_bazzite.py",
+        "upload_name": "setup_tf2_bazzite(3).py",
+        "status": "original_user_upload",
+        "sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+        "bytes": 92593,
+        "previous_repository_sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db",
+        "source_upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+        "source_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "library_file_id": "libfile_c014fbcdcf808191a3aa8731218c2f0c",
+        "source_path_status": "Canonical filename reported by parent; exact v1.6.0 sandbox link was not supplied. No original absolute path guessed.",
+        "static_syntax": "parsed_without_execution"
+      }
+    ],
+    "commit": "8f781c29adfd62533057c4f87b28af3adb478c8b"
   }
 ]

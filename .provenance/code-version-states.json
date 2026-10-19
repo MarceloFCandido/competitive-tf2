@@ -23,5 +23,23 @@
     "literal_SCRIPT_VERSION": "1.4.0",
     "source_announcement_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
     "note": "Literal code-state 1.3.1 remains preserved; these original bytes also contain substantive Middle Mann changes."
+  },
+  {
+    "version": "1.5.0",
+    "classification": "original_user_upload",
+    "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+    "content_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+    "installer_sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db",
+    "literal_SCRIPT_VERSION": "1.5.0",
+    "source_announcement_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d"
+  },
+  {
+    "version": "1.6.0",
+    "classification": "original_user_upload",
+    "receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+    "content_commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+    "installer_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+    "literal_SCRIPT_VERSION": "1.6.0",
+    "source_announcement_message_id": "e4b8944c-7916-4302-8016-463828ec503e"
   }
 ]

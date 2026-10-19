@@ -2,7 +2,7 @@
 
 A auditoria direta realizada no pai esgotou **3 páginas, 26 mensagens, sem `content_omitted`**. São **19 referências únicas de mensagem + nome de anexo**: **8 do instalador, 5 dos testes, 5 de README e 1 de HTML**. **Isso não confirma 19 revisões binárias distintas.** A repetição de um link também não comprova que seus bytes permaneceram iguais.
 
-As sete primeiras mensagens e suas 16 referências únicas foram conferidas diretamente contra os textos da captura pública. A mensagem posterior v1.6.0 e suas três referências são evidência relatada pelo pai; o texto integral e os bytes não foram recebidos por este executor. A galeria HTML aparece duas vezes na mensagem v1.5.0, mas conta como um único par mensagem + anexo.
+As sete primeiras mensagens e suas 16 referências únicas foram conferidas diretamente contra os textos da captura pública. A mensagem posterior v1.6.0 e suas três referências são evidência relatada pelo pai; seus bytes foram recebidos posteriormente por upload, enquanto o texto integral permanece ausente da captura pública. A galeria HTML aparece duas vezes na mensagem v1.5.0, mas conta como um único par mensagem + anexo.
 
 | Horário UTC | Rótulo visível | Mensagem | Anexos distintos nessa mensagem |
 |---|---|---|---|
@@ -30,3 +30,9 @@ Rechecagem de 19/10/2026 às 14:57/14:58 UTC: o link atualizado ainda contém as
 ## Bytes recebidos para o grupo v1.4.0
 
 O usuário forneceu os três arquivos do grupo associado à mensagem `5ee4f90d-4bdd-4de7-9845-74f77fe5e13a` como “1o turno”. Os hashes conferem e instalador, testes e README identificam v1.4.0. Foram importados em `34220f09ebaae2b85b88fdc9e12a6285ca655ce5`; nomes de upload e hashes constam em [UPLOADS.md](UPLOADS.md). A associação é fornecida pelo usuário e compatível com o conteúdo; não se deduz identidade binária para os demais links. O total permanece 19 referências de mensagem + anexo, agora com três conteúdos originais fornecidos por upload verificados.
+
+## Recuperação posterior dos grupos 2 e 3
+
+O grupo “2o turno” acrescentou os quatro originais v1.5.0 no commit `618beb0913ab4670bdc0a035e4fa7fe376a99963`, incluindo `TF2_HUD_Visual_Comparison.html`. O grupo “3o turno” acrescentou os três originais v1.6.0 no commit `8f781c29adfd62533057c4f87b28af3adb478c8b`. Os sete hashes finais e as 28 partes de transporte conferem.
+
+Há agora **dez conteúdos originais recebidos por upload, em três grupos**, associados aos anúncios v1.4.0/v1.5.0/v1.6.0. **Nove referências anteriores** continuam sem originais associados: cinco do instalador, duas dos testes e duas de README. As 19 referências continuam não sendo uma contagem de revisões binárias distintas; o vínculo entre grupos recebidos e anúncios não equivale a download independente de cada endpoint histórico. Nomes, hashes, Library IDs e recibos estão em [UPLOADS.md](UPLOADS.md).

@@ -28,7 +28,7 @@
   {
     "id": "version_1_5_0",
     "message": 544,
-    "detail": "Original v1.4.0 baseline is now available through the user upload. The previous incomplete candidate is preserved as an earlier reconstruction and has not been replaced by original v1.5.0 bytes.",
+    "detail": "Original user-uploaded contents received and final hashes verified; historical candidates and source limitations remain recorded.",
     "unmatched_replacements": [
       {
         "operation": "replace",
@@ -39,8 +39,20 @@
         "matches": 0
       }
     ],
-    "status": "original_v1_5_upload_not_yet_received",
-    "v1_4_baseline_available": true
+    "status": "resolved_by_original_user_upload",
+    "v1_4_baseline_available": true,
+    "resolution": {
+      "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+      "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+      "files": [
+        "setup_tf2_bazzite.py",
+        "test_setup_tf2_bazzite.py",
+        "TF2_HUD_Update_README.md",
+        "TF2_HUD_Visual_Comparison.html"
+      ]
+    },
+    "historical_unmatched_replacement_still_recorded": true,
+    "incomplete_candidate_status": "Retained unchanged as historical reconstruction; superseded in canonical paths by verified originals."
   },
   {
     "id": "visual_comparison",
@@ -49,11 +61,24 @@
       573,
       577
     ],
-    "detail": "Linked TF2_HUD_Visual_Comparison.html has no full file body or rename/copy from TF2_HUD_Gallery.html. Do not invent it."
+    "detail": "Original user-uploaded contents received and final hashes verified; historical candidates and source limitations remain recorded.",
+    "status": "resolved_by_original_user_upload",
+    "resolution": {
+      "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+      "commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+      "files": [
+        "setup_tf2_bazzite.py",
+        "test_setup_tf2_bazzite.py",
+        "TF2_HUD_Update_README.md",
+        "TF2_HUD_Visual_Comparison.html"
+      ]
+    }
   },
   {
     "id": "redacted_tool_results",
-    "detail": "222 tool-text nodes exist; many contain only The output of this plugin was redacted. Logs, fetched JSON, image downloads, ZIPs and test results cannot be verified."
+    "detail": "213 source nodes explicitly redact tool results. Logs, fetch JSON, image downloads, ZIPs and historical test output cannot be recovered or verified from the visible text.",
+    "redacted_node_count": 213,
+    "tool_text_node_count": 222
   },
   {
     "id": "gallery_repair",
@@ -73,18 +98,47 @@
       582,
       606
     ],
-    "detail": "The public snapshot ends during the dependency follow-up. The original conversation later contains a v1.6.0 announcement at 2026-10-19T13:12:17Z, absent from the public snapshot.",
+    "detail": "The public snapshot still excludes the v1.6.0 announcement; its three original file bodies are now recovered through the third user upload group.",
     "status": "earlier_public_snapshot",
     "later_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
-    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json",
+    "later_v1_6_original_upload_received": true,
+    "public_snapshot_still_earlier": true
   },
   {
     "id": "sandbox_attachments",
-    "detail": "sandbox:/mnt/data links refer to the original conversation runtime, not public download URLs. Exact attachment bytes were not recovered; no content is guessed from a filename.",
+    "detail": "Ten original files from v1.4.0/v1.5.0/v1.6.0 received via user uploads. Earlier historical attachment endpoints and internal runtime artifacts remain unavailable.",
     "user_upload_recovery": {
-      "declared_version": "1.4.0",
-      "verified_file_count": 3,
-      "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json"
+      "groups": [
+        {
+          "group": "1o turno",
+          "declared_version": "1.4.0",
+          "files": 3,
+          "upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+          "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+          "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+          "all_hashes_verified": true
+        },
+        {
+          "group": "2o turno",
+          "declared_version": "1.5.0",
+          "files": 4,
+          "upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+          "receipt": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+          "content_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+          "all_hashes_verified": true
+        },
+        {
+          "group": "3o turno",
+          "declared_version": "1.6.0",
+          "files": 3,
+          "upload_message_id": "Sentinel_827e028b372c819192ce78d983668cac",
+          "receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+          "content_commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+          "all_hashes_verified": true
+        }
+      ],
+      "verified_file_count": 10
     }
   },
   {
@@ -98,11 +152,17 @@
     "reason": "Personal context is unavailable for this conversation.",
     "paginated_api": "Not exposed in this executor.",
     "authenticated_browser": "Mac remains locked; authenticated attachments unavailable.",
-    "scope": "executor_only; parent direct-conversation reading works but does not supply attachment bytes"
+    "scope": "executor_only; parent direct-conversation reading works but does not supply attachment bytes",
+    "received_version_groups_recovered_by_upload": [
+      "1.4.0",
+      "1.5.0",
+      "1.6.0"
+    ],
+    "current_recovery_note": "Access attempt retained as historical evidence. No repeat download or app-control attempt required for files already received."
   },
   {
     "id": "version_1_6_0",
-    "status": "announced_original_bytes_unavailable",
+    "status": "resolved_by_original_user_upload",
     "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
     "source_timestamp_utc": "2026-10-19T13:12:17Z",
     "artifact_filenames": [
@@ -110,8 +170,17 @@
       "test_setup_tf2_bazzite.py",
       "TF2_HUD_Update_README.md"
     ],
-    "detail": "Later announcement of v1.6.0, 103 tests and new CLI features. No original file bytes supplied to this executor. No synthetic v1.6.0 artifact created.",
-    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+    "detail": "Original user-uploaded contents received and final hashes verified; historical candidates and source limitations remain recorded.",
+    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json",
+    "resolution": {
+      "receipt": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+      "commit": "8f781c29adfd62533057c4f87b28af3adb478c8b",
+      "files": [
+        "TF2_HUD_Update_README.md",
+        "test_setup_tf2_bazzite.py",
+        "setup_tf2_bazzite.py"
+      ]
+    }
   },
   {
     "id": "attachment_binary_identity",
@@ -123,10 +192,11 @@
       "tests": 5,
       "html": 1
     },
-    "detail": "The complete direct-text audit reports no omitted text, but supplies no attachment bytes. 19 message+attachment references do not establish 19 distinct binary revisions.",
+    "detail": "There are 19 message+attachment references, with ten associated original user uploads in three release groups. Earlier nine references have no associated original attachment bytes. Reference counts do not prove distinct binary revisions.",
     "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
-    "verified_original_user_uploads": 3,
-    "identity_note": "Three user-uploaded v1.4.0 contents are verified. This does not establish binary identity across all 19 historical message+attachment references."
+    "verified_original_user_uploads": 10,
+    "identity_note": "No independent byte-level historical endpoint identity claimed; no equivalence or distinctness inferred across repeated links.",
+    "references_without_associated_original_upload": 9
   },
   {
     "id": "updated_share_still_serves_same_message_content",
@@ -135,7 +205,12 @@
     "metadata_update_time_utc": "2026-10-19T14:55:52.628028+00:00",
     "detail": "The server metadata records an update at 2026-10-19T14:55:52.628028Z, but both HTTP 200 responses still contain exactly the earlier 615 message nodes and 89 code messages. Safe URLs are the same set of 331 entries; only ordering changed. The v1.6.0 message and new file contents are not exposed in these public responses.",
     "evidence": ".provenance/source/refresh-20261019T145800Z/comparison.json",
-    "next_recovery_input": "A shared response containing the later message/file content, or original attachment bytes from the authenticated conversation/export/backups. No guarantee is made that expired/overwritten historical bytes still exist."
+    "next_recovery_input": "A shared response containing the later message/file content, or original attachment bytes from the authenticated conversation/export/backups. No guarantee is made that expired/overwritten historical bytes still exist.",
+    "received_version_groups_no_longer_blocked": [
+      "1.4.0",
+      "1.5.0",
+      "1.6.0"
+    ]
   },
   {
     "id": "authenticated_browser_requires_chatgpt_login",
@@ -143,8 +218,14 @@
     "target": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
     "mac_unlocked_visually_verified": true,
     "detail": "Mac unlock is confirmed. Safari is accessible, but the original conversation redirects to a logged-out landing page. Login dialog is open. No attachment bytes downloaded.",
-    "next_step": "Log into ChatGPT in the open Safari window using the account that owns the original conversation. Do not send passwords to the assistant.",
-    "evidence": ".provenance/browser-access-attempts/unlocked-authentication-required.json"
+    "next_step": "Received groups are archived. Earlier unresolved bytes require corresponding originals or evidence; app-control denial was not retried.",
+    "evidence": ".provenance/browser-access-attempts/unlocked-authentication-required.json",
+    "received_version_groups_recovered_by_upload": [
+      "1.4.0",
+      "1.5.0",
+      "1.6.0"
+    ],
+    "current_recovery_note": "Access attempt retained as historical evidence. No repeat download or app-control attempt required for files already received."
   },
   {
     "id": "native_chatgpt_app_control_denied",
@@ -155,7 +236,71 @@
     "reason": "Computer Use is not allowed to use the app 'com.openai.codex' for safety reasons.",
     "session_status": "unverified",
     "app_download_capability": "unverified",
-    "next_step": "User downloads the current installer, test suite and README from the authenticated app to Downloads; assistant can then inspect bytes, hash and archive them. Historical links remain unverified until content evidence is available.",
-    "evidence": ".provenance/browser-access-attempts/native-chatgpt-app-denied.json"
+    "next_step": "Received groups are archived. Earlier unresolved bytes require corresponding originals or evidence; app-control denial was not retried.",
+    "evidence": ".provenance/browser-access-attempts/native-chatgpt-app-denied.json",
+    "received_version_groups_recovered_by_upload": [
+      "1.4.0",
+      "1.5.0",
+      "1.6.0"
+    ],
+    "current_recovery_note": "Access attempt retained as historical evidence. No repeat download or app-control attempt required for files already received."
+  },
+  {
+    "id": "earlier_attachment_originals",
+    "status": "original_bytes_unavailable",
+    "unique_message_attachment_references": 9,
+    "counts": {
+      "installer": 5,
+      "readme": 2,
+      "tests": 2
+    },
+    "references": [
+      {
+        "message_id": "2c2ebc16-741c-48e5-84fb-c2023c643341",
+        "filename": "setup_tf2_bazzite.py",
+        "announced_version": null
+      },
+      {
+        "message_id": "3d1026f5-29a5-4318-8091-2f5a8b143c83",
+        "filename": "setup_tf2_bazzite.py",
+        "announced_version": null
+      },
+      {
+        "message_id": "b59710b3-be3f-4531-bef4-76ec764c8ec3",
+        "filename": "setup_tf2_bazzite.py",
+        "announced_version": "1.2.0"
+      },
+      {
+        "message_id": "49a6cc70-733a-44f2-be7d-384c1382ae26",
+        "filename": "setup_tf2_bazzite.py",
+        "announced_version": "1.3.0"
+      },
+      {
+        "message_id": "49a6cc70-733a-44f2-be7d-384c1382ae26",
+        "filename": "TF2_HUD_UPDATE_README.md",
+        "announced_version": "1.3.0"
+      },
+      {
+        "message_id": "49a6cc70-733a-44f2-be7d-384c1382ae26",
+        "filename": "test_setup_tf2_bazzite.py",
+        "announced_version": "1.3.0"
+      },
+      {
+        "message_id": "62fc5fff-4c15-45a9-b7cd-a332d4e886ac",
+        "filename": "setup_tf2_bazzite.py",
+        "announced_version": "1.3.0"
+      },
+      {
+        "message_id": "62fc5fff-4c15-45a9-b7cd-a332d4e886ac",
+        "filename": "TF2_HUD_Update_README.md",
+        "announced_version": "1.3.0"
+      },
+      {
+        "message_id": "62fc5fff-4c15-45a9-b7cd-a332d4e886ac",
+        "filename": "test_setup_tf2_bazzite.py",
+        "announced_version": "1.3.0"
+      }
+    ],
+    "detail": "Initial link, relink, v1.2.0 and both v1.3.0 groups remain unverified as original attachment bytes. Related literal and reconstructed source states are already preserved."
   }
 ]

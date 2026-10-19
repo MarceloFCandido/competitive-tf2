@@ -85,5 +85,6 @@
   "source_code_executions": 0,
   "test_runs": 0,
   "historical_link_identity_scope": "User-uploaded originals associated by group and matching declarations with this release; no byte identity across other historical links inferred.",
-  "date_policy": "Append-only late recovery in v1.5.0 then v1.6.0 order. Git dates record import; source dates remain in provenance. All earlier commits preserved."
+  "date_policy": "Append-only late recovery in v1.5.0 then v1.6.0 order. Git dates record import; source dates remain in provenance. All earlier commits preserved.",
+  "content_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963"
 }

@@ -31,3 +31,5 @@ As respostas brutas e os JSONs decodificados estão em `.provenance/source/refre
 ## Limitação remanescente
 
 O servidor confirma a atualização dos metadados do link, mas as respostas públicas continuam expondo o mesmo recorte antigo de mensagens. A causa não pode ser determinada somente por essas respostas. Para avançar é necessário obter uma resposta compartilhada que inclua o conteúdo posterior ou recuperar os bytes dos anexos na conversa autenticada/exportação/backups. Não é possível presumir a existência de versões históricas substituídas ou expiradas.
+
+Atualização de recuperação em 2026-10-19T17:35:13.566448+00:00: os grupos originais v1.4.0, v1.5.0 e v1.6.0 foram recebidos por upload e verificados. Os limites de acesso e de cobertura acima são históricos; não impediram essa via de transferência. As lacunas remanescentes estão em `GAPS.md`.

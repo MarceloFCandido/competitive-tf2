@@ -1,0 +1,114 @@
+{
+  "summary": {
+    "verified_at_utc": "2026-10-19T15:43:28.455680+00:00",
+    "parts": 10,
+    "base64_bytes": 50852,
+    "gzip_bytes": 38139,
+    "json_bytes": 116830,
+    "combined_base64_sha256": "2670b4ba9544a8fbfd8af9b6c69e516b797c24475d7600fe0e478837b6926bce",
+    "gzip_sha256": "264625879183e8edd491d7e389034b8f05fe392d161192a1d46460b2f04f97ee",
+    "json_sha256": "dc47155155646b44061a9501a4dbe5253d331423e4c11c84c46120299a6eacaa",
+    "files": [
+      {
+        "upload_name": "setup_tf2_bazzite(1).py",
+        "canonical_name": "setup_tf2_bazzite.py",
+        "path": "/Users/marcelofcandido/Documents/Codex/2026-10-19/task-2/incoming/user-upload-turn-1-20261019T153005Z/decoded-originals/setup_tf2_bazzite(1).py",
+        "bytes": 53740,
+        "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+        "expected_sha256_matches": true
+      },
+      {
+        "upload_name": "test_setup_tf2_bazzite(1).py",
+        "canonical_name": "test_setup_tf2_bazzite.py",
+        "path": "/Users/marcelofcandido/Documents/Codex/2026-10-19/task-2/incoming/user-upload-turn-1-20261019T153005Z/decoded-originals/test_setup_tf2_bazzite(1).py",
+        "bytes": 27981,
+        "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+        "expected_sha256_matches": true
+      },
+      {
+        "upload_name": "TF2_HUD_Update_README(5).md",
+        "canonical_name": "TF2_HUD_Update_README.md",
+        "path": "/Users/marcelofcandido/Documents/Codex/2026-10-19/task-2/incoming/user-upload-turn-1-20261019T153005Z/decoded-originals/TF2_HUD_Update_README(5).md",
+        "bytes": 5823,
+        "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+        "expected_sha256_matches": true
+      }
+    ]
+  },
+  "part_manifest": {
+    "total_parts": 10,
+    "parts": {
+      "1": {
+        "filename": "part-01.b64",
+        "bytes": 5500,
+        "sha256": "162ff9fc89d7291cfbd488393a396be647b7a1b9be5378098ea2161abb926743",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:34:55.064797+00:00"
+      },
+      "2": {
+        "filename": "part-02.b64",
+        "bytes": 5500,
+        "sha256": "49c23e5ac2736108978f3c42131bb0c88847897b8cdce97e458575a0029678b5",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:37:19.333501+00:00"
+      },
+      "3": {
+        "filename": "part-03.b64",
+        "bytes": 5500,
+        "sha256": "adabe1026592d79a9e122c703345a15fa90b41262028f1b5930494f041d5f1c9",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:37:19.929901+00:00"
+      },
+      "4": {
+        "filename": "part-04.b64",
+        "bytes": 5500,
+        "sha256": "0733eb49220ce12a8c8502a82664dfd41fb7ae533a94b2e3f79d26f42ee973f5",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:39:54.481613+00:00"
+      },
+      "5": {
+        "filename": "part-05.b64",
+        "bytes": 5500,
+        "sha256": "771f3b2e0d555614f1bdbb81e854ca08a4880ae52868eb5192d10d7d1e9ab4e9",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:39:55.135343+00:00"
+      },
+      "6": {
+        "filename": "part-06.b64",
+        "bytes": 5500,
+        "sha256": "6572e93931a2bae2e89b10858850e19cce467102e7ce37201efbf306524e73b1",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:39:55.838897+00:00"
+      },
+      "7": {
+        "filename": "part-07.b64",
+        "bytes": 5500,
+        "sha256": "c9175cea498bdd06131859973a89cc47c9b1efdca3f9539cffb46e9fd7bc120d",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:42:54.846629+00:00"
+      },
+      "8": {
+        "filename": "part-08.b64",
+        "bytes": 5500,
+        "sha256": "e0a5bc2b5c3358fb06fc32e42bf559a57a840e5d346ffd3fab69e376680242df",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:42:55.492954+00:00"
+      },
+      "9": {
+        "filename": "part-09.b64",
+        "bytes": 5500,
+        "sha256": "de811f583a99b1ba4bc8590e8965dcbd8712bb02580332f20e488b071edbb57a",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:42:56.066832+00:00"
+      },
+      "10": {
+        "filename": "part-10.b64",
+        "bytes": 1352,
+        "sha256": "51dceed0f35abd9990499f21dfe6d851620f49451ec974a96fb1a61a3663d8b3",
+        "verified": true,
+        "received_at_utc": "2026-10-19T15:42:56.669529+00:00"
+      }
+    }
+  },
+  "raw_base64_or_binary_packet_archived": false
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "upload_name": "setup_tf2_bazzite(1).py",
+    "canonical_name": "setup_tf2_bazzite.py",
+    "bytes": 53740,
+    "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+    "expected_sha256_matches": true,
+    "previous_sha256": "d968561069ae0a2ef9adf508658480e4b4321dc9d203be778ac1f170c30c058b",
+    "same_as_current_repository": false,
+    "line_counts": {
+      "incoming": 1098,
+      "previous": 1089
+    },
+    "syntax": "AST parsed without execution",
+    "declared_SCRIPT_VERSION": [
+      "1.4.0"
+    ],
+    "static_test_method_count": 0
+  },
+  {
+    "upload_name": "test_setup_tf2_bazzite(1).py",
+    "canonical_name": "test_setup_tf2_bazzite.py",
+    "bytes": 27981,
+    "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+    "expected_sha256_matches": true,
+    "previous_sha256": "9e3c083f14de789920ef47c9b0e1039ee9a3d9b0afe6aa77b04a88d4f62d9190",
+    "same_as_current_repository": false,
+    "line_counts": {
+      "incoming": 572,
+      "previous": 550
+    },
+    "syntax": "AST parsed without execution",
+    "declared_SCRIPT_VERSION": [],
+    "static_test_method_count": 56
+  },
+  {
+    "upload_name": "TF2_HUD_Update_README(5).md",
+    "canonical_name": "TF2_HUD_Update_README.md",
+    "bytes": 5823,
+    "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+    "expected_sha256_matches": true,
+    "previous_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+    "same_as_current_repository": false,
+    "line_counts": {
+      "incoming": 128,
+      "previous": 139
+    },
+    "heading": "# Centered TF2-style HUD option — installer v1.4.0"
+  }
+]

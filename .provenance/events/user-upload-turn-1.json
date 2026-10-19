@@ -1,0 +1,53 @@
+{
+  "sequence": "user-upload-turn-1",
+  "message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+  "source_timestamp": 1792411247.614059,
+  "source_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+  "upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+  "upload_label": "1o turno",
+  "received_and_verified_at_utc": "2026-10-19T15:43:28.455680+00:00",
+  "notes": [
+    "Original bytes supplied by the user; version association is supported by the user label/origin and literal v1.4.0 declarations.",
+    "No identity with other historical links or other version groups is assumed."
+  ],
+  "writes": [
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "upload_name": "setup_tf2_bazzite(1).py",
+      "status": "original_user_upload",
+      "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+      "bytes": 53740,
+      "previous_repository_sha256": "d968561069ae0a2ef9adf508658480e4b4321dc9d203be778ac1f170c30c058b",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+      "repo_path": "test_setup_tf2_bazzite.py",
+      "upload_name": "test_setup_tf2_bazzite(1).py",
+      "status": "original_user_upload",
+      "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+      "bytes": 27981,
+      "previous_repository_sha256": "9e3c083f14de789920ef47c9b0e1039ee9a3d9b0afe6aa77b04a88d4f62d9190",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+      "repo_path": "TF2_HUD_Update_README.md",
+      "upload_name": "TF2_HUD_Update_README(5).md",
+      "status": "original_user_upload",
+      "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+      "bytes": 5823,
+      "previous_repository_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied."
+    }
+  ]
+}

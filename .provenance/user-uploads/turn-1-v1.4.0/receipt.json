@@ -1,0 +1,71 @@
+{
+  "receipt_type": "original_files_uploaded_by_user",
+  "upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+  "user_label": "1o turno",
+  "user_indicated_origin_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+  "user_indicated_origin_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+  "origin_announcement_timestamp_utc": "2026-10-19T12:00:47.614059+00:00",
+  "received_and_verified_at_utc": "2026-10-19T15:43:28.455680+00:00",
+  "imported_at_utc": "2026-10-19T15:48:55.689810+00:00",
+  "library_file_ids_as_group": [
+    "libfile_4a86fea8c41481919f8fe90dda8bde37",
+    "libfile_1be506fdcf8c8191a6edcc4a651fd452",
+    "libfile_4d2b1c3496f4819189718f8092bb9b87"
+  ],
+  "individual_library_id_mapping_available": false,
+  "version_check": {
+    "installer_SCRIPT_VERSION": "1.4.0",
+    "test_docstring": "v1.4.0",
+    "README_heading": "v1.4.0"
+  },
+  "transport": {
+    "kind": "10 verified ASCII base64 parts containing gzip JSON file-byte map",
+    "all_part_hashes_verified": true,
+    "all_final_file_hashes_verified": true,
+    "initial_single_message_attempt_truncated": true
+  },
+  "files": [
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "upload_name": "setup_tf2_bazzite(1).py",
+      "status": "original_user_upload",
+      "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+      "bytes": 53740,
+      "previous_repository_sha256": "d968561069ae0a2ef9adf508658480e4b4321dc9d203be778ac1f170c30c058b",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+      "repo_path": "test_setup_tf2_bazzite.py",
+      "upload_name": "test_setup_tf2_bazzite(1).py",
+      "status": "original_user_upload",
+      "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+      "bytes": 27981,
+      "previous_repository_sha256": "9e3c083f14de789920ef47c9b0e1039ee9a3d9b0afe6aa77b04a88d4f62d9190",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+      "repo_path": "TF2_HUD_Update_README.md",
+      "upload_name": "TF2_HUD_Update_README(5).md",
+      "status": "original_user_upload",
+      "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+      "bytes": 5823,
+      "previous_repository_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "source_upload_message_id": "Sentinel_65bd7dffb4088191a07990779e0f39f1",
+      "source_message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
+      "library_identity_scope": "The three Library IDs are recorded as a group; an individual ID-to-filename mapping was not supplied."
+    }
+  ],
+  "source_code_executions": 0,
+  "test_runs": 0,
+  "historical_link_identity_scope": "This upload group is associated with the v1.4.0 announcement by the user and matching declarations. No byte identity with other historical links is inferred.",
+  "date_policy": "Append-only late recovery. Commit author/committer dates record this import; the earlier source announcement date is retained here without rewriting prior commits."
+}

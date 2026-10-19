@@ -1,0 +1,290 @@
+{
+  "source_html_previous_path": "TF2_HUD_Visual_Comparison.html",
+  "source_html_sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+  "source_html_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+  "current_html_path": null,
+  "cards": [
+    {
+      "id": "middlemann",
+      "images": [
+        {
+          "url": "https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png",
+          "alt": "Middle Mann — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1573,
+          "natural_height": 887,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "centerhud",
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp",
+          "alt": "Center HUD — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "maxihud",
+      "images": [
+        {
+          "url": "https://images.gamebanana.com/img/ss/mods/6997885801058.jpg",
+          "alt": "MaxiHud — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://images.gamebanana.com/img/ss/mods/6997885854f06.jpg",
+          "alt": "MaxiHud — publisher/gallery example 2; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://images.gamebanana.com/img/ss/mods/69978859bcdd9.jpg",
+          "alt": "MaxiHud — publisher/gallery example 3; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://images.gamebanana.com/img/ss/mods/69978856896c8.jpg",
+          "alt": "MaxiHud — publisher/gallery example 4; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "rayshud",
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp",
+          "alt": "rayshud — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud-minmode.webp",
+          "alt": "rayshud — publisher/gallery example 2; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "budhud",
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp",
+          "alt": "budhud — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-07-medic.webp",
+          "alt": "budhud — publisher/gallery example 2; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "idhud",
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp",
+          "alt": "Improved Default HUD — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/3-scoreboard.webp",
+          "alt": "Improved Default HUD — publisher/gallery example 2; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "hudfixes",
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp",
+          "alt": "Community HUD Fixes — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        },
+        {
+          "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud-minmode.webp",
+          "alt": "Community HUD Fixes — publisher/gallery example 2; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    },
+    {
+      "id": "toonhud",
+      "images": [
+        {
+          "url": "https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg",
+          "alt": "ToonHUD — publisher/gallery example 1; use source gallery if image is unavailable",
+          "browser_decode": "loaded",
+          "natural_width": 1920,
+          "natural_height": 1080,
+          "visually_inspected_in_rendered_README": true
+        }
+      ]
+    }
+  ],
+  "preflight": [
+    {
+      "url": "https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png",
+      "status": 200,
+      "content_type": "image/png",
+      "bytes": 1594108,
+      "final_url": "https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 176412,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp"
+    },
+    {
+      "url": "https://images.gamebanana.com/img/ss/mods/6997885801058.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "bytes": 427026,
+      "final_url": "https://images.gamebanana.com/img/ss/mods/6997885801058.jpg"
+    },
+    {
+      "url": "https://images.gamebanana.com/img/ss/mods/6997885854f06.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "bytes": 463563,
+      "final_url": "https://images.gamebanana.com/img/ss/mods/6997885854f06.jpg"
+    },
+    {
+      "url": "https://images.gamebanana.com/img/ss/mods/69978859bcdd9.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "bytes": 504238,
+      "final_url": "https://images.gamebanana.com/img/ss/mods/69978859bcdd9.jpg"
+    },
+    {
+      "url": "https://images.gamebanana.com/img/ss/mods/69978856896c8.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "bytes": 424098,
+      "final_url": "https://images.gamebanana.com/img/ss/mods/69978856896c8.jpg"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 92670,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud-minmode.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 92052,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud-minmode.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 51474,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-07-medic.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 63202,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-07-medic.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 153102,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/3-scoreboard.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 82964,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/3-scoreboard.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 91270,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud-minmode.webp",
+      "status": 200,
+      "content_type": "image/webp",
+      "bytes": 88350,
+      "final_url": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud-minmode.webp"
+    },
+    {
+      "url": "https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "bytes": 348195,
+      "final_url": "https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg"
+    }
+  ],
+  "image_count": 15,
+  "visual_verification_status": "confirmed_rendered_images",
+  "HTML_removal_authorization": "Remove only after README rendering and all images are visually confirmed. Otherwise retain historical HTML.",
+  "verified_at_utc": "2026-10-19T18:37:01.893556+00:00",
+  "README_sha256": "da65002d1d34096917a45d90e9cbcfd753a91ff65979ca397fd716d983e0bd64",
+  "renderer": "Installed Pandoc, GitHub-Flavored Markdown input, standalone local HTML of the actual README",
+  "browser": "Safari on NEBULOSA-2.local",
+  "decoded_images": 15,
+  "visually_inspected_images": 15,
+  "visually_inspected_HUDs": 8,
+  "substitutions": [],
+  "verification_method": "Read the browser image-decode diagnostic and natural dimensions, then scrolled through all eight HUD sections and visually inspected the screenshots in the rendered README.",
+  "observed_browser_title": "README — 15/15 images decoded",
+  "HTML_retention": "Removed from the current working tree only after successful rendered-image inspection; the original is preserved at source_html_commit:source_html_previous_path.",
+  "limitation": "This verifies Safari rendering of the actual Markdown through Pandoc, not a hosted GitHub page. External images still depend on their original hosts; this is not an offline bundle."
+}

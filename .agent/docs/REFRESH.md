@@ -1,5 +1,7 @@
 # Rechecagem do compartilhamento atualizado — 19/10/2026
 
+> Registro histórico das etapas datadas abaixo. Os estados de acesso e pedidos antigos descrevem essas etapas; o recebimento posterior dos arquivos está em [UPLOADS.md](UPLOADS.md).
+
 O mesmo link foi baixado novamente às **14:57:17 UTC** e às **14:58:00 UTC**. A segunda requisição enviou `Cache-Control: no-cache` e `Pragma: no-cache`. Ambas retornaram **HTTP 200**; a segunda resposta informou `cf-cache-status: DYNAMIC`.
 
 A atualização do compartilhamento está registrada nos metadados: `update_time` passou de **12:59:54 UTC** para **14:55:52 UTC**. O HTML bruto mudou, mas o conteúdo de mensagens retornado permaneceu igual:
@@ -26,7 +28,7 @@ O hash canônico do mapa de mensagens é idêntico nas três capturas: `a5446938
 
 **Nenhuma revisão nova de artefato foi recuperada.** Permanecem 27 caminhos e 42 registros, além de 19 referências auditadas de mensagem + anexo (16 visíveis no compartilhamento, 3 da mensagem posterior relatada pelo pai). O novo commit registra somente as capturas, a comparação e a atualização de documentação.
 
-As respostas brutas e os JSONs decodificados estão em `.provenance/source/refresh-20261019T145800Z/`; `comparison.json` contém horários, tamanhos, hashes, diferenças e cabeçalhos selecionados. A captura original e todos os commits anteriores foram preservados. Nenhum JavaScript da página, instalador, teste ou CFG recuperado foi executado. Não foi tentado acesso ao navegador e não foi presumido desbloqueio do Mac.
+As respostas brutas e os JSONs decodificados estão em `.agent/provenance/source/refresh-20261019T145800Z/`; `comparison.json` contém horários, tamanhos, hashes, diferenças e cabeçalhos selecionados. A captura original e todos os commits anteriores foram preservados. Nenhum JavaScript da página, instalador, teste ou CFG recuperado foi executado. Não foi tentado acesso ao navegador e não foi presumido desbloqueio do Mac.
 
 ## Limitação remanescente
 

@@ -1,0 +1,1797 @@
+{
+  "schema_version": 1,
+  "organized_at_utc": "2026-10-19T18:37:01.893556+00:00",
+  "repository_root_at_organization": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
+  "previous_head": "df151cddfd73f15c5e775727888ce6b5bfcb9487",
+  "previous_commits": [
+    "3b8f9bba6478fd4a347c38d0d395f05eadb8d797",
+    "3cfea1d9f05e3b4cd3d55490ca68814ec64f997f",
+    "a33a7684ffbd49ec59e3a02330589e281b864838",
+    "47a105c9f3c70e157b0110c60650f40d1714d6c6",
+    "16becb3a4cf79253d583931aa78a932ed6994b35",
+    "84446fec6c96f4cddd3c60fd9c168bc19a0a6f30",
+    "afbaf1363f119465df4e1da6888bece1c56df777",
+    "570ab1d8c476426a4561716b5da7a7ee44300104",
+    "95ae8ec13ba5e78d80e2e088b1f9313e94fa5336",
+    "a1eadbe3853fab924e7b04d7d36bf971f024f58d",
+    "9012c1f4d6cce7876854e105204ed65366a98a45",
+    "ffbd3936693afef2a7cd2f3f61c213b150e3e809",
+    "64bc53a219dbb12e790c26989bb2bc06b178033c",
+    "4f3c0e051c3010f9cd0196be04df49cca4707314",
+    "bfe941721a8a9948eb3dd798eaf737a1b11c1256",
+    "90f7dffc9ec51f5baf231b1f0baca281476bd17f",
+    "48556b89bba3f8a4c9d846af7d45d313ebeca7b7",
+    "6325fc3421ad8bb65266d7ac9361740ee0c6eeb6",
+    "31c94af6162a77d3abe574bda4f7a5d023bee75b",
+    "39ebe36108371e0e7bdeeb24a5058b44ad57aef2",
+    "572c7e493d2875c7ef54e87cf9d01b950a793e6d",
+    "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+    "cdc4a357f4228985b042275dd0c6a308caa3666c",
+    "ae67b8bd260729ba93a7a4ac8e965a91219c7c8b",
+    "26961a7b00c8698be650480e62b8482626e9a112",
+    "ac7b17d95480c9b387e73ebd70d8064afc576c72",
+    "2532ce91b8a6260d70fd9db2352772b8d3fc6afa",
+    "ce6b59cce5980e40e535288a35a01637acec712f",
+    "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+    "6e2dd25bceffe039ee15bf70fea7c346dc6af03a",
+    "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+    "8f781c29adfd62533057c4f87b28af3adb478c8b",
+    "df151cddfd73f15c5e775727888ce6b5bfcb9487"
+  ],
+  "policy": "Preserve all earlier commits, historical bytes and source paths. Curated documentation uses current paths. The original comparison HTML is preserved only in Git after verified README image rendering, as authorized by the user.",
+  "files": [
+    {
+      "previous_path": ".provenance/PROGRESS.md",
+      "current_path": ".agent/provenance/PROGRESS.md",
+      "before_sha256": "974da0e7705824cee31e4130e565e3b76a3695092e04ff651dc607e16b52b609",
+      "after_sha256": "974da0e7705824cee31e4130e565e3b76a3695092e04ff651dc607e16b52b609",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/announced-revisions.json",
+      "current_path": ".agent/provenance/announced-revisions.json",
+      "before_sha256": "a98ab957d3715d242f9e7a9f777998a4713a7cdc83346a959af1495f99d531db",
+      "after_sha256": "a98ab957d3715d242f9e7a9f777998a4713a7cdc83346a959af1495f99d531db",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/attachment-references.json",
+      "current_path": ".agent/provenance/attachment-references.json",
+      "before_sha256": "bd4ee4df2819c6c7564bfd2da124f338839d5b5d962f05c7aced88e6d8b2aabb",
+      "after_sha256": "bd4ee4df2819c6c7564bfd2da124f338839d5b5d962f05c7aced88e6d8b2aabb",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/browser-access-attempts/native-chatgpt-app-denied.json",
+      "current_path": ".agent/provenance/browser-access-attempts/native-chatgpt-app-denied.json",
+      "before_sha256": "ea6b8da0d40573436436083fe92d94e5f3563a94e118f9430e2f10d5dfa9da8c",
+      "after_sha256": "ea6b8da0d40573436436083fe92d94e5f3563a94e118f9430e2f10d5dfa9da8c",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/browser-access-attempts/unlocked-authentication-required.json",
+      "current_path": ".agent/provenance/browser-access-attempts/unlocked-authentication-required.json",
+      "before_sha256": "22c1dc9db58c59bd2db71b2ffe93400922ea5411b9423037a55e557f87db9331",
+      "after_sha256": "22c1dc9db58c59bd2db71b2ffe93400922ea5411b9423037a55e557f87db9331",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/capture.json",
+      "current_path": ".agent/provenance/capture.json",
+      "before_sha256": "ef954d5085bd5a790a535ac6b8ffe370ac756a2545a9150847d910d2bea96cf3",
+      "after_sha256": "ef954d5085bd5a790a535ac6b8ffe370ac756a2545a9150847d910d2bea96cf3",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/code-version-states.json",
+      "current_path": ".agent/provenance/code-version-states.json",
+      "before_sha256": "519722630ab1264c76a7b05d3ef8c2962dcf9c6464387315ab846cab9a4bbeb3",
+      "after_sha256": "519722630ab1264c76a7b05d3ef8c2962dcf9c6464387315ab846cab9a4bbeb3",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0050-3aae940c-aa51-4279-b839-1dff9432d79c.json",
+      "current_path": ".agent/provenance/events/0050-3aae940c-aa51-4279-b839-1dff9432d79c.json",
+      "before_sha256": "ffec620e9ced4248a74b2dfb70ce65198c9ccd1292286dd5151fe915d7f8988a",
+      "after_sha256": "ffec620e9ced4248a74b2dfb70ce65198c9ccd1292286dd5151fe915d7f8988a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0084-2a0a6a4f-7698-4d39-a479-d13e49c94d3e.json",
+      "current_path": ".agent/provenance/events/0084-2a0a6a4f-7698-4d39-a479-d13e49c94d3e.json",
+      "before_sha256": "2d2d1c140dde646c5874dca091984a10758ab11d2d8d8e13643e74c78c250f50",
+      "after_sha256": "2d2d1c140dde646c5874dca091984a10758ab11d2d8d8e13643e74c78c250f50",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0137-17040a52-0a39-4296-a7b0-af98bd6bfbc3.json",
+      "current_path": ".agent/provenance/events/0137-17040a52-0a39-4296-a7b0-af98bd6bfbc3.json",
+      "before_sha256": "3d2d6c8ebe0b7d49b3920034f9de212e98bc7f54b90a721cbc85913fe92edf80",
+      "after_sha256": "3d2d6c8ebe0b7d49b3920034f9de212e98bc7f54b90a721cbc85913fe92edf80",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0205-ecc3d825-a589-4e4b-a869-e9048efc3170.json",
+      "current_path": ".agent/provenance/events/0205-ecc3d825-a589-4e4b-a869-e9048efc3170.json",
+      "before_sha256": "533d1aa9ef074000c693ff9b9aff8aa82fda9b0c89cff5e94c364ccef8c86369",
+      "after_sha256": "533d1aa9ef074000c693ff9b9aff8aa82fda9b0c89cff5e94c364ccef8c86369",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0246-f8f4bff1-4e92-4c77-bb82-89158dabcc5a.json",
+      "current_path": ".agent/provenance/events/0246-f8f4bff1-4e92-4c77-bb82-89158dabcc5a.json",
+      "before_sha256": "8e19912b3f38fd0d16f9b1d0bd7a72a01cb1c3b166fa0caa7bde983fdfeb3e02",
+      "after_sha256": "8e19912b3f38fd0d16f9b1d0bd7a72a01cb1c3b166fa0caa7bde983fdfeb3e02",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0248-32f9c478-5808-45d4-a8f7-db98ad4417ef.json",
+      "current_path": ".agent/provenance/events/0248-32f9c478-5808-45d4-a8f7-db98ad4417ef.json",
+      "before_sha256": "c311a057ae2d0f40ee9fb8734e9264997e86922794403fb190eca6540faf155e",
+      "after_sha256": "c311a057ae2d0f40ee9fb8734e9264997e86922794403fb190eca6540faf155e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0251-1642829b-1912-4a66-bf41-47e65d97e2ca.json",
+      "current_path": ".agent/provenance/events/0251-1642829b-1912-4a66-bf41-47e65d97e2ca.json",
+      "before_sha256": "2591f0c08e063c0e36447d3102fac5cc9b5bcd7e853eac62eab55cefcedd99f1",
+      "after_sha256": "2591f0c08e063c0e36447d3102fac5cc9b5bcd7e853eac62eab55cefcedd99f1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0307-87409b59-ce16-4cf3-9194-754f036ea0b5.json",
+      "current_path": ".agent/provenance/events/0307-87409b59-ce16-4cf3-9194-754f036ea0b5.json",
+      "before_sha256": "c655ebae4119e0db9c2712c4a756dae4756a38dca1612bf0051efd1e246b79ec",
+      "after_sha256": "c655ebae4119e0db9c2712c4a756dae4756a38dca1612bf0051efd1e246b79ec",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0325-ef718bf5-89f3-43c3-ab63-9a9c4b9c82cd.json",
+      "current_path": ".agent/provenance/events/0325-ef718bf5-89f3-43c3-ab63-9a9c4b9c82cd.json",
+      "before_sha256": "ae59b0b8e592f887ae58ed85a685c87864fad9eea424568589b9b33c198df23d",
+      "after_sha256": "ae59b0b8e592f887ae58ed85a685c87864fad9eea424568589b9b33c198df23d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0328-942fcf54-b368-4fc2-9e21-834f3c05f3a4.json",
+      "current_path": ".agent/provenance/events/0328-942fcf54-b368-4fc2-9e21-834f3c05f3a4.json",
+      "before_sha256": "4cbad6e3862cd77d014a0ed495ebb001b139aea6d47bf4ea5900464909d901d3",
+      "after_sha256": "4cbad6e3862cd77d014a0ed495ebb001b139aea6d47bf4ea5900464909d901d3",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0336-fd42917e-219a-477b-a937-8dc4d70421ba.json",
+      "current_path": ".agent/provenance/events/0336-fd42917e-219a-477b-a937-8dc4d70421ba.json",
+      "before_sha256": "826d513a62d2ea0d285f5c08f9828e51f6e6f8a6ee0cac5a12593f403fd6aea1",
+      "after_sha256": "826d513a62d2ea0d285f5c08f9828e51f6e6f8a6ee0cac5a12593f403fd6aea1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0359-ca54829f-c120-4cc8-b50c-3eb743ebf6cd.json",
+      "current_path": ".agent/provenance/events/0359-ca54829f-c120-4cc8-b50c-3eb743ebf6cd.json",
+      "before_sha256": "4c310876741cdac0a4dd1b35bb0580f41603575863ec3698d05c42471c2ac8f2",
+      "after_sha256": "4c310876741cdac0a4dd1b35bb0580f41603575863ec3698d05c42471c2ac8f2",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0398-9a418deb-cf07-48d2-ad18-1ac1cc56cbb4.json",
+      "current_path": ".agent/provenance/events/0398-9a418deb-cf07-48d2-ad18-1ac1cc56cbb4.json",
+      "before_sha256": "1f6408b69764840a57be81d3dd63ee0234d131907f6af3675e91c25a909f5c1d",
+      "after_sha256": "1f6408b69764840a57be81d3dd63ee0234d131907f6af3675e91c25a909f5c1d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0401-d337cc39-7d2d-42b5-8358-3ab1b4d8cf3d.json",
+      "current_path": ".agent/provenance/events/0401-d337cc39-7d2d-42b5-8358-3ab1b4d8cf3d.json",
+      "before_sha256": "0f9f13d4692e80dfa4b38af38cd68c95f78f979dc6ceeea70bc40ce3636ebd86",
+      "after_sha256": "0f9f13d4692e80dfa4b38af38cd68c95f78f979dc6ceeea70bc40ce3636ebd86",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0405-342cf67c-978e-41a2-a3f7-98d4cacd4790.json",
+      "current_path": ".agent/provenance/events/0405-342cf67c-978e-41a2-a3f7-98d4cacd4790.json",
+      "before_sha256": "b29ea8640736b278fed25a8c750b37e1fe4cf895d5da908bdd6fc3f0a4a67dc9",
+      "after_sha256": "b29ea8640736b278fed25a8c750b37e1fe4cf895d5da908bdd6fc3f0a4a67dc9",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0446-c1283adb-bf9f-40d9-b32e-d96a6829203d.json",
+      "current_path": ".agent/provenance/events/0446-c1283adb-bf9f-40d9-b32e-d96a6829203d.json",
+      "before_sha256": "01e4cd6c60eabd85a02ecbaddfdb9c3ccf58b025ba4eb91cb8c7beee15e6fafe",
+      "after_sha256": "01e4cd6c60eabd85a02ecbaddfdb9c3ccf58b025ba4eb91cb8c7beee15e6fafe",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0451-5bd64030-9aa7-4890-8d69-d72572b6defb.json",
+      "current_path": ".agent/provenance/events/0451-5bd64030-9aa7-4890-8d69-d72572b6defb.json",
+      "before_sha256": "959bae5041762342ed0cd1994569823e186a3a9e975cd7e4075f9ae02d45b6fe",
+      "after_sha256": "959bae5041762342ed0cd1994569823e186a3a9e975cd7e4075f9ae02d45b6fe",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0456-53e6d4f0-c0fc-4204-8ac4-f51da434b588.json",
+      "current_path": ".agent/provenance/events/0456-53e6d4f0-c0fc-4204-8ac4-f51da434b588.json",
+      "before_sha256": "717d3f2cfd5cf0c6efbe20bfca1a6c77d9f75fed1ab42f8c716607cbd63d5017",
+      "after_sha256": "717d3f2cfd5cf0c6efbe20bfca1a6c77d9f75fed1ab42f8c716607cbd63d5017",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0458-2605ea9c-a8e4-4313-ab69-9b2de2883044.json",
+      "current_path": ".agent/provenance/events/0458-2605ea9c-a8e4-4313-ab69-9b2de2883044.json",
+      "before_sha256": "93aaf8875d228f8c3655586d28da1609cc56c7f6ffd17cfb80b58709f7d07955",
+      "after_sha256": "93aaf8875d228f8c3655586d28da1609cc56c7f6ffd17cfb80b58709f7d07955",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0544-958c92ab-f810-41af-82e9-7a8255f345ff.json",
+      "current_path": ".agent/provenance/events/0544-958c92ab-f810-41af-82e9-7a8255f345ff.json",
+      "before_sha256": "c7c502c26a24f3d9209d8417368a05c341237b411fa8c36ecfc2aa180217bd71",
+      "after_sha256": "c7c502c26a24f3d9209d8417368a05c341237b411fa8c36ecfc2aa180217bd71",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0548-88f1dec3-cc1b-4a45-9a85-7825f6ed97fd.json",
+      "current_path": ".agent/provenance/events/0548-88f1dec3-cc1b-4a45-9a85-7825f6ed97fd.json",
+      "before_sha256": "77175b2aa1f9730987e9314848eda18a6dc288139915f2bb39829baa3e714312",
+      "after_sha256": "77175b2aa1f9730987e9314848eda18a6dc288139915f2bb39829baa3e714312",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/0550-383046e4-70ab-4a95-80bd-0a904ebe68d0.json",
+      "current_path": ".agent/provenance/events/0550-383046e4-70ab-4a95-80bd-0a904ebe68d0.json",
+      "before_sha256": "db505f16d3f9fd83528e94697225d23f94ac9e36af14963d18ba09cb5eedcd64",
+      "after_sha256": "db505f16d3f9fd83528e94697225d23f94ac9e36af14963d18ba09cb5eedcd64",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/user-upload-turn-1.json",
+      "current_path": ".agent/provenance/events/user-upload-turn-1.json",
+      "before_sha256": "95d627c5e104b956bda35495281e9bcbc53cb7a4077d2ca22ba0bc3d5077247a",
+      "after_sha256": "95d627c5e104b956bda35495281e9bcbc53cb7a4077d2ca22ba0bc3d5077247a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/user-upload-turn-2.json",
+      "current_path": ".agent/provenance/events/user-upload-turn-2.json",
+      "before_sha256": "c90518c09e35003b9b845f6a02686274497ca016c83f756ff6384862107de4e1",
+      "after_sha256": "c90518c09e35003b9b845f6a02686274497ca016c83f756ff6384862107de4e1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/events/user-upload-turn-3.json",
+      "current_path": ".agent/provenance/events/user-upload-turn-3.json",
+      "before_sha256": "6100b995dd82e1a8cdd3b9149b01bdcb261cac768062723340d80ebd60fbec10",
+      "after_sha256": "6100b995dd82e1a8cdd3b9149b01bdcb261cac768062723340d80ebd60fbec10",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/final-files.sha256.json",
+      "current_path": ".agent/provenance/final-files.sha256.json",
+      "before_sha256": "63314b263f6eaba22b685a85f3dfce80947e059f41bd78c18a0f44c690d6a5fb",
+      "after_sha256": "63314b263f6eaba22b685a85f3dfce80947e059f41bd78c18a0f44c690d6a5fb",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/gaps.json",
+      "current_path": ".agent/provenance/gaps.json",
+      "before_sha256": "aab3e337e38065024d34e723e1b35bc6bfc330cf5f3613256262b47016e7065f",
+      "after_sha256": "aab3e337e38065024d34e723e1b35bc6bfc330cf5f3613256262b47016e7065f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/references.json",
+      "current_path": ".agent/provenance/references.json",
+      "before_sha256": "85acb3787b892a8079e9775e3f6e7639f0b5a8a11c62224d2eddfab323bae5f1",
+      "after_sha256": "85acb3787b892a8079e9775e3f6e7639f0b5a8a11c62224d2eddfab323bae5f1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/revisions.json",
+      "current_path": ".agent/provenance/revisions.json",
+      "before_sha256": "927709d3d05d5f5c4565aa1fa984871649f90fdff186b6578ba3c476ff210de6",
+      "after_sha256": "927709d3d05d5f5c4565aa1fa984871649f90fdff186b6578ba3c476ff210de6",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source-chronology.json",
+      "current_path": ".agent/provenance/source-chronology.json",
+      "before_sha256": "53cd85bf4297519bdf852c9580ca1856208685fbd82047bd296d2ff3e7520a0b",
+      "after_sha256": "53cd85bf4297519bdf852c9580ca1856208685fbd82047bd296d2ff3e7520a0b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/conversation-visible.md",
+      "current_path": ".agent/provenance/source/conversation-visible.md",
+      "before_sha256": "eb137d307d5e2c7c1ab1f074ff29fa5232bf7046dee70fe040aad9ec800c4c5f",
+      "after_sha256": "eb137d307d5e2c7c1ab1f074ff29fa5232bf7046dee70fe040aad9ec800c4c5f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/conversation.json",
+      "current_path": ".agent/provenance/source/conversation.json",
+      "before_sha256": "c89193cac4a48e3ef250373a66e64153c94d69704d6099a0d0485787e7ed1f65",
+      "after_sha256": "c89193cac4a48e3ef250373a66e64153c94d69704d6099a0d0485787e7ed1f65",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0002-user.txt",
+      "current_path": ".agent/provenance/source/messages/0002-user.txt",
+      "before_sha256": "601579b5b900426cbc713982b806d452d9a6f46ed50a71c2fb93c3a6f4eba12a",
+      "after_sha256": "601579b5b900426cbc713982b806d452d9a6f46ed50a71c2fb93c3a6f4eba12a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0006-user.txt",
+      "current_path": ".agent/provenance/source/messages/0006-user.txt",
+      "before_sha256": "5c7c218b2327e3146c07b60eec368ff7f8c3cb9873645b76d13439f6a9b13ae4",
+      "after_sha256": "5c7c218b2327e3146c07b60eec368ff7f8c3cb9873645b76d13439f6a9b13ae4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0011-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0011-assistant.txt",
+      "before_sha256": "2aaaaa1f9d32b584d225f2024f3fd2e0aa9e241eb67079c93e23b53edc6f8665",
+      "after_sha256": "2aaaaa1f9d32b584d225f2024f3fd2e0aa9e241eb67079c93e23b53edc6f8665",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0039-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0039-assistant.txt",
+      "before_sha256": "0442aaecc1080e6bffb302b8757253f363a21a3a1a7cf25eb43f7a0ceacbac8d",
+      "after_sha256": "0442aaecc1080e6bffb302b8757253f363a21a3a1a7cf25eb43f7a0ceacbac8d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0041-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0041-assistant.txt",
+      "before_sha256": "25ebf26cff13f3b51178a22aae8902cf76a7ad94586de3286de1d265c6f3a784",
+      "after_sha256": "25ebf26cff13f3b51178a22aae8902cf76a7ad94586de3286de1d265c6f3a784",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0050-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0050-assistant.txt",
+      "before_sha256": "6fad49f83a602f3e53eb27e00e1365aee2b1c5d0c742cf2118bfe3adf2879134",
+      "after_sha256": "6fad49f83a602f3e53eb27e00e1365aee2b1c5d0c742cf2118bfe3adf2879134",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0051-user.txt",
+      "current_path": ".agent/provenance/source/messages/0051-user.txt",
+      "before_sha256": "4aebefbaec6cf0eae80ad6a7e632062053399415cf8f2c916207c3dd7c6e45f6",
+      "after_sha256": "4aebefbaec6cf0eae80ad6a7e632062053399415cf8f2c916207c3dd7c6e45f6",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0057-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0057-assistant.txt",
+      "before_sha256": "4afec000ceb085fdfac97117fa29ebeca8a8b30472825e2b3ab35f635f231a90",
+      "after_sha256": "4afec000ceb085fdfac97117fa29ebeca8a8b30472825e2b3ab35f635f231a90",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0068-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0068-assistant.txt",
+      "before_sha256": "c353f77e57f82cf79e276fa4f0bfa69fca336747ece5e21196d5ea755191c3e0",
+      "after_sha256": "c353f77e57f82cf79e276fa4f0bfa69fca336747ece5e21196d5ea755191c3e0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0082-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0082-assistant.txt",
+      "before_sha256": "0e572cfc3743b63fcc36eece8d747eca7ec0b3eee86491e04968301312bdf842",
+      "after_sha256": "0e572cfc3743b63fcc36eece8d747eca7ec0b3eee86491e04968301312bdf842",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0084-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0084-assistant.txt",
+      "before_sha256": "e697e6b67efb1a30611f5d6dee1f817e842e1f4af2edabf44a346072052db63c",
+      "after_sha256": "e697e6b67efb1a30611f5d6dee1f817e842e1f4af2edabf44a346072052db63c",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0085-user.txt",
+      "current_path": ".agent/provenance/source/messages/0085-user.txt",
+      "before_sha256": "9ede54dfe0f99dd3d12a01739de31c133bb12facfa26c7b22f238b6e0375c0e0",
+      "after_sha256": "9ede54dfe0f99dd3d12a01739de31c133bb12facfa26c7b22f238b6e0375c0e0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0088-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0088-assistant.txt",
+      "before_sha256": "4e45d0c5916759e3047db45c1668a2da65b95636ebc5f23076847caf0809738f",
+      "after_sha256": "4e45d0c5916759e3047db45c1668a2da65b95636ebc5f23076847caf0809738f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0090-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0090-assistant.txt",
+      "before_sha256": "f6dc8b54baeab853263fb4dbd1d745de7b8dd57e44d7b97ef4aab6803e151abf",
+      "after_sha256": "f6dc8b54baeab853263fb4dbd1d745de7b8dd57e44d7b97ef4aab6803e151abf",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0092-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0092-assistant.txt",
+      "before_sha256": "24d80b0038a4b5a2fea2266b131614686288aa7782f99acfc6598270f9bff64f",
+      "after_sha256": "24d80b0038a4b5a2fea2266b131614686288aa7782f99acfc6598270f9bff64f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0100-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0100-assistant.txt",
+      "before_sha256": "4f7ba522dd60b6c3c92334d50492d1f906551ad232c4d5ea2e0c60fee0e55c45",
+      "after_sha256": "4f7ba522dd60b6c3c92334d50492d1f906551ad232c4d5ea2e0c60fee0e55c45",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0102-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0102-assistant.txt",
+      "before_sha256": "4a77f962ad52d120b7193174b4991d9fa5b8e6536e66df4fa60c87a727ad5576",
+      "after_sha256": "4a77f962ad52d120b7193174b4991d9fa5b8e6536e66df4fa60c87a727ad5576",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0108-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0108-assistant.txt",
+      "before_sha256": "d9a84b4c2a0d198ea584a26b60bff1391116d11279eb865ec1039fce5158bc0b",
+      "after_sha256": "d9a84b4c2a0d198ea584a26b60bff1391116d11279eb865ec1039fce5158bc0b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0118-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0118-assistant.txt",
+      "before_sha256": "df9e2484099872e1d0ef24d0e8507885017246873025a6203747d2bd1d0f91eb",
+      "after_sha256": "df9e2484099872e1d0ef24d0e8507885017246873025a6203747d2bd1d0f91eb",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0119-user.txt",
+      "current_path": ".agent/provenance/source/messages/0119-user.txt",
+      "before_sha256": "d50b083feafc0fa2eed615adfe080c650aa57a12b4378c8064940d34ef58200b",
+      "after_sha256": "d50b083feafc0fa2eed615adfe080c650aa57a12b4378c8064940d34ef58200b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0123-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0123-assistant.txt",
+      "before_sha256": "c15e9fac96a234769ce1b6b2be91c55c2e2a009632a866789578b60e10d02b18",
+      "after_sha256": "c15e9fac96a234769ce1b6b2be91c55c2e2a009632a866789578b60e10d02b18",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0124-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0124-assistant.txt",
+      "before_sha256": "03e6d65de8ae7cc3bece677d0809d677ce38d36a6cdc73bbb2e47d23133d6386",
+      "after_sha256": "03e6d65de8ae7cc3bece677d0809d677ce38d36a6cdc73bbb2e47d23133d6386",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0128-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0128-assistant.txt",
+      "before_sha256": "85358e8762fd5f39fdb22ab97595fb68df3d8c199f042293f14da9d3eb4f906e",
+      "after_sha256": "85358e8762fd5f39fdb22ab97595fb68df3d8c199f042293f14da9d3eb4f906e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0130-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0130-assistant.txt",
+      "before_sha256": "7c2b711102b8338e5c8f07126e0a033c762d46cfc74169d63a1ec11972393395",
+      "after_sha256": "7c2b711102b8338e5c8f07126e0a033c762d46cfc74169d63a1ec11972393395",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0137-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0137-assistant.txt",
+      "before_sha256": "04d93de4475850faac171f242626de4937877d5701682f6410fd44fa9e282877",
+      "after_sha256": "04d93de4475850faac171f242626de4937877d5701682f6410fd44fa9e282877",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0140-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0140-assistant.txt",
+      "before_sha256": "4e932013933bb276cc29139082e0b2c28c1c9b6f4337c6f36ea37ce876114189",
+      "after_sha256": "4e932013933bb276cc29139082e0b2c28c1c9b6f4337c6f36ea37ce876114189",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0142-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0142-assistant.txt",
+      "before_sha256": "2c659e082711f4a7d2fedaf2bfd4c3c877ca4fdf1cbb8f662ecb63b5a2ba5bad",
+      "after_sha256": "2c659e082711f4a7d2fedaf2bfd4c3c877ca4fdf1cbb8f662ecb63b5a2ba5bad",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0145-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0145-assistant.txt",
+      "before_sha256": "4ff1ac7581e5e3900fbf7000c0405ffd88150101f5e003801ba107fad9b1daf4",
+      "after_sha256": "4ff1ac7581e5e3900fbf7000c0405ffd88150101f5e003801ba107fad9b1daf4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0147-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0147-assistant.txt",
+      "before_sha256": "65387d6ea8dc69521b9ee0fda9223a2a1dbfa2ad37f856f8f12818018829a745",
+      "after_sha256": "65387d6ea8dc69521b9ee0fda9223a2a1dbfa2ad37f856f8f12818018829a745",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0149-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0149-assistant.txt",
+      "before_sha256": "c4ed57a2fe658b382df95455b5315ce07891dab8c587e1188956c0b86cd69cba",
+      "after_sha256": "c4ed57a2fe658b382df95455b5315ce07891dab8c587e1188956c0b86cd69cba",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0151-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0151-assistant.txt",
+      "before_sha256": "30aa5205914967134aab649b60c91d63531368e1782ad10450d0fb242ad4948c",
+      "after_sha256": "30aa5205914967134aab649b60c91d63531368e1782ad10450d0fb242ad4948c",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0154-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0154-assistant.txt",
+      "before_sha256": "1800891895334759cbf0b9787411312337e08097815b018941fa56556cec56c5",
+      "after_sha256": "1800891895334759cbf0b9787411312337e08097815b018941fa56556cec56c5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0158-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0158-assistant.txt",
+      "before_sha256": "29080488763e4ab0b91a3edeb5f3e3e48c8d2424404bc8d5f7391124145e2d51",
+      "after_sha256": "29080488763e4ab0b91a3edeb5f3e3e48c8d2424404bc8d5f7391124145e2d51",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0162-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0162-assistant.txt",
+      "before_sha256": "1dd2da4fad9aaaa50a8110c8f19c6e99a07a64fe58e46d96af067b548fbbd6a9",
+      "after_sha256": "1dd2da4fad9aaaa50a8110c8f19c6e99a07a64fe58e46d96af067b548fbbd6a9",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0163-user.txt",
+      "current_path": ".agent/provenance/source/messages/0163-user.txt",
+      "before_sha256": "d6ce680898dfc2d0eb65dd5e5a048c0d4cd8da4a56bae1daa788e0ee6b5e3178",
+      "after_sha256": "d6ce680898dfc2d0eb65dd5e5a048c0d4cd8da4a56bae1daa788e0ee6b5e3178",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0165-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0165-assistant.txt",
+      "before_sha256": "0e071f2993fdefed0db49844be6d1de028a7079a4b71605518ecc700599157fd",
+      "after_sha256": "0e071f2993fdefed0db49844be6d1de028a7079a4b71605518ecc700599157fd",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0167-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0167-assistant.txt",
+      "before_sha256": "a607bd92efedba606e2ab165a0a70e33b2beacd2c64774322784538e2f8041f0",
+      "after_sha256": "a607bd92efedba606e2ab165a0a70e33b2beacd2c64774322784538e2f8041f0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0172-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0172-assistant.txt",
+      "before_sha256": "a0e475b1e3daaa7aef1c8ccb56aa86fef7efde407fdc342795eab2a14ffb52c8",
+      "after_sha256": "a0e475b1e3daaa7aef1c8ccb56aa86fef7efde407fdc342795eab2a14ffb52c8",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0173-user.txt",
+      "current_path": ".agent/provenance/source/messages/0173-user.txt",
+      "before_sha256": "221c1f77b442dc84733e8ff17f447caee33f08e1d68a8f0a88d7224e11e00b69",
+      "after_sha256": "221c1f77b442dc84733e8ff17f447caee33f08e1d68a8f0a88d7224e11e00b69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0177-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0177-assistant.txt",
+      "before_sha256": "1c9a4b1bb0e7e94614fb71c149ced668ea9d83cb13e068f0e428c81656014985",
+      "after_sha256": "1c9a4b1bb0e7e94614fb71c149ced668ea9d83cb13e068f0e428c81656014985",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0178-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0178-assistant.txt",
+      "before_sha256": "fb184a2a05450349bfcb7e09ceb19ff9708bf42a28313593c969119461f51329",
+      "after_sha256": "fb184a2a05450349bfcb7e09ceb19ff9708bf42a28313593c969119461f51329",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0180-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0180-assistant.txt",
+      "before_sha256": "8c15da093ccdf4c35961b5c7485a9907d18d6724e5be4c987d2d5b96806cfc38",
+      "after_sha256": "8c15da093ccdf4c35961b5c7485a9907d18d6724e5be4c987d2d5b96806cfc38",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0188-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0188-assistant.txt",
+      "before_sha256": "5ffd581dd4119596d4bcd5780665b6eb5579b38e244dd30cb0e794e0ee252ec0",
+      "after_sha256": "5ffd581dd4119596d4bcd5780665b6eb5579b38e244dd30cb0e794e0ee252ec0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0203-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0203-assistant.txt",
+      "before_sha256": "64b2714dcc2ccbb154ba7a3c4323772b565b14a955279e35631dde138e6499d0",
+      "after_sha256": "64b2714dcc2ccbb154ba7a3c4323772b565b14a955279e35631dde138e6499d0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0205-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0205-assistant.txt",
+      "before_sha256": "f1a1de801ce11baf9eb3a82be8ad70ba05b6c3f65ffc98f5aace2b348b0f7669",
+      "after_sha256": "f1a1de801ce11baf9eb3a82be8ad70ba05b6c3f65ffc98f5aace2b348b0f7669",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0206-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0206-assistant.txt",
+      "before_sha256": "e749c71b07ede1de8552a52739c22e49a77b9b418d6203842fa423a21f80a996",
+      "after_sha256": "e749c71b07ede1de8552a52739c22e49a77b9b418d6203842fa423a21f80a996",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0208-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0208-assistant.txt",
+      "before_sha256": "e40739bd818152fe46f64216472d6110b3ec47e319602080ae48695724410394",
+      "after_sha256": "e40739bd818152fe46f64216472d6110b3ec47e319602080ae48695724410394",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0209-user.txt",
+      "current_path": ".agent/provenance/source/messages/0209-user.txt",
+      "before_sha256": "8d8c1b1f0624e5dd9d9f73a8bf4359b9aacbedff5b78a560ece05f998fda82cb",
+      "after_sha256": "8d8c1b1f0624e5dd9d9f73a8bf4359b9aacbedff5b78a560ece05f998fda82cb",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0212-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0212-assistant.txt",
+      "before_sha256": "60427fc0da27afed65a7514efaab5bfb802db58867b53306429cb422363febae",
+      "after_sha256": "60427fc0da27afed65a7514efaab5bfb802db58867b53306429cb422363febae",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0213-user.txt",
+      "current_path": ".agent/provenance/source/messages/0213-user.txt",
+      "before_sha256": "0decf85526f04a74c6e781cccf4129081ccbad18161b3fd4e172b3192dee8493",
+      "after_sha256": "0decf85526f04a74c6e781cccf4129081ccbad18161b3fd4e172b3192dee8493",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0216-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0216-assistant.txt",
+      "before_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "after_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0218-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0218-assistant.txt",
+      "before_sha256": "c15f01e2f37b9d5978d9acbcfdc760cc57480373a0fede53d2332d6d9826be9f",
+      "after_sha256": "c15f01e2f37b9d5978d9acbcfdc760cc57480373a0fede53d2332d6d9826be9f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0220-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0220-assistant.txt",
+      "before_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "after_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0222-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0222-assistant.txt",
+      "before_sha256": "398df613a6a14fa6fc42c4b07ada79f6b4a52e6f896ce073eccf1525b45792c1",
+      "after_sha256": "398df613a6a14fa6fc42c4b07ada79f6b4a52e6f896ce073eccf1525b45792c1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0232-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0232-assistant.txt",
+      "before_sha256": "ceb41fe8837b3afd67824fa78bfc0e07fd6cf33447ea2e36c4e57ce1a8fbb1ae",
+      "after_sha256": "ceb41fe8837b3afd67824fa78bfc0e07fd6cf33447ea2e36c4e57ce1a8fbb1ae",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0238-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0238-assistant.txt",
+      "before_sha256": "6d32d1eb826a3e97fdb04dc64e58b9d089d1303a6166c315023db327925dd04c",
+      "after_sha256": "6d32d1eb826a3e97fdb04dc64e58b9d089d1303a6166c315023db327925dd04c",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0246-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0246-assistant.txt",
+      "before_sha256": "164c12b63f12782ee97c039d4b47952679f7630d2968145ff4d631e01cf245b1",
+      "after_sha256": "164c12b63f12782ee97c039d4b47952679f7630d2968145ff4d631e01cf245b1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0248-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0248-assistant.txt",
+      "before_sha256": "a6d6cb1f53de7c9a37f09b8b2aae09e13e12f5ddcd9940e51d38a328acf2bb7a",
+      "after_sha256": "a6d6cb1f53de7c9a37f09b8b2aae09e13e12f5ddcd9940e51d38a328acf2bb7a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0251-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0251-assistant.txt",
+      "before_sha256": "54ff351b699f98bab4b99335f36208327b7a631d068ce5f8f1a6867fd830d76f",
+      "after_sha256": "54ff351b699f98bab4b99335f36208327b7a631d068ce5f8f1a6867fd830d76f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0258-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0258-assistant.txt",
+      "before_sha256": "448574669cf596ffa5535c7b9035d1154a13e6cd548c54c494c0af745ef36a46",
+      "after_sha256": "448574669cf596ffa5535c7b9035d1154a13e6cd548c54c494c0af745ef36a46",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0262-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0262-assistant.txt",
+      "before_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "after_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0271-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0271-assistant.txt",
+      "before_sha256": "aea27c50e8653822d55a55429577ffd311e82f9b3e1a8ce09acd301a6d898df1",
+      "after_sha256": "aea27c50e8653822d55a55429577ffd311e82f9b3e1a8ce09acd301a6d898df1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0272-user.txt",
+      "current_path": ".agent/provenance/source/messages/0272-user.txt",
+      "before_sha256": "f424c54a484e2a657be3a297207cda4d234fdce16cf7eca60ae4a6b4cfc83189",
+      "after_sha256": "f424c54a484e2a657be3a297207cda4d234fdce16cf7eca60ae4a6b4cfc83189",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0283-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0283-assistant.txt",
+      "before_sha256": "45fad331db7f9b0dc0441524280efb9f6595b4179b7e79048903e830c65a6058",
+      "after_sha256": "45fad331db7f9b0dc0441524280efb9f6595b4179b7e79048903e830c65a6058",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0284-user.txt",
+      "current_path": ".agent/provenance/source/messages/0284-user.txt",
+      "before_sha256": "669506244ec40b3b875aa2dddef8f8b0c98af0fa5090a20a45574b5ad835adb3",
+      "after_sha256": "669506244ec40b3b875aa2dddef8f8b0c98af0fa5090a20a45574b5ad835adb3",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0286-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0286-assistant.txt",
+      "before_sha256": "d98500478402bb8140e6c525fc5a23f512bad32d819c8d40ee58e41c3513d004",
+      "after_sha256": "d98500478402bb8140e6c525fc5a23f512bad32d819c8d40ee58e41c3513d004",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0287-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0287-assistant.txt",
+      "before_sha256": "f3202a90ac053c7751172dd51554f0501b5d44de24cfd06af945e08433985215",
+      "after_sha256": "f3202a90ac053c7751172dd51554f0501b5d44de24cfd06af945e08433985215",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0294-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0294-assistant.txt",
+      "before_sha256": "91f45b18c0f9b2e8c3629cfe360168971e8d41126a2296669a165fb87f49f18a",
+      "after_sha256": "91f45b18c0f9b2e8c3629cfe360168971e8d41126a2296669a165fb87f49f18a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0296-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0296-assistant.txt",
+      "before_sha256": "88cd6e248a7043153241736a6f0021efc575dd483b6387d5b65a841d970b10b2",
+      "after_sha256": "88cd6e248a7043153241736a6f0021efc575dd483b6387d5b65a841d970b10b2",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0303-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0303-assistant.txt",
+      "before_sha256": "77067681d95bdbddeff91c68c311c1ffdcef001d6156d83e16848d4f0382e01b",
+      "after_sha256": "77067681d95bdbddeff91c68c311c1ffdcef001d6156d83e16848d4f0382e01b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0307-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0307-assistant.txt",
+      "before_sha256": "4c777491d664a4941a0d5f93527ab896c22319861404eb1a4eaaf0577d1a9cf0",
+      "after_sha256": "4c777491d664a4941a0d5f93527ab896c22319861404eb1a4eaaf0577d1a9cf0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0325-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0325-assistant.txt",
+      "before_sha256": "6a7edc679f7d22e37a577b173cc8df47772025da9719b0ff8b9acd2374c2d3e0",
+      "after_sha256": "6a7edc679f7d22e37a577b173cc8df47772025da9719b0ff8b9acd2374c2d3e0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0326-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0326-assistant.txt",
+      "before_sha256": "cf0e43baf8cbd67fdcba091e5fac2a2df31ff9a8f286158bfdf9cb8a6c9fbcc2",
+      "after_sha256": "cf0e43baf8cbd67fdcba091e5fac2a2df31ff9a8f286158bfdf9cb8a6c9fbcc2",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0328-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0328-assistant.txt",
+      "before_sha256": "28e2dfa48a1f3cd173efcb0ce1a3bfb9912cada2431de5f1c9bbe89de9b82024",
+      "after_sha256": "28e2dfa48a1f3cd173efcb0ce1a3bfb9912cada2431de5f1c9bbe89de9b82024",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0336-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0336-assistant.txt",
+      "before_sha256": "21f10f797119db3c96ddc86cede6a9b322a5a0741818743f83ae619051754f2e",
+      "after_sha256": "21f10f797119db3c96ddc86cede6a9b322a5a0741818743f83ae619051754f2e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0338-user.txt",
+      "current_path": ".agent/provenance/source/messages/0338-user.txt",
+      "before_sha256": "31fbef162594de01bab0cd525c51f74de7bcb15063029fa1a54b2cf5944c80d8",
+      "after_sha256": "31fbef162594de01bab0cd525c51f74de7bcb15063029fa1a54b2cf5944c80d8",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0341-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0341-assistant.txt",
+      "before_sha256": "f259790ac7873ed91c6fa278268199c7ff0589a2e7d1c00865d49f90bb1a8250",
+      "after_sha256": "f259790ac7873ed91c6fa278268199c7ff0589a2e7d1c00865d49f90bb1a8250",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0342-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0342-assistant.txt",
+      "before_sha256": "1f9a7a83db03fba68ef09956882561717e9512065d5644509e48c7ea2fff79f7",
+      "after_sha256": "1f9a7a83db03fba68ef09956882561717e9512065d5644509e48c7ea2fff79f7",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0349-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0349-assistant.txt",
+      "before_sha256": "abf1c3d380f34f92f447b895d7a44287a0511658b8980c7d7335c02eeac174a8",
+      "after_sha256": "abf1c3d380f34f92f447b895d7a44287a0511658b8980c7d7335c02eeac174a8",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0351-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0351-assistant.txt",
+      "before_sha256": "d248d1cae9710e39ec5fac5778a964c9fa859f37640a9cc961aec70fd0d034af",
+      "after_sha256": "d248d1cae9710e39ec5fac5778a964c9fa859f37640a9cc961aec70fd0d034af",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0353-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0353-assistant.txt",
+      "before_sha256": "77e46fa51cd3c49bca1b4282da5be0375660eb3b4f07b6fdb1f029f352b60ff0",
+      "after_sha256": "77e46fa51cd3c49bca1b4282da5be0375660eb3b4f07b6fdb1f029f352b60ff0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0359-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0359-assistant.txt",
+      "before_sha256": "a8e1fe3d4a2f425dc8ec8eb02c8a397e9f465f05d7513d764609cf967a17db96",
+      "after_sha256": "a8e1fe3d4a2f425dc8ec8eb02c8a397e9f465f05d7513d764609cf967a17db96",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0368-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0368-assistant.txt",
+      "before_sha256": "eadfd1ea2370ae4683b3a68428af377c55258304fb2d3ecb3e6b4718aa95280e",
+      "after_sha256": "eadfd1ea2370ae4683b3a68428af377c55258304fb2d3ecb3e6b4718aa95280e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0372-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0372-assistant.txt",
+      "before_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "after_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0388-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0388-assistant.txt",
+      "before_sha256": "56398430eb3331af78da34ab0461b862740a33d14b5bf6a026709c927f7003cc",
+      "after_sha256": "56398430eb3331af78da34ab0461b862740a33d14b5bf6a026709c927f7003cc",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0395-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0395-assistant.txt",
+      "before_sha256": "392bef4a893fcda31b9e4310ea62dc863ad465ed80bce397960043b700c4d99b",
+      "after_sha256": "392bef4a893fcda31b9e4310ea62dc863ad465ed80bce397960043b700c4d99b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0398-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0398-assistant.txt",
+      "before_sha256": "2e2683df949b5163534e03861c01afa9be2193390613b45be402f7c3775141a5",
+      "after_sha256": "2e2683df949b5163534e03861c01afa9be2193390613b45be402f7c3775141a5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0401-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0401-assistant.txt",
+      "before_sha256": "657ea78b8c0aa1fb2874b8a4802820df33c0140585d391b3d29be5fb8e0f0792",
+      "after_sha256": "657ea78b8c0aa1fb2874b8a4802820df33c0140585d391b3d29be5fb8e0f0792",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0403-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0403-assistant.txt",
+      "before_sha256": "16c8968bcc12ba118e1e427354e074fdef0f49fc551c036e4242bb8fed81c114",
+      "after_sha256": "16c8968bcc12ba118e1e427354e074fdef0f49fc551c036e4242bb8fed81c114",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0405-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0405-assistant.txt",
+      "before_sha256": "b882873f6055301b292d3d0e52dbd7b851e892c7aa0a0efc14b4b50df469d149",
+      "after_sha256": "b882873f6055301b292d3d0e52dbd7b851e892c7aa0a0efc14b4b50df469d149",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0412-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0412-assistant.txt",
+      "before_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "after_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0419-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0419-assistant.txt",
+      "before_sha256": "6a1fb246c3ad18c26033284272f4460d3a76946ed6122bd7773d82edb5972cc5",
+      "after_sha256": "6a1fb246c3ad18c26033284272f4460d3a76946ed6122bd7773d82edb5972cc5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0420-user.txt",
+      "current_path": ".agent/provenance/source/messages/0420-user.txt",
+      "before_sha256": "7730a3684bf798689980caa239c867bd137875a2873697ad13305734b985a0a4",
+      "after_sha256": "7730a3684bf798689980caa239c867bd137875a2873697ad13305734b985a0a4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0424-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0424-assistant.txt",
+      "before_sha256": "a788b9741fa90b2e140d9973bd9b9a287930ea41f5f499820ab242c551ce7038",
+      "after_sha256": "a788b9741fa90b2e140d9973bd9b9a287930ea41f5f499820ab242c551ce7038",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0429-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0429-assistant.txt",
+      "before_sha256": "c0dccc96e44c858bcea7e89e896083a8d7a4df8ab0127d04e22a28d38ad133ce",
+      "after_sha256": "c0dccc96e44c858bcea7e89e896083a8d7a4df8ab0127d04e22a28d38ad133ce",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0440-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0440-assistant.txt",
+      "before_sha256": "1e7d96da3a0a042c35c3c2069a30af9e8f81e89d0a4b0591a22c29f68ee92d53",
+      "after_sha256": "1e7d96da3a0a042c35c3c2069a30af9e8f81e89d0a4b0591a22c29f68ee92d53",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0442-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0442-assistant.txt",
+      "before_sha256": "ef19241826620691ab3d3fab6a682b5de0067a48972a2e9fe95c1eef42655a94",
+      "after_sha256": "ef19241826620691ab3d3fab6a682b5de0067a48972a2e9fe95c1eef42655a94",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0446-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0446-assistant.txt",
+      "before_sha256": "eb6f88b9acf6fe20534c161d5cd40ce09bd03177c761406a177f523ad9f5a5ce",
+      "after_sha256": "eb6f88b9acf6fe20534c161d5cd40ce09bd03177c761406a177f523ad9f5a5ce",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0447-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0447-assistant.txt",
+      "before_sha256": "60cb22f0d265aff3f8315d704b822661ad3f02c624ef98502b4c9b5ea0d09f96",
+      "after_sha256": "60cb22f0d265aff3f8315d704b822661ad3f02c624ef98502b4c9b5ea0d09f96",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0449-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0449-assistant.txt",
+      "before_sha256": "22fe58bdd533941b4dd8b246036d6565d82a01ab52399d7872b7b81a0607696d",
+      "after_sha256": "22fe58bdd533941b4dd8b246036d6565d82a01ab52399d7872b7b81a0607696d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0451-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0451-assistant.txt",
+      "before_sha256": "5f057ad0c6257dc31f436c0c44772ad3812673785d52f897b3dbbf9bd74cb945",
+      "after_sha256": "5f057ad0c6257dc31f436c0c44772ad3812673785d52f897b3dbbf9bd74cb945",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0453-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0453-assistant.txt",
+      "before_sha256": "365aedf7bcbe1455a2799a460c0e8ba16cb29fee3e60e5c0894ee735357316ba",
+      "after_sha256": "365aedf7bcbe1455a2799a460c0e8ba16cb29fee3e60e5c0894ee735357316ba",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0456-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0456-assistant.txt",
+      "before_sha256": "eaf239195dc525d75e8f38a7103760c2dadc7001bacb5e7b7977995d7101a25e",
+      "after_sha256": "eaf239195dc525d75e8f38a7103760c2dadc7001bacb5e7b7977995d7101a25e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0458-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0458-assistant.txt",
+      "before_sha256": "86905fb3e881780015c71054ecb7846761a1865d604880a60a667a2674986d8e",
+      "after_sha256": "86905fb3e881780015c71054ecb7846761a1865d604880a60a667a2674986d8e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0462-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0462-assistant.txt",
+      "before_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "after_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0468-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0468-assistant.txt",
+      "before_sha256": "d579b8721f283a935c3773dd629abf59892d09f08fa8d70863727cf7dbf1ff1f",
+      "after_sha256": "d579b8721f283a935c3773dd629abf59892d09f08fa8d70863727cf7dbf1ff1f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0469-user.txt",
+      "current_path": ".agent/provenance/source/messages/0469-user.txt",
+      "before_sha256": "5e6ab71f8dd31fff06543ee9eade06fb5c2f5e6f0c84753737dbf75588a31cbb",
+      "after_sha256": "5e6ab71f8dd31fff06543ee9eade06fb5c2f5e6f0c84753737dbf75588a31cbb",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0471-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0471-assistant.txt",
+      "before_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "after_sha256": "5a0718c1b586bd51bc6dcad73c035146f52e5d561376a9248b830b104cbd418b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0472-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0472-assistant.txt",
+      "before_sha256": "e41d8fd417a30a5452e6ea1d83fecb1be7e232d269a1e635660cd0714fe0d8c8",
+      "after_sha256": "e41d8fd417a30a5452e6ea1d83fecb1be7e232d269a1e635660cd0714fe0d8c8",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0475-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0475-assistant.txt",
+      "before_sha256": "553c191f34da07e1f45180244474fa01ee954c89c639e9dfc5e939ec2c49db88",
+      "after_sha256": "553c191f34da07e1f45180244474fa01ee954c89c639e9dfc5e939ec2c49db88",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0482-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0482-assistant.txt",
+      "before_sha256": "080ea572705decfb7ea359127b9efa16cf6a11b87ba267e43f5b3e6e81d95f31",
+      "after_sha256": "080ea572705decfb7ea359127b9efa16cf6a11b87ba267e43f5b3e6e81d95f31",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0485-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0485-assistant.txt",
+      "before_sha256": "eca06507acba35e298dd0ca3eba7a477a4e81a2d8d3d9723266535640d3b0b25",
+      "after_sha256": "eca06507acba35e298dd0ca3eba7a477a4e81a2d8d3d9723266535640d3b0b25",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0497-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0497-assistant.txt",
+      "before_sha256": "799e34eccbd41f7fe2de954d66fb97578afa670f5738b5169cd59a286fe9684f",
+      "after_sha256": "799e34eccbd41f7fe2de954d66fb97578afa670f5738b5169cd59a286fe9684f",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0498-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0498-assistant.txt",
+      "before_sha256": "c5b69ef62c7a3856ae27c95306a8d0414da1eb88dfa7ac836030f5c88cbd09b7",
+      "after_sha256": "c5b69ef62c7a3856ae27c95306a8d0414da1eb88dfa7ac836030f5c88cbd09b7",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0499-user.txt",
+      "current_path": ".agent/provenance/source/messages/0499-user.txt",
+      "before_sha256": "5b3b8f51c31419dac57f40d578fff23dfb4ec3681811602b8daed5498ee419bc",
+      "after_sha256": "5b3b8f51c31419dac57f40d578fff23dfb4ec3681811602b8daed5498ee419bc",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0502-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0502-assistant.txt",
+      "before_sha256": "2ca2ef891f365c1df8cf66d18ca7b44b6d5d35bd3fb2576f010ab7103c68bc71",
+      "after_sha256": "2ca2ef891f365c1df8cf66d18ca7b44b6d5d35bd3fb2576f010ab7103c68bc71",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0504-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0504-assistant.txt",
+      "before_sha256": "207fb1550c39a0d9bbe5d3ce6aafa644b316d53098fb073924a12b3c161a7752",
+      "after_sha256": "207fb1550c39a0d9bbe5d3ce6aafa644b316d53098fb073924a12b3c161a7752",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0511-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0511-assistant.txt",
+      "before_sha256": "001537955f4a1878376aec385f1c568b2ff0a73b171e9c7b9ba44ab1d0e51664",
+      "after_sha256": "001537955f4a1878376aec385f1c568b2ff0a73b171e9c7b9ba44ab1d0e51664",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0513-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0513-assistant.txt",
+      "before_sha256": "d57d151434fe7e3cc87495d953747a404f4a135744c2c21571734e394436673e",
+      "after_sha256": "d57d151434fe7e3cc87495d953747a404f4a135744c2c21571734e394436673e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0520-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0520-assistant.txt",
+      "before_sha256": "a074c2e561a18a8e41cb2fdfce2696bacbb08cac0ab539af6c9e514cd11b1ea5",
+      "after_sha256": "a074c2e561a18a8e41cb2fdfce2696bacbb08cac0ab539af6c9e514cd11b1ea5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0533-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0533-assistant.txt",
+      "before_sha256": "a7d47e1ab89fee5af4edc42d183eb84d3229c78b52895639fffcaef24fc6bc4a",
+      "after_sha256": "a7d47e1ab89fee5af4edc42d183eb84d3229c78b52895639fffcaef24fc6bc4a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0537-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0537-assistant.txt",
+      "before_sha256": "c3d249cffd1a411154cace34790af26942a9c23f217eff505cee0f6c5080176e",
+      "after_sha256": "c3d249cffd1a411154cace34790af26942a9c23f217eff505cee0f6c5080176e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0544-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0544-assistant.txt",
+      "before_sha256": "754ba7eacbbb5b4b9760c3e421d69253993dbab9798f662214b434a0a56e7327",
+      "after_sha256": "754ba7eacbbb5b4b9760c3e421d69253993dbab9798f662214b434a0a56e7327",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0546-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0546-assistant.txt",
+      "before_sha256": "0adb60a49080daace048a7b233e0a03c8bc80048b29b04db625ac59ec1841b90",
+      "after_sha256": "0adb60a49080daace048a7b233e0a03c8bc80048b29b04db625ac59ec1841b90",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0548-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0548-assistant.txt",
+      "before_sha256": "27a4626cc4b6d7c3b97216d48eb8edabe88d872989617c2c2dd921246a0d5274",
+      "after_sha256": "27a4626cc4b6d7c3b97216d48eb8edabe88d872989617c2c2dd921246a0d5274",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0550-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0550-assistant.txt",
+      "before_sha256": "bf97aba1d711b69d4924098a653d023c0fcd6dd7dd8f5a00e12bc2a845d12053",
+      "after_sha256": "bf97aba1d711b69d4924098a653d023c0fcd6dd7dd8f5a00e12bc2a845d12053",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0553-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0553-assistant.txt",
+      "before_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "after_sha256": "188f0d8abc1ced2f6b8cc67526339e1ea0b270dcb5a83977511064ba7a69bb69",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0562-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0562-assistant.txt",
+      "before_sha256": "29f98271f9667f1af6a768889027b1e08c38dab5f410244eb8d933523dc04ffc",
+      "after_sha256": "29f98271f9667f1af6a768889027b1e08c38dab5f410244eb8d933523dc04ffc",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0567-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0567-assistant.txt",
+      "before_sha256": "278490da90f2629bca78101b1437ba078cfa0930fee22fde598b43d64584abe9",
+      "after_sha256": "278490da90f2629bca78101b1437ba078cfa0930fee22fde598b43d64584abe9",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0570-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0570-assistant.txt",
+      "before_sha256": "97c1a64adb26f0a54c9b2d619dc993be3ca087aec76e222f9201116d53450e83",
+      "after_sha256": "97c1a64adb26f0a54c9b2d619dc993be3ca087aec76e222f9201116d53450e83",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0571-user.txt",
+      "current_path": ".agent/provenance/source/messages/0571-user.txt",
+      "before_sha256": "106d24de83c9dcdbbe18b07937bc145105be6c09da938e1ca81f66fa131890a6",
+      "after_sha256": "106d24de83c9dcdbbe18b07937bc145105be6c09da938e1ca81f66fa131890a6",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0573-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0573-assistant.txt",
+      "before_sha256": "0fef8e69b1a44aea2f728c1effd876ed85abb572615f7c2066673c36e9d39f50",
+      "after_sha256": "0fef8e69b1a44aea2f728c1effd876ed85abb572615f7c2066673c36e9d39f50",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0574-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0574-assistant.txt",
+      "before_sha256": "89b4280d5814016db49369888e1c8a111e5ccc9d2748d6d6cc38b4fd6d24b68a",
+      "after_sha256": "89b4280d5814016db49369888e1c8a111e5ccc9d2748d6d6cc38b4fd6d24b68a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0577-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0577-assistant.txt",
+      "before_sha256": "a8a7b408f0d7ed13e87da97b1d551ffc86a5ff528b0e6b91ab16c0719286e212",
+      "after_sha256": "a8a7b408f0d7ed13e87da97b1d551ffc86a5ff528b0e6b91ab16c0719286e212",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0582-user.txt",
+      "current_path": ".agent/provenance/source/messages/0582-user.txt",
+      "before_sha256": "bd669cecef62c41eede78fb6714918943457796acf8f9637ed41e9326c3305a4",
+      "after_sha256": "bd669cecef62c41eede78fb6714918943457796acf8f9637ed41e9326c3305a4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0585-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0585-assistant.txt",
+      "before_sha256": "fa2e2a99464116d82ffbcc669f896e66d37114a1fa73f4b359eb39af1d89323b",
+      "after_sha256": "fa2e2a99464116d82ffbcc669f896e66d37114a1fa73f4b359eb39af1d89323b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0587-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0587-assistant.txt",
+      "before_sha256": "6674b7587db80de0f8efe7c6a49caaf587850edf6a40a9067002f7679939db3c",
+      "after_sha256": "6674b7587db80de0f8efe7c6a49caaf587850edf6a40a9067002f7679939db3c",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0589-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0589-assistant.txt",
+      "before_sha256": "3f32007bfa19d007a7d368fa513b5c60f1933a8f6435da2b8a9ed7f2cbe546a9",
+      "after_sha256": "3f32007bfa19d007a7d368fa513b5c60f1933a8f6435da2b8a9ed7f2cbe546a9",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0598-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0598-assistant.txt",
+      "before_sha256": "b713a1d3047d80263bfa0c975dd1fec2eab1b7c30251d104fc83336d66f64987",
+      "after_sha256": "b713a1d3047d80263bfa0c975dd1fec2eab1b7c30251d104fc83336d66f64987",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0606-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0606-assistant.txt",
+      "before_sha256": "4b5b6a3a86fcc179df7136898122de0aed99809ad37bf9673bc895c99d7c44c4",
+      "after_sha256": "4b5b6a3a86fcc179df7136898122de0aed99809ad37bf9673bc895c99d7c44c4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/messages/0609-assistant.txt",
+      "current_path": ".agent/provenance/source/messages/0609-assistant.txt",
+      "before_sha256": "06e39a186b86c440b3efb1a77643a79b8e59ffd91e7516b3f25ffc176e88458d",
+      "after_sha256": "06e39a186b86c440b3efb1a77643a79b8e59ffd91e7516b3f25ffc176e88458d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/refresh-20261019T145800Z/comparison.json",
+      "current_path": ".agent/provenance/source/refresh-20261019T145800Z/comparison.json",
+      "before_sha256": "93a430dcfd756b9173d28fcaa40330f6387d145b1b219ea6f9406c5ee9b69802",
+      "after_sha256": "93a430dcfd756b9173d28fcaa40330f6387d145b1b219ea6f9406c5ee9b69802",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/refresh-20261019T145800Z/no-cache-conversation.json",
+      "current_path": ".agent/provenance/source/refresh-20261019T145800Z/no-cache-conversation.json",
+      "before_sha256": "264082ea1e82baccb365ff14d55a65dcdabe35ea04fad0ec835bf9739e9321e2",
+      "after_sha256": "264082ea1e82baccb365ff14d55a65dcdabe35ea04fad0ec835bf9739e9321e2",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/refresh-20261019T145800Z/no-cache.html.txt",
+      "current_path": ".agent/provenance/source/refresh-20261019T145800Z/no-cache.html.txt",
+      "before_sha256": "6b29518d459f03aa3449e01df359a9f404f8d193b4f99b4dad3ce9747bdfdc91",
+      "after_sha256": "6b29518d459f03aa3449e01df359a9f404f8d193b4f99b4dad3ce9747bdfdc91",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/refresh-20261019T145800Z/normal-conversation.json",
+      "current_path": ".agent/provenance/source/refresh-20261019T145800Z/normal-conversation.json",
+      "before_sha256": "456f28eac9a6bd49f680ab68d65ef265130476f1a2b8a36462bf26693c2402b8",
+      "after_sha256": "456f28eac9a6bd49f680ab68d65ef265130476f1a2b8a36462bf26693c2402b8",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/refresh-20261019T145800Z/normal.html.txt",
+      "current_path": ".agent/provenance/source/refresh-20261019T145800Z/normal.html.txt",
+      "before_sha256": "6927ebb4af48a6fb9457f0b95bd355b032f796346775d25c5c9841440a6a98c6",
+      "after_sha256": "6927ebb4af48a6fb9457f0b95bd355b032f796346775d25c5c9841440a6a98c6",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/source/shared-chat.html.txt",
+      "current_path": ".agent/provenance/source/shared-chat.html.txt",
+      "before_sha256": "5e5e32ba53ed0ab4d9d2000879e77c3646bdb900c472801bb64d2de757c5888a",
+      "after_sha256": "5e5e32ba53ed0ab4d9d2000879e77c3646bdb900c472801bb64d2de757c5888a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
+      "current_path": ".agent/provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
+      "before_sha256": "119da5f14f3e27ab3c679ad3422b8c81d6cf8bbed1a907ad1c365059f044e2e5",
+      "after_sha256": "119da5f14f3e27ab3c679ad3422b8c81d6cf8bbed1a907ad1c365059f044e2e5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/supplemental-evidence/v1.6.0-parent-report.json",
+      "current_path": ".agent/provenance/supplemental-evidence/v1.6.0-parent-report.json",
+      "before_sha256": "2a86110fec4b6bf0263924ab23ae220e5aa81e42ab3d4f22aa8af56bf6274ea4",
+      "after_sha256": "2a86110fec4b6bf0263924ab23ae220e5aa81e42ab3d4f22aa8af56bf6274ea4",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/build_repository.py",
+      "current_path": ".agent/provenance/tools/build_repository.py",
+      "before_sha256": "21604a39fbca280e2423c537af25664348039d23858bebdf89a90796be759e6a",
+      "after_sha256": "21604a39fbca280e2423c537af25664348039d23858bebdf89a90796be759e6a",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/compare_refreshed_share.py",
+      "current_path": ".agent/provenance/tools/compare_refreshed_share.py",
+      "before_sha256": "8f3d4eede03c8d868ea96ef38a92203a0be4799e74d893d360aa64ade41419f1",
+      "after_sha256": "8f3d4eede03c8d868ea96ef38a92203a0be4799e74d893d360aa64ade41419f1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/correct_v1_6_inventory.py",
+      "current_path": ".agent/provenance/tools/correct_v1_6_inventory.py",
+      "before_sha256": "cfb212b0d0ca0c2f604bbf13bf1909786429eac2a9d91eb1ba1eb943526a51a1",
+      "after_sha256": "cfb212b0d0ca0c2f604bbf13bf1909786429eac2a9d91eb1ba1eb943526a51a1",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/finalize_repository.py",
+      "current_path": ".agent/provenance/tools/finalize_repository.py",
+      "before_sha256": "af550ed8307841b57d455bf2937c73eee3c41589793e193010103ae19cd0de97",
+      "after_sha256": "af550ed8307841b57d455bf2937c73eee3c41589793e193010103ae19cd0de97",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/import_uploaded_groups.py",
+      "current_path": ".agent/provenance/tools/import_uploaded_groups.py",
+      "before_sha256": "9fd9b255cf7e200f885e96f0ebc3d143b70f7c24d94d1df09f3fa0e89239459d",
+      "after_sha256": "9fd9b255cf7e200f885e96f0ebc3d143b70f7c24d94d1df09f3fa0e89239459d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/import_uploaded_v1_4.py",
+      "current_path": ".agent/provenance/tools/import_uploaded_v1_4.py",
+      "before_sha256": "fd587ab9d049459fe2737d23821b383687a918ec57d15655c8810e7ef51806f5",
+      "after_sha256": "fd587ab9d049459fe2737d23821b383687a918ec57d15655c8810e7ef51806f5",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/prepare_archive.py",
+      "current_path": ".agent/provenance/tools/prepare_archive.py",
+      "before_sha256": "22bff81878cb413e9c2ce447839d3bf5fbdd8254b229f5fb066d131f6c628487",
+      "after_sha256": "22bff81878cb413e9c2ce447839d3bf5fbdd8254b229f5fb066d131f6c628487",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/receive_transfer_turn_2.py",
+      "current_path": ".agent/provenance/tools/receive_transfer_turn_2.py",
+      "before_sha256": "2b83b715fdadf30105f6429088849e5e396bfcd2c281183087d799f2f830d0ec",
+      "after_sha256": "2b83b715fdadf30105f6429088849e5e396bfcd2c281183087d799f2f830d0ec",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/reconcile_attachment_audit.py",
+      "current_path": ".agent/provenance/tools/reconcile_attachment_audit.py",
+      "before_sha256": "465e2fe1ee6a80bb66ffe6b1160a24a00c6fdbeae9f970d4c9f4674abda4a024",
+      "after_sha256": "465e2fe1ee6a80bb66ffe6b1160a24a00c6fdbeae9f970d4c9f4674abda4a024",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/reconcile_uploaded_groups.py",
+      "current_path": ".agent/provenance/tools/reconcile_uploaded_groups.py",
+      "before_sha256": "bfeaaccc6fede473e6c306a2539546bc978867902581476a11288aa610662b40",
+      "after_sha256": "bfeaaccc6fede473e6c306a2539546bc978867902581476a11288aa610662b40",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/record_browser_auth_block.py",
+      "current_path": ".agent/provenance/tools/record_browser_auth_block.py",
+      "before_sha256": "77039f5567c441050888fac7c7b36760092643b3ea3690423e6cee1b997b929b",
+      "after_sha256": "77039f5567c441050888fac7c7b36760092643b3ea3690423e6cee1b997b929b",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/record_native_app_denial.py",
+      "current_path": ".agent/provenance/tools/record_native_app_denial.py",
+      "before_sha256": "16b31960c5a77d8636b516398178bf5a11edc5e60a89fd65da2b9ab03fff4359",
+      "after_sha256": "16b31960c5a77d8636b516398178bf5a11edc5e60a89fd65da2b9ab03fff4359",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/tools/record_share_refresh.py",
+      "current_path": ".agent/provenance/tools/record_share_refresh.py",
+      "before_sha256": "09bca1dd4745acb8aa377ddc8b5ddcd88205f5c98021fa701dc31bb62bab4df3",
+      "after_sha256": "09bca1dd4745acb8aa377ddc8b5ddcd88205f5c98021fa701dc31bb62bab4df3",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/upload-recovery-audit.json",
+      "current_path": ".agent/provenance/upload-recovery-audit.json",
+      "before_sha256": "bb8e9c1dda7beb9340ca68e36ca42ffaa4999fcf8d5cda7a4487bf747ebc3b0d",
+      "after_sha256": "bb8e9c1dda7beb9340ca68e36ca42ffaa4999fcf8d5cda7a4487bf747ebc3b0d",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "current_path": ".agent/provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "before_sha256": "15bfdda4933cd9a606e0b6ace7224b00d22ef36b28d05599c5edbeeb8fabdfd7",
+      "after_sha256": "15bfdda4933cd9a606e0b6ace7224b00d22ef36b28d05599c5edbeeb8fabdfd7",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-1-v1.4.0/static-inspection.json",
+      "current_path": ".agent/provenance/user-uploads/turn-1-v1.4.0/static-inspection.json",
+      "before_sha256": "f4e3b091ee7e4076f2957ec88e80607ba09bdee2c22992b67ee754a8edbd8f73",
+      "after_sha256": "f4e3b091ee7e4076f2957ec88e80607ba09bdee2c22992b67ee754a8edbd8f73",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-1-v1.4.0/transport-verification.json",
+      "current_path": ".agent/provenance/user-uploads/turn-1-v1.4.0/transport-verification.json",
+      "before_sha256": "6700b85629a40511506c3c819502ce5059ba861d784871dbbc4311d19760f2e0",
+      "after_sha256": "6700b85629a40511506c3c819502ce5059ba861d784871dbbc4311d19760f2e0",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+      "current_path": ".agent/provenance/user-uploads/turn-2-v1.5.0/receipt.json",
+      "before_sha256": "37b857bcb6acc4b9b0d5a6605eeb892323ac60ab899dced27594b1d45a423a59",
+      "after_sha256": "37b857bcb6acc4b9b0d5a6605eeb892323ac60ab899dced27594b1d45a423a59",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-2-v1.5.0/static-inspection.json",
+      "current_path": ".agent/provenance/user-uploads/turn-2-v1.5.0/static-inspection.json",
+      "before_sha256": "35824005c5a2122ce1252efc8d5b0a82319fe6ab317d0a8939ed0288f4e7586e",
+      "after_sha256": "35824005c5a2122ce1252efc8d5b0a82319fe6ab317d0a8939ed0288f4e7586e",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-2-v1.5.0/transport-verification.json",
+      "current_path": ".agent/provenance/user-uploads/turn-2-v1.5.0/transport-verification.json",
+      "before_sha256": "b6612ec5ddaf3ea93f042f30a764f198ff054dbc5c4ffaac121e33ddf9a5c325",
+      "after_sha256": "b6612ec5ddaf3ea93f042f30a764f198ff054dbc5c4ffaac121e33ddf9a5c325",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+      "current_path": ".agent/provenance/user-uploads/turn-3-v1.6.0/receipt.json",
+      "before_sha256": "b28f14a7328e0e62ffd1745749d97923e4ebd1d895076656d8d0b1d67d89bb70",
+      "after_sha256": "b28f14a7328e0e62ffd1745749d97923e4ebd1d895076656d8d0b1d67d89bb70",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-3-v1.6.0/static-inspection.json",
+      "current_path": ".agent/provenance/user-uploads/turn-3-v1.6.0/static-inspection.json",
+      "before_sha256": "90bb4b39d1b194b0e016d055e95005ce428ecf3665d7b27b916d5ca0ac8e07bd",
+      "after_sha256": "90bb4b39d1b194b0e016d055e95005ce428ecf3665d7b27b916d5ca0ac8e07bd",
+      "content_changed": false
+    },
+    {
+      "previous_path": ".provenance/user-uploads/turn-3-v1.6.0/transport-verification.json",
+      "current_path": ".agent/provenance/user-uploads/turn-3-v1.6.0/transport-verification.json",
+      "before_sha256": "86ed0b7f6d839c97e39ab42fd92f88101359dbae405489cbe407b496d0d12e1a",
+      "after_sha256": "86ed0b7f6d839c97e39ab42fd92f88101359dbae405489cbe407b496d0d12e1a",
+      "content_changed": false
+    },
+    {
+      "previous_path": "ATTACHMENTS.md",
+      "current_path": ".agent/docs/ATTACHMENTS.md",
+      "before_sha256": "63050c000e893da1924797fc5ef1536ba0ba93ad068732ae1a1f9831309bc07b",
+      "after_sha256": "5d5163a67c90cc388287105c185575a210ce7c6469fe65260fe127d7b3755fed",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "BROWSER_ACCESS.md",
+      "current_path": ".agent/docs/BROWSER_ACCESS.md",
+      "before_sha256": "d2180a18962e099867f91131e05400b6c4a49851fb0bc6eb2e94f4d72b62fecb",
+      "after_sha256": "6a923bb0828a8cb33c922954c63183582bf42077d736bfa69492ec5c2baa7cdd",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "GAPS.md",
+      "current_path": ".agent/docs/GAPS.md",
+      "before_sha256": "2f80c1b27a6dbd74af04c403990aac639cd5b5f6d4be56736714e7599d1313a5",
+      "after_sha256": "64549b88efc4178ab6a0f72fe24901e153ff23bb1734eaccce4de67c6acdc627",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "README.md",
+      "current_path": "README.md",
+      "before_sha256": "464bfc81d5b3baa724423fc25fe707536a8ac340c30fe2ef769e85cb6a9c7c40",
+      "after_sha256": "da65002d1d34096917a45d90e9cbcfd753a91ff65979ca397fd716d983e0bd64",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "REFRESH.md",
+      "current_path": ".agent/docs/REFRESH.md",
+      "before_sha256": "a64ec19daab1332b8a028887a7aa923b30cec41989d172120b166cc202d3c7fe",
+      "after_sha256": "6f90638c846df4edbc763eece8aeed98a4bf3cc27f0672607f167c13ceec0fe0",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "REVISIONS.md",
+      "current_path": ".agent/docs/REVISIONS.md",
+      "before_sha256": "52ba0886dc35501c3a7a64aabbff570580da2932168ecebc4a17bb9214372637",
+      "after_sha256": "a6b7f2d4ba1b43981db8436fc2ab77a2a33f044a7c9f38d03cde7bf3050e85f4",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "TF2_HUD_Gallery.html",
+      "current_path": ".agent/work/gallery/TF2_HUD_Gallery.html",
+      "before_sha256": "2f245d5b39f410a77dca39a6c7f46f760986dd2aa077e25c9ed1f31eac37e679",
+      "after_sha256": "2f245d5b39f410a77dca39a6c7f46f760986dd2aa077e25c9ed1f31eac37e679",
+      "content_changed": false
+    },
+    {
+      "previous_path": "TF2_HUD_Update_README.md",
+      "current_path": "TF2_HUD_Update_README.md",
+      "before_sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
+      "after_sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
+      "content_changed": false
+    },
+    {
+      "previous_path": "TF2_HUD_Visual_Comparison.html",
+      "current_path": null,
+      "before_sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+      "after_sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+      "content_changed": false,
+      "retention": "history_only",
+      "preserved_commit": "618beb0913ab4670bdc0a035e4fa7fe376a99963",
+      "preserved_path": "TF2_HUD_Visual_Comparison.html",
+      "removal_reason": "The user authorized removal after all README images were visibly confirmed; 15/15 were decoded and visually inspected in Safari."
+    },
+    {
+      "previous_path": "UPLOADS.md",
+      "current_path": ".agent/docs/UPLOADS.md",
+      "before_sha256": "df9a770c97c5ca3204bb307b36988e32659132fec4bd55d23b1ffea0ff346489",
+      "after_sha256": "94a7d1147fe20b2c510190b3c12278315f2d95f33b2551c448f32898a9a06708",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "add_hud_tests.py",
+      "current_path": ".agent/work/patches/add_hud_tests.py",
+      "before_sha256": "ec73357a2f4655aec5c081df7d217cc23fb969adeafce1a572d0071715fcf937",
+      "after_sha256": "ec73357a2f4655aec5c081df7d217cc23fb969adeafce1a572d0071715fcf937",
+      "content_changed": false
+    },
+    {
+      "previous_path": "alternatives/medic/tf/cfg/overrides/autoexec.cfg",
+      "current_path": "examples/medic/tf/cfg/overrides/autoexec.cfg",
+      "before_sha256": "7ea8d691642882ac5a8ae2062d1f62c61d46a9e3a788946c0b4cbfaba79de438",
+      "after_sha256": "7ea8d691642882ac5a8ae2062d1f62c61d46a9e3a788946c0b4cbfaba79de438",
+      "content_changed": false
+    },
+    {
+      "previous_path": "build_hud_gallery.py",
+      "current_path": ".agent/work/gallery/build_hud_gallery.py",
+      "before_sha256": "bf44543dcf2bbe7b8aff4ce5ea5e035181b3937acc6e9bc984afd48c7db6ca84",
+      "after_sha256": "bf44543dcf2bbe7b8aff4ce5ea5e035181b3937acc6e9bc984afd48c7db6ca84",
+      "content_changed": false
+    },
+    {
+      "previous_path": "case-variants/TF2_HUD_UPDATE_README.md",
+      "current_path": ".agent/history/case-variants/TF2_HUD_UPDATE_README.md",
+      "before_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "after_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "content_changed": false
+    },
+    {
+      "previous_path": "extend_huds.py",
+      "current_path": ".agent/work/patches/extend_huds.py",
+      "before_sha256": "56dfc1baa1a8386ac459bb3323f3f0dbbe5c7b093ad23be313963cd81bb6167f",
+      "after_sha256": "56dfc1baa1a8386ac459bb3323f3f0dbbe5c7b093ad23be313963cd81bb6167f",
+      "content_changed": false
+    },
+    {
+      "previous_path": "hud_preview_sources.json",
+      "current_path": ".agent/work/gallery/hud_preview_sources.json",
+      "before_sha256": "9e0a699aec0963f6e4b10c1d55d76fd360bec71d9c347954762d99dd9b13b763",
+      "after_sha256": "9e0a699aec0963f6e4b10c1d55d76fd360bec71d9c347954762d99dd9b13b763",
+      "content_changed": false
+    },
+    {
+      "previous_path": "reconstructions/incomplete-v1.5.0/README.md",
+      "current_path": ".agent/reconstructions/incomplete-v1.5.0/README.md",
+      "before_sha256": "a20ee55e5b15c77fa76df1dc63ba86b724b8b70caa236a7415b6aa9a366b547d",
+      "after_sha256": "e76eee0140cff6eb77e240740bab9ee2500967667aadb1af2a0c6eadcdbf334e",
+      "content_changed": true,
+      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+    },
+    {
+      "previous_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
+      "current_path": ".agent/reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
+      "before_sha256": "94946591d85997e4ba7de18f5492111d6a93c5e831d4665fedc3e46993a3ac19",
+      "after_sha256": "94946591d85997e4ba7de18f5492111d6a93c5e831d4665fedc3e46993a3ac19",
+      "content_changed": false
+    },
+    {
+      "previous_path": "reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
+      "current_path": ".agent/reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
+      "before_sha256": "d2eb7833ef29d2cb2403bb440ce56566146d5661f88c21f43b73252d246b4e45",
+      "after_sha256": "d2eb7833ef29d2cb2403bb440ce56566146d5661f88c21f43b73252d246b4e45",
+      "content_changed": false
+    },
+    {
+      "previous_path": "setup_tf2_bazzite.py",
+      "current_path": "setup_tf2_bazzite.py",
+      "before_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+      "after_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+      "content_changed": false
+    },
+    {
+      "previous_path": "test_setup_tf2_bazzite.py",
+      "current_path": "test_setup_tf2_bazzite.py",
+      "before_sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
+      "after_sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf/cfg/overrides/autoexec.cfg",
+      "current_path": "examples/tf/cfg/overrides/autoexec.cfg",
+      "before_sha256": "98dbf16337edc160e8993c6c6be86ea0948f0b248128902a040cbd9488c08d0c",
+      "after_sha256": "98dbf16337edc160e8993c6c6be86ea0948f0b248128902a040cbd9488c08d0c",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf/cfg/overrides/modules.cfg",
+      "current_path": "examples/tf/cfg/overrides/modules.cfg",
+      "before_sha256": "4e5dfb1a4dd5fb28749c5b2d68275d71f758ddbb9aecd8812854815d44d5d159",
+      "after_sha256": "4e5dfb1a4dd5fb28749c5b2d68275d71f758ddbb9aecd8812854815d44d5d159",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py",
+      "current_path": ".agent/work/tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py",
+      "before_sha256": "54bab4664b2101ed52ef1aec7e7a27c50500be78af8666204b05e66ce3848f6c",
+      "after_sha256": "54bab4664b2101ed52ef1aec7e7a27c50500be78af8666204b05e66ce3848f6c",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+      "current_path": ".agent/work/tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+      "before_sha256": "b5baed3a758a35917db5833cc3a51be91feede7238e063675e5fa431b3a3136e",
+      "after_sha256": "b5baed3a758a35917db5833cc3a51be91feede7238e063675e5fa431b3a3136e",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2-script-tests/test_setup_v1_2.py",
+      "current_path": ".agent/work/tf2-script-tests/test_setup_v1_2.py",
+      "before_sha256": "e2ff38619b07ce87659fc3b2dfbb8d9c728df1412201a96e3b690236cedd710f",
+      "after_sha256": "e2ff38619b07ce87659fc3b2dfbb8d9c728df1412201a96e3b690236cedd710f",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2-script-tests/update_script.py",
+      "current_path": ".agent/work/tf2-script-tests/update_script.py",
+      "before_sha256": "b8df88e3194ebe8915f6fa151d43c898db9c5c9bacadd02852f28043be240b47",
+      "after_sha256": "b8df88e3194ebe8915f6fa151d43c898db9c5c9bacadd02852f28043be240b47",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2-script-tests/upgrade_v1_2.py",
+      "current_path": ".agent/work/tf2-script-tests/upgrade_v1_2.py",
+      "before_sha256": "b13d9cc7981e0740c6b48397b0d3db97036c959f8aff00babb45ab1ab637e393",
+      "after_sha256": "b13d9cc7981e0740c6b48397b0d3db97036c959f8aff00babb45ab1ab637e393",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+      "current_path": ".agent/work/tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+      "before_sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "after_sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_hud_work/test_setup_tf2_bazzite.py",
+      "current_path": ".agent/work/tf2_hud_work/test_setup_tf2_bazzite.py",
+      "before_sha256": "daf65caafee770531824f04cd170a51df3ca24591089fbc906f0473fa9748a04",
+      "after_sha256": "daf65caafee770531824f04cd170a51df3ca24591089fbc906f0473fa9748a04",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_hud_work/upgrade_script.py",
+      "current_path": ".agent/work/tf2_hud_work/upgrade_script.py",
+      "before_sha256": "71fa61ac1036a729b1d49b248d3caf06670dab452758afac0e8c068e2b8d4839",
+      "after_sha256": "71fa61ac1036a729b1d49b248d3caf06670dab452758afac0e8c068e2b8d4839",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_work/setup_tf2_bazzite_v1_2_0.py",
+      "current_path": ".agent/work/tf2_work/setup_tf2_bazzite_v1_2_0.py",
+      "before_sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "after_sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_work/setup_tf2_bazzite_v1_3_0.py",
+      "current_path": ".agent/work/tf2_work/setup_tf2_bazzite_v1_3_0.py",
+      "before_sha256": "d806076c571a21fbf8dd14774172e37f6d40feae4a46047d391e3dcbb8e79b0b",
+      "after_sha256": "d806076c571a21fbf8dd14774172e37f6d40feae4a46047d391e3dcbb8e79b0b",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_work/test_v1_3_0.py",
+      "current_path": ".agent/work/tf2_work/test_v1_3_0.py",
+      "before_sha256": "daf65caafee770531824f04cd170a51df3ca24591089fbc906f0473fa9748a04",
+      "after_sha256": "daf65caafee770531824f04cd170a51df3ca24591089fbc906f0473fa9748a04",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_work/update_script.py",
+      "current_path": ".agent/work/tf2_work/update_script.py",
+      "before_sha256": "405aab7a0913d298ac9dc16679761f02822a39f5deea7647ddeb2afbd43d5ae4",
+      "after_sha256": "405aab7a0913d298ac9dc16679761f02822a39f5deea7647ddeb2afbd43d5ae4",
+      "content_changed": false
+    },
+    {
+      "previous_path": "tf2_work/v1_3_1.diff",
+      "current_path": ".agent/work/tf2_work/v1_3_1.diff",
+      "before_sha256": "87f74c78de4cffe4b94b866ca920ede991a4030d33dec9ec36e09b59c6e81f2b",
+      "after_sha256": "87f74c78de4cffe4b94b866ca920ede991a4030d33dec9ec36e09b59c6e81f2b",
+      "content_changed": false
+    }
+  ],
+  "new_files": [
+    ".agent/README.md",
+    "examples/README.md",
+    ".agent/manifests/layout.json",
+    ".agent/manifests/files.sha256.json",
+    ".agent/manifests/validation.json",
+    ".agent/tools/check_layout.py",
+    ".agent/.gitignore",
+    ".agent/manifests/readme-command-audit.json",
+    ".agent/manifests/visual-comparison.json",
+    ".agent/tools/render_readme.py"
+  ]
+}

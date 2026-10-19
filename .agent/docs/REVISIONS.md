@@ -1,6 +1,8 @@
 # Revisões recuperadas
 
-**52 registros em 28 caminhos de artefatos.** Classificação: 18 literais, 22 reconstruções estáticas, dois candidatos incompletos e dez originais recebidos por upload. São 25 commits de conteúdo e oito de documentação/evidências, totalizando 33. Os 30 commits anteriores aos grupos 2 e 3 permanecem intactos.
+**52 registros em 28 caminhos de artefatos.** Classificação: 18 literais, 22 reconstruções estáticas, dois candidatos incompletos e dez originais recebidos por upload. Antes desta reorganização, eram 25 commits de conteúdo e oito de documentação/evidências, totalizando 33 commits preservados. Os 30 commits anteriores aos grupos 2 e 3 permanecem intactos.
+
+Os caminhos da tabela são os caminhos históricos nos commits indicados, preservados para uso com `git show COMMIT:CAMINHO`. A localização atual consta em [layout.json](../manifests/layout.json).
 
 A tabela segue a data da fonte. Recuperações tardias aparecem em commits acrescentados ao final do Git; seus recibos preservam a data histórica, sem reescrever o histórico existente.
 
@@ -63,10 +65,10 @@ A tabela segue a data da fonte. Recuperações tardias aparecem em commits acres
 | `TF2_HUD_Gallery.html` | 1 |
 | `TF2_HUD_Visual_Comparison.html` | 1 |
 
-Os detalhes de cada revisão, inclusive classificação, nome recebido, caminho original quando conhecido, receita e SHA-256, estão em `.provenance/revisions.json`. A contagem mede registros de preservação e não afirma que cada registro ou link representa bytes distintos.
+Os detalhes de cada revisão, inclusive classificação, nome recebido, caminho original quando conhecido, receita e SHA-256, estão em `.agent/provenance/revisions.json`. A contagem mede registros de preservação e não afirma que cada registro ou link representa bytes distintos.
 
 O instalador canônico possui 11 estados. As duas implementações v1.3.0 e o estado literal 1.3.1 foram mantidos. Os candidatos incompletos v1.5.0 continuam classificados como tal; não substituem o grupo original recebido.
 
-A raiz agora apresenta o grupo v1.6.0 para instalador, testes e README e o HTML original do grupo v1.5.0. As suítes originais têm 56, 75 e 103 métodos de teste contados estaticamente, sem execução. O corpo do HTML foi recebido; os screenshots externos e uma galeria offline já reparada não foram entregues.
+A raiz apresenta o grupo v1.6.0 para instalador, testes e guia. O [README principal](../../README.md) contém a comparação visual; o HTML original do grupo v1.5.0 permanece em seu commit de origem, após remoção da árvore atual condicionada à [verificação visual das 15 imagens](../manifests/visual-comparison.json). As suítes originais têm 56, 75 e 103 métodos de teste contados estaticamente, sem execução. O corpo do HTML foi recebido; os screenshots externos e uma galeria offline já reparada não foram entregues.
 
 As rechecagens públicas não acrescentaram conteúdo à captura. Os originais posteriores vieram por upload. A auditoria de 19 referências históricas, com nove ainda sem originais associados, permanece em [ATTACHMENTS.md](ATTACHMENTS.md). [GAPS.md](GAPS.md) descreve por que a recuperação integral ainda não pode ser declarada.

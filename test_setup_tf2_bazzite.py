@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py v1.6.1.
+"""Offline regression tests for setup_tf2_bazzite.py v1.6.2.
 
 Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
 Steam, network, fonts, or downloaded HUD assets are needed or exercised.
@@ -26,6 +26,7 @@ SCRIPT = Path(os.environ.get('TF2_SETUP_SCRIPT', str(Path(__file__).with_name('s
 spec = importlib.util.spec_from_file_location('tf2_setup_tested', SCRIPT)
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
+PRODUCTION_MAXIHUD_PINS = dict(m.MAXIHUD_REVIEWED_SHA256)
 
 
 def write(path, text):
@@ -82,7 +83,7 @@ class Response(io.BytesIO):
         return 'https://github.com/example/release.zip'
 
 
-class SetupTests(unittest.TestCase):
+class SetupFixture(unittest.TestCase):
     def setUp(self):
         platform = patch.object(m.sys, 'platform', 'linux')
         platform.start()
@@ -90,12 +91,6 @@ class SetupTests(unittest.TestCase):
         network = patch.object(m.urllib.request, 'urlopen', side_effect=AssertionError('Unexpected live HTTP in offline tests'))
         network.start()
         self.addCleanup(network.stop)
-        fixture = maxihud_fixture()
-        reviewed = patch.object(m, 'MAXIHUD_REVIEWED_SHA256',
-                                {rel: hashlib.sha256(fixture[rel].encode()).hexdigest()
-                                 for rel in m.MAXIHUD_REVIEWED_SHA256})
-        reviewed.start()
-        self.addCleanup(reviewed.stop)
         self.temp = tempfile.TemporaryDirectory(prefix='tf2-regression-')
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
@@ -156,6 +151,17 @@ class SetupTests(unittest.TestCase):
              contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             result = m.main()
         return result, stdout.getvalue(), stderr.getvalue(), download, confirm, closed
+
+class SetupTests(SetupFixture):
+    """Artificial-data unit tests; production archive tests never inherit this pin mock."""
+    def setUp(self):
+        super().setUp()
+        fixture = maxihud_fixture()
+        reviewed = patch.object(m, 'MAXIHUD_REVIEWED_SHA256',
+                                {rel: hashlib.sha256(fixture[rel].encode()).hexdigest()
+                                 for rel in PRODUCTION_MAXIHUD_PINS})
+        reviewed.start()
+        self.addCleanup(reviewed.stop)
 
     def test_catalog_choices_include_previous_and_new(self):
         self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'middlemann', 'centerhud', 'idhud', 'hudfixes', 'rayshud', 'budhud', 'maxihud', 'toonhud'})
@@ -1027,6 +1033,81 @@ class SetupTests(unittest.TestCase):
             self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--dry-run')
         self.assertEqual(target.read_text(), 'private file')
 
+    def test_maxihud_lf_and_crlf_preflight_and_prepare(self):
+        for ending in ('LF', 'CRLF'):
+            contents = maxihud_fixture()
+            if ending == 'CRLF':
+                contents.update({rel: contents[rel].replace('\n', '\r\n') for rel in m.MAXIHUD_CRLF_FILES})
+            path = self.make_local_zip('maxihud', contents)
+            asset = m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+            prepared = m.prepare_hud(path, self.root / ('eol-' + ending), 'maxihud', asset)
+            self.assertTrue(m.hud_is_current(prepared, 'maxihud', asset))
+            self.assertEqual((prepared / 'scripts/hudlayout.res').read_bytes(), contents['scripts/hudlayout.res'].encode())
+            self.assertEqual(asset['sha256'], m.tree_hash(path))
+
+    def test_maxihud_crlf_adaptation_preserves_input_and_resource_endings(self):
+        source = {rel: text.encode() for rel, text in maxihud_fixture().items()}
+        for rel in m.MAXIHUD_CRLF_FILES:
+            source[rel] = source[rel].replace(b'\n', b'\r\n')
+        original = dict(source)
+        result = m.maxihud_menu_files(source)
+        self.assertEqual(source, original)
+        self.assertEqual(result['resource/gamemenu.res'], source['resource/gamemenu.res'].replace(b'; mat_queue_mode 0', b''))
+        self.assertEqual(result[m.MAXIHUD_MENU_FRAME], source[m.MAXIHUD_MENU_FRAME].replace(b'; mat_queue_mode -1', b''))
+        self.assertIn(b'\r\n', result[m.MAXIHUD_MENU_FRAME])
+
+    def test_maxihud_resource_one_byte_change_is_rejected_in_both_paths(self):
+        for index, rel in enumerate(m.MAXIHUD_CRLF_FILES):
+            with self.subTest(path=rel):
+                contents = maxihud_fixture()
+                contents[rel] = contents[rel].replace('\n', '\r\n') + ' '
+                path = self.make_local_zip('maxihud', contents)
+                with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                    m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+                with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                    m.prepare_hud(path, self.root / ('mutated-eol-' + str(index)), 'maxihud', {'version': 'test', 'sha256': m.tree_hash(path)})
+
+    def test_maxihud_missing_resource_is_rejected_in_both_paths(self):
+        for index, rel in enumerate(m.MAXIHUD_CRLF_FILES):
+            contents = maxihud_fixture()
+            del contents[rel]
+            path = self.root / ('missing-eol-' + str(index) + '.zip')
+            contents['cfg/maxihud_customization.cfg'] = 'excluded bootstrap'
+            contents['scripts/test-only-root.res'] = '"Fixture" {}'
+            with zipfile.ZipFile(path, 'w') as archive:
+                for name, body in {'info.vdf': '"HUD" {}', **contents}.items():
+                    archive.writestr('maxihud/' + name, body)
+            with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+            with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                m.prepare_hud(path, self.root / ('missing-eol-prepare-' + str(index)), 'maxihud', {'version': 'test', 'sha256': m.tree_hash(path)})
+
+    def test_maxihud_cfg_crlf_is_not_canonicalized(self):
+        for index, rel in enumerate(m.MAXIHUD_ALIAS_FILES):
+            path = self.make_local_zip('maxihud', {rel: maxihud_fixture()[rel].replace('\n', '\r\n')})
+            with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+            with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                m.prepare_hud(path, self.root / ('cfg-crlf-' + str(index)), 'maxihud', {'version': 'test', 'sha256': m.tree_hash(path)})
+
+    def test_maxihud_crlf_preview_apply_repeat_and_exact_restore(self):
+        content = maxihud_fixture()
+        content.update({rel: content[rel].replace('\n', '\r\n') for rel in m.MAXIHUD_CRLF_FILES})
+        path = self.make_local_zip('maxihud', content)
+        args = ('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        before = self.snapshot()
+        self.run_main(*args, '--dry-run')
+        self.assertEqual(self.snapshot(), before)
+        before_tf = self.snapshot(self.tf)
+        self.run_main(*args)
+        after_apply = self.snapshot()
+        self.assertIn('Already configured', self.run_main(*args)[1])
+        self.assertEqual(self.snapshot(), after_apply)
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-crlf-restore')
+        self.assertEqual(self.snapshot(self.tf), before_tf)
+
     def resource_main(self, *args):
         """Resource helpers must not discover TF2 or run any setup operation."""
         out, err = io.StringIO(), io.StringIO()
@@ -1325,6 +1406,109 @@ class SetupTests(unittest.TestCase):
         with self.assertRaises(m.SetupError):
             m.write_new_file(symlink, b'replacement')
         self.assertEqual(path.read_text(), 'keep')
+
+
+class OfficialMaxihudArchiveTests(SetupFixture):
+    """Opt-in real ZIP data in artificial TF2 folders; production pins are never mocked."""
+    def setUp(self):
+        super().setUp()
+        supplied = os.environ.get('TF2_MAXIHUD_OFFICIAL_ZIP')
+        if not supplied:
+            self.skipTest('Set TF2_MAXIHUD_OFFICIAL_ZIP to the v17.5 ZIP downloaded from the README link')
+        self.official = Path(supplied).expanduser().resolve()
+        self.assertTrue(self.official.is_file())
+        self.assertEqual(m.MAXIHUD_REVIEWED_SHA256, PRODUCTION_MAXIHUD_PINS)
+        self.official_digest = m.tree_hash(self.official)
+        self.addCleanup(lambda: self.assertEqual(m.tree_hash(self.official), self.official_digest))
+        with zipfile.ZipFile(self.official) as archive:
+            roots = [name[:-len('info.vdf')] for name in archive.namelist()
+                     if name.endswith('/info.vdf') and name.count('/') == 1]
+            self.assertEqual(len(roots), 1)
+            prefix = roots[0]
+            self.real_files = {rel: archive.read(prefix + rel) for rel in PRODUCTION_MAXIHUD_PINS}
+            self.info = archive.read(prefix + 'info.vdf')
+            self.bootstrap = archive.read(prefix + 'cfg/maxihud_customization.cfg')
+
+    def variant(self, name, files):
+        """A separate test-only ZIP; never rewrite the downloaded official archive."""
+        path = self.root / (name + '.zip')
+        with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as archive:
+            for rel, body in {'info.vdf': self.info, 'cfg/maxihud_customization.cfg': self.bootstrap,
+                              'scripts/test-only-root.res': b'"Fixture" {}', **files}.items():
+                archive.writestr('maxihud/' + rel, body)
+        return path
+
+    def test_official_zip_preflight_and_prepare_use_unmocked_production_pins(self):
+        self.assertTrue(all(b'\r\n' in self.real_files[rel] for rel in m.MAXIHUD_CRLF_FILES))
+        asset = m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(self.official)))
+        self.assertEqual(asset['sha256'], self.official_digest)
+        result = m.prepare_hud(self.official, self.root / 'official-prepared', 'maxihud', asset)
+        marker = json.loads((result / m.HUD_MARKER).read_text())
+        self.assertEqual(marker['archive_sha256'], self.official_digest)
+        self.assertEqual((result / 'scripts/hudlayout.res').read_bytes(), self.real_files['scripts/hudlayout.res'])
+        self.assertEqual((result / 'resource/gamemenu.res').read_bytes(),
+                         self.real_files['resource/gamemenu.res'].replace(b'; mat_queue_mode 0', b''))
+        self.assertEqual((result / m.MAXIHUD_MENU_FRAME).read_bytes(),
+                         self.real_files[m.MAXIHUD_MENU_FRAME].replace(b'; mat_queue_mode -1', b''))
+        self.assertTrue(m.hud_is_current(result, 'maxihud', asset))
+        self.assertFalse((result / 'cfg/maxihud_first_run.cfg').exists())
+        self.assertFalse((result / 'cfg/valve.rc').exists())
+
+    def test_official_lf_resource_variant_passes_both_validation_entry_points(self):
+        files = dict(self.real_files)
+        for rel in m.MAXIHUD_CRLF_FILES:
+            files[rel] = files[rel].replace(b'\r\n', b'\n')
+        path = self.variant('official-lf-variant', files)
+        asset = m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+        result = m.prepare_hud(path, self.root / 'official-lf-prepared', 'maxihud', asset)
+        self.assertNotIn(b'\r\n', (result / m.MAXIHUD_MENU_FRAME).read_bytes())
+        self.assertEqual((result / 'scripts/hudlayout.res').read_bytes(), files['scripts/hudlayout.res'])
+        self.assertEqual(asset['sha256'], m.tree_hash(path))
+        self.assertNotEqual(asset['sha256'], self.official_digest)
+
+    def test_official_zip_dry_run_changes_no_files_or_backup(self):
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'maxihud', '--hud-zip', str(self.official), '--replace-hud', '--dry-run')
+        self.assertEqual(result[0], 0)
+        self.assertEqual(before, self.snapshot())
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertFalse(result[5].called)
+
+    def test_official_zip_simulated_install_repeat_and_restore(self):
+        before = self.snapshot(self.tf)
+        auto = (self.tf / 'cfg/overrides/autoexec.cfg').read_bytes()
+        args = ('--update-only', '--hud', 'maxihud', '--hud-zip', str(self.official), '--replace-hud')
+        self.assertFalse(self.run_main(*args)[3].called)
+        self.assertEqual((self.tf / 'cfg/overrides/autoexec.cfg').read_bytes(), auto + m.MAXIHUD_HOOK)
+        after_apply = m.tree_hash(self.tf)
+        backups = list(self.state.rglob('manifest.json'))
+        self.assertEqual(len(backups), 1)
+        self.assertIn('Already configured', self.run_main(*args)[1])
+        self.assertEqual(m.tree_hash(self.tf), after_apply)
+        self.assertEqual(len(list(self.state.rglob('manifest.json'))), 1)
+        backup = backups[0].parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'official-zip-test-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_official_data_mutation_absence_and_cfg_crlf_are_rejected(self):
+        cases = []
+        for rel in m.MAXIHUD_CRLF_FILES:
+            mutated = dict(self.real_files);mutated[rel] += b' '
+            missing = dict(self.real_files);del missing[rel]
+            cases.extend([(rel + ':one-byte', mutated), (rel + ':absent', missing)])
+        rel = m.MAXIHUD_ALIAS_FILES[0]
+        cfg_crlf = dict(self.real_files);cfg_crlf[rel] = cfg_crlf[rel].replace(b'\n', b'\r\n')
+        cases.append((rel + ':CRLF-not-allowed', cfg_crlf))
+        for index, (label, files) in enumerate(cases):
+            with self.subTest(case=label):
+                path = self.variant('official-negative-' + str(index), files)
+                with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                    m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+                with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                    m.prepare_hud(path, self.root / ('official-negative-prepare-' + str(index)), 'maxihud',
+                                  {'version': 'test-only derivative', 'sha256': m.tree_hash(path)})
 
 
 if __name__ == '__main__':

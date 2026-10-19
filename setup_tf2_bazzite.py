@@ -139,7 +139,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.6.1'
+SCRIPT_VERSION = '1.6.2'
 
 COMFIG = {
     'version': '9.100.1',
@@ -286,6 +286,9 @@ MAXIHUD_REVIEWED_SHA256 = {'cfg/maxihud_customization_general.cfg': '106e0b445a2
  'resource/ui/customizations/#customization_menu/hud_customization_frame.res': 'a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c',
  'scripts/hudlayout.res': 'acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558'}
 MAXIHUD_MENU_FRAME = 'resource/ui/customizations/#customization_menu/hud_customization_frame.res'
+# GitHub archives honor upstream *.res eol=crlf; raw Git blobs use LF.
+# Normalize only these reviewed resource paths for comparison, never archive bytes.
+MAXIHUD_CRLF_FILES = ('resource/gamemenu.res', MAXIHUD_MENU_FRAME, 'scripts/hudlayout.res')
 MAXIHUD_LOADER = 'tf2_competitive_maxihud_menu.cfg'
 MAXIHUD_LOG_ALIAS = 'tf2_setup_maxihud_log_restore'
 MAXIHUD_LOG_DEFAULT = 'alias tf2_setup_maxihud_log_restore "con_logfile console.log; con_timestamp 0"\n'
@@ -1039,7 +1042,10 @@ def plan_hud(tf: Path, name: str, replace: bool, asset: dict | None = None) -> t
 def maxihud_menu_files(source: dict[str, bytes]) -> dict[str, bytes]:
     """Adapt only reviewed v17.5 data; never run HUD cfgs or the first-run loader."""
     for rel, expected in MAXIHUD_REVIEWED_SHA256.items():
-        if rel not in source or hashlib.sha256(source[rel]).hexdigest() != expected:
+        compared = source.get(rel, b'')
+        if rel in MAXIHUD_CRLF_FILES:
+            compared = compared.replace(b'\r\n', b'\n')
+        if rel not in source or hashlib.sha256(compared).hexdigest() != expected:
             raise SetupError('MaxiHUD menu support requires the reviewed v17.5 files: ' + rel
                              + '. Obtain the unmodified v17.5 source ZIP; nothing was applied.')
     result = {}

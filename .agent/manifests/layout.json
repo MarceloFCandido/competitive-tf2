@@ -1,8 +1,8 @@
 {
   "schema_version": 3,
-  "organized_at_utc": "2026-10-19T19:56:32.088334+00:00",
+  "organized_at_utc": "2026-10-19T22:15:02.834579+00:00",
   "repository_root_at_organization": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
-  "previous_head": "12b99160a64f594907b9e8d917de8cfafdd6c98d",
+  "previous_head": "e702be226cb0fa0d93b66ee01798881958554166",
   "previous_commits": [
     "3b8f9bba6478fd4a347c38d0d395f05eadb8d797",
     "3cfea1d9f05e3b4cd3d55490ca68814ec64f997f",
@@ -38,9 +38,10 @@
     "8f781c29adfd62533057c4f87b28af3adb478c8b",
     "df151cddfd73f15c5e775727888ce6b5bfcb9487",
     "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
-    "12b99160a64f594907b9e8d917de8cfafdd6c98d"
+    "12b99160a64f594907b9e8d917de8cfafdd6c98d",
+    "e702be226cb0fa0d93b66ee01798881958554166"
   ],
-  "policy": "One root README; literal historical evidence and all imported commits stay preserved. The current installer/tests are intentionally maintained as v1.6.1, with before/after hashes and scope in maintenance.json.",
+  "policy": "One root README; historical evidence and all imported commits remain intact. Current v1.6.2 maintenance accepts only CRLF/LF differences on three reviewed MaxiHUD resource paths, with before/after hashes in maintenance.json.",
   "files": [
     {
       "previous_path": ".provenance/PROGRESS.md",
@@ -1547,7 +1548,7 @@
       "previous_path": "README.md",
       "current_path": "README.md",
       "before_sha256": "464bfc81d5b3baa724423fc25fe707536a8ac340c30fe2ef769e85cb6a9c7c40",
-      "after_sha256": "b1df08adb913de0cdb3542970eeede9bd486aff1669cc00ed7d2af979f35de89",
+      "after_sha256": "1d66e14245d7917c601b7cd741fceb4b1c0d387c5fbdb891cd386c3c683c72a7",
       "content_changed": true,
       "change_reason": "Curated documentation updated for current layout, maintenance and historical scope; literal evidence is unchanged."
     },
@@ -1563,7 +1564,7 @@
       "previous_path": "REVISIONS.md",
       "current_path": ".agent/docs/REVISIONS.md",
       "before_sha256": "52ba0886dc35501c3a7a64aabbff570580da2932168ecebc4a17bb9214372637",
-      "after_sha256": "27e5c074d29224932392398461fa894adeaf447ff44043c4c09b61cdb57467d5",
+      "after_sha256": "b4302378c7131fce1ff15cc05193203b791a9a96c75207d250bda7ce76e55d08",
       "content_changed": true,
       "change_reason": "Curated documentation updated for current layout, maintenance and historical scope; literal evidence is unchanged."
     },
@@ -1596,7 +1597,7 @@
       "previous_path": "UPLOADS.md",
       "current_path": ".agent/docs/UPLOADS.md",
       "before_sha256": "df9a770c97c5ca3204bb307b36988e32659132fec4bd55d23b1ffea0ff346489",
-      "after_sha256": "b06fff6ed28a7c6965d449428d9c36ad8f3ef60b1350413b79bc67949e2291e4",
+      "after_sha256": "0f72dd3bf3c86e763afad059056c081fc922ff0f5df5ac943258e1a0ee919684",
       "content_changed": true,
       "change_reason": "Curated documentation updated for current layout, maintenance and historical scope; literal evidence is unchanged."
     },
@@ -1668,17 +1669,17 @@
       "previous_path": "setup_tf2_bazzite.py",
       "current_path": "setup_tf2_bazzite.py",
       "before_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
-      "after_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781",
+      "after_sha256": "135b6e23bc36def2b6eb9a9263ab1f0176faa752bc410006380ab51a29dc1dba",
       "content_changed": true,
-      "change_reason": "Authored v1.6.1 MaxiHUD repair; original versions remain in source commits."
+      "change_reason": "Authored maintenance through v1.6.2; original imported source versions remain in Git."
     },
     {
       "previous_path": "test_setup_tf2_bazzite.py",
       "current_path": "test_setup_tf2_bazzite.py",
       "before_sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
-      "after_sha256": "f9cfebb8fae2c6ec8fd004b9fe7b22af39061a72569153651ef4e3181e3c7bee",
+      "after_sha256": "1efb03b90a81734325b67bbd80c22626045f6bc7bb3b0cd5f1396b0e4dcadfc5",
       "content_changed": true,
-      "change_reason": "Authored v1.6.1 MaxiHUD repair; original versions remain in source commits."
+      "change_reason": "Authored maintenance through v1.6.2; original imported source versions remain in Git."
     },
     {
       "previous_path": "tf/cfg/overrides/autoexec.cfg",
@@ -1798,7 +1799,8 @@
     ".agent/tools/render_documentation.py",
     ".agent/manifests/documentation-consolidation.json",
     ".agent/manifests/maintenance.json",
-    ".agent/audits/maxihud-menu-v1.6.1.json"
+    ".agent/audits/maxihud-menu-v1.6.1.json",
+    ".agent/audits/maxihud-crlf-v1.6.2.json"
   ],
   "original_files_snapshot_commit": "df151cddfd73f15c5e775727888ce6b5bfcb9487"
 }

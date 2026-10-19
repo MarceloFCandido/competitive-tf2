@@ -1,6 +1,6 @@
 # TF2 Competitive Setup — Bazzite/Linux
 
-A reproducible TF2 setup with selectable HUDs, incremental updates, backups and restoration. The current installer is **v1.6.1**.
+A reproducible TF2 setup with selectable HUDs, incremental updates, backups and restoration. The current installer is **v1.6.2**.
 
 ## Motivation
 
@@ -67,7 +67,7 @@ python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 
 ### Acquire and import HUD packages
 
-These are the release pins in the v1.6.1 installer, rather than a list of the latest upstream releases:
+These are the release pins in the v1.6.2 installer, rather than a list of the latest upstream releases:
 
 | HUD choice | Package |
 |---|---|
@@ -108,6 +108,8 @@ Version **1.6.1** fixes the v1.6.0 installation that opened Settings without swi
 The script creates `tf/cfg/maxihud/` and a minimal menu-data file when needed. Existing customization data and your logging profile are retained. It still excludes `valve.rc`, `joystick.cfg`, the full customization bootstrap and `maxihud_first_run.cfg`; it does not enable demo-recording initialization or `sv_allow_point_servercommand always`.
 
 Only the four reviewed `mat_queue_mode` assignments in the menu's open, close, restart and Apply commands are removed. The remaining menu commands and resource content stay in place. Buttons such as **Reset All** can still change the upstream HUD's console settings when you choose them; registration of aliases does not execute those actions. This is not a guarantee that every optional HUD feature works.
+
+Version **1.6.2** fixes rejection of the official ZIP linked below. Upstream [`.gitattributes`](https://github.com/maxiandrew/maxihud/blob/18fb7f1e2903ebab15e811c9718726ddce51b0f4/.gitattributes) exports `.res` files with CRLF endings, while the reviewed raw-file hashes use LF. Validation converts only CRLF to LF for comparison of `resource/gamemenu.res`, the customization-menu frame and `scripts/hudlayout.res`. The six CFG hashes and every other byte remain strict. The ZIP is used directly and its original digest is recorded; adapted resources retain their original line endings.
 
 Use the unmodified [v17.5 Source code ZIP](https://github.com/maxiandrew/maxihud/archive/refs/tags/v17.5.zip). The six cfg files, two patched menu resources and layout include are checked against [commit 18fb7f1](https://github.com/maxiandrew/maxihud/tree/18fb7f1e2903ebab15e811c9718726ddce51b0f4); missing or changed support files stop the operation before applying game changes. Other resource files and the complete user-selected ZIP are not authenticated by these nine checks.
 
@@ -332,16 +334,22 @@ All three files retain their original bytes.
 
 ## Tests
 
-The [regression suite](test_setup_tf2_bazzite.py) has 119 test methods using synthetic archives/images and temporary directories. To run it manually:
+The [regression suite](test_setup_tf2_bazzite.py) has 125 synthetic tests and five opt-in official-ZIP integration tests. The normal run skips the five official-ZIP cases unless their input path is supplied:
 
 ```bash
 python3 -m unittest -v test_setup_tf2_bazzite.py
 ```
 
-All 119 offline tests pass with artificial game folders, archives and images, with live HTTP blocked. They cover the MaxiHUD alias/loader policy, precise menu edits, preservation, first installation, HUD-only migration, repeat/no-op, race checks, backups, exact restoration, rollback and dry-run. No HUD cfg was executed and no real TF2 installation was changed. Earlier archive-only operations did not execute the installer or tests.
+To include the official ZIP tests, download the same v17.5 ZIP linked above and supply its actual local path:
+
+```bash
+TF2_MAXIHUD_OFFICIAL_ZIP="$HOME/Downloads/maxihud-17.5.zip" python3 -m unittest -v test_setup_tf2_bazzite.py
+```
+
+All **130 tests passed**, with all five official-ZIP cases enabled and production hashes unmocked in that suite. HTTP is blocked during tests. The official archive is read as data and remains byte-identical; installation, repeat/no-op and exact restoration run only in artificial TF2 directories. LF/CRLF resources are exercised through both validation entry points; one-byte changes, absent files and changed CFG endings are rejected. Existing migration, alias/loader, menu-edit, backup, rollback and dry-run coverage remains. No HUD CFG was executed or real TF2 installation changed.
 
 ## Source and archive records
 
-The installer keeps acquisition/dependency links in `HUD_HELP` and screenshot sources in `GALLERY_ITEMS`. These notes describe the pinned v1.6.1 behavior; upstream hosts and optional requirements may change. Support-file references include [Center HUD](https://github.com/RoseyLemonz/center-hud/tree/v24/cfg), [Community HUD Fixes](https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg), [MaxiHud](https://github.com/maxiandrew/maxihud/tree/v17.5/cfg) and the [budhud installation guide](https://github.com/rbjaxter/budhud/wiki/Installation).
+The installer keeps acquisition/dependency links in `HUD_HELP` and screenshot sources in `GALLERY_ITEMS`. These notes describe the pinned v1.6.2 behavior; upstream hosts and optional requirements may change. Support-file references include [Center HUD](https://github.com/RoseyLemonz/center-hud/tree/v24/cfg), [Community HUD Fixes](https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg), [MaxiHud](https://github.com/maxiandrew/maxihud/tree/v17.5/cfg) and the [budhud installation guide](https://github.com/rbjaxter/budhud/wiki/Installation).
 
 Recovery records and tools are indexed in [.agent/ARCHIVE.md](.agent/ARCHIVE.md). Literal historical guides are retained there as source evidence, and previous filenames remain in Git. This root file is the single current README and the source of installation instructions.

@@ -33,7 +33,7 @@ The original comparison HTML was removed from the working tree after all 15 imag
 git show 618beb0913ab4670bdc0a035e4fa7fe376a99963:TF2_HUD_Visual_Comparison.html
 ```
 
-[Visual verification](manifests/visual-comparison.json) records the source images, HTTP preflight, browser decoding, visible inspection and limits. The README references the original remote images; it is not an offline image bundle. [Command verification](manifests/command-audit.json) records static inspection of the maintained v1.6.1 options and relevant behavior.
+[Visual verification](manifests/visual-comparison.json) records the source images, HTTP preflight, browser decoding, visible inspection and limits. The README references the original remote images; it is not an offline image bundle. [Command verification](manifests/command-audit.json) records static inspection of the maintained v1.6.2 options and relevant behavior.
 
 The historical [final-files manifest](provenance/final-files.sha256.json) belongs to the snapshot before organization. The [current manifest](manifests/files.sha256.json) covers all current files declared by this organization except itself. The [validation receipt](manifests/validation.json) records checks before the latest documentation commit. The [consolidation record](manifests/documentation-consolidation.json) lists the former documentation paths, renames and merged sections.
 
@@ -53,6 +53,8 @@ These literal bodies preserve historical claims, commands and test reports from 
 ## Authored maintenance after recovery
 
 The current installer/test suite is maintained beyond the imported v1.6.0 originals. The v1.6.1 MaxiHUD menu correction has a [source and test audit](audits/maxihud-menu-v1.6.1.json) and a [maintenance receipt](manifests/maintenance.json). Its 119 offline tests use synthetic files with HTTP blocked; they do not execute HUD cfgs or apply to a real game. The original captured 52 revision records and 211 provenance files remain intact in Git. The existing browser image receipt applies to the same 15 image embeddings; later text changes are recorded separately.
+
+The v1.6.2 CRLF/LF correction has a separate [official-ZIP reproduction and test audit](audits/maxihud-crlf-v1.6.2.json). The official archive from the README was rejected by v1.6.1; v1.6.2 accepts its three reviewed CRLF resource files while retaining the original CFG pins and ZIP digest. The full run passed 130 tests, including five official-ZIP cases with production hashes unmocked. The earlier v1.6.1 audit remains unchanged as a historical record.
 
 ## Optional local documentation preview
 

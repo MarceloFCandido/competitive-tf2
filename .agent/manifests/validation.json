@@ -1,7 +1,7 @@
 {
-  "verified_at_utc": "2026-10-19T19:58:51.889489+00:00",
+  "verified_at_utc": "2026-10-19T22:16:24.054518+00:00",
   "repository": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
-  "head": "12b99160a64f594907b9e8d917de8cfafdd6c98d",
+  "head": "e702be226cb0fa0d93b66ee01798881958554166",
   "original_files_accounted_for": 247,
   "files_relocated": 243,
   "relocated_files_byte_identical": 236,
@@ -21,18 +21,20 @@
     "test_setup_tf2_bazzite.py"
   ],
   "historical_provenance_files_byte_identical": 211,
-  "prior_commits_preserved": 35,
+  "prior_commits_preserved": 36,
   "historical_revision_hashes_checked": 52,
   "README_original_image_URLs_matched": 15,
   "README_flags_checked_statically": 19,
   "rendered_image_confirmation_receipt_verified": true,
   "active_markdown_documents_checked": 11,
-  "local_links_checked": 54,
-  "current_manifest_files_checked": 257,
+  "local_links_checked": 55,
+  "current_manifest_files_checked": 258,
   "current_manifest_skipped_for_bootstrap": false,
   "this_verifier_executes_product_code": false,
   "network_requests": 0,
-  "recorded_synthetic_tests_executed": 119,
+  "recorded_tests_executed": 130,
+  "recorded_synthetic_tests": 125,
+  "recorded_official_archive_tests": 5,
   "HUD_cfg_executed": false,
   "real_game_modified": false,
   "README_filename_variants_found": [
@@ -43,5 +45,5 @@
   "renamed_files_in_this_change": 6,
   "redundant_files_retained_in_prior_commit": 1,
   "literal_document_bodies_preserved": 3,
-  "scope": "Before the v1.6.1 maintenance commit: 119 authorized synthetic product tests executed; no HUD cfg or real game execution. Historical source revisions and literal provenance stay intact. Browser image receipt is tied to its original snapshot, with all 15 image Markdown lines unchanged."
+  "scope": "Before v1.6.2 commit: narrow CRLF/LF resource comparison; 125 synthetic and five official-ZIP integration tests passed, with unmocked production pins in official cases. Official ZIP unchanged. No HUD CFG execution or real game changes."
 }

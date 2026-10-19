@@ -1,45 +1,45 @@
 {
   "schema_version": 1,
-  "base_commit": "12b99160a64f594907b9e8d917de8cfafdd6c98d",
+  "base_commit": "e702be226cb0fa0d93b66ee01798881958554166",
   "documentation_snapshot_commit": "12b99160a64f594907b9e8d917de8cfafdd6c98d",
-  "created_at_utc": "2026-10-19T19:56:32.088334+00:00",
-  "version": "1.6.1",
+  "created_at_utc": "2026-10-19T22:15:02.834579+00:00",
+  "version": "1.6.2",
   "branch": "master",
-  "reason": "User-authorized minimal MaxiHUD v17.5 customization menu repair after v1.6.0 omitted all cfg files.",
+  "reason": "Accept official MaxiHUD v17.5 CRLF resources using narrow comparison canonicalization; retain strict content checks and raw archive digest.",
   "product_files": {
     "setup_tf2_bazzite.py": {
-      "before_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
-      "after_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781"
+      "before_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781",
+      "after_sha256": "135b6e23bc36def2b6eb9a9263ab1f0176faa752bc410006380ab51a29dc1dba"
     },
     "test_setup_tf2_bazzite.py": {
-      "before_sha256": "b2766faf612fe061ed0e197c0ebbad9e2c945141be6801631de9af9835b17323",
-      "after_sha256": "f9cfebb8fae2c6ec8fd004b9fe7b22af39061a72569153651ef4e3181e3c7bee"
+      "before_sha256": "f9cfebb8fae2c6ec8fd004b9fe7b22af39061a72569153651ef4e3181e3c7bee",
+      "after_sha256": "1efb03b90a81734325b67bbd80c22626045f6bc7bb3b0cd5f1396b0e4dcadfc5"
     },
     "README.md": {
-      "before_sha256": "dd255ab57ce1b745f6af2a3a47c8c900973e3ab9e6dba5c363c1f4a182bbf358",
-      "after_sha256": "b1df08adb913de0cdb3542970eeede9bd486aff1669cc00ed7d2af979f35de89"
+      "before_sha256": "b1df08adb913de0cdb3542970eeede9bd486aff1669cc00ed7d2af979f35de89",
+      "after_sha256": "1d66e14245d7917c601b7cd741fceb4b1c0d387c5fbdb891cd386c3c683c72a7"
     }
   },
   "allowed_changed_paths": [
-    "setup_tf2_bazzite.py",
-    "test_setup_tf2_bazzite.py",
-    "README.md",
     ".agent/ARCHIVE.md",
-    ".agent/docs/UPLOADS.md",
     ".agent/docs/REVISIONS.md",
+    ".agent/docs/UPLOADS.md",
     ".agent/manifests/command-audit.json",
-    ".agent/manifests/visual-comparison.json",
-    ".agent/manifests/layout.json",
     ".agent/manifests/files.sha256.json",
+    ".agent/manifests/layout.json",
+    ".agent/manifests/maintenance.json",
     ".agent/manifests/validation.json",
-    ".agent/tools/check_layout.py"
+    ".agent/manifests/visual-comparison.json",
+    ".agent/tools/check_layout.py",
+    "README.md",
+    "setup_tf2_bazzite.py",
+    "test_setup_tf2_bazzite.py"
   ],
   "new_paths": [
-    ".agent/manifests/maintenance.json",
-    ".agent/audits/maxihud-menu-v1.6.1.json"
+    ".agent/audits/maxihud-crlf-v1.6.2.json"
   ],
-  "source_audit": ".agent/audits/maxihud-menu-v1.6.1.json",
-  "tests_executed": 119,
+  "source_audit": ".agent/audits/maxihud-crlf-v1.6.2.json",
+  "tests_executed": 130,
   "HUD_cfg_executed": false,
   "real_game_modified": false,
   "logging_restore_automatic_snapshot": false,
@@ -48,5 +48,8 @@
     "python3 setup_tf2_bazzite.py --update-only --hud maxihud --hud-zip \"$HOME/Downloads/maxihud-17.5.zip\" --replace-hud"
   ],
   "ZIP_path_note": "Use the actual downloaded v17.5 ZIP filename on the Bazzite PC.",
-  "remote_publication_authorized": true
+  "remote_publication_authorized": true,
+  "previous_maintenance_commit": "e702be226cb0fa0d93b66ee01798881958554166",
+  "official_zip_integration_tests": 5,
+  "official_zip_production_pins_mocked": false
 }

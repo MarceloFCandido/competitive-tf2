@@ -1,6 +1,6 @@
 {
-  "inspected_version": "1.6.1",
-  "installer_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781",
+  "inspected_version": "1.6.2",
+  "installer_sha256": "135b6e23bc36def2b6eb9a9263ab1f0176faa752bc410006380ab51a29dc1dba",
   "method": "AST and source reading only; installer, argparse and test module were not executed",
   "declared_flags": [
     "--build-gallery",

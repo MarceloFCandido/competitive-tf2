@@ -1,0 +1,129 @@
+{
+  "version": "1.6.2",
+  "verified_at_utc": "2026-10-19T22:15:02.834579+00:00",
+  "base_commit": "e702be226cb0fa0d93b66ee01798881958554166",
+  "upstream_commit": "18fb7f1e2903ebab15e811c9718726ddce51b0f4",
+  "reproduction": {
+    "source_URL": "https://github.com/maxiandrew/maxihud/archive/refs/tags/v17.5.zip",
+    "final_URL": "https://codeload.github.com/maxiandrew/maxihud/zip/refs/tags/v17.5",
+    "downloaded_at_utc": "2026-10-19T22:09:42.286006+00:00",
+    "archive_bytes": 5590211,
+    "archive_sha256": "8eae57ec93c43fd067dba7d5c7b9b3013cef56ec2c030ae16cbf7bb589108b09",
+    "archive_prefix": "maxihud-17.5/",
+    "production_pins_mocked": false,
+    "reproduced_version": "1.6.1",
+    "reproduced_error": "MaxiHUD menu support requires the reviewed v17.5 files: resource/gamemenu.res. Obtain the unmodified v17.5 source ZIP; nothing was applied.",
+    "files": [
+      {
+        "path": "cfg/maxihud_customization_general.cfg",
+        "raw_sha256": "106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8",
+        "LF_sha256": "106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "cfg/maxihud_customization_colors.cfg",
+        "raw_sha256": "2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40",
+        "LF_sha256": "2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "cfg/maxihud_customization_fonts.cfg",
+        "raw_sha256": "6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32",
+        "LF_sha256": "6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "cfg/maxihud_customization_crosshairs.cfg",
+        "raw_sha256": "62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13",
+        "LF_sha256": "62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "cfg/maxihud_customization_streamer.cfg",
+        "raw_sha256": "b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5",
+        "LF_sha256": "b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "cfg/maxihud_customization_reset.cfg",
+        "raw_sha256": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3",
+        "LF_sha256": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3",
+        "CRLF_pairs": 0,
+        "raw_matches_production_pin": true
+      },
+      {
+        "path": "resource/gamemenu.res",
+        "raw_sha256": "a604fdc52d4bbe856e1811f4aabb35648b299e46e8775165f8e4695e0cbb2f19",
+        "LF_sha256": "be223080e0b0c7be85ef85529de39945b4ed258daf8652d5c7609e9db75f8e68",
+        "CRLF_pairs": 100,
+        "raw_matches_production_pin": false
+      },
+      {
+        "path": "resource/ui/customizations/#customization_menu/hud_customization_frame.res",
+        "raw_sha256": "b5fd807d41edd7dcc6bbb022310f40524a828143c33dd37312d0b290919287eb",
+        "LF_sha256": "a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c",
+        "CRLF_pairs": 485,
+        "raw_matches_production_pin": false
+      },
+      {
+        "path": "scripts/hudlayout.res",
+        "raw_sha256": "da9665543a9fb0c053a18f61a6f87236415d740ec4ce8fa080cda415757525f8",
+        "LF_sha256": "acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558",
+        "CRLF_pairs": 28,
+        "raw_matches_production_pin": false
+      }
+    ]
+  },
+  "gitattributes_source": "https://github.com/maxiandrew/maxihud/blob/18fb7f1e2903ebab15e811c9718726ddce51b0f4/.gitattributes",
+  "reviewed_source_sha256": {
+    "cfg/maxihud_customization_general.cfg": "106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8",
+    "cfg/maxihud_customization_colors.cfg": "2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40",
+    "cfg/maxihud_customization_fonts.cfg": "6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32",
+    "cfg/maxihud_customization_crosshairs.cfg": "62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13",
+    "cfg/maxihud_customization_streamer.cfg": "b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5",
+    "cfg/maxihud_customization_reset.cfg": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3",
+    "resource/gamemenu.res": "be223080e0b0c7be85ef85529de39945b4ed258daf8652d5c7609e9db75f8e68",
+    "resource/ui/customizations/#customization_menu/hud_customization_frame.res": "a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c",
+    "scripts/hudlayout.res": "acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558"
+  },
+  "CRLF_canonical_paths": [
+    "resource/gamemenu.res",
+    "resource/ui/customizations/#customization_menu/hud_customization_frame.res",
+    "scripts/hudlayout.res"
+  ],
+  "normalization": "Only CRLF-to-LF for checksum comparison of these three paths. Raw input and original ZIP digest remain unchanged; adapted resource bytes preserve original line endings. No generic whitespace stripping.",
+  "known_queue_mode_commands_removed": 4,
+  "runtime_visual_tested": false,
+  "HUD_cfg_executed": false,
+  "real_game_modified": false,
+  "official_ZIP_bytes_after_tests": 5590211,
+  "official_ZIP_sha256_after_tests": "8eae57ec93c43fd067dba7d5c7b9b3013cef56ec2c030ae16cbf7bb589108b09",
+  "official_test_class": "OfficialMaxihudArchiveTests(SetupFixture)",
+  "production_pins_mocked_in_official_tests": false,
+  "test_run": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 TF2_MAXIHUD_OFFICIAL_ZIP=/tmp/tf2-maxihud-official-v17.5.zip python3 -m unittest -v test_setup_tf2_bazzite.py",
+    "tests": 130,
+    "synthetic_tests": 125,
+    "official_archive_tests": 5,
+    "skipped": 0,
+    "duration_seconds": 4.228,
+    "result": "OK",
+    "live_HTTP_blocked": true,
+    "log_sha256": "bd2795c05e2618dcb0bdb3bfe8a422110af3c46c00b52cdf9a897e9eb4120ceb",
+    "installer_sha256": "135b6e23bc36def2b6eb9a9263ab1f0176faa752bc410006380ab51a29dc1dba",
+    "tests_sha256": "1efb03b90a81734325b67bbd80c22626045f6bc7bb3b0cd5f1396b0e4dcadfc5"
+  },
+  "covered_cases": [
+    "Official README ZIP with production pins through preflight and prepare",
+    "LF variant through both entry points",
+    "CRLF adaptation preserves line endings and ZIP digest",
+    "One-byte mutation, missing resources and changed CFG endings rejected",
+    "Dry-run without writes",
+    "Official ZIP simulated install, repeated no-op and exact restoration"
+  ]
+}

@@ -146,7 +146,7 @@ def verify_consolidation(maintenance):
 def verify_maintenance():
     receipt = json.loads((MANIFESTS / 'maintenance.json').read_text())
     audit = json.loads((ROOT / receipt['source_audit']).read_text())
-    assert receipt['version'] == '1.6.1' and receipt['tests_executed'] == 119
+    assert receipt['version'] == '1.6.2' and receipt['tests_executed'] == 130
     assert not receipt['HUD_cfg_executed'] and not receipt['real_game_modified']
     for name, hashes in receipt['product_files'].items():
         prior = git('show', receipt['base_commit'] + ':' + name)
@@ -156,13 +156,24 @@ def verify_maintenance():
     constants = {node.targets[0].id: ast.literal_eval(node.value) for node in tree.body
                  if isinstance(node, ast.Assign) and len(node.targets) == 1
                  and isinstance(node.targets[0], ast.Name)
-                 and node.targets[0].id in ('SCRIPT_VERSION', 'MAXIHUD_REVIEWED_SHA256')}
+                 and node.targets[0].id in ('SCRIPT_VERSION', 'MAXIHUD_REVIEWED_SHA256', 'MAXIHUD_MENU_FRAME')}
     assert constants['SCRIPT_VERSION'] == receipt['version']
     assert constants['MAXIHUD_REVIEWED_SHA256'] == audit['reviewed_source_sha256']
-    assert audit['test_run']['result'] == 'OK' and audit['test_run']['tests'] == 119
+    eol = next(node.value for node in tree.body if isinstance(node, ast.Assign)
+               and isinstance(node.targets[0], ast.Name) and node.targets[0].id == 'MAXIHUD_CRLF_FILES')
+    paths = tuple(constants[item.id] if isinstance(item, ast.Name) else ast.literal_eval(item) for item in eol.elts)
+    assert list(paths) == audit['CRLF_canonical_paths'] and len(paths) == 3
+    prior_tree = ast.parse(git('show', receipt['base_commit'] + ':setup_tf2_bazzite.py').decode())
+    prior_pins = next(ast.literal_eval(node.value) for node in prior_tree.body if isinstance(node, ast.Assign)
+                      and isinstance(node.targets[0], ast.Name) and node.targets[0].id == 'MAXIHUD_REVIEWED_SHA256')
+    assert prior_pins == constants['MAXIHUD_REVIEWED_SHA256']
+    assert audit['test_run']['result'] == 'OK' and audit['test_run']['tests'] == 130
     assert audit['test_run']['installer_sha256'] == sha(ROOT / 'setup_tf2_bazzite.py')
     assert audit['test_run']['tests_sha256'] == sha(ROOT / 'test_setup_tf2_bazzite.py')
     assert audit['test_run']['live_HTTP_blocked']
+    assert audit['test_run']['official_archive_tests'] == 5 and audit['test_run']['skipped'] == 0
+    assert not audit['production_pins_mocked_in_official_tests']
+    assert audit['official_ZIP_sha256_after_tests'] == audit['reproduction']['archive_sha256']
     assert audit['known_queue_mode_commands_removed'] == 4 and not audit['runtime_visual_tested']
     return receipt
 
@@ -199,7 +210,8 @@ def verify(bootstrap=False):
     for name in ('setup_tf2_bazzite.py', 'test_setup_tf2_bazzite.py'):
         row = next(row for row in layout['files'] if row['previous_path'] == name)
         assert row['current_path'] == name, name
-        assert row['before_sha256'] == maintenance['product_files'][name]['before_sha256'], name
+        original = git('show', layout['original_files_snapshot_commit'] + ':' + name)
+        assert hashlib.sha256(original).hexdigest() == row['before_sha256'], name
         assert row['after_sha256'] == maintenance['product_files'][name]['after_sha256'], name
     assert (ROOT / 'test_setup_tf2_bazzite.py').with_name('setup_tf2_bazzite.py').is_file()
     history = git('rev-list', '--reverse', 'HEAD').decode().splitlines()
@@ -283,7 +295,9 @@ def verify(bootstrap=False):
             'active_markdown_documents_checked': len(active_docs), 'local_links_checked': local_links,
             'current_manifest_files_checked': current_checks, 'current_manifest_skipped_for_bootstrap': bootstrap,
             'this_verifier_executes_product_code': False, 'network_requests': 0,
-            'recorded_synthetic_tests_executed': maintenance['tests_executed'],
+            'recorded_tests_executed': maintenance['tests_executed'],
+            'recorded_synthetic_tests': maintenance['tests_executed'] - maintenance['official_zip_integration_tests'],
+            'recorded_official_archive_tests': maintenance['official_zip_integration_tests'],
             'HUD_cfg_executed': False, 'real_game_modified': False,
             **consolidation}
 

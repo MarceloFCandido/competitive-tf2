@@ -41,6 +41,22 @@ Visual options:
     No replacement animation/particle mods or sv_cheats commands are installed.
     Not every flame, explosion, flash or status overlay can be disabled.
 
+Acquisition and screenshots (do not install/change the active HUD):
+    --hud-info all lists exact downloads, external requirements and limitations.
+    --hud-info toonhud explains where to export a theme and obtain custom fonts.
+    --fetch-hud middlemann --output ~/Downloads/tf2-huds saves the complete pinned
+    release ZIP with SHA-256 verification, WITHOUT installing it or stripping cfg.
+    --hud-zip now also accepts the exact pinned ZIP for any automatic HUD choice;
+    it must match the built-in upstream digest, even without --hud-sha256.
+    MaxiHud/ToonHUD remain user-selected ZIPs; acquisition links are printed.
+    --build-gallery ~/Downloads/TF2_HUD_Offline.html downloads one published
+    example per HUD and embeds the images directly into a single offline HTML.
+    --gallery-images DIR can supply NAME.png/jpg/webp locally instead.
+    Without --gallery-partial, a missing image stops creation; it does not produce
+    another gallery full of broken external image tags. Existing files are never
+    overwritten by the download/gallery helpers. --dry-run never downloads/writes.
+    No additional Python packages, system fonts or root privileges are required.
+
 HUDs:
     v1.5 adds --hud centerhud and --hud hudfixes (pinned release downloads).
     --hud maxihud --hud-zip /path/to/maxihud.zip imports your upstream ZIP.
@@ -100,6 +116,8 @@ Baseline sources checked 2026-10-18; HUD additions checked 2026-10-19:
 from __future__ import annotations
 
 import argparse
+import base64
+import html
 import datetime as dt
 import difflib
 import fcntl
@@ -119,7 +137,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.5.0'
+SCRIPT_VERSION = '1.6.0'
 
 COMFIG = {
     'version': '9.100.1',
@@ -184,6 +202,67 @@ HUD_PAGES = {
     'rayshud': 'https://github.com/raysfire/rayshud',
     'budhud': 'https://github.com/rbjaxter/budhud',
 }
+
+# Acquisition notes are independent of the current HUD and never enable settings.
+# Read 2026-10-19. Use the exact pinned archive when importing an automatic choice.
+HUD_HELP = {
+    'middlemann': {
+        'notes': ['Use the complete release ZIP, not only resource/ or a screenshot.',
+                  'Normal mode is already centered; upstream expects cl_hud_minmode 0.',
+                  'The installer excludes cfg/valve.rc and its cache/reload workaround; downloading more files will not activate it.'],
+        'links': [('Installation and customization', 'https://github.com/Vexcenot/-middle-mann'),
+                  ('Excluded startup file', 'https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc')]},
+    'centerhud': {
+        'notes': ['The release ZIP contains center_hud_* support scripts and a joystick.cfg bootstrap.',
+                  'Those cfg files are already in the download; this installer deliberately excludes them.',
+                  'Without them, initialization and scripted customization can be incomplete. A second download alone does not fix that.',
+                  'Upstream first-run code writes tf/cfg data and uses demo/logging commands. It is not enabled automatically.'],
+        'links': [('Installation/customization', 'https://github.com/RoseyLemonz/center-hud/wiki'),
+                  ('Bundled support files', 'https://github.com/RoseyLemonz/center-hud/tree/v24/cfg')]},
+    'idhud': {
+        'notes': ['Use the complete idhud.zip release; the pinned package has no cfg directory.',
+                  'IDHUD supports Linux and retains corner placement. Its optional recommended console settings are not applied.'],
+        'links': [('Requirements and recommendations', 'https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md')]},
+    'hudfixes': {
+        'notes': ['Keep the complete release, including _fixes, _tf2hud and _extras; do not download only the resource folder.',
+                  'The release includes its own customization scripts. This installer excludes cfg, so scripted options can fail.',
+                  'No separate HUD should be layered over this installation to try to supply missing files.'],
+        'links': [('Installation and optional features', 'https://github.com/CriticalFlaw/tf2hud-fixes'),
+                  ('Bundled support files', 'https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg')]},
+    'rayshud': {
+        'notes': ['The pinned rayshud.zip is the package to acquire; bundled resources, materials and fonts are copied as supplied.',
+                  'This installer only excludes cfg/valve.rc and does not run its startup workaround.'],
+        'links': [('Installation and screenshots', 'https://github.com/raysfire/rayshud')]},
+    'budhud': {
+        'notes': ['Obtain budhud.zip under release Assets, not a single folder or screenshot.',
+                  'The installer preserves other bundled resources and cfg files but excludes cfg/valve.rc.',
+                  'Use the project wiki for chosen custom fonts or optional features rather than installing unrelated packages.'],
+        'links': [('Installation and required file layout', 'https://github.com/rbjaxter/budhud/wiki/Installation'),
+                  ('Customization and troubleshooting', 'https://github.com/rbjaxter/budhud/wiki')]},
+    'maxihud': {
+        'notes': ['Acquire Source code (zip) from release v17.5. That release does not publish a separate release asset with a digest.',
+                  'The installer imports your ZIP; it does not claim upstream authentication for that archive.',
+                  'The installed folder is named maxihud as required by the project.',
+                  'The project lists optional add-ons; they are not automatically installed as dependencies.',
+                  'This installer excludes cfg scripts; initialization/customization is incomplete. Review its launch-option and Mod Limit Fix notes before manual changes.'],
+        'links': [('Release and Source code (zip)', 'https://github.com/maxiandrew/maxihud/releases/tag/v17.5'),
+                  ('Direct source ZIP (no trusted digest pinned here)', 'https://github.com/maxiandrew/maxihud/archive/refs/tags/v17.5.zip'),
+                  ('Installation, compatibility, optional add-ons', 'https://github.com/maxiandrew/maxihud/blob/v17.5/README.md')]},
+    'toonhud': {
+        'notes': ['Choose/save a theme on ToonHUD and use its Download button. The browser builds a ZIP with your selected theme.',
+                  'A theme page or screenshot is not the exported ZIP. Import the exported toonhud.zip, not an HTML download page.',
+                  'For a Custom font, the official FAQ says to install that font separately and use its actual family name in the editor.',
+                  'Obtain the chosen font from its legitimate publisher or choose a bundled font instead. No universal extra-font download applies to all themes.',
+                  'This script does not install system fonts or OS packages. It copies resources provided inside your theme ZIP.',
+                  'ToonHUD centered mode uses the minimal HUD option. Your current value is preserved.',
+                  'The conservative installer excludes cfg scripts; some menu features may not work.'],
+        'links': [('Theme editor / download', 'https://toonhud.com/'),
+                  ('Export and Linux installation guide', 'https://toonhud.com/guide'),
+                  ('Custom fonts and centered mode', 'https://toonhud.com/faq')]},
+}
+
+GALLERY_ITEMS = ({'name': 'middlemann', 'title': 'Middle Mann', 'image': 'https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png', 'gallery': 'https://tf2huds.dev/hud/-Middle-Mann', 'description': 'Default-style health and ammo panels moved toward the center. A first candidate for your preference.'}, {'name': 'centerhud', 'title': 'Center HUD', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp', 'gallery': 'https://comfig.app/huds/page/center-hud/', 'description': 'Critical information moved centrally while retaining the default HUD style.'}, {'name': 'maxihud', 'title': 'MaxiHud', 'image': 'https://images.gamebanana.com/img/ss/mods/6997885801058.jpg', 'gallery': 'https://github.com/maxiandrew/maxihud#screenshots', 'description': 'A centered vanilla-inspired interface with more menu and customization features. The author notes that some screenshots show older versions.'}, {'name': 'rayshud', 'title': 'rayshud', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp', 'gallery': 'https://comfig.app/huds/page/rayshud/', 'description': 'Your current reference: prominent health/ammo numbers and little decoration.'}, {'name': 'budhud', 'title': 'budhud', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp', 'gallery': 'https://comfig.app/huds/page/budhud/', 'description': 'Another redesigned HUD, inspired by yahud and rayshud; not a stock-art-style restoration.'}, {'name': 'idhud', 'title': 'Improved Default HUD', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp', 'gallery': 'https://comfig.app/huds/page/improved-default-hud/', 'description': 'Retains the original layout with damage-text, target-ID and other UI improvements. Not a centered rayshud replacement.'}, {'name': 'hudfixes', 'title': 'Community HUD Fixes', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp', 'gallery': 'https://comfig.app/huds/page/hud-fixes/', 'description': 'Default-style interface repairs and quality-of-life changes, rather than a centralized redesign.'}, {'name': 'toonhud', 'title': 'ToonHUD', 'image': 'https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg', 'gallery': 'https://tf2huds.dev/hud/ToonHUD', 'description': 'An example only: you choose the fonts, colors and theme. ToonHUD has default and centered modes.'})
+
 HUD_MARKER = '.tf2-competitive-setup-hud.json'
 HUD_POLICY = 'preserve-startup-v1'
 MANAGED_FILES = ('cfg/overrides/setup_hook.cfg', 'cfg/overrides/autoexec.cfg',
@@ -443,7 +522,9 @@ def download(asset: dict, dest: Path, maximum: int) -> None:
                 output.write(chunk)
                 digest.update(chunk)
     except (OSError, urllib.error.URLError) as exc:
-        raise SetupError(f'Download failed; check your connection and retry. {exc}') from exc
+        raise SetupError(f'Download failed; check your connection and retry. {exc}\n'
+                         f'Exact file: {asset["url"]}\n'
+                         'For HUD acquisition instructions: --hud-info NAME; you can import the exact ZIP with --hud-zip.') from exc
     if digest.hexdigest() != asset['sha256']:
         raise SetupError(f'SHA-256 mismatch for {dest.name}; refusing to install it.')
     print('  SHA-256 verified.')
@@ -802,9 +883,13 @@ def local_hud_asset(args: argparse.Namespace) -> dict | None:
     Recording its hash is NOT upstream authentication. An optional expected hash
     can detect a wrong file, but only a trusted source can establish provenance.
     """
-    if args.hud not in LOCAL_HUDS:
+    if args.hud not in (*HUDS, *LOCAL_HUDS):
         if args.hud_zip or args.hud_sha256:
-            raise SetupError('--hud-zip/--hud-sha256 require --hud maxihud or --hud toonhud.')
+            raise SetupError('--hud-zip/--hud-sha256 require --hud with a custom HUD name.')
+        return None
+    if args.hud in HUDS and not args.hud_zip:
+        if args.hud_sha256:
+            raise SetupError('--hud-sha256 requires --hud-zip; automatic downloads use the built-in digest.')
         return None
     if not args.hud_zip:
         raise SetupError('--hud ' + args.hud + ' requires --hud-zip /path/to/your.zip. '
@@ -819,6 +904,11 @@ def local_hud_asset(args: argparse.Namespace) -> dict | None:
             raise SetupError('--hud-sha256 must be exactly 64 hexadecimal digits.')
         if digest != args.hud_sha256.lower():
             raise SetupError('Local HUD SHA-256 mismatch; nothing has changed.')
+    if args.hud in HUDS and digest != HUDS[args.hud]['sha256']:
+        raise SetupError('Pinned HUD SHA-256 mismatch. The ZIP must be the exact '
+                         + HUDS[args.hud]['version'] + ' release; no files have changed.\n'
+                         'Acquire: ' + HUDS[args.hud]['url'] + '\n'
+                         'Details: python3 setup_tf2_bazzite.py --hud-info ' + args.hud)
     with zipfile.ZipFile(path) as zf:
         items = zf.infolist()
         if len(items) > 20000 or sum(i.file_size for i in items) > 200 * 1024 * 1024:
@@ -856,6 +946,8 @@ def local_hud_asset(args: argparse.Namespace) -> dict | None:
             raise SetupError('ZIP does not have the expected MaxiHud layout.')
         if args.hud == 'toonhud' and 'toonhud' not in prefix.lower():
             raise SetupError('ToonHUD ZIP must contain its exported toonhud folder.')
+    if args.hud in HUDS:
+        return dict(HUDS[args.hud], local_path=str(path))
     return {'version': 'user-selected ZIP', 'sha256': digest, 'local_path': str(path),
             'url': HUD_PAGES[args.hud]}
 
@@ -1000,6 +1092,332 @@ def print_hud_catalog() -> None:
     print('Omitted preset/FPS/visual options keep your earlier setup unchanged on updates.')
     print('To recover local HUD customizations, use the printed --restore command, not --hud NAME.')
     print_middlemann_notes()
+    print('Acquisition and required-file notes: --hud-info NAME (or all).')
+    print('Save the original ZIP without installation: --fetch-hud NAME --output DIRECTORY.')
+    print('Build an offline screenshot page: --build-gallery OUTPUT.html.')
+
+
+def print_hud_info(name: str) -> None:
+    """Built-in acquisition/dependency notes; does not scan the PC or use a network."""
+    names = (*HUDS, *LOCAL_HUDS) if name == 'all' else (name,)
+    for selected in names:
+        if selected not in HUD_HELP:
+            raise SetupError('No custom-HUD acquisition entry for ' + selected)
+        print('\n' + selected.upper() + ' — ' + HUD_DESCRIPTIONS[selected])
+        print('Project: ' + HUD_PAGES[selected])
+        if selected in HUDS:
+            asset = HUDS[selected]
+            print('Automatic package: ' + asset['version'])
+            print('Exact ZIP: ' + asset['url'])
+            print('Expected SHA-256: ' + asset['sha256'])
+            print('Download only: python3 setup_tf2_bazzite.py --fetch-hud ' + selected
+                  + ' --output ~/Downloads/tf2-huds')
+        else:
+            print('Acquisition: user-selected archive; not an automatically verified download.')
+        print('Requirements, bundled support files and optional extras:')
+        for note in HUD_HELP[selected]['notes']:
+            print('  - ' + note)
+        for label, url in HUD_HELP[selected]['links']:
+            print('  ' + label + ': ' + url)
+        print('Local ZIP preview: python3 setup_tf2_bazzite.py --update-only --hud '
+              + selected + ' --hud-zip /path/to/download.zip --replace-hud --dry-run')
+    print('\nReading these notes changes nothing. Downloads do not enable omitted cfg scripts.')
+    print('Support files already bundled in a release are different from optional add-ons or custom system fonts.')
+
+
+def write_new_file(path: Path, data: bytes) -> None:
+    """Publish a complete file without overwriting an existing file or symlink."""
+    path = path.expanduser().absolute()
+    if exists(path):
+        raise SetupError('Output already exists; choose another filename: ' + str(path))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(prefix='.tf2-hud-', dir=path.parent, delete=False) as out:
+            temporary = Path(out.name)
+            out.write(data)
+            out.flush()
+            os.fsync(out.fileno())
+        # Same filesystem, exclusive creation: a racing existing file is not replaced.
+        os.link(temporary, path)
+    except FileExistsError as exc:
+        raise SetupError('Output appeared during processing; it was not overwritten: ' + str(path)) from exc
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
+def fetch_hud_package(name: str, output: Path, dry_run: bool = False) -> int:
+    """Save the original archive, not an installed/stripped HUD. No game discovery."""
+    if name not in HUDS:
+        print_hud_info(name)
+        if dry_run:
+            print('Manual acquisition required; preview only. Nothing downloaded or written.')
+            return 0
+        raise SetupError('This HUD requires a user-selected ZIP; use the acquisition links above. '
+                         'No automatic download, install or game changes were made.')
+    asset = HUDS[name]
+    target = output.expanduser().absolute() / (name + '-' + asset['version'] + '.zip')
+    print('Download-only mode: the complete upstream archive, including bundled support files.')
+    print('Source: ' + asset['url'])
+    print('Expected SHA-256: ' + asset['sha256'])
+    print('Save as: ' + str(target))
+    if dry_run:
+        print('Preview only. No network, file writes, game discovery or backups.')
+        return 0
+    if exists(target):
+        assert_plain(target)
+        if target.is_file() and tree_hash(target) == asset['sha256']:
+            print('The complete verified ZIP is already present. No download needed.')
+            return 0
+        raise SetupError('A different file already exists; choose a different output directory: ' + str(target))
+    with tempfile.TemporaryDirectory(prefix='tf2-hud-download-') as temporary:
+        archive = Path(temporary) / target.name
+        download(asset, archive, 50 * 1024 * 1024)
+        if tree_hash(archive) != asset['sha256']:
+            raise SetupError('Downloaded package failed the final SHA-256 check.')
+        # Copy the complete package verbatim. No extraction, code execution, font
+        # installation, or omitted-script policy is applied by this command.
+        write_new_file(target, archive.read_bytes())
+    print('Saved and checksum-verified. No HUD installed and no game files changed.')
+    print('Preview a later install from this file:')
+    print('  ' + shlex.join(['python3', 'setup_tf2_bazzite.py', '--update-only', '--hud', name,
+                             '--hud-zip', str(target), '--replace-hud', '--dry-run']))
+    return 0
+
+
+class HTTPSOnlyRedirect(urllib.request.HTTPRedirectHandler):
+    """Gallery fetches never follow a redirect down to HTTP or a local URL."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        parts = urllib.parse.urlsplit(newurl)
+        if parts.scheme != 'https' or not parts.hostname or parts.username or parts.password:
+            raise SetupError('Refusing an unsafe screenshot redirect: ' + newurl)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def gallery_read_url(url: str, maximum: int, accept: str = 'image/*') -> bytes:
+    parts = urllib.parse.urlsplit(url)
+    if parts.scheme != 'https' or not parts.hostname or parts.username or parts.password:
+        raise SetupError('Screenshot URL must be public HTTPS without credentials.')
+    request = urllib.request.Request(url, headers={
+        'User-Agent': 'tf2-hud-gallery/' + SCRIPT_VERSION,
+        'Accept': accept,
+    })
+    opener = urllib.request.build_opener(HTTPSOnlyRedirect())
+    with opener.open(request, timeout=20) as response:
+        if urllib.parse.urlsplit(response.geturl()).scheme != 'https':
+            raise SetupError('Screenshot response was not HTTPS.')
+        chunks = []
+        total = 0
+        while True:
+            chunk = response.read(min(65536, maximum + 1 - total))
+            if not chunk:
+                break
+            total += len(chunk)
+            if total > maximum:
+                raise SetupError('Screenshot response exceeds the size limit.')
+            chunks.append(chunk)
+    return b''.join(chunks)
+
+
+def image_mime(data: bytes) -> str:
+    """Reject HTML error pages/SVG/scripts; only embed supported raster formats.
+
+    Header validation is not a complete image decoder. Browser decode success
+    still depends on the published file, not merely its claimed Content-Type.
+    """
+    if len(data) < 24:
+        raise SetupError('Screenshot response was empty or truncated.')
+    if data.startswith(b'\x89PNG\r\n\x1a\n') and data[12:16] == b'IHDR':
+        width, height = struct.unpack('>II', data[16:24])
+        if width and height and b'IEND' in data[-16:]:
+            return 'image/png'
+    if data.startswith(b'\xff\xd8\xff') and data.rstrip().endswith(b'\xff\xd9'):
+        return 'image/jpeg'
+    if (data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+            and data[12:16] in (b'VP8 ', b'VP8L', b'VP8X')
+            and struct.unpack('<I', data[4:8])[0] + 8 == len(data)):
+        return 'image/webp'
+    raise SetupError('Not a supported raster image (possibly an HTML error/login page).')
+
+
+def fetch_gallery_image(item: dict, local_dir: Path | None = None) -> tuple[bytes, str, str]:
+    """Fetch one curated screenshot, with GitHub API fallback for raw URLs."""
+    maximum = 8 * 1024 * 1024
+    if local_dir is not None:
+        matches = [local_dir / (item['name'] + suffix)
+                   for suffix in ('.png', '.jpg', '.jpeg', '.webp')
+                   if exists(local_dir / (item['name'] + suffix))]
+        if len(matches) > 1:
+            raise SetupError('Multiple local previews for ' + item['name'] + '; keep only one.')
+        if matches:
+            path = matches[0]
+            assert_plain(path)
+            if not path.is_file() or path.stat().st_size > maximum:
+                raise SetupError('Local screenshot is not a regular file below 8 MiB: ' + str(path))
+            data = path.read_bytes()
+            return data, image_mime(data), 'User-supplied local preview: ' + path.name
+    url = item['image']
+    failures = []
+    try:
+        data = gallery_read_url(url, maximum)
+        return data, image_mime(data), url
+    except (SetupError, OSError, ValueError) as exc:
+        failures.append(str(exc))
+    parts = urllib.parse.urlsplit(url)
+    if parts.hostname == 'raw.githubusercontent.com':
+        tokens = parts.path.lstrip('/').split('/', 3)
+        if len(tokens) == 4:
+            owner, repo, ref, filepath = tokens
+            api = (f'https://api.github.com/repos/{owner}/{repo}/contents/{filepath}'
+                   + '?ref=' + urllib.parse.quote(ref, safe=''))
+            try:
+                body = gallery_read_url(api, 12 * 1024 * 1024, 'application/vnd.github+json')
+                payload = json.loads(body)
+                if not isinstance(payload, dict) or payload.get('encoding') != 'base64':
+                    raise SetupError('GitHub did not return base64 image content.')
+                content = ''.join(payload['content'].split())
+                data = base64.b64decode(content, validate=True)
+                if len(data) > maximum:
+                    raise SetupError('Decoded screenshot exceeds the size limit.')
+                # Check the Git blob identifier if supplied by the API.
+                blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+                if payload.get('sha') and blob != payload['sha']:
+                    raise SetupError('GitHub screenshot blob checksum mismatch.')
+                return data, image_mime(data), url
+            except (SetupError, OSError, ValueError, KeyError, TypeError) as exc:
+                failures.append('GitHub fallback: ' + str(exc))
+    raise SetupError('; '.join(failures) + '\nImage: ' + url + '\nGallery: ' + item['gallery'])
+
+
+def render_offline_gallery(results: list[tuple[dict, bytes | None, str, str]]) -> bytes:
+    """No external image/style/font/script dependencies; link citations stay online."""
+    e = html.escape
+    missing = sum(data is None for _, data, _, _ in results)
+    label = f'PARTIAL: {missing} preview(s) missing' if missing else 'All eight previews embedded'
+    body = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; '
+            'img-src data:; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'">',
+            '<title>TF2 HUD comparison — offline images</title>',
+            '<style>body{font:17px/1.6 system-ui,sans-serif;margin:0;background:#202020;color:#eee8da}'
+            'main{max-width:1320px;margin:auto;padding:26px}h1{line-height:1.2}h2{margin-top:0}'
+            'section{margin:30px 0;padding:24px;background:#303030;border-radius:8px}'
+            'a{color:#eed49e}code{font-family:ui-monospace,monospace;background:#191919;padding:3px 6px}'
+            'nav a{display:inline-block;margin:5px 16px 5px 0}.viewport{overflow:auto;margin-top:10px}'
+            'img{display:block;max-width:100%;height:auto}.zoom:checked~.viewport img{max-width:none}'
+            '.notice{border-left:4px solid #dab378;padding:10px 18px;background:#35312b}'
+            '.small,figcaption{font-size:14px;color:#cdc6b8;overflow-wrap:anywhere}'
+            '.missing{padding:24px;border:2px solid #d49176;white-space:pre-wrap;overflow-wrap:anywhere}'
+            'figure{margin:12px 0}label{cursor:pointer}summary{cursor:pointer}</style></head><body><main>',
+            '<h1>TF2 HUD comparison</h1>',
+            '<p class="notice"><strong>' + e(label) + '</strong>. Images in this file do not need '
+            'an internet connection. Source/project links still do.</p>',
+            '<p>Published examples, not screenshots of your installation. Release version, theme, '
+            'class, aspect ratio and HUD mode can change the appearance. No HUD is installed by this gallery.</p>',
+            '<nav>' + ''.join('<a href="#' + e(item['name']) + '">' + e(item['title']) + '</a>'
+                             for item, _, _, _ in results) + '</nav>']
+    for item, data, mime, source in results:
+        name = item['name']
+        body.extend(['<section id="' + e(name) + '"><h2>' + e(item['title']) + '</h2>',
+                     '<p><code>--hud ' + e(name) + '</code></p>',
+                     '<p>' + e(item['description']) + '</p>'])
+        if data is not None:
+            uri = 'data:' + mime + ';base64,' + base64.b64encode(data).decode('ascii')
+            body.append('<figure><input class="zoom" type="checkbox" id="zoom-' + e(name) + '"> '
+                        '<label for="zoom-' + e(name) + '">Show original pixel size (scroll to inspect)</label>'
+                        '<div class="viewport"><img src="' + uri + '" alt="' + e(item['title'])
+                        + ' example screenshot"></div><figcaption>' + e(source) + '</figcaption></figure>')
+        else:
+            body.append('<div class="missing"><strong>Screenshot unavailable — not embedded.</strong>\n'
+                        + e(source) + '</div>')
+        body.append('<p><a href="' + e(item['gallery'], quote=True) + '">Original screenshot gallery</a> · '
+                    '<a href="' + e(HUD_PAGES[name], quote=True) + '">Official HUD project / acquisition</a></p>')
+        body.append('<details><summary>Installation and dependency notes</summary>')
+        for note in HUD_HELP[name]['notes']:
+            body.append('<p>' + e(note) + '</p>')
+        body.append('</details></section>')
+    body.append('<p class="small">Screenshots and HUD designs belong to their creators and Valve. '
+                'This comparison is not affiliated with those projects. Built with installer '
+                + e(SCRIPT_VERSION) + '. No fonts, tracking, JavaScript or game configuration are embedded.</p>'
+                '</main></body></html>')
+    return ''.join(body).encode('utf-8')
+
+
+def build_gallery(output: Path, dry_run: bool = False, partial: bool = False,
+                  local_dir: Path | None = None) -> int:
+    output = output.expanduser().absolute()
+    if output.suffix.lower() not in ('.html', '.htm'):
+        raise SetupError('The gallery output must have an .html or .htm extension.')
+    if exists(output):
+        raise SetupError('Gallery output exists; use a new filename: ' + str(output))
+    if local_dir is not None:
+        local_dir = local_dir.expanduser().absolute()
+        if not local_dir.is_dir():
+            raise SetupError('--gallery-images must point to an existing directory.')
+    if dry_run:
+        print('Would download/embed one screenshot for each HUD into: ' + str(output))
+        for item in GALLERY_ITEMS:
+            print('  ' + item['name'] + ': ' + item['image'])
+        print('Preview only. No network, writes, game discovery or backups.')
+        return 0
+    results = []
+    errors = []
+    for item in GALLERY_ITEMS:
+        print('Screenshot: ' + item['title'], flush=True)
+        try:
+            data, mime, source = fetch_gallery_image(item, local_dir)
+            results.append((item, data, mime, source))
+        except (SetupError, OSError, ValueError) as exc:
+            error = item['name'] + ': ' + str(exc)
+            errors.append(error)
+            warn(error)
+            results.append((item, None, '', str(exc)))
+    if errors and not partial:
+        raise SetupError(f'{len(errors)} of {len(GALLERY_ITEMS)} screenshots could not be obtained. '
+                         'No gallery was written.\n' + '\n'.join(errors)
+                         + '\nSave missing previews as NAME.png/jpg/webp in a folder and use '
+                         '--gallery-images FOLDER, or explicitly choose --gallery-partial. '
+                         'No game files were changed.')
+    data = render_offline_gallery(results)
+    write_new_file(output, data)
+    print(f'Created {output} ({len(data):,} bytes); '
+          f'{len(results) - len(errors)}/{len(results)} screenshots embedded. Open it in a browser.')
+    if errors:
+        print('PARTIAL gallery: missing screenshots are explicitly marked; exit status 2.')
+        return 2
+    print('All eight image sources are embedded data, not remote links. Game files were not touched.')
+    return 0
+
+
+def resource_mode(args: argparse.Namespace) -> int | None:
+    """Explicit non-installation operations cannot accidentally fall into setup."""
+    modes = (bool(args.list_huds), bool(args.hud_info), bool(args.fetch_hud), bool(args.build_gallery))
+    if sum(modes) > 1:
+        raise SetupError('Choose only one of --list-huds, --hud-info, --fetch-hud or --build-gallery.')
+    if args.output and not args.fetch_hud:
+        raise SetupError('--output requires --fetch-hud.')
+    if (args.gallery_partial or args.gallery_images) and not args.build_gallery:
+        raise SetupError('--gallery-partial/--gallery-images require --build-gallery.')
+    if not any(modes):
+        return None
+    if (args.tf2_dir or args.update_only or args.preset or args.fps_cap or args.visual_clarity
+            or args.viewmodels or args.hud != 'keep' or args.replace_hud or args.restore
+            or args.hud_zip or args.hud_sha256):
+        raise SetupError('Acquisition/gallery/info modes cannot be combined with game installation options.')
+    if args.list_huds:
+        print_hud_catalog()
+        return 0
+    if args.hud_info:
+        print_hud_info(args.hud_info)
+        return 0
+    if sys.platform != 'linux':
+        raise SetupError('This script is intended for Linux.')
+    if os.geteuid() == 0:
+        raise SetupError('Run as your normal desktop user, not with sudo/root.')
+    if args.fetch_hud:
+        return fetch_hud_package(args.fetch_hud, args.output or Path('tf2-hud-downloads'), args.dry_run)
+    return build_gallery(args.build_gallery, args.dry_run, args.gallery_partial, args.gallery_images)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -1014,11 +1432,23 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument('--hud', choices=HUD_CHOICES, default='keep',
                     help='one HUD at a time; stock removes detected HUDs; default: keep your HUD')
     ap.add_argument('--hud-zip', type=Path,
-                    help='local upstream MaxiHud ZIP or exported ToonHUD theme ZIP')
+                    help='local HUD ZIP; automatic HUDs require the exact pinned checksum; ToonHUD needs a theme export')
     ap.add_argument('--hud-sha256',
                     help='optional independently obtained expected hash for a local ZIP')
     ap.add_argument('--list-huds', action='store_true',
                     help='show the supported HUD catalog and exit without scanning or changing files')
+    ap.add_argument('--hud-info', choices=('all', *HUDS, *LOCAL_HUDS),
+                    help='show exact acquisition links, bundled scripts and optional dependency notes; no network/writes')
+    ap.add_argument('--fetch-hud', choices=(*HUDS, *LOCAL_HUDS),
+                    help='download-only: save a complete verified release ZIP; manual HUDs print acquisition steps')
+    ap.add_argument('--output', type=Path,
+                    help='directory for --fetch-hud; default: ./tf2-hud-downloads')
+    ap.add_argument('--build-gallery', type=Path, metavar='OUTPUT.html',
+                    help='download screenshots and embed them into a standalone offline comparison; no HUD install')
+    ap.add_argument('--gallery-images', type=Path, metavar='DIR',
+                    help='prefer local NAME.png/jpg/jpeg/webp screenshots when building the gallery')
+    ap.add_argument('--gallery-partial', action='store_true',
+                    help='explicitly permit missing previews, mark them clearly, and return exit status 2')
     ap.add_argument('--replace-hud', action='store_true',
                     help='back up and replace detected old HUD(s); required for customized/existing copies')
     ap.add_argument('--visual-clarity', action='store_true',
@@ -1034,9 +1464,9 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    if args.list_huds:
-        print_hud_catalog()
-        return 0
+    auxiliary = resource_mode(args)
+    if auxiliary is not None:
+        return auxiliary
     if sys.platform != 'linux':
         raise SetupError('This script is intended for Linux.')
     if os.geteuid() == 0:
@@ -1115,6 +1545,8 @@ def main() -> int:
             print('Session-only recovery in the TF2 console: r_drawviewmodel 1')
         warn_other_scripts(tf, args)
         if args.hud != 'keep':
+            if args.hud != 'stock':
+                print('Required files and acquisition details: --hud-info ' + args.hud)
             if args.hud in HUDS or args.hud in LOCAL_HUDS:
                 rel = hud_relative(args.hud)
                 guard[rel] = fingerprint(tf, rel)
@@ -1125,10 +1557,13 @@ def main() -> int:
                 print('HUD: use built-in stock HUD files; no HUD download.')
                 print('Other settings (including minimal HUD mode and 3D portrait visibility) stay unchanged.')
             elif hud_install:
-                if args.hud in LOCAL_HUDS:
+                if 'local_path' in asset:
                     print(f'HUD import: {args.hud}; local ZIP {asset["local_path"]}')
                     print('SHA-256: ' + asset['sha256'])
-                    print('Local content is NOT authenticated against an upstream release digest.')
+                    if args.hud in HUDS:
+                        print('Local ZIP matches the built-in pinned upstream SHA-256.')
+                    else:
+                        print('Local content is NOT authenticated against an upstream release digest.')
                 else:
                     print(f'HUD install: {args.hud} {asset["version"]} '
                           '(pinned release; SHA-256 checked before any game-file changes).')
@@ -1203,7 +1638,7 @@ def main() -> int:
                         ops['custom/' + old.name] = None
                 if hud_install:
                     archive = tmp / (args.hud + '.zip')
-                    if args.hud in LOCAL_HUDS:
+                    if 'local_path' in asset:
                         source = Path(asset['local_path'])
                         assert_plain(source)
                         if not source.is_file() or source.stat().st_size > 50 * 1024 * 1024:

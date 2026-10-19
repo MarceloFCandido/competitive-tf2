@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py v1.5.0.
+"""Offline regression tests for setup_tf2_bazzite.py v1.6.0.
 
 Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
 Steam, network, fonts, or downloaded HUD assets are needed or exercised.
@@ -629,9 +629,9 @@ class SetupTests(unittest.TestCase):
                 self.run_main('--update-only', '--hud', name, '--dry-run')
         self.assertEqual(before, self.snapshot())
 
-    def test_local_zip_with_remote_choice_rejected(self):
+    def test_local_zip_with_remote_choice_requires_pinned_digest(self):
         path = self.make_local_zip()
-        with self.assertRaisesRegex(m.SetupError, 'require --hud'):
+        with self.assertRaisesRegex(m.SetupError, 'Pinned HUD SHA-256 mismatch'):
             self.run_main('--hud', 'rayshud', '--hud-zip', str(path), '--dry-run')
 
     def test_local_zip_preview_reads_only(self):
@@ -740,6 +740,306 @@ class SetupTests(unittest.TestCase):
         result = self.run_main('--update-only')
         self.assertIn('Already configured', result[1])
         self.assertEqual(before, self.snapshot())
+
+    def resource_main(self, *args):
+        """Resource helpers must not discover TF2 or run any setup operation."""
+        out, err = io.StringIO(), io.StringIO()
+        with patch.object(sys, 'argv', [str(SCRIPT), *args]), \
+             patch.object(m.os, 'geteuid', return_value=1000), \
+             patch.object(m, 'discover_games', side_effect=AssertionError('game discovery')), \
+             patch.object(m, 'require_closed', side_effect=AssertionError('process scan')), \
+             patch.object(m, 'transact', side_effect=AssertionError('game writes')), \
+             contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            result = m.main()
+        return result, out.getvalue(), err.getvalue()
+
+    def png_fixture(self):
+        # A tiny test-only PNG, NOT a screenshot and never distributed as a preview.
+        import base64
+        return base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jEOsAAAAASUVORK5CYII=')
+
+    def test_resource_catalog_covers_all_eight(self):
+        expected = set(m.HUDS) | set(m.LOCAL_HUDS)
+        self.assertEqual(set(m.HUD_HELP), expected)
+        self.assertEqual({item['name'] for item in m.GALLERY_ITEMS}, expected)
+        self.assertEqual(len(m.GALLERY_ITEMS), 8)
+        for item in m.GALLERY_ITEMS:
+            self.assertTrue(item['image'].startswith('https://'))
+            self.assertTrue(item['gallery'].startswith('https://'))
+        for value in m.HUD_HELP.values():
+            self.assertTrue(value['notes'])
+            self.assertTrue(all(url.startswith('https://') for label, url in value['links']))
+
+    def test_hud_info_all_is_read_only(self):
+        before = self.snapshot()
+        with patch.object(m, 'download', side_effect=AssertionError('network')), \
+             patch.object(m, 'gallery_read_url', side_effect=AssertionError('network')):
+            result = self.resource_main('--hud-info', 'all')
+        self.assertEqual(result[0], 0)
+        for name in m.HUD_HELP:
+            self.assertIn(name.upper(), result[1])
+        self.assertEqual(before, self.snapshot())
+
+    def test_info_explains_fonts_theme_export_and_omitted_support(self):
+        _, text, _ = self.resource_main('--hud-info', 'toonhud')
+        self.assertIn('Custom font', text)
+        self.assertIn('https://toonhud.com/faq', text)
+        self.assertIn('theme', text)
+        _, text, _ = self.resource_main('--hud-info', 'centerhud')
+        self.assertIn('already in the download', text)
+        self.assertIn('excludes', text)
+
+    def test_modes_reject_accidental_installation_flags(self):
+        variants = [('--hud-info', 'all', '--hud', 'rayshud'),
+                    ('--fetch-hud', 'rayshud', '--update-only'),
+                    ('--build-gallery', 'out.html', '--preset', 'low'),
+                    ('--hud-info', 'rayshud', '--fetch-hud', 'rayshud'),
+                    ('--list-huds', '--build-gallery', 'out.html'),
+                    ('--output', 'a-directory'),
+                    ('--gallery-partial',),
+                    ('--gallery-images', 'some-directory')]
+        before = self.snapshot()
+        for flags in variants:
+            with self.subTest(flags=flags), self.assertRaises(m.SetupError):
+                self.resource_main(*flags)
+        self.assertEqual(before, self.snapshot())
+
+    def test_fetch_hud_dry_run_zero_network_or_writes(self):
+        before = self.snapshot()
+        output = self.root / 'new-download-dir'
+        with patch.object(m, 'download', side_effect=AssertionError('network')):
+            code, text, _ = self.resource_main('--fetch-hud', 'middlemann', '--output', str(output), '--dry-run')
+        self.assertEqual(code, 0)
+        self.assertIn(m.MIDDLEMANN['url'], text)
+        self.assertIn(m.MIDDLEMANN['sha256'], text)
+        self.assertEqual(before, self.snapshot())
+        self.assertFalse(output.exists())
+
+    def test_fetch_saves_complete_archive_not_stripped_cfg(self):
+        blob = archive_bytes('centerhud', {'cfg/support.cfg': 'echo support'})
+        digest = hashlib.sha256(blob).hexdigest()
+        before = self.snapshot(self.tf)
+        output = self.root / 'downloads'
+        def fake(asset, dest, maximum):
+            write(dest, blob)
+        with patch.dict(m.CENTERHUD, {'sha256': digest}), patch.object(m, 'download', side_effect=fake):
+            code, text, _ = self.resource_main('--fetch-hud', 'centerhud', '--output', str(output))
+        self.assertEqual(code, 0)
+        package = output / ('centerhud-' + m.CENTERHUD['version'] + '.zip')
+        self.assertEqual(package.read_bytes(), blob)
+        with zipfile.ZipFile(package) as archive:
+            self.assertIn('centerhud/cfg/support.cfg', archive.namelist())
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_fetch_cached_verified_zip_no_download(self):
+        blob = archive_bytes('rayshud')
+        output = self.root / 'downloads'
+        path = output / ('rayshud-' + m.RAYSHUD['version'] + '.zip')
+        write(path, blob)
+        before = self.snapshot()
+        with patch.dict(m.RAYSHUD, {'sha256': hashlib.sha256(blob).hexdigest()}), \
+             patch.object(m, 'download', side_effect=AssertionError('no download')):
+            code, text, _ = self.resource_main('--fetch-hud', 'rayshud', '--output', str(output))
+        self.assertEqual(code, 0)
+        self.assertIn('already present', text)
+        self.assertEqual(before, self.snapshot())
+
+    def test_fetch_wont_overwrite_wrong_existing_zip(self):
+        output = self.root / 'downloads'
+        write(output / ('rayshud-' + m.RAYSHUD['version'] + '.zip'), 'keep me')
+        before = self.snapshot()
+        with self.assertRaisesRegex(m.SetupError, 'different file already exists'):
+            self.resource_main('--fetch-hud', 'rayshud', '--output', str(output))
+        self.assertEqual(before, self.snapshot())
+
+    def test_fetch_wrong_digest_does_not_publish_partial_file(self):
+        output = self.root / 'downloads'
+        with patch.object(m, 'download', side_effect=lambda a, d, maximum: write(d, b'wrong')), \
+             self.assertRaisesRegex(m.SetupError, 'final SHA-256'):
+            self.resource_main('--fetch-hud', 'rayshud', '--output', str(output))
+        self.assertFalse(output.exists())
+
+    def test_fetch_failure_leaves_destination_untouched(self):
+        output = self.root / 'downloads'
+        with patch.object(m, 'download', side_effect=m.SetupError('offline')), \
+             self.assertRaisesRegex(m.SetupError, 'offline'):
+            self.resource_main('--fetch-hud', 'rayshud', '--output', str(output))
+        self.assertFalse(output.exists())
+
+    def test_fetch_manual_huds_reports_sources_without_writes(self):
+        before = self.snapshot()
+        for name in m.LOCAL_HUDS:
+            code, text, _ = self.resource_main('--fetch-hud', name, '--dry-run')
+            self.assertEqual(code, 0)
+            self.assertIn('Manual acquisition', text)
+            with self.assertRaisesRegex(m.SetupError, 'user-selected ZIP'):
+                self.resource_main('--fetch-hud', name)
+        self.assertEqual(before, self.snapshot())
+
+    def test_pinned_local_zip_install_preserves_game_cfg_without_network(self):
+        path = self.root / 'idhud-exact.zip'
+        write(path, archive_bytes('idhud'))
+        self.install_hud_fixture(customized=True)
+        before = self.snapshot(self.tf / 'cfg')
+        with patch.dict(m.IDHUD, {'sha256': m.tree_hash(path)}):
+            result = self.run_main('--update-only', '--hud', 'idhud', '--hud-zip', str(path), '--replace-hud')
+        self.assertEqual(result[0], 0)
+        self.assertFalse(result[3].called)
+        self.assertIn('built-in pinned upstream', result[1])
+        self.assertEqual(before, self.snapshot(self.tf / 'cfg'))
+        self.assertTrue((self.tf / 'custom/idhud').is_dir())
+
+    def test_pinned_local_zip_preview_and_repeat(self):
+        path = self.root / 'idhud-exact.zip'
+        write(path, archive_bytes('idhud'))
+        flags = ('--update-only', '--hud', 'idhud', '--hud-zip', str(path))
+        with patch.dict(m.IDHUD, {'sha256': m.tree_hash(path)}):
+            before = self.snapshot()
+            self.run_main(*flags, '--dry-run')
+            self.assertEqual(before, self.snapshot())
+            self.run_main(*flags)
+            before = self.snapshot()
+            result = self.run_main(*flags)
+            self.assertIn('Already configured', result[1])
+            self.assertEqual(before, self.snapshot())
+
+    def test_pinned_local_zip_cannot_bypass_pin_with_user_digest(self):
+        path = self.root / 'wrong-version.zip'
+        write(path, archive_bytes('rayshud'))
+        with self.assertRaisesRegex(m.SetupError, 'Pinned HUD SHA-256 mismatch'):
+            self.run_main('--hud', 'rayshud', '--hud-zip', str(path),
+                          '--hud-sha256', m.tree_hash(path), '--dry-run')
+
+    def test_pinned_hash_without_file_rejected(self):
+        with self.assertRaisesRegex(m.SetupError, 'requires --hud-zip'):
+            self.run_main('--hud', 'rayshud', '--hud-sha256', '0' * 64, '--dry-run')
+
+    def test_gallery_dry_run_no_network_or_writes(self):
+        before = self.snapshot()
+        with patch.object(m, 'fetch_gallery_image', side_effect=AssertionError('network')):
+            code, text, _ = self.resource_main('--build-gallery', str(self.root / 'new/offline.html'), '--dry-run')
+        self.assertEqual(code, 0)
+        self.assertIn('No network', text)
+        self.assertEqual(before, self.snapshot())
+
+    def test_gallery_contains_eight_embedded_images_no_remote_sources(self):
+        from html.parser import HTMLParser
+        class Images(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.sources = []
+            def handle_starttag(self, tag, attrs):
+                if tag == 'img':
+                    self.sources.append(dict(attrs)['src'])
+        out = self.root / 'offline.html'
+        before = self.snapshot(self.tf)
+        with patch.object(m, 'fetch_gallery_image', return_value=(self.png_fixture(), 'image/png', 'https://example.test/source')):
+            code, text, _ = self.resource_main('--build-gallery', str(out))
+        self.assertEqual(code, 0)
+        parser = Images()
+        parser.feed(out.read_text())
+        self.assertEqual(len(parser.sources), 8)
+        self.assertTrue(all(url.startswith('data:image/png;base64,') for url in parser.sources))
+        self.assertIn("img-src data:", out.read_text())
+        self.assertNotIn('<script', out.read_text())
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_gallery_failure_is_not_a_fake_completed_page(self):
+        out = self.root / 'new/offline.html'
+        with patch.object(m, 'fetch_gallery_image', side_effect=m.SetupError('host unavailable')), \
+             self.assertRaisesRegex(m.SetupError, 'No gallery was written'):
+            self.resource_main('--build-gallery', str(out))
+        self.assertFalse(out.parent.exists())
+
+    def test_gallery_partial_mode_explicit_and_exit_two(self):
+        out = self.root / 'partial.html'
+        def one_missing(item, directory):
+            if item['name'] == 'toonhud':
+                raise m.SetupError('could not download')
+            return self.png_fixture(), 'image/png', item['image']
+        with patch.object(m, 'fetch_gallery_image', side_effect=one_missing):
+            code, text, _ = self.resource_main('--build-gallery', str(out), '--gallery-partial')
+        self.assertEqual(code, 2)
+        self.assertIn('PARTIAL: 1 preview(s) missing', out.read_text())
+        self.assertEqual(out.read_text().count('<img src="data:'), 7)
+        self.assertIn('Screenshot unavailable', out.read_text())
+
+    def test_gallery_refuses_existing_file(self):
+        out = self.root / 'comparison.html'
+        write(out, 'preserve old gallery')
+        with self.assertRaisesRegex(m.SetupError, 'exists'), \
+             patch.object(m, 'fetch_gallery_image', side_effect=AssertionError('network')):
+            self.resource_main('--build-gallery', str(out))
+        self.assertEqual(out.read_text(), 'preserve old gallery')
+
+    def test_gallery_rejects_non_html_output(self):
+        with self.assertRaisesRegex(m.SetupError, '.html'):
+            self.resource_main('--build-gallery', str(self.root / 'autoexec.cfg'))
+
+    def test_gallery_local_images_never_need_network(self):
+        directory = self.root / 'screenshots'
+        for item in m.GALLERY_ITEMS:
+            write(directory / (item['name'] + '.png'), self.png_fixture())
+        out = self.root / 'offline-local.html'
+        with patch.object(m, 'gallery_read_url', side_effect=AssertionError('network')):
+            code, _, _ = self.resource_main('--build-gallery', str(out), '--gallery-images', str(directory))
+        self.assertEqual(code, 0)
+        self.assertEqual(out.read_text().count('User-supplied local preview:'), 8)
+
+    def test_gallery_local_duplicates_are_explicit(self):
+        item = m.GALLERY_ITEMS[0]
+        write(self.root / (item['name'] + '.png'), self.png_fixture())
+        write(self.root / (item['name'] + '.jpg'), self.png_fixture())
+        with self.assertRaisesRegex(m.SetupError, 'Multiple local previews'):
+            m.fetch_gallery_image(item, self.root)
+
+    def test_gallery_rejects_html_svg_and_empty_images(self):
+        for data in (b'', b'<html>' + b'x' * 100, b'<svg>' + b'x' * 100):
+            with self.subTest(data=data), self.assertRaises(m.SetupError):
+                m.image_mime(data)
+        self.assertEqual(m.image_mime(self.png_fixture()), 'image/png')
+
+    def test_gallery_raw_github_fallback(self):
+        import base64
+        item = next(item for item in m.GALLERY_ITEMS if item['name'] == 'centerhud')
+        data = self.png_fixture()
+        blob = hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+        payload = json.dumps({'encoding': 'base64', 'sha': blob,
+                              'content': base64.b64encode(data).decode()}).encode()
+        with patch.object(m, 'gallery_read_url', side_effect=[OSError('raw blocked'), payload]) as read:
+            contents, mime, source = m.fetch_gallery_image(item)
+        self.assertEqual(contents, data)
+        self.assertEqual(mime, 'image/png')
+        self.assertIn('api.github.com/repos/mastercomfig/hud-db/contents/', read.call_args.args[0])
+
+    def test_gallery_fallback_bad_blob_digest_rejected(self):
+        import base64
+        item = next(item for item in m.GALLERY_ITEMS if item['name'] == 'centerhud')
+        payload = json.dumps({'encoding': 'base64', 'sha': '0' * 40,
+                              'content': base64.b64encode(self.png_fixture()).decode()}).encode()
+        with patch.object(m, 'gallery_read_url', side_effect=[OSError('raw blocked'), payload]), \
+             self.assertRaisesRegex(m.SetupError, 'blob checksum mismatch'):
+            m.fetch_gallery_image(item)
+
+    def test_gallery_https_redirect_and_initial_url_checks(self):
+        for url in ('file:///etc/passwd', 'http://example.com/img.png', 'https://user:password@example.com/img.png'):
+            with self.subTest(url=url), self.assertRaises(m.SetupError):
+                m.gallery_read_url(url, 1024)
+        req = m.urllib.request.Request('https://example.com/x')
+        with self.assertRaisesRegex(m.SetupError, 'unsafe screenshot redirect'):
+            m.HTTPSOnlyRedirect().redirect_request(req, None, 302, '', {}, 'http://example.com/x')
+
+    def test_write_new_file_never_replaces_existing_or_symlink(self):
+        path = self.root / 'output.html'
+        write(path, 'keep')
+        with self.assertRaises(m.SetupError):
+            m.write_new_file(path, b'replacement')
+        symlink = self.root / 'alias.html'
+        symlink.symlink_to(path)
+        with self.assertRaises(m.SetupError):
+            m.write_new_file(symlink, b'replacement')
+        self.assertEqual(path.read_text(), 'keep')
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

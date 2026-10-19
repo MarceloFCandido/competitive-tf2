@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
-  "organized_at_utc": "2026-10-19T18:37:01.893556+00:00",
+  "schema_version": 2,
+  "organized_at_utc": "2026-10-19T18:49:31.099889+00:00",
   "repository_root_at_organization": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
-  "previous_head": "df151cddfd73f15c5e775727888ce6b5bfcb9487",
+  "previous_head": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
   "previous_commits": [
     "3b8f9bba6478fd4a347c38d0d395f05eadb8d797",
     "3cfea1d9f05e3b4cd3d55490ca68814ec64f997f",
@@ -36,9 +36,10 @@
     "6e2dd25bceffe039ee15bf70fea7c346dc6af03a",
     "618beb0913ab4670bdc0a035e4fa7fe376a99963",
     "8f781c29adfd62533057c4f87b28af3adb478c8b",
-    "df151cddfd73f15c5e775727888ce6b5bfcb9487"
+    "df151cddfd73f15c5e775727888ce6b5bfcb9487",
+    "0d0457707e0c0d60dbe1f376289c015a72d3fff6"
   ],
-  "policy": "Preserve all earlier commits, historical bytes and source paths. Curated documentation uses current paths. The original comparison HTML is preserved only in Git after verified README image rendering, as authorized by the user.",
+  "policy": "A single root README holds current instructions. Original evidence, earlier commits and historical source paths remain preserved. Historical guides use descriptive filenames and keep their original bytes.",
   "files": [
     {
       "previous_path": ".provenance/PROGRESS.md",
@@ -1521,9 +1522,9 @@
       "previous_path": "ATTACHMENTS.md",
       "current_path": ".agent/docs/ATTACHMENTS.md",
       "before_sha256": "63050c000e893da1924797fc5ef1536ba0ba93ad068732ae1a1f9831309bc07b",
-      "after_sha256": "5d5163a67c90cc388287105c185575a210ce7c6469fe65260fe127d7b3755fed",
+      "after_sha256": "386a63242c3fdc204784cf7bf34639a634df4079e6b4d3c331e510bf3cac376e",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "BROWSER_ACCESS.md",
@@ -1531,7 +1532,7 @@
       "before_sha256": "d2180a18962e099867f91131e05400b6c4a49851fb0bc6eb2e94f4d72b62fecb",
       "after_sha256": "6a923bb0828a8cb33c922954c63183582bf42077d736bfa69492ec5c2baa7cdd",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "GAPS.md",
@@ -1539,15 +1540,15 @@
       "before_sha256": "2f80c1b27a6dbd74af04c403990aac639cd5b5f6d4be56736714e7599d1313a5",
       "after_sha256": "64549b88efc4178ab6a0f72fe24901e153ff23bb1734eaccce4de67c6acdc627",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "README.md",
       "current_path": "README.md",
       "before_sha256": "464bfc81d5b3baa724423fc25fe707536a8ac340c30fe2ef769e85cb6a9c7c40",
-      "after_sha256": "da65002d1d34096917a45d90e9cbcfd753a91ff65979ca397fd716d983e0bd64",
+      "after_sha256": "dd255ab57ce1b745f6af2a3a47c8c900973e3ab9e6dba5c363c1f4a182bbf358",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "REFRESH.md",
@@ -1555,15 +1556,15 @@
       "before_sha256": "a64ec19daab1332b8a028887a7aa923b30cec41989d172120b166cc202d3c7fe",
       "after_sha256": "6f90638c846df4edbc763eece8aeed98a4bf3cc27f0672607f167c13ceec0fe0",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "REVISIONS.md",
       "current_path": ".agent/docs/REVISIONS.md",
       "before_sha256": "52ba0886dc35501c3a7a64aabbff570580da2932168ecebc4a17bb9214372637",
-      "after_sha256": "a6b7f2d4ba1b43981db8436fc2ab77a2a33f044a7c9f38d03cde7bf3050e85f4",
+      "after_sha256": "b7dafe3504bd84a44286c7cdac33dcebf30f60fb12deee06d9840cf114c71487",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "TF2_HUD_Gallery.html",
@@ -1574,7 +1575,7 @@
     },
     {
       "previous_path": "TF2_HUD_Update_README.md",
-      "current_path": "TF2_HUD_Update_README.md",
+      "current_path": ".agent/history/guides/tf2-v1.6.0-original.md",
       "before_sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
       "after_sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729",
       "content_changed": false
@@ -1594,9 +1595,9 @@
       "previous_path": "UPLOADS.md",
       "current_path": ".agent/docs/UPLOADS.md",
       "before_sha256": "df9a770c97c5ca3204bb307b36988e32659132fec4bd55d23b1ffea0ff346489",
-      "after_sha256": "94a7d1147fe20b2c510190b3c12278315f2d95f33b2551c448f32898a9a06708",
+      "after_sha256": "88763eeda40e490545a9b11b16f1a5dcc680d10c399a90371aa2f8a9555e2e2b",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "add_hud_tests.py",
@@ -1621,7 +1622,7 @@
     },
     {
       "previous_path": "case-variants/TF2_HUD_UPDATE_README.md",
-      "current_path": ".agent/history/case-variants/TF2_HUD_UPDATE_README.md",
+      "current_path": ".agent/history/guides/cumulative-hud-update-original.md",
       "before_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
       "after_sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
       "content_changed": false
@@ -1642,11 +1643,11 @@
     },
     {
       "previous_path": "reconstructions/incomplete-v1.5.0/README.md",
-      "current_path": ".agent/reconstructions/incomplete-v1.5.0/README.md",
+      "current_path": ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md",
       "before_sha256": "a20ee55e5b15c77fa76df1dc63ba86b724b8b70caa236a7415b6aa9a366b547d",
       "after_sha256": "e76eee0140cff6eb77e240740bab9ee2500967667aadb1af2a0c6eadcdbf334e",
       "content_changed": true,
-      "change_reason": "Curated documentation updated for current paths, README usage, visual comparison or historical scope; literal evidence is unchanged."
+      "change_reason": "Curated documentation consolidated into the single root README or updated to reflect descriptive historical paths. Literal evidence is unchanged."
     },
     {
       "previous_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
@@ -1783,15 +1784,16 @@
     }
   ],
   "new_files": [
-    ".agent/README.md",
-    "examples/README.md",
+    ".agent/ARCHIVE.md",
     ".agent/manifests/layout.json",
     ".agent/manifests/files.sha256.json",
     ".agent/manifests/validation.json",
     ".agent/tools/check_layout.py",
     ".agent/.gitignore",
-    ".agent/manifests/readme-command-audit.json",
+    ".agent/manifests/command-audit.json",
     ".agent/manifests/visual-comparison.json",
-    ".agent/tools/render_readme.py"
-  ]
+    ".agent/tools/render_documentation.py",
+    ".agent/manifests/documentation-consolidation.json"
+  ],
+  "original_files_snapshot_commit": "df151cddfd73f15c5e775727888ce6b5bfcb9487"
 }

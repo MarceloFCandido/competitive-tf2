@@ -38,6 +38,6 @@ window.addEventListener('load', async function(){
 </script>""")
 subprocess.run(['pandoc', str(ROOT / 'README.md'), '--from=gfm', '--to=html5',
                 '--standalone', '--metadata=pagetitle:TF2 README preview',
-                '--include-in-header=' + str(HEADER), '--output=' + str(PREVIEW / 'README.html')],
+                '--include-in-header=' + str(HEADER), '--output=' + str(PREVIEW / 'index.html')],
                check=True)
-print(str(PREVIEW / 'README.html'))
+print(str(PREVIEW / 'index.html'))

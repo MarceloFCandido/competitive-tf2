@@ -64,6 +64,17 @@ def without_fences(text):
     return '\n'.join(output)
 
 
+def markdown_ids(text):
+    ids = set()
+    counts = {}
+    for heading in re.findall(r'^#{1,6}\s+(.+?)\s*#*\s*$', without_fences(text), re.M):
+        slug = re.sub(r'[^\w\s-]', '', heading.lower()).replace(' ', '-')
+        count = counts.get(slug, 0)
+        counts[slug] = count + 1
+        ids.add(slug if count == 0 else slug + '-' + str(count))
+    return ids
+
+
 def verify_local_link(source, target, html_ids=None):
     target = target.strip()
     if target.startswith('<'):
@@ -73,14 +84,62 @@ def verify_local_link(source, target, html_ids=None):
     parsed = urlsplit(target)
     if parsed.scheme or parsed.netloc:
         return False
-    if not parsed.path:
-        if parsed.fragment and html_ids is not None:
+    if not parsed.path and html_ids is not None:
+        if parsed.fragment:
             assert unquote(parsed.fragment) in html_ids, (str(source), target)
         return False
-    path = (source.parent / unquote(parsed.path)).resolve()
+    path = (source.parent / unquote(parsed.path)).resolve() if parsed.path else source
     assert path.is_relative_to(ROOT), ('Local link escapes repository', str(source), target)
     assert path.exists(), ('Broken local link', str(source), target)
-    return True
+    if parsed.fragment and path.suffix.lower() == '.md':
+        assert unquote(parsed.fragment) in markdown_ids(path.read_text()), ('Broken Markdown anchor', str(source), target)
+    return bool(parsed.path or parsed.fragment)
+
+
+def verify_consolidation():
+    receipt = json.loads((MANIFESTS / 'documentation-consolidation.json').read_text())
+    found = []
+    for directory, dirs, files in os.walk(ROOT):
+        dirs[:] = [name for name in dirs if name != '.git']
+        for name in files:
+            if 'readme' in name.lower():
+                found.append((Path(directory) / name).relative_to(ROOT).as_posix())
+    assert sorted(found) == ['README.md'], ('Extra README filename or variant', found)
+    assert sha(ROOT / 'README.md') == receipt['main_document_sha256']
+    for item in receipt['documentation_inputs']:
+        raw = git('show', receipt['base_commit'] + ':' + item['path'])
+        assert hashlib.sha256(raw).hexdigest() == item['sha256']
+    for item in receipt['literal_documents_preserved']:
+        assert sha(ROOT / item['current_path']) == item['sha256']
+    removed = {item['path'] for item in receipt['removed_files']}
+    allowed = set(receipt['allowed_changed_current_paths'])
+    exact = 0
+    total = 0
+    for entry in git('ls-tree', '-rz', '--full-tree', receipt['base_commit']).split(b'\0'):
+        if not entry:
+            continue
+        metadata, previous_name = entry.split(b'\t', 1)
+        mode, kind, blob = metadata.decode().split()
+        assert kind == 'blob'
+        previous_name = previous_name.decode()
+        total += 1
+        if previous_name in removed:
+            assert not (ROOT / previous_name).exists()
+            continue
+        current_name = receipt['renamed_files'].get(previous_name, previous_name)
+        current = ROOT / current_name
+        assert current.is_file() and not current.is_symlink(), current_name
+        if current_name not in allowed:
+            raw = current.read_bytes()
+            actual_blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+            assert actual_blob == blob, ('Unrelated file changed', previous_name, current_name)
+            exact += 1
+    return {'README_filename_variants_found': sorted(found),
+            'prior_snapshot_files_accounted_for': total,
+            'prior_snapshot_files_preserved_byte_identical': exact,
+            'renamed_files_in_this_change': len(receipt['renamed_files']),
+            'redundant_files_retained_in_prior_commit': len(removed),
+            'literal_document_bodies_preserved': len(receipt['literal_documents_preserved'])}
 
 
 def verify(bootstrap=False):
@@ -111,7 +170,7 @@ def verify(bootstrap=False):
             assert not (ROOT / row['previous_path']).exists(), row['previous_path']
     protected = [row for row in layout['files'] if row['previous_path'].startswith('.provenance/')]
     assert all(not row['content_changed'] for row in protected), 'Historical provenance was edited'
-    for name in ('setup_tf2_bazzite.py', 'test_setup_tf2_bazzite.py', 'TF2_HUD_Update_README.md'):
+    for name in ('setup_tf2_bazzite.py', 'test_setup_tf2_bazzite.py'):
         row = next(row for row in layout['files'] if row['previous_path'] == name)
         assert row['current_path'] == name and not row['content_changed'], name
     assert (ROOT / 'test_setup_tf2_bazzite.py').with_name('setup_tf2_bazzite.py').is_file()
@@ -125,9 +184,9 @@ def verify(bootstrap=False):
             raw = git('show', event['commit'] + ':' + write['repo_path'])
             assert len(raw) == write['bytes'] and hashlib.sha256(raw).hexdigest() == write['sha256']
             revision_checks += 1
-    active_docs = [ROOT / 'README.md', ROOT / 'TF2_HUD_Update_README.md',
-                   ROOT / 'examples/README.md', ROOT / '.agent/README.md',
-                   ROOT / '.agent/reconstructions/incomplete-v1.5.0/README.md']
+    active_docs = [ROOT / 'README.md', ROOT / '.agent/ARCHIVE.md',
+                   ROOT / '.agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md']
+    active_docs += sorted((ROOT / '.agent/history/guides').glob('*.md'))
     active_docs += sorted((ROOT / '.agent/docs').glob('*.md'))
     local_links = 0
     for doc in active_docs:
@@ -140,7 +199,14 @@ def verify(bootstrap=False):
     assert visual['visual_verification_status'] == 'confirmed_rendered_images'
     assert visual['decoded_images'] == visual['visually_inspected_images'] == 15
     assert visual['visually_inspected_HUDs'] == 8
-    assert sha(ROOT / 'README.md') == visual['README_sha256']
+    verified_readme = git('show', visual['verified_README_commit'] + ':README.md')
+    assert hashlib.sha256(verified_readme).hexdigest() == visual['README_sha256']
+    assert sha(ROOT / 'README.md') == visual['current_README_sha256']
+    section = re.compile(r'^## HUD comparison\n.*?(?=^## |\Z)', re.M | re.S)
+    prior_comparison = section.search(verified_readme.decode()).group()
+    current_comparison = section.search((ROOT / 'README.md').read_text()).group()
+    assert prior_comparison == current_comparison
+    assert hashlib.sha256(current_comparison.encode()).hexdigest() == visual['comparison_section_sha256']
     page = ROOT / visual['source_html_previous_path']
     source_html = git('show', visual['source_html_commit'] + ':' + visual['source_html_previous_path'])
     assert hashlib.sha256(source_html).hexdigest() == visual['source_html_sha256']
@@ -150,7 +216,7 @@ def verify(bootstrap=False):
     assert len(readme_images) == 15 and Counter(readme_images) == Counter(parser.images)
     assert Counter(readme_images) == Counter(img['url'] for card in visual['cards'] for img in card['images'])
     assert not page.exists() and visual['current_html_path'] is None
-    audit = json.loads((MANIFESTS / 'readme-command-audit.json').read_text())
+    audit = json.loads((MANIFESTS / 'command-audit.json').read_text())
     assert sha(ROOT / 'setup_tf2_bazzite.py') == audit['installer_sha256']
     source_tree = ast.parse((ROOT / 'setup_tf2_bazzite.py').read_text())
     declared_flags = {arg.value for call in ast.walk(source_tree)
@@ -164,6 +230,7 @@ def verify(bootstrap=False):
     assert declared_flags == set(audit['declared_flags'])
     for target in parser.links:
         local_links += verify_local_link(page, target, parser.ids)
+    consolidation = verify_consolidation()
     current_checks = 0
     hashes_file = MANIFESTS / 'files.sha256.json'
     if not bootstrap:
@@ -185,7 +252,8 @@ def verify(bootstrap=False):
             'rendered_image_confirmation_receipt_verified': True,
             'active_markdown_documents_checked': len(active_docs), 'local_links_checked': local_links,
             'current_manifest_files_checked': current_checks, 'current_manifest_skipped_for_bootstrap': bootstrap,
-            'product_code_test_execution': False, 'network_requests': 0}
+            'product_code_test_execution': False, 'network_requests': 0,
+            **consolidation}
 
 
 if __name__ == '__main__':

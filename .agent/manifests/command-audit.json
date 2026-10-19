@@ -34,6 +34,7 @@
     "--gallery-partial",
     "--hud",
     "--hud-info",
+    "--hud-sha256",
     "--hud-zip",
     "--list-huds",
     "--output",
@@ -55,5 +56,6 @@
     "transact",
     "load_restore",
     "build_gallery"
-  ]
+  ],
+  "documentation_consolidation_base_commit": "0d0457707e0c0d60dbe1f376289c015a72d3fff6"
 }

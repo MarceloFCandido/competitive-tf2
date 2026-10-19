@@ -1,10 +1,10 @@
 {
-  "verified_at_utc": "2026-10-19T18:38:00.382493+00:00",
+  "verified_at_utc": "2026-10-19T18:51:08.644426+00:00",
   "repository": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
-  "head": "df151cddfd73f15c5e775727888ce6b5bfcb9487",
+  "head": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
   "original_files_accounted_for": 247,
-  "files_relocated": 242,
-  "relocated_files_byte_identical": 235,
+  "files_relocated": 243,
+  "relocated_files_byte_identical": 236,
   "files_preserved_only_in_Git": [
     "TF2_HUD_Visual_Comparison.html"
   ],
@@ -16,19 +16,27 @@
     ".agent/docs/REFRESH.md",
     ".agent/docs/REVISIONS.md",
     ".agent/docs/UPLOADS.md",
-    ".agent/reconstructions/incomplete-v1.5.0/README.md"
+    ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md"
   ],
   "historical_provenance_files_byte_identical": 211,
-  "prior_commits_preserved": 33,
+  "prior_commits_preserved": 34,
   "historical_revision_hashes_checked": 52,
   "README_original_image_URLs_matched": 15,
-  "README_flags_checked_statically": 18,
+  "README_flags_checked_statically": 19,
   "rendered_image_confirmation_receipt_verified": true,
   "active_markdown_documents_checked": 11,
-  "local_links_checked": 46,
+  "local_links_checked": 49,
   "current_manifest_files_checked": 255,
   "current_manifest_skipped_for_bootstrap": false,
   "product_code_test_execution": false,
   "network_requests": 0,
-  "scope": "Verified before the organization commit; the 33 source/archive commits and 52 recorded revisions are preserved. Product code/tests were not executed. Browser image inspection is recorded separately."
+  "README_filename_variants_found": [
+    "README.md"
+  ],
+  "prior_snapshot_files_accounted_for": 256,
+  "prior_snapshot_files_preserved_byte_identical": 243,
+  "renamed_files_in_this_change": 6,
+  "redundant_files_retained_in_prior_commit": 1,
+  "literal_document_bodies_preserved": 3,
+  "scope": "Verified before the single-README documentation commit. The 34 prior commits, literal provenance, code and tests remain preserved. The earlier visual inspection is tied to its original snapshot; the complete comparison section is unchanged."
 }

@@ -2,7 +2,9 @@
 
 **Dez arquivos originais**, em três grupos, foram preservados byte a byte sob nomes canônicos. Os sufixos dos nomes recebidos são metadados de upload e não números de revisão. Todos os hashes das partes e dos arquivos completos conferem.
 
-A raiz contém instalador, testes e guia **v1.6.0**. A comparação visual está no [README principal](../../README.md); o HTML original do grupo **v1.5.0** permanece no commit de origem abaixo e foi removido da árvore atual após verificação visual. As versões anteriores permanecem nos commits abaixo. A associação aos anúncios vem do usuário/pai e das declarações de versão; ela não comprova identidade binária com outros links históricos.
+A raiz contém instalador e testes **v1.6.0**, com as instruções consolidadas no README principal. O [guia original v1.6.0](../history/guides/tf2-v1.6.0-original.md) permanece byte a byte como evidência histórica sob nome descritivo. A comparação visual está no [README principal](../../README.md); o HTML original do grupo **v1.5.0** permanece no commit de origem abaixo e foi removido da árvore atual após verificação visual. As versões anteriores permanecem nos commits abaixo. A associação aos anúncios vem do usuário/pai e das declarações de versão; ela não comprova identidade binária com outros links históricos.
+
+Os nomes canônicos das tabelas são os caminhos nos commits de importação, não os nomes atuais de documentação. Consulte [layout.json](../manifests/layout.json) para a localização atual.
 
 ## 1o turno — v1.4.0
 

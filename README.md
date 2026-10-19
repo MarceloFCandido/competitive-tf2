@@ -39,7 +39,7 @@ python3 setup_tf2_bazzite.py --preset medium --fps-cap 300 --dry-run
 python3 setup_tf2_bazzite.py --preset medium --fps-cap 300
 ```
 
-A first install defaults to Medium, a 300 FPS cap, minimal visible viewmodels and keeping the existing HUD. It backs up `tf/cfg`, migrates standard autoexec/class configs into `cfg/overrides`, and installs pinned mastercomfig data. Existing custom config content can still override settings; review the [detailed guide](TF2_HUD_Update_README.md).
+A first install defaults to Medium, a 300 FPS cap, minimal visible viewmodels and keeping the existing HUD. It backs up `tf/cfg`, migrates standard autoexec/class configs into `cfg/overrides`, and installs pinned mastercomfig data. Existing custom config content can still override settings; review your files and the [configuration examples](#configuration-examples).
 
 The apply command asks for confirmation. A recognized earlier script-managed setup automatically uses incremental mode instead of reinstalling the baseline. `--dry-run` previews actions/diffs without downloads, game-file writes or backups.
 
@@ -65,14 +65,41 @@ python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 | `--viewmodels minimal` or `hidden` | Show minimal weapons or hide weapon/hands; firing/reload timing is unchanged. |
 | `--hud-zip PATH` | Import a ZIP. Automatic choices require the pinned checksum; MaxiHud/ToonHUD use your selected archive. |
 
-For an exported ToonHUD theme, first read its requirements:
+### Acquire and import HUD packages
+
+These are the release pins in the v1.6.0 installer, rather than a list of the latest upstream releases:
+
+| HUD choice | Package |
+|---|---|
+| `middlemann` | Complete v26.1 release ZIP; pinned SHA-256. |
+| `centerhud` | Complete v24 release ZIP; pinned SHA-256. |
+| `idhud` | Complete 4.0.8 release ZIP; pinned SHA-256. |
+| `hudfixes` | Complete 11.0 release ZIP; pinned SHA-256. |
+| `rayshud` | Complete 2026.0111 release ZIP; pinned SHA-256. |
+| `budhud` | Complete 2511_01 release ZIP; pinned SHA-256. |
+| `maxihud` | Your selected **Source code (zip)** from [release v17.5](https://github.com/maxiandrew/maxihud/releases/tag/v17.5); no trusted digest is pinned. |
+| `toonhud` | Your exported theme ZIP from the [theme editor](https://toonhud.com/); a theme page or screenshot is not the package. |
+
+For an automatic HUD, a local ZIP must match its built-in release checksum. An optional `--hud-sha256 HEX_DIGEST` checks an independently obtained expected hash; it cannot bypass a pinned checksum. For MaxiHud/ToonHUD, a hash calculated from your own file records its contents but does not authenticate the publisher.
+
+Read the requirements before importing an exported ToonHUD theme:
 
 ```bash
 python3 setup_tf2_bazzite.py --hud-info toonhud
 python3 setup_tf2_bazzite.py --update-only --hud toonhud --hud-zip "/path/to/toonhud.zip" --replace-hud --dry-run
 ```
 
-Center HUD, Community HUD Fixes, MaxiHud and ToonHUD are installed without their bundled `cfg` scripts; script-dependent initialization/customization may not work. Other HUDs retain the startup-preservation policy in the [guide](TF2_HUD_Update_README.md). The installer does not install system fonts or guarantee every runtime UI feature.
+For MaxiHud, use `--hud maxihud` with the actual downloaded ZIP path. These two choices require a local ZIP. The installer checks archive size, paths and structure; packed VPKs are refused for these isolated HUD imports. The [MaxiHud installation notes](https://github.com/maxiandrew/maxihud/blob/v17.5/README.md) describe optional add-ons that this script does not install automatically.
+
+For a ToonHUD **Custom** font, obtain the chosen font from its publisher, install it yourself and enter its actual family name in the editor, or choose a bundled font. There is no universal extra-font package for every theme. The installer copies font resources supplied in the ZIP but does not install system fonts. See the [export/Linux guide](https://toonhud.com/guide) and [font/centered-mode FAQ](https://toonhud.com/faq).
+
+### HUD configuration compatibility
+
+Center HUD, Community HUD Fixes, MaxiHud and ToonHUD are installed without their bundled `cfg` directories. Downloading the same ZIP again will not enable those omitted scripts. Initialization, customization aliases and menu features may therefore be incomplete. Center HUD's upstream first-run script writes configuration and uses demo/logging commands; MaxiHud's startup script changes console settings. The installer does not enable those scripts automatically.
+
+For Middle Mann, rayshud and budhud, bundled resources are retained but `cfg/valve.rc` is excluded to preserve startup settings. The pinned IDHUD package has no `cfg` directory; its optional recommended console settings are not applied. Arbitrary combinations of other mods and HUD menus can still affect runtime behavior.
+
+Middle Mann expects `cl_hud_minmode 0`. ToonHUD centered mode uses minimal **HUD** mode, which is separate from minimal weapon viewmodels. The installer preserves your current HUD mode; record its value before changing it manually.
 
 ## Backups and restoration
 
@@ -96,7 +123,13 @@ python3 setup_tf2_bazzite.py --fetch-hud middlemann --output "$HOME/Downloads/tf
 python3 setup_tf2_bazzite.py --fetch-hud middlemann --output "$HOME/Downloads/tf2-huds"
 ```
 
-Information, download-only and gallery modes are separate from installation options; do not combine them with `--hud`, `--update-only` or `--tf2-dir`.
+The download command saves the complete original package, including support scripts, without extracting it, scanning Steam or enabling the HUD. A matching existing ZIP is reused; a different existing file is refused. For example, Middle Mann is saved as `middlemann-v26.1.zip` and can later be previewed locally:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud middlemann --hud-zip "$HOME/Downloads/tf2-huds/middlemann-v26.1.zip" --replace-hud --dry-run
+```
+
+Information, download-only and gallery modes are separate from installation options; do not combine them with `--hud`, `--update-only` or `--tf2-dir`. Steam may remain open for these resource-only modes.
 
 To embed one screenshot per HUD into an offline comparison, choose a **new output filename**:
 
@@ -104,7 +137,17 @@ To embed one screenshot per HUD into an offline comparison, choose a **new outpu
 python3 setup_tf2_bazzite.py --build-gallery "$HOME/Downloads/TF2_HUD_Offline.html"
 ```
 
-By default, a missing screenshot stops creation without writing a gallery. `--gallery-images "/path/to/screenshots"` supplies local `NAME.png`, `.jpg`, `.jpeg` or `.webp` files. `--gallery-partial` explicitly permits marked missing previews and returns status 2; that is not a complete gallery. `--dry-run` is supported for download/gallery previews with no network or writes.
+Once all eight screenshots are obtained, the generated HTML embeds the image bytes and works offline without external images, fonts, scripts or stylesheets. Source/project links still require internet. The builder validates raster headers, uses HTTPS and size limits, and has a GitHub API fallback for GitHub-hosted images. It refuses an existing output file and HTML/login responses; it does not change TF2 or install a HUD.
+
+By default, a missing screenshot stops creation without writing a gallery and reports the image/source-gallery URLs. `--gallery-partial` explicitly permits marked missing previews and returns status 2; that is not a complete gallery.
+
+For a blocked host, save the actual screenshot from its source gallery and name it after the HUD choice, such as `middlemann.png`, `centerhud.webp` or `maxihud.jpg`:
+
+```bash
+python3 setup_tf2_bazzite.py --build-gallery "$HOME/Downloads/TF2_HUD_Offline.html" --gallery-images "$HOME/Downloads/hud-screenshots"
+```
+
+Use lowercase `.png`, `.jpg`, `.jpeg` or `.webp` extensions and one file per HUD name. Missing local previews still try their online sources. User-supplied previews are labelled as such. `--dry-run` is supported for download/gallery previews with no network or writes. No completed offline image bundle is supplied in this repository.
 
 ## HUD comparison
 
@@ -239,7 +282,17 @@ The export you choose determines the appearance. Full current TF2/Bazzite compat
 
 [Source screenshot gallery](https://tf2huds.dev/hud/ToonHUD) · [Upstream project / installation](https://toonhud.com/guide)
 
-## Tests and further reading
+## Configuration examples
+
+These CFGs preserve the initial conversation guide. They are reference examples for manual adaptation, rather than files generated by the current installer:
+
+- [Personal configuration](examples/tf/cfg/overrides/autoexec.cfg)
+- [Performance modules](examples/tf/cfg/overrides/modules.cfg)
+- [Medic alternative](examples/medic/tf/cfg/overrides/autoexec.cfg), with additional autoheal and target-marker options.
+
+All three files retain their original bytes.
+
+## Tests
 
 The [regression suite](test_setup_tf2_bazzite.py) has 103 test methods using synthetic archives/images and temporary directories. To run it manually:
 
@@ -249,6 +302,8 @@ python3 -m unittest -v test_setup_tf2_bazzite.py
 
 The installer and tests were not executed during this documentation/repository reorganization. Commands were checked against the v1.6.0 argument declarations and code.
 
-- [Detailed v1.6.0 guide](TF2_HUD_Update_README.md)
-- [Configuration examples](examples/README.md)
-- [Recovery history and earlier versions](.agent/README.md)
+## Source and archive records
+
+The installer keeps acquisition/dependency links in `HUD_HELP` and screenshot sources in `GALLERY_ITEMS`. These notes describe the pinned v1.6.0 behavior; upstream hosts and optional requirements may change. Support-file references include [Center HUD](https://github.com/RoseyLemonz/center-hud/tree/v24/cfg), [Community HUD Fixes](https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg), [MaxiHud](https://github.com/maxiandrew/maxihud/tree/v17.5/cfg) and the [budhud installation guide](https://github.com/rbjaxter/budhud/wiki/Installation).
+
+Recovery records and tools are indexed in [.agent/ARCHIVE.md](.agent/ARCHIVE.md). Literal historical guides are retained there as source evidence, and previous filenames remain in Git. This root file is the single current README and the source of installation instructions.

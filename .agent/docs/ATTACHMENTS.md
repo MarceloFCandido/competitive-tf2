@@ -15,7 +15,7 @@ As sete primeiras mensagens e suas 16 referências únicas foram conferidas dire
 | 2026-10-19 12:30 UTC | 1.5.0 | [454439cb-235e-4787-96c0-19a40f8c2b1d](https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=454439cb-235e-4787-96c0-19a40f8c2b1d) | `setup_tf2_bazzite.py`, `TF2_HUD_Update_README.md`, `test_setup_tf2_bazzite.py`, `TF2_HUD_Visual_Comparison.html` |
 | 2026-10-19 13:12 UTC | 1.6.0 | [e4b8944c-7916-4302-8016-463828ec503e](https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e) | `setup_tf2_bazzite.py`, `TF2_HUD_Update_README.md`, `test_setup_tf2_bazzite.py` |
 
-O README de 03:34 usa `TF2_HUD_UPDATE_README.md`; a partir de 03:45, os anúncios usam `TF2_HUD_Update_README.md`. A diferença de maiúsculas foi preservada.
+O README de 03:34 usa `TF2_HUD_UPDATE_README.md`; a partir de 03:45, os anúncios usam `TF2_HUD_Update_README.md`. A diferença de maiúsculas foi preservada no histórico Git e nos metadados de origem. Na árvore atual, os guias históricos usam nomes descritivos sem README; [layout.json](../manifests/layout.json) registra a correspondência.
 
 ## Estado literal de código 1.3.1
 

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "base_commit": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
+  "created_at_utc": "2026-10-19T18:49:31.099889+00:00",
+  "request": "Keep only the root README.md, consolidate useful documentation, preserve unique historical evidence and all prior commits.",
+  "documentation_inputs": [
+    {
+      "path": "README.md",
+      "sha256": "da65002d1d34096917a45d90e9cbcfd753a91ff65979ca397fd716d983e0bd64"
+    },
+    {
+      "path": "TF2_HUD_Update_README.md",
+      "sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729"
+    },
+    {
+      "path": ".agent/README.md",
+      "sha256": "2116b042ba95a472bcf43c5fd7762eb0d29f80f39bc5bf36d76906bbf03ab683"
+    },
+    {
+      "path": "examples/README.md",
+      "sha256": "cc4544f601752bab082be7c8bad3c3b752945aa55986f72d062cda5747c04c65"
+    },
+    {
+      "path": ".agent/reconstructions/incomplete-v1.5.0/README.md",
+      "sha256": "e76eee0140cff6eb77e240740bab9ee2500967667aadb1af2a0c6eadcdbf334e"
+    },
+    {
+      "path": ".agent/history/case-variants/TF2_HUD_UPDATE_README.md",
+      "sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30"
+    }
+  ],
+  "renamed_files": {
+    "TF2_HUD_Update_README.md": ".agent/history/guides/tf2-v1.6.0-original.md",
+    ".agent/history/case-variants/TF2_HUD_UPDATE_README.md": ".agent/history/guides/cumulative-hud-update-original.md",
+    ".agent/README.md": ".agent/ARCHIVE.md",
+    ".agent/reconstructions/incomplete-v1.5.0/README.md": ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md",
+    ".agent/manifests/readme-command-audit.json": ".agent/manifests/command-audit.json",
+    ".agent/tools/render_readme.py": ".agent/tools/render_documentation.py"
+  },
+  "removed_files": [
+    {
+      "path": "examples/README.md",
+      "preserved_commit": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
+      "consolidated_into": "README.md#configuration-examples"
+    }
+  ],
+  "ignored_preview_renamed": {
+    ".agent/preview/README.html": ".agent/preview/index.html"
+  },
+  "main_document": "README.md",
+  "main_document_sha256": "dd255ab57ce1b745f6af2a3a47c8c900973e3ab9e6dba5c363c1f4a182bbf358",
+  "merged_topics": [
+    "Exact v1.6.0 release pins and acquisition methods",
+    "Pinned and independently verified local ZIP checks",
+    "HUD cfg/startup compatibility, modes and custom fonts",
+    "Download reuse and local import",
+    "Offline gallery validation, local image inputs and failure behavior",
+    "Configuration examples and source/archive index"
+  ],
+  "literal_documents_preserved": [
+    {
+      "current_path": ".agent/history/guides/tf2-v1.6.0-original.md",
+      "sha256": "6bdbe02dff5c584349416ca14f70ceaf4dc91d66d5d1b6002748de7dac8ef729"
+    },
+    {
+      "current_path": ".agent/history/guides/cumulative-hud-update-original.md",
+      "sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30"
+    },
+    {
+      "current_path": ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md",
+      "sha256": "e76eee0140cff6eb77e240740bab9ee2500967667aadb1af2a0c6eadcdbf334e"
+    }
+  ],
+  "allowed_changed_current_paths": [
+    "README.md",
+    ".agent/ARCHIVE.md",
+    ".agent/docs/ATTACHMENTS.md",
+    ".agent/docs/REVISIONS.md",
+    ".agent/docs/UPLOADS.md",
+    ".agent/manifests/layout.json",
+    ".agent/manifests/files.sha256.json",
+    ".agent/manifests/validation.json",
+    ".agent/manifests/command-audit.json",
+    ".agent/manifests/visual-comparison.json",
+    ".agent/tools/check_layout.py",
+    ".agent/tools/render_documentation.py"
+  ],
+  "image_comparison_unchanged": true,
+  "product_code_or_tests_executed": false
+}

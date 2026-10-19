@@ -1,0 +1,214 @@
+{
+  "sequence": 544,
+  "message_id": "958c92ab-f810-41af-82e9-7a8255f345ff",
+  "source_timestamp": 1792412138.403389,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/extend_huds.py",
+      "repo_path": "extend_huds.py",
+      "status": "available_literal",
+      "sha256": "56dfc1baa1a8386ac459bb3323f3f0dbbe5c7b093ad23be313963cd81bb6167f",
+      "bytes": 11862,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
+      "status": "partial_static_candidate",
+      "sha256": "94946591d85997e4ba7de18f5492111d6a93c5e831d4665fedc3e46993a3ac19",
+      "bytes": 60608,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 4,
+          "old": "SCRIPT_VERSION = '1.4.0'",
+          "new": "SCRIPT_VERSION = '1.5.0'",
+          "limit": -1,
+          "matches": 0
+        },
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "Downloads only pinned upstream game data; never executes downloaded programs.",
+          "new": "Downloads pinned upstream game data, or imports an explicitly chosen local HUD ZIP.\nNever executes downloaded programs. Local ZIP hashes identify bytes, not publisher authenticity.",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 6,
+          "old": "HUDs:\n",
+          "new": "HUDs:\n    All previous options are retained. Added centerhud and communityhudfixes as\n    pinned downloads; maxihud and toonhud use --hud-zip /path/to/download.zip.\n    Local imports require a ZIP you trust; optional --hud-sha256 compares an\n    expected digest, but a self-computed digest is not proof of authenticity.\n    The four new choices use layout-first mode: standard automatic startup\n    hooks are excluded. Built-in customization menus, first-run setup and\n    automatic workarounds may not work until reviewed/configured separately.\n    Resource/menu files are still HUD code. No promise is made that arbitrary\n    in-game menu actions or other installed scripts cannot alter settings.\n",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "splice",
+          "start": "# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.",
+          "end": "HUD_MARKER =",
+          "insert": "CENTERHUD = {\n    'version': 'v24',\n    'url': 'https://github.com/RoseyLemonz/center-hud/releases/download/v24/center-hud.zip',\n    'sha256': '948346882585929f16aa4e37510ec560595e4eae58dc7727df126dae6551ff16',\n}\nCOMMUNITYHUDFIXES = {\n    'version': '11.0',\n    'url': 'https://github.com/CriticalFlaw/tf2hud-fixes/releases/download/11.0/tf2hud-fixes-r11.zip',\n    'sha256': '84fa26905d00d91fd45640e992b480b79ac9ed1fc836ce4caa7a6405603b2ea1',\n}\n# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.\nHUDS = {'middlemann': MIDDLEMANN, 'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD,\n        'centerhud': CENTERHUD, 'communityhudfixes': COMMUNITYHUDFIXES}\n# Theme ZIPs / source snapshots without a verified pinned binary are explicit\n# local imports, never unverified downloads masquerading as pinned releases.\nLOCAL_HUDS = ('maxihud', 'toonhud')\nHUD_CHOICES = ('keep', 'stock', *HUDS, *LOCAL_HUDS)\nLAYOUT_FIRST_HUDS = ('centerhud', 'communityhudfixes', *LOCAL_HUDS)\nHUD_DESCRIPTIONS = {\n    'middlemann': 'Middle Mann: TF2-styled panels with health/ammo toward the center.',\n    'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',\n    'rayshud': 'Simplified, bold redesign; centered health/ammo.',\n    'budhud': 'A redesigned HUD inspired by yahud and rayshud.',\n    'centerhud': 'Center HUD: centered critical information with the default TF2 style.',\n    'communityhudfixes': 'Community HUD Fixes: corrections to the stock-style interface.',\n    'maxihud': 'MaxiHud: TF2-like centered interface; import a trusted upstream ZIP.',\n    'toonhud': 'ToonHUD: import a theme ZIP downloaded from the browser editor.',\n}\nHUD_PAGES = {\n    'middlemann': 'https://github.com/Vexcenot/-middle-mann',\n    'idhud': 'https://github.com/idhud-tf2/idhud',\n    'rayshud': 'https://github.com/raysfire/rayshud',\n    'budhud': 'https://github.com/rbjaxter/budhud',\n    'centerhud': 'https://github.com/RoseyLemonz/center-hud',\n    'communityhudfixes': 'https://github.com/CriticalFlaw/tf2hud-fixes',\n    'maxihud': 'https://github.com/maxiandrew/maxihud',\n    'toonhud': 'https://toonhud.com/',\n}\nHUD_DIRECTORIES = {'centerhud': 'center-hud', 'communityhudfixes': 'tf2hud-fixes'}\nHUD_MAX_ZIP = 50 * 1024 * 1024\n"
+        },
+        {
+          "operation": "splice",
+          "start": "def hud_is_current(",
+          "end": null,
+          "insert": "def hud_rel(name: str) -> str:\n    return 'custom/' + HUD_DIRECTORIES.get(name, name)\n\n\ndef hud_policy(name: str) -> str:\n    return 'layout-first-v1' if name in LAYOUT_FIRST_HUDS else HUD_POLICY\n\n\ndef resolve_hud_asset(args: argparse.Namespace) -> dict | None:\n    \"\"\"Read-only validation and source selection; no extraction/download/write.\"\"\"\n    if args.hud_sha256 and not args.hud_zip:\n        raise SetupError('--hud-sha256 requires --hud-zip.')\n    if args.hud_zip and args.hud not in LOCAL_HUDS:\n        raise SetupError('--hud-zip is for --hud maxihud or --hud toonhud. '\n                         'Other choices use the verified pinned downloads.')\n    if args.hud not in LOCAL_HUDS:\n        return HUDS.get(args.hud)\n    if not args.hud_zip:\n        raise SetupError(f'--hud {args.hud} requires --hud-zip /path/to/download.zip. '\n                         f'Choose/download the upstream ZIP at {HUD_PAGES[args.hud]}')\n    src = args.hud_zip.expanduser().absolute()\n    assert_plain(src)\n    if not src.is_file() or not 0 < src.stat().st_size <= HUD_MAX_ZIP:\n        raise SetupError('Local HUD ZIP must be an ordinary nonempty file of at most 50 MiB.')\n    if not zipfile.is_zipfile(src):\n        raise SetupError('Local HUD file is not a ZIP archive.')\n    digest = tree_hash(src)\n    if args.hud_sha256:\n        expected = args.hud_sha256.lower()\n        if not re.fullmatch(r'[0-9a-f]{64}', expected):\n            raise SetupError('--hud-sha256 must contain exactly 64 hexadecimal digits.')\n        if expected != digest:\n            raise SetupError('Local HUD ZIP SHA-256 mismatch; refusing import.')\n    return {'version': 'local-zip-' + digest[:12], 'sha256': digest,\n            'local_path': str(src), 'source_kind': 'local-zip'}\n\n\n"
+        },
+        {
+          "operation": "replace",
+          "source_line": 101,
+          "old": "def hud_is_current(path: Path, name: str) -> bool:",
+          "new": "def hud_is_current(path: Path, name: str, asset: dict | None = None) -> bool:\n    asset = asset or HUDS.get(name)\n    if asset is None:\n        return False",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 102,
+          "old": "saved.get('archive_sha256') == HUDS[name]['sha256']",
+          "new": "saved.get('archive_sha256') == asset['sha256']",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 103,
+          "old": "saved.get('policy') == HUD_POLICY",
+          "new": "saved.get('policy') == hud_policy(name)",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 104,
+          "old": "def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:",
+          "new": "def plan_hud(tf: Path, name: str, replace: bool, asset: dict | None = None) -> tuple[bool, list[str]]:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 105,
+          "old": "selected = target_path(tf, 'custom/' + name)",
+          "new": "selected = target_path(tf, hud_rel(name))",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 106,
+          "old": "hud_is_current(selected, name)",
+          "new": "hud_is_current(selected, name, asset)",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 107,
+          "old": "def prepare_hud(archive: Path, dest: Path, name: str) -> Path:\n    root = extract_hud(archive, dest)",
+          "new": "def prepare_hud(archive: Path, dest: Path, name: str, asset: dict | None = None) -> Path:\n    asset = asset or HUDS.get(name)\n    if asset is None:\n        raise SetupError('Local HUD import requires a validated source ZIP.')\n    root = extract_hud(archive, dest)\n    if name in LAYOUT_FIRST_HUDS:\n        # Exclude engine/startup configuration entry points rather than let a\n        # newly chosen layout reset the user's gameplay settings on startup.\n        # The remaining resource/menu code is NOT a security sandbox.\n        excluded = {'valve.rc', 'joystick.cfg', 'autoexec.cfg', 'config.cfg',\n                    'default.cfg', 'config_default.cfg', 'user_default.scr',\n                    'listenserver.cfg', 'server.cfg', *MIGRATE}\n        cfg = root / 'cfg'\n        if cfg.is_dir():\n            for child in list(cfg.iterdir()):\n                if child.name.lower() in excluded:\n                    if not child.is_file():\n                        raise SetupError('Unexpected directory at a HUD startup file: ' + child.name)\n                    child.unlink()\n                    print('  Excluded HUD cfg/' + child.name + ' (layout-first mode).')\n        if any(p.is_file() for p in root.rglob('*.vpk')):\n            raise SetupError('Packed VPK content is not accepted inside these HUD ZIPs; '\n                             'use an unpacked upstream HUD archive.')\n        print('  Layout-first mode: automatic customizer initialization and first-run tweaks are omitted.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 131,
+          "old": "{'hud': name, 'version': HUDS[name]['version'],\n                                'archive_sha256': HUDS[name]['sha256'], 'policy': HUD_POLICY,",
+          "new": "{'hud': name, 'version': asset['version'],\n                                'archive_sha256': asset['sha256'], 'policy': hud_policy(name),",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 132,
+          "old": "    for name, asset in HUDS.items():\n        print(f'{name:<12}{HUD_DESCRIPTIONS[name]}')\n        print(f'            Pinned release: {asset[\"version\"]}; {HUD_PAGES[name]}')",
+          "new": "    for name in (*HUDS, *LOCAL_HUDS):\n        print(f'{name:<19}{HUD_DESCRIPTIONS[name]}')\n        mode = ('Pinned release: ' + HUDS[name]['version']) if name in HUDS else 'Local ZIP: requires --hud-zip PATH'\n        print(f'                   {mode}; {HUD_PAGES[name]}')\n        if name in LAYOUT_FIRST_HUDS:\n            print('                   Layout-first: startup hooks omitted; customizer menus may not initialize.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 133,
+          "old": "    ap.add_argument('--list-huds'",
+          "new": "    ap.add_argument('--hud-zip', type=Path, help='trusted local ZIP for maxihud or toonhud; no network')\n    ap.add_argument('--hud-sha256', help='optional expected local ZIP SHA-256; not publisher authentication')\n    ap.add_argument('--list-huds'",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 134,
+          "old": "    if sys.platform != 'linux':",
+          "new": "    hud_asset = resolve_hud_asset(args)\n    if sys.platform != 'linux':",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 135,
+          "old": "or args.viewmodels or args.hud != 'keep' or args.replace_hud):",
+          "new": "or args.viewmodels or args.hud != 'keep' or args.replace_hud or args.hud_zip or args.hud_sha256):",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 136,
+          "old": "plan_hud(tf, args.hud, args.replace_hud)",
+          "new": "plan_hud(tf, args.hud, args.replace_hud, hud_asset)",
+          "limit": -1,
+          "matches": 2
+        },
+        {
+          "operation": "replace",
+          "source_line": 137,
+          "old": "if args.hud in HUDS:",
+          "new": "if args.hud in (*HUDS, *LOCAL_HUDS):",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 138,
+          "old": "args.hud in HUDS and",
+          "new": "args.hud in (*HUDS, *LOCAL_HUDS) and",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 139,
+          "old": "rel = 'custom/' + args.hud",
+          "new": "rel = hud_rel(args.hud)",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 140,
+          "old": "tf / 'custom' / args.hud",
+          "new": "tf / hud_rel(args.hud)",
+          "limit": -1,
+          "matches": 2
+        },
+        {
+          "operation": "replace",
+          "source_line": 141,
+          "old": "                print(f'HUD install: {args.hud} {HUDS[args.hud][\"version\"]} '\n                      '(pinned release; SHA-256 checked before any game-file changes).')",
+          "new": "                if args.hud in LOCAL_HUDS:\n                    print(f'HUD import: {args.hud} from {hud_asset[\"local_path\"]}; no HUD download.')\n                    print('Local ZIP SHA-256: ' + hud_asset['sha256'])\n                    print('This identifies the file only, NOT a verified upstream publisher/release.')\n                else:\n                    print(f'HUD install: {args.hud} {hud_asset[\"version\"]} '\n                          '(pinned release; SHA-256 checked before any game-file changes).')\n                if args.hud in LAYOUT_FIRST_HUDS:\n                    print('Layout-first: exclude engine startup hooks, controller hooks, and automatic first-run setup.')\n                    print('Built-in customizer menus may not initialize; menu commands can still change settings if used.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 152,
+          "old": "                    download(HUDS[args.hud], archive, 50 * 1024 * 1024)\n                    ops['custom/' + args.hud] = prepare_hud(archive, tmp / 'hud-unpacked', args.hud)",
+          "new": "                    if args.hud in LOCAL_HUDS:\n                        source = Path(hud_asset['local_path'])\n                        assert_plain(source)\n                        if not source.is_file() or source.stat().st_size > HUD_MAX_ZIP:\n                            raise SetupError('Local HUD ZIP changed after the preview.')\n                        shutil.copyfile(source, archive)\n                        if tree_hash(archive) != hud_asset['sha256']:\n                            raise SetupError('Local HUD ZIP changed after the preview; nothing installed.')\n                    else:\n                        download(hud_asset, archive, HUD_MAX_ZIP)\n                    ops[hud_rel(args.hud)] = prepare_hud(archive, tmp / 'hud-unpacked', args.hud, hud_asset)",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

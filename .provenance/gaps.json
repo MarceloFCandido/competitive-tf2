@@ -49,15 +49,20 @@
       582,
       589
     ],
-    "detail": "A fetch/repair attempt is shown, but downloaded images and a completed repaired HTML file are absent."
+    "detail": "The message explicitly says screenshot binaries could not be downloaded. The offline gallery must be built on the gaming PC; a repaired offline gallery was not delivered as an attachment.",
+    "status": "not_a_missing_attachment",
+    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
   },
   {
-    "id": "last_request",
+    "id": "snapshot_coverage",
     "messages": [
       582,
       606
     ],
-    "detail": "The conversation ends with a request to handle external HUD dependencies and an intention to update. No completed new revision is available."
+    "detail": "The public snapshot ends during the dependency follow-up. The original conversation later contains a v1.6.0 announcement at 2026-10-19T13:12:17Z, absent from the public snapshot.",
+    "status": "earlier_public_snapshot",
+    "later_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
   },
   {
     "id": "sandbox_attachments",
@@ -73,6 +78,20 @@
     "status": "unavailable",
     "reason": "Personal context is unavailable for this conversation.",
     "paginated_api": "Not exposed in this executor.",
-    "authenticated_browser": "Mac remains locked; authenticated attachments unavailable."
+    "authenticated_browser": "Mac remains locked; authenticated attachments unavailable.",
+    "scope": "executor_only; parent direct-conversation reading works but does not supply attachment bytes"
+  },
+  {
+    "id": "version_1_6_0",
+    "status": "announced_original_bytes_unavailable",
+    "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+    "source_timestamp_utc": "2026-10-19T13:12:17Z",
+    "artifact_filenames": [
+      "setup_tf2_bazzite.py",
+      "test_setup_tf2_bazzite.py",
+      "TF2_HUD_Update_README.md"
+    ],
+    "detail": "Later announcement of v1.6.0, 103 tests and new CLI features. No original file bytes supplied to this executor. No synthetic v1.6.0 artifact created.",
+    "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
   }
 ]

@@ -15,3 +15,7 @@
 - Validação no destino: 42 blobs históricos e 204 hashes finais conferidos; 31 análises estáticas de Python; git fsck --full --strict passou; git status limpo; nenhum remoto.
 - HEAD: 1b34d7b54074c9080d9193ad99cf313dc6000667.
 - Rechecagem final do navegador: Mac ainda bloqueado; anexos autenticados não acessíveis. A ferramenta read_conversation_context continua ausente.
+
+- 2026-10-19T13:42:54.672768+00:00: evidência suplementar do pai registra anúncio original de v1.6.0 (2026-10-19T13:12:17Z, mensagem e4b8944c-7916-4302-8016-463828ec503e), 103 testes relatados e opções adicionais. Sem bytes dos anexos.
+- Comparação local: mesma conversa original; mensagem v1.6.0 ausente dos 615 nós do compartilhamento; último nó da captura em 2026-10-19T12:56:12.535328+00:00.
+- Corrigido: galeria offline deveria ser construída no PC, não foi entregue como anexo reparado. Commit de correção novo; histórico anterior preservado.

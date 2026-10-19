@@ -1,0 +1,35 @@
+{
+  "evidence_type": "parent_report_of_direct_conversation_read",
+  "received_at_utc": "2026-10-19T13:42:54.672768+00:00",
+  "original_conversation_id": "6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "original_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+  "original_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e",
+  "reported_source_timestamp_utc": "2026-10-19T13:12:17Z",
+  "full_original_message_received_by_executor": false,
+  "original_attachment_bytes_received": false,
+  "advertised_version": "1.6.0",
+  "advertised_attachment_filenames": [
+    "setup_tf2_bazzite.py",
+    "test_setup_tf2_bazzite.py",
+    "TF2_HUD_Update_README.md"
+  ],
+  "reported_features": [
+    "--hud-info all",
+    "--fetch-hud middlemann --output",
+    "--build-gallery"
+  ],
+  "reported_test_count": 103,
+  "test_claim_status": "reported by source, not rerun or independently verified",
+  "gallery_clarification": "The message explicitly says screenshot binaries could not be downloaded. The offline gallery must be built on the gaming PC; a repaired offline gallery was not delivered as an attachment.",
+  "shared_snapshot_comparison": {
+    "same_backing_conversation": true,
+    "snapshot_nodes": 615,
+    "snapshot_current_node": "6300a988-456c-4c43-bc20-c2eb770c75ad",
+    "snapshot_current_node_timestamp_utc": "2026-10-19T12:56:12.535328+00:00",
+    "later_message_in_mapping": false,
+    "later_message_in_linear_conversation": false,
+    "literal_version_1_6_0_present": false,
+    "conclusion": "The public shared data is an earlier snapshot of the same original conversation and does not include the later v1.6.0 announcement."
+  },
+  "parent_message_verbatim": "Leitura direta funciona no pai. Encontrei mensagem posterior/atual que precisa constar no inventário: https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e ,19/10/2026 13:12:17UTC, anuncia v1.6.0 de setup_tf2_bazzite.py, 103 testes e links dos mesmos test_setup_tf2_bazzite.py e TF2_HUD_Update_README.md. Descreve --hud-info all, --fetch-hud middlemann --output e --build-gallery. Importante: afirma explicitamente que não conseguiu baixar binários de screenshots e que a galeria offline precisa ser construída no PC; o anexo anterior NÃO é galeria já reparada. Portanto não classifique uma galeria reparada inexistente como anexo faltante. Revise GAPS/inventário para incluir v1.6.0 anunciado se não consta, sem inventar seu conteúdo. Confirme se dados compartilhados cobrem essa mensagem ou são outra versão da conversa. A busca só fornece texto, não bytes dos anexos. Posso enviar o texto integral dessa mensagem se precisar. Preserve commits anteriores e adicione correção documentada."
+}

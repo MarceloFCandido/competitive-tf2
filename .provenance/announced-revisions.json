@@ -1,0 +1,36 @@
+[
+  {
+    "version": "1.4.0",
+    "evidence": "shared snapshot message sequence 468",
+    "artifact_filenames": [
+      "setup_tf2_bazzite.py"
+    ],
+    "content_status": "original_bytes_unavailable",
+    "note": "The preceding visible source edit sets 1.3.1; the transition is absent."
+  },
+  {
+    "version": "1.5.0",
+    "evidence": "shared snapshot messages 544, 548, 550, 570",
+    "artifact_filenames": [
+      "setup_tf2_bazzite.py",
+      "test_setup_tf2_bazzite.py",
+      "TF2_HUD_Update_README.md"
+    ],
+    "content_status": "original_installer_and_test_bytes_unavailable",
+    "note": "Literal README and change scripts are archived. Installer/test candidates are explicitly incomplete."
+  },
+  {
+    "version": "1.6.0",
+    "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json",
+    "source_message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+    "source_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e",
+    "source_timestamp_utc": "2026-10-19T13:12:17Z",
+    "artifact_filenames": [
+      "setup_tf2_bazzite.py",
+      "test_setup_tf2_bazzite.py",
+      "TF2_HUD_Update_README.md"
+    ],
+    "content_status": "announcement_only_original_bytes_unavailable",
+    "note": "Reported by the parent after a direct read of the original conversation; absent from the public snapshot. No artifact was fabricated."
+  }
+]

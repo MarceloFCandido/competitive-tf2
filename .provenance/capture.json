@@ -36,5 +36,22 @@
   "original_conversation_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
   "original_context_attempt": "Personal context is unavailable for this conversation.",
   "read_conversation_context_api": "Not exposed in this executor.",
-  "final_browser_attempt": "Mac remains locked; authenticated attachments unavailable."
+  "final_browser_attempt": "Mac remains locked; authenticated attachments unavailable.",
+  "supplemental_source_comparison": {
+    "same_backing_conversation": true,
+    "snapshot_nodes": 615,
+    "snapshot_current_node": "6300a988-456c-4c43-bc20-c2eb770c75ad",
+    "snapshot_current_node_timestamp_utc": "2026-10-19T12:56:12.535328+00:00",
+    "later_message_in_mapping": false,
+    "later_message_in_linear_conversation": false,
+    "literal_version_1_6_0_present": false,
+    "conclusion": "The public shared data is an earlier snapshot of the same original conversation and does not include the later v1.6.0 announcement."
+  },
+  "later_announced_version": {
+    "version": "1.6.0",
+    "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+    "timestamp_utc": "2026-10-19T13:12:17Z",
+    "content_available": false,
+    "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+  }
 }

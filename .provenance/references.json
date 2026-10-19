@@ -69,6 +69,14 @@
         "repo_path": "TF2_HUD_Update_README.md",
         "status": "available_literal"
       }
+    ],
+    "later_announcements": [
+      {
+        "version": "1.6.0",
+        "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "content_status": "original_bytes_unavailable",
+        "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+      }
     ]
   },
   {
@@ -332,6 +340,14 @@
         "repo_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
         "status": "partial_static_candidate"
       }
+    ],
+    "later_announcements": [
+      {
+        "version": "1.6.0",
+        "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "content_status": "original_bytes_unavailable",
+        "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+      }
     ]
   },
   {
@@ -393,6 +409,14 @@
         "commit": "572c7e493d2875c7ef54e87cf9d01b950a793e6d",
         "repo_path": "reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
         "status": "partial_static_candidate"
+      }
+    ],
+    "later_announcements": [
+      {
+        "version": "1.6.0",
+        "message_id": "e4b8944c-7916-4302-8016-463828ec503e",
+        "content_status": "original_bytes_unavailable",
+        "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
       }
     ]
   },

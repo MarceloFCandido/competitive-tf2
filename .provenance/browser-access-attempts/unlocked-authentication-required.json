@@ -1,0 +1,30 @@
+{
+  "recorded_at_utc": "2026-10-19T15:14:04.581578+00:00",
+  "computer": "NEBULOSA-2.local",
+  "requested_conversation_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "mac_unlocked": true,
+  "unlock_verification": "Safari window observed through accessibility state and screenshot; no lock screen.",
+  "safari_available": true,
+  "original_conversation_navigation_attempted": true,
+  "navigation_result": "Redirected to unauthenticated chatgpt.com landing page.",
+  "observed_authenticated_session": false,
+  "current_safari_ui": "Log in or sign up dialog with Continue with Google, Continue with Apple, phone and blank email field.",
+  "user_login_pending": true,
+  "required_user_step": "Log into ChatGPT in the open Safari window using the account that owns the original conversation. Do not send passwords to the assistant.",
+  "zen_attempt": {
+    "initial_app_read": "Timed out and reset the computer-use kernel.",
+    "subsequent_app_read": "Window and screenshot became readable.",
+    "navigation_confirmed": false,
+    "coordinate_action_result": "Computer Use server error -10005: windowNotFoundAtPosition((75.0, 625.0))",
+    "scope": "Zen navigation/control not confirmed; no authenticated ChatGPT content or downloaded bytes obtained from Zen."
+  },
+  "attachment_download_attempts": 0,
+  "new_original_files_recovered": 0,
+  "new_binary_revisions_verified": 0,
+  "historical_attachment_identity_assumed": false,
+  "recovered_code_executions": 0,
+  "remote_publication": false,
+  "outcome": "blocked_pending_user_authentication; not an automatic-approval denial",
+  "screenshots_archived": false,
+  "privacy_note": "Only relevant UI observations are recorded; no screenshots, unrelated browser content, login credentials or cookies were archived."
+}

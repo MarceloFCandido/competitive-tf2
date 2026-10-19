@@ -28,3 +28,7 @@
 - Novos downloads em 14:57:17 e 14:58:00 UTC, ambos HTTP 200; segundo com cabeçalhos no-cache e resposta DYNAMIC.
 - Metadados confirmam atualização do link em 14:55:52 UTC; apenas update_time e ordenação de safe_urls mudaram. Os mesmos 615 nós, 89 mensagens de código e 16 pares literais de mensagem+anexo permanecem inalterados.
 - Zero novas revisões recuperadas. Capturas preservadas em diretório próprio; inventário e lacunas atualizados sem criar conteúdo faltante. Nenhuma tentativa de navegador ou suposição de desbloqueio do Mac.
+
+- 2026-10-19T15:14:04.581578+00:00: Mac desbloqueado confirmado visualmente no Safari; aplicativos disponíveis sem erro de tela bloqueada.
+- Safari acessível; navegação para conversa original redirecionou a chatgpt.com sem autenticação. Diálogo de login aberto; pendente entrar com a mesma conta.
+- Zen ficou legível após timeout inicial, mas navegação não foi confirmada e houve windowNotFoundAtPosition. Nenhum anexo baixado, versão nova inventada ou script recuperado executado.

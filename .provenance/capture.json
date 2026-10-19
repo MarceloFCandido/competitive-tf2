@@ -88,5 +88,13 @@
     "later_v1_6_message_present": false,
     "browser_attempted": false,
     "mac_unlock_assumed": false
+  },
+  "latest_browser_attempt": {
+    "evidence": ".provenance/browser-access-attempts/unlocked-authentication-required.json",
+    "recorded_at_utc": "2026-10-19T15:14:04.581578+00:00",
+    "mac_unlocked_visually_verified": true,
+    "safari_accessible": true,
+    "chatgpt_authentication_required": true,
+    "new_original_files_recovered": 0
   }
 }

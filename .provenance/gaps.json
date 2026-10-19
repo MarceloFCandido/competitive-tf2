@@ -117,5 +117,14 @@
     "detail": "The server metadata records an update at 2026-10-19T14:55:52.628028Z, but both HTTP 200 responses still contain exactly the earlier 615 message nodes and 89 code messages. Safe URLs are the same set of 331 entries; only ordering changed. The v1.6.0 message and new file contents are not exposed in these public responses.",
     "evidence": ".provenance/source/refresh-20261019T145800Z/comparison.json",
     "next_recovery_input": "A shared response containing the later message/file content, or original attachment bytes from the authenticated conversation/export/backups. No guarantee is made that expired/overwritten historical bytes still exist."
+  },
+  {
+    "id": "authenticated_browser_requires_chatgpt_login",
+    "status": "pending_user_authentication",
+    "target": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+    "mac_unlocked_visually_verified": true,
+    "detail": "Mac unlock is confirmed. Safari is accessible, but the original conversation redirects to a logged-out landing page. Login dialog is open. No attachment bytes downloaded.",
+    "next_step": "Log into ChatGPT in the open Safari window using the account that owns the original conversation. Do not send passwords to the assistant.",
+    "evidence": ".provenance/browser-access-attempts/unlocked-authentication-required.json"
   }
 ]

@@ -1,142 +1,128 @@
-# TF2 HUD update for Bazzite — installer v1.3.0
+# Centered TF2-style HUD option — installer v1.3.1
 
-This revision adds **Improved Default HUD (IDHUD)** and a return-to-stock option.
-The existing rayshud and budhud choices remain available. It does not publish
-anything to GitHub or change your gaming PC until you run it there.
+This revision adds **Middle Mann** as `--hud middlemann`. It keeps rayshud,
+budhud, Improved Default HUD (IDHUD), `stock`, and `keep` available. Nothing is
+published to GitHub or installed on your gaming PC by downloading this script.
 
-## Start with Improved Default HUD
+Middle Mann is the option for TF2-style artwork with centered health/ammo.
+IDHUD keeps the original corner layout and is not the centered alternative.
 
-Save `setup_tf2_bazzite.py`, replacing the previously downloaded copy. Run as
-your normal desktop user, not with `sudo`.
+## Preview, then switch only the HUD
+
+Save `setup_tf2_bazzite.py`, replacing your older downloaded copy. Run as your
+normal user, without sudo.
 
 ```bash
 python3 setup_tf2_bazzite.py --version
-python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run
+python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-run
 ```
 
-The version should be **1.3.0**. The preview should say **Configuration files:
-no changes** for this HUD-only command. It lists the HUD files/folders that
-would be backed up and removed. Previewing does not download, write, or create
-backups.
+The version should be **1.3.1**. The HUD-only preview should report
+**Configuration files: no changes.** It shows the detected HUDs to back up and
+replace. A dry run makes no downloads, writes or backups.
 
-Fully exit TF2 and Steam, then apply:
+Fully exit TF2 and Steam, then run:
 
 ```bash
-python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
+python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 ```
 
-The script asks for confirmation, downloads the pinned upstream ZIP, verifies
-its SHA-256 digest, validates/extracts it into a temporary directory, and
-creates backups before changing game files. Restart Steam and TF2 afterward.
+The script asks for confirmation, verifies the pinned download checksum,
+extracts and checks the archive, then backs up affected files before changing
+the active HUD. Restart Steam and TF2 afterward.
 
-Use `--tf2-dir '/actual/path/to/Team Fortress 2'` when automatic library detection
-cannot identify one installation.
+For a library that cannot be auto-detected, add
+`--tf2-dir '/actual/path/to/Team Fortress 2'` to an installation/update command.
 
-## Choices
+## What stays as it is
 
-```bash
-python3 setup_tf2_bazzite.py --list-huds
+A HUD-only incremental update does not rewrite `tf/cfg` or reinstall mastercomfig.
+Your preset, FPS cap, networking settings, animation/effect reductions,
+viewmodel visibility, sensitivity, crosshair commands, binds and Steam launch
+options stay as currently configured. Do not repeat your earlier options.
+The HUD itself changes the arrangement and appearance of HUD elements.
+
+Previous HUD/mastercomfig version pins are unchanged. Downloading this new
+installer does not switch HUDs; only running the apply command does that.
+
+Only one HUD is activated. Previous detected HUDs are backed up outside
+`tf/custom`, not stacked alongside the new one. Unknown renamed/packed mods may
+escape detection; review the preview rather than assuming every conflict can
+be discovered automatically.
+
+## Middle Mann compatibility notes
+
+The installer pins Middle Mann **v26.1**:
+
+- Release: https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1
+- ZIP SHA-256: `4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899`
+- Startup source: https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc
+
+Like the existing rayshud/budhud options, the installer excludes the HUD's
+bundled `cfg/valve.rc` so it does not override your startup configuration. For
+Middle Mann that also omits its automatic minimal-HUD, caching and delayed
+HUD-reload commands. Unexpected additional Middle Mann cfg files cause a stop.
+
+Middle Mann's startup source says it requires **`cl_hud_minmode 0`**. The
+installer warns about this but leaves your saved value untouched. In the TF2
+console, enter `cl_hud_minmode` to see its current value. When it is 1, use:
+
+```text
+cl_hud_minmode 0
 ```
 
-| Selection | Behavior |
-|---|---|
-| `--hud keep` | Default. Leave the active HUD unchanged. |
-| `--hud idhud` | Install Improved Default HUD 4.0.8, preserving the original TF2 art style and corner layout. |
-| `--hud rayshud` | Install the same pinned rayshud 2026.0111 offered in v1.2.0. |
-| `--hud budhud` | Install the same pinned budhud 2511_01 offered in v1.2.0. |
-| `--hud stock` | Back up and remove detected custom HUDs, using TF2's built-in HUD files; no HUD download. |
+This is **HUD layout mode**, not minimal weapon viewmodels. A personal config
+that explicitly sets it to 1 may reapply that on startup; do not add duplicate
+commands blindly. This manual/in-game change is not part of the script's
+HUD-file backup. It may persist in TF2's saved configuration.
 
-When switching, add `--replace-hud`. Choices are **alternatives, not layers**.
-The script does not put two selected HUDs into `tf/custom` simultaneously.
-The previous HUD goes into a timestamped backup outside `tf/custom`.
+If clipless ammunition text renders incorrectly, the excluded upstream startup
+file included a delayed `hud_reloadscheme` workaround. Try `hud_reloadscheme`
+in the console once rather than changing your performance configuration.
+This is a troubleshooting suggestion, not a confirmed fix for your system.
 
-Example of returning to the built-in HUD, with all other settings preserved:
+Upstream issue #166 reports overlapping elements when spectating in tournament
+mode, on Fedora with mastercomfig and Middle Mann v25. This is a reported
+limitation, not proof that every Linux setup or the pinned version is affected:
+https://github.com/Vexcenot/-middle-mann/issues/166
 
-```bash
-python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud --dry-run
-python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud
-```
+Gallery images may show an animated class portrait. The installer does not
+re-enable a 3D portrait you already disabled. Test your actual classes, screen
+resolution and game modes; no HUD can be guaranteed readable in all contexts.
 
-`stock` removes HUD mods, not your HUD preferences: minimal-HUD mode, hidden
-3D portraits, damage-number settings and other config choices remain as set.
+## Returning to rayshud
 
-## Preserving the setup already applied
+The printed `--restore` command restores the **exact previous HUD files**,
+including customizations, without reverting the older performance setup.
+Run it after fully exiting TF2 and Steam. Do not append `--tf2-dir` or other
+installation options to a restore command. To undo several operations, restore
+in reverse chronological order.
 
-The HUD-only update does not rewrite `tf/cfg`, reinstall mastercomfig, change
-the preset or FPS cap, reset graphics/animation reductions, or change weapon
-visibility, sensitivity, crosshair commands, keybinds or Steam launch options.
-There is no need to repeat `--visual-clarity` or any of your earlier settings.
+Using `--hud rayshud --replace-hud` instead installs a clean pinned rayshud copy;
+it does not recover personal edits from a backup. `--hud keep` leaves the
+current HUD alone and is still the default. Selecting the same unmodified
+script-installed HUD again is a no-op.
 
-IDHUD's pinned source tree has no `cfg` directory. Its optional recommended
-ConVars are not added. The installer refuses an unexpected `cfg` directory in
-this package rather than accepting surprise startup changes. The previous
-startup policy for rayshud and budhud remains unchanged: their bundled
-`cfg/valve.rc` is excluded, along with the automatic tweaks that file provided.
+## Another centered, stock-style option
 
-An unchanged script-installed HUD is a no-op when selected again. A customized
-copy is never replaced without `--replace-hud` and a backup. Ambiguous or
-scripted definitions of settings explicitly being edited still cause a stop.
+**Center HUD** also focuses on centralizing critical information while keeping
+TF2's original style. It is a recommendation, **not** a `--hud` choice in this
+revision: https://github.com/RoseyLemonz/center-hud
 
-HUD detection is conservative; arbitrary renamed/packed mods can escape it.
-Review the preview. Custom game files and in-game HUD customization menus may
-still affect behavior; universal compatibility is not guaranteed.
+## Validation
 
-## Undo a HUD switch
-
-After applying, keep the full `--restore` command printed by the script. It
-restores only the files affected by that operation and backs up their current
-contents before restoration. For a HUD-only update it does not undo the older
-performance setup.
-
-Use that restore command to recover the **exact previous customized HUD**.
-Selecting `--hud rayshud` again installs a clean pinned copy; it does not load
-your customized copy from a backup. Restore in reverse order when undoing
-several consecutive operations.
-
-## Other HUDs to consider — recommendations, not installer options
-
-- **Community HUD Fixes:** stock-UI bug fixes and optional quality-of-life
-  changes. Particularly relevant when you want TF2 to look familiar.
-  https://github.com/CriticalFlaw/tf2hud-fixes
-- **Middle-Mann:** retains TF2's art style but moves health/ammo toward the
-  center. A larger layout change than IDHUD.
-  https://github.com/Vexcenot/-middle-mann
-- **ToonHUD:** browser-customizable themes, including documented Linux
-  installation. Its appearance depends on the selected theme; it is not
-  inherently a stock-style HUD.
-  https://toonhud.com/
-  https://toonhud.com/guide
-
-These three are suggestions only in v1.3.0. They do not work as `--hud` values.
-Do not install them on top of an active HUD.
-
-## Validation and limitations
-
-**48 offline regression tests passed** for this revision. Tests use temporary
-TF2-shaped directories and synthetic ZIP files. They exercise configuration
-preservation, both new choices, dry runs, repeat runs, replacement authorization,
-checksum handling, extraction safety, backup/restore, rollback and stale-plan
-checks. Run the supplied tests beside the installer:
+All **53 offline regression tests passed**. These include the previous 48
+cases and five new Middle Mann cases: dry-run preservation, switching and
+exact restoration, repeat-run no-op, archive-root/startup handling, and refusal
+of unexpected startup configuration. Run them with:
 
 ```bash
 python3 -m unittest -v test_setup_tf2_bazzite.py
 ```
 
-Pinned IDHUD release metadata, its checksum and its source-tree structure were
-checked against upstream GitHub. This environment could not retrieve the real
-release ZIP for an end-to-end download test. Actual HUD rendering, runtime
-compatibility and Bazzite hardware behavior have not been tested here. The
-installer verifies the pinned checksum on your PC before changing game files.
-
-## Upstream references
-
-- IDHUD project and design: https://github.com/idhud-tf2/idhud
-- IDHUD 4.0.8 release: https://github.com/idhud-tf2/idhud/releases/tag/4.0.8
-- IDHUD 4.0.8 source: https://github.com/idhud-tf2/idhud/tree/4.0.8
-- IDHUD ZIP SHA-256: `3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719`
-- rayshud: https://github.com/raysfire/rayshud
-- budhud: https://github.com/rbjaxter/budhud
-
-The new IDHUD metadata was checked on 2026-10-19. Existing mastercomfig,
-rayshud and budhud pins were deliberately retained from v1.2.0 rather than
-silently upgrading them during this feature addition.
+Tests use temporary TF2-shaped directories and synthetic archives. They do not
+exercise the real HUD assets, game rendering or Bazzite hardware. Release
+metadata/checksum and the startup file were checked against upstream GitHub on
+2026-10-19. A real ZIP download in this environment failed due to unavailable
+DNS; no real-archive install or in-game test is claimed. The script verifies the
+pinned checksum on your PC before modifying game files.

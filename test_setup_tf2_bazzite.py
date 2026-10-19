@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py v1.4.0.
+"""Offline regression tests for setup_tf2_bazzite.py v1.5.0.
 
 Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
 Steam, network, fonts, or downloaded HUD assets are needed or exercised.
@@ -122,7 +122,7 @@ class SetupTests(unittest.TestCase):
         return result, stdout.getvalue(), stderr.getvalue(), download, confirm, closed
 
     def test_catalog_choices_include_previous_and_new(self):
-        self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'middlemann', 'idhud', 'rayshud', 'budhud'})
+        self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'middlemann', 'centerhud', 'idhud', 'hudfixes', 'rayshud', 'budhud', 'maxihud', 'toonhud'})
         self.assertEqual(self.args().hud, 'keep')
         self.assertEqual(self.args('--hud', 'idhud').hud, 'idhud')
 
@@ -567,6 +567,179 @@ class SetupTests(unittest.TestCase):
             self.run_main('--update-only', '--hud', 'middlemann', downloader=unexpected)
         self.assertEqual(before, self.snapshot(self.tf))
 
+
+
+    def make_local_zip(self, name='toonhud', extra=None):
+        contents = dict(extra or {})
+        if name == 'maxihud':
+            contents['cfg/maxihud_customization.cfg'] = 'echo customization'
+        path = self.root / ('input-' + name + '.zip')
+        write(path, archive_bytes(name, contents))
+        return path
+
+    def test_new_remote_choices_dry_run_no_side_effects(self):
+        self.install_hud_fixture(customized=True)
+        for name in ('centerhud', 'hudfixes'):
+            before = self.snapshot()
+            result = self.run_main('--update-only', '--hud', name, '--replace-hud', '--dry-run')
+            self.assertIn('Configuration files: no changes.', result[1])
+            self.assertIn('All bundled HUD cfg scripts are omitted', result[1])
+            self.assertFalse(result[3].called)
+            self.assertFalse(result[4].called)
+            self.assertEqual(before, self.snapshot())
+
+    def test_new_remote_choices_switch_and_restore_exactly(self):
+        self.install_hud_fixture(customized=True)
+        for name in ('centerhud', 'hudfixes'):
+            before = self.snapshot(self.tf)
+            cfg = self.snapshot(self.tf / 'cfg')
+            self.run_main('--update-only', '--hud', name, '--replace-hud')
+            dest = self.tf / m.hud_relative(name)
+            self.assertTrue(m.hud_is_current(dest, name))
+            self.assertFalse((dest / 'cfg').exists())
+            self.assertEqual(cfg, self.snapshot(self.tf / 'cfg'))
+            manifests = [p for p in self.state.rglob('manifest.json')
+                         if json.loads(p.read_text()).get('label') == 'update']
+            backup = max(manifests, key=lambda p: p.stat().st_mtime_ns).parent
+            tf, ops = m.load_restore(backup)
+            m.transact(tf, ops, backup.parent, 'test-restore')
+            self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_new_hud_directories_and_existing_names(self):
+        self.assertEqual(m.hud_relative('centerhud'), 'custom/center-hud')
+        self.assertEqual(m.hud_relative('hudfixes'), 'custom/tf2hud-fixes')
+        for name in ('middlemann', 'rayshud', 'budhud', 'idhud', 'maxihud', 'toonhud'):
+            self.assertEqual(m.hud_relative(name), 'custom/' + name)
+
+    def test_all_new_hud_cfg_scripts_excluded(self):
+        for name in m.ISOLATED_HUDS:
+            path = self.make_local_zip(name, {'cfg/autoexec.cfg': 'fps_max 20',
+                                             'cfg/joystick.cfg': 'exec reset',
+                                             'cfg/overrides/scout.cfg': 'sensitivity 9'})
+            asset = {'version': 'fixture', 'sha256': m.tree_hash(path)}
+            dest = m.prepare_hud(path, self.root / (name + '-isolated'), name, asset)
+            self.assertFalse((dest / 'cfg').exists())
+            self.assertTrue(m.hud_is_current(dest, name, asset))
+            self.assertEqual(json.loads((dest / m.HUD_MARKER).read_text())['policy'], 'isolate-cfg-v1')
+
+    def test_local_choices_require_zip(self):
+        before = self.snapshot()
+        for name in m.LOCAL_HUDS:
+            with self.assertRaisesRegex(m.SetupError, 'requires --hud-zip'):
+                self.run_main('--update-only', '--hud', name, '--dry-run')
+        self.assertEqual(before, self.snapshot())
+
+    def test_local_zip_with_remote_choice_rejected(self):
+        path = self.make_local_zip()
+        with self.assertRaisesRegex(m.SetupError, 'require --hud'):
+            self.run_main('--hud', 'rayshud', '--hud-zip', str(path), '--dry-run')
+
+    def test_local_zip_preview_reads_only(self):
+        self.install_hud_fixture(customized=True)
+        for name in m.LOCAL_HUDS:
+            path = self.make_local_zip(name)
+            before = self.snapshot()
+            result = self.run_main('--update-only', '--hud', name, '--hud-zip', str(path),
+                                   '--replace-hud', '--dry-run')
+            self.assertIn('Configuration files: no changes.', result[1])
+            self.assertIn('NOT authenticated', result[1])
+            self.assertFalse(result[3].called)
+            self.assertFalse(result[4].called)
+            self.assertEqual(before, self.snapshot())
+
+    def test_local_zip_install_no_download_preserves_cfg(self):
+        self.install_hud_fixture(customized=True)
+        for name in m.LOCAL_HUDS:
+            path = self.make_local_zip(name)
+            before = self.snapshot(self.tf / 'cfg')
+            result = self.run_main('--update-only', '--hud', name, '--hud-zip', str(path), '--replace-hud')
+            self.assertFalse(result[3].called)
+            self.assertFalse((self.tf / m.hud_relative(name) / 'cfg').exists())
+            self.assertEqual(before, self.snapshot(self.tf / 'cfg'))
+            self.assertEqual([p.name for p in m.hud_candidates(self.tf)], [name])
+
+    def test_local_zip_repeat_is_noop(self):
+        path = self.make_local_zip()
+        args = ('--update-only', '--hud', 'toonhud', '--hud-zip', str(path))
+        self.run_main(*args)
+        before = self.snapshot()
+        result = self.run_main(*args)
+        self.assertIn('Already configured', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_local_zip_hash_mismatch_stops_before_writes(self):
+        path = self.make_local_zip()
+        before = self.snapshot()
+        with self.assertRaisesRegex(m.SetupError, 'SHA-256 mismatch'):
+            self.run_main('--hud', 'toonhud', '--hud-zip', str(path), '--hud-sha256', '0' * 64)
+        self.assertEqual(before, self.snapshot())
+
+    def test_local_zip_optional_expected_hash_matches(self):
+        path = self.make_local_zip()
+        result = self.run_main('--hud', 'toonhud', '--hud-zip', str(path),
+                               '--hud-sha256', m.tree_hash(path), '--dry-run')
+        self.assertEqual(result[0], 0)
+
+    def test_local_zip_invalid_expected_hash(self):
+        path = self.make_local_zip()
+        with self.assertRaisesRegex(m.SetupError, '64 hexadecimal'):
+            self.run_main('--hud', 'toonhud', '--hud-zip', str(path), '--hud-sha256', 'not-a-hash')
+
+    def test_local_zip_race_preserves_game(self):
+        path = self.make_local_zip()
+        before = self.snapshot(self.tf)
+        def mutate(_yes):
+            write(path, archive_bytes('toonhud', {'resource/new.txt': 'changed'}))
+            return True
+        with patch.object(sys, 'argv', [str(SCRIPT), '--tf2-dir', str(self.game),
+                                       '--hud', 'toonhud', '--hud-zip', str(path)]), \
+             patch.object(m.os, 'geteuid', return_value=1000), \
+             patch.dict(os.environ, {'XDG_STATE_HOME': str(self.state)}), \
+             patch.object(m, 'require_closed'), patch.object(m, 'confirm', side_effect=mutate):
+            with self.assertRaisesRegex(m.SetupError, 'changed after preview'):
+                m.main()
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_local_zip_wrong_identity_rejected(self):
+        path = self.make_local_zip('rayshud')
+        for name in m.LOCAL_HUDS:
+            with self.assertRaises(m.SetupError):
+                self.run_main('--hud', name, '--hud-zip', str(path), '--dry-run')
+
+    def test_local_zip_packed_vpk_rejected(self):
+        path = self.make_local_zip(extra={'embedded.vpk': vpk_bytes()})
+        with self.assertRaisesRegex(m.SetupError, 'Packed VPKs'):
+            self.run_main('--hud', 'toonhud', '--hud-zip', str(path), '--dry-run')
+
+    def test_local_zip_traversal_rejected_in_preview(self):
+        path = self.make_local_zip(extra={'../../escape': 'bad'})
+        before = self.snapshot()
+        with self.assertRaisesRegex(m.SetupError, 'Unsafe HUD archive member'):
+            self.run_main('--hud', 'toonhud', '--hud-zip', str(path), '--dry-run')
+        self.assertEqual(before, self.snapshot())
+
+    def test_local_zip_restore_exact_prior_files(self):
+        self.install_hud_fixture(customized=True)
+        path = self.make_local_zip()
+        before = self.snapshot(self.tf)
+        self.run_main('--hud', 'toonhud', '--hud-zip', str(path), '--replace-hud')
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_restore_rejects_import_flags(self):
+        with self.assertRaisesRegex(m.SetupError, 'cannot be combined'):
+            self.run_main('--restore', str(self.root / 'backup'), '--hud-zip', 'theme.zip')
+
+    def test_new_options_do_not_change_default_or_applied_hud(self):
+        self.install_hud_fixture('rayshud')
+        before = self.snapshot()
+        result = self.run_main('--update-only')
+        self.assertIn('Already configured', result[1])
+        self.assertEqual(before, self.snapshot())
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

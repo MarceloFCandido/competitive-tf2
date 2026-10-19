@@ -42,6 +42,15 @@ Visual options:
     Not every flame, explosion, flash or status overlay can be disabled.
 
 HUDs:
+    v1.5 adds --hud centerhud and --hud hudfixes (pinned release downloads).
+    --hud maxihud --hud-zip /path/to/maxihud.zip imports your upstream ZIP.
+    --hud toonhud --hud-zip /path/to/toonhud.zip imports your exported theme.
+    --hud-sha256 optionally checks a local ZIP against a hash you supply.
+    Local ZIP hashes track content; they do NOT authenticate its publisher.
+    For these FOUR new choices, all bundled cfg scripts are excluded to avoid
+    startup/first-run changes. Their scripted customization menus may not work.
+    Existing options, pins, and gameplay config are unchanged on HUD-only updates.
+    An installer cannot guarantee compatibility with every runtime HUD/UI command.
     --hud middlemann installs Middle Mann: TF2-styled panels with centered
     health/ammo. Its normal (cl_hud_minmode 0) layout is already centered.
     The installer DOES NOT change cl_hud_minmode or re-enable the 3D portrait.
@@ -110,7 +119,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.4.0'
+SCRIPT_VERSION = '1.5.0'
 
 COMFIG = {
     'version': '9.100.1',
@@ -137,16 +146,39 @@ MIDDLEMANN = {
     'url': 'https://github.com/Vexcenot/-middle-mann/releases/download/v26.1/-middle-mann-v26.1.zip',
     'sha256': '4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899',
 }
-# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.
-HUDS = {'middlemann': MIDDLEMANN, 'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
-HUD_CHOICES = ('keep', 'stock', *HUDS)
+CENTERHUD = {
+    'version': 'v24',
+    'url': 'https://github.com/RoseyLemonz/center-hud/releases/download/v24/center-hud.zip',
+    'sha256': '948346882585929f16aa4e37510ec560595e4eae58dc7727df126dae6551ff16',
+}
+HUDFIXES = {
+    'version': '11.0',
+    'url': 'https://github.com/CriticalFlaw/tf2hud-fixes/releases/download/11.0/tf2hud-fixes-r11.zip',
+    'sha256': '84fa26905d00d91fd45640e992b480b79ac9ed1fc836ce4caa7a6405603b2ea1',
+}
+# Existing pins and policies stay unchanged. Extra choices do not select themselves.
+HUDS = {'middlemann': MIDDLEMANN, 'centerhud': CENTERHUD, 'idhud': IDHUD,
+        'hudfixes': HUDFIXES, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
+# These need an archive explicitly chosen by the user, not an unverified download.
+LOCAL_HUDS = ('maxihud', 'toonhud')
+ISOLATED_HUDS = ('centerhud', 'hudfixes', *LOCAL_HUDS)
+HUD_CHOICES = ('keep', 'stock', *HUDS, *LOCAL_HUDS)
+HUD_FOLDERS = {'centerhud': 'center-hud', 'hudfixes': 'tf2hud-fixes'}
 HUD_DESCRIPTIONS = {
+    'centerhud': 'Center HUD: TF2-style central layout; customization scripts omitted.',
+    'hudfixes': 'Community HUD Fixes: stock-style layout fixes; customization scripts omitted.',
+    'maxihud': 'MaxiHud: centered TF2-style UI; requires your upstream ZIP; scripts omitted.',
+    'toonhud': 'ToonHUD: your exported theme ZIP; scripts omitted; compatibility unverified.',
     'middlemann': 'Middle Mann: TF2-styled panels with health/ammo toward the center.',
     'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',
     'rayshud': 'Simplified, bold redesign; the HUD offered in the previous installer.',
     'budhud': 'A more extensively redesigned HUD inspired by yahud and rayshud.',
 }
 HUD_PAGES = {
+    'centerhud': 'https://github.com/RoseyLemonz/center-hud',
+    'hudfixes': 'https://github.com/CriticalFlaw/tf2hud-fixes',
+    'maxihud': 'https://github.com/maxiandrew/maxihud/releases/tag/v17.5',
+    'toonhud': 'https://toonhud.com/guide',
     'middlemann': 'https://github.com/Vexcenot/-middle-mann',
     'idhud': 'https://github.com/idhud-tf2/idhud',
     'rayshud': 'https://github.com/raysfire/rayshud',
@@ -754,20 +786,97 @@ def hud_candidates(tf: Path) -> list[Path]:
     return found
 
 
-def hud_is_current(path: Path, name: str) -> bool:
+
+def hud_relative(name: str) -> str:
+    """Preserve old directory names; honor explicit names required by new HUDs."""
+    return 'custom/' + HUD_FOLDERS.get(name, name)
+
+
+def hud_policy(name: str) -> str:
+    return 'isolate-cfg-v1' if name in ISOLATED_HUDS else HUD_POLICY
+
+
+def local_hud_asset(args: argparse.Namespace) -> dict | None:
+    """Read/hash a user-selected ZIP without downloads, extraction, or file writes.
+
+    Recording its hash is NOT upstream authentication. An optional expected hash
+    can detect a wrong file, but only a trusted source can establish provenance.
+    """
+    if args.hud not in LOCAL_HUDS:
+        if args.hud_zip or args.hud_sha256:
+            raise SetupError('--hud-zip/--hud-sha256 require --hud maxihud or --hud toonhud.')
+        return None
+    if not args.hud_zip:
+        raise SetupError('--hud ' + args.hud + ' requires --hud-zip /path/to/your.zip. '
+                         'Choose it from ' + HUD_PAGES[args.hud] + '; nothing has changed.')
+    path = args.hud_zip.expanduser().absolute()
+    assert_plain(path)
+    if not path.is_file() or path.stat().st_size > 50 * 1024 * 1024:
+        raise SetupError('HUD ZIP must be a regular file, no larger than 50 MiB.')
+    digest = tree_hash(path)
+    if args.hud_sha256:
+        if not re.fullmatch(r'[0-9a-fA-F]{64}', args.hud_sha256):
+            raise SetupError('--hud-sha256 must be exactly 64 hexadecimal digits.')
+        if digest != args.hud_sha256.lower():
+            raise SetupError('Local HUD SHA-256 mismatch; nothing has changed.')
+    with zipfile.ZipFile(path) as zf:
+        items = zf.infolist()
+        if len(items) > 20000 or sum(i.file_size for i in items) > 200 * 1024 * 1024:
+            raise SetupError('Unexpectedly large HUD archive.')
+        names = set()
+        for item in items:
+            rel = PurePosixPath(item.filename)
+            mode = item.external_attr >> 16
+            if (rel.is_absolute() or '..' in rel.parts or '\\' in item.filename
+                    or stat.S_IFMT(mode) not in (0, stat.S_IFREG, stat.S_IFDIR)
+                    or item.flag_bits & 1):
+                raise SetupError('Unsafe HUD archive member: ' + item.filename)
+            if item.is_dir():
+                continue
+            key = rel.as_posix()
+            if key in names:
+                raise SetupError('Duplicate HUD archive file: ' + key)
+            if rel.suffix.lower() == '.vpk':
+                raise SetupError('Packed VPKs are not supported in local HUD ZIP imports.')
+            names.add(key)
+        roots = []
+        for name in names:
+            if PurePosixPath(name).name != 'info.vdf':
+                continue
+            root = str(PurePosixPath(name).parent)
+            prefix = '' if root == '.' else root + '/'
+            if (any(n.startswith(prefix + 'resource/') for n in names)
+                    and any(n.startswith(prefix + 'scripts/') for n in names)):
+                roots.append(prefix)
+        if len(roots) != 1:
+            raise SetupError('Cannot uniquely identify the HUD root in this archive.')
+        # These are identity checks only, not signatures or authenticity checks.
+        prefix = roots[0]
+        if args.hud == 'maxihud' and prefix + 'cfg/maxihud_customization.cfg' not in names:
+            raise SetupError('ZIP does not have the expected MaxiHud layout.')
+        if args.hud == 'toonhud' and 'toonhud' not in prefix.lower():
+            raise SetupError('ToonHUD ZIP must contain its exported toonhud folder.')
+    return {'version': 'user-selected ZIP', 'sha256': digest, 'local_path': str(path),
+            'url': HUD_PAGES[args.hud]}
+
+
+def hud_is_current(path: Path, name: str, asset: dict | None = None) -> bool:
+    asset = asset or HUDS.get(name)
+    if asset is None:
+        return False
     marker = path / HUD_MARKER
     if not marker.is_file():
         return False
     try:
         saved = json.loads(marker.read_text(encoding='utf-8'))
-        return (saved.get('hud') == name and saved.get('archive_sha256') == HUDS[name]['sha256']
-                and saved.get('policy') == HUD_POLICY
+        return (saved.get('hud') == name and saved.get('archive_sha256') == asset['sha256']
+                and saved.get('policy') == hud_policy(name)
                 and saved.get('tree_sha256') == tree_hash(path, (HUD_MARKER,)))
     except (ValueError, OSError, AttributeError):
         return False
 
 
-def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
+def plan_hud(tf: Path, name: str, replace: bool, asset: dict | None = None) -> tuple[bool, list[str]]:
     if name not in HUD_CHOICES:
         raise SetupError('Unsupported HUD selection: ' + name)
     if name == 'keep':
@@ -785,12 +894,12 @@ def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
                              + '. Preview again with --replace-hud to authorize backing up '
                              'and removing them; no files have been changed.')
         return False, [path.relative_to(tf).as_posix() for path in candidates]
-    selected = target_path(tf, 'custom/' + name)
+    selected = target_path(tf, hud_relative(name))
     if exists(selected) and selected not in candidates:
         candidates.append(selected)
     for path in candidates:
         assert_plain(target_path(tf, path.relative_to(tf).as_posix()))
-    same = selected.is_dir() and hud_is_current(selected, name)
+    same = selected.is_dir() and hud_is_current(selected, name, asset)
     other = [path for path in candidates if path != selected]
     conflicts = other + ([selected] if exists(selected) and not same else [])
     if conflicts and not replace:
@@ -802,8 +911,20 @@ def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
     return not same, [path.relative_to(tf).as_posix() for path in other]
 
 
-def prepare_hud(archive: Path, dest: Path, name: str) -> Path:
+def prepare_hud(archive: Path, dest: Path, name: str, asset: dict | None = None) -> Path:
+    asset = asset or HUDS.get(name)
+    if not asset:
+        raise SetupError('A local HUD ZIP must be validated before preparing it.')
     root = extract_hud(archive, dest)
+    if name in ISOLATED_HUDS:
+        # Avoid joystick.cfg bootstrap, autoexec/class scripts, first-run resets,
+        # and optional customization aliases writing settings outside this HUD.
+        if exists(root / 'cfg'):
+            remove_item(root / 'cfg')
+        if any(p.suffix.lower() == '.vpk' for p in root.rglob('*')):
+            raise SetupError('Packed HUD data could contain startup scripts; refusing it.')
+        print('  Omitted the new HUD cfg directory; optional scripted menus may not work.')
+        print('  No claim of exact upstream behavior or complete runtime isolation is made.')
     if name == 'idhud' and exists(root / 'cfg'):
         raise SetupError('Unexpected cfg directory in the pinned IDHUD package; refusing startup changes.')
     if name == 'middlemann' and exists(root / 'cfg'):
@@ -826,8 +947,8 @@ def prepare_hud(archive: Path, dest: Path, name: str) -> Path:
         (root / 'cfg').rmdir()
     if exists(root / HUD_MARKER):
         raise SetupError('Unexpected installer metadata in upstream HUD archive.')
-    save_json(root / HUD_MARKER, {'hud': name, 'version': HUDS[name]['version'],
-                                'archive_sha256': HUDS[name]['sha256'], 'policy': HUD_POLICY,
+    save_json(root / HUD_MARKER, {'hud': name, 'version': asset['version'],
+                                'archive_sha256': asset['sha256'], 'policy': hud_policy(name),
                                 'tree_sha256': tree_hash(root, (HUD_MARKER,))})
     return root
 
@@ -868,6 +989,12 @@ def print_hud_catalog() -> None:
     for name, asset in HUDS.items():
         print(f'{name:<12}{HUD_DESCRIPTIONS[name]}')
         print(f'            Pinned release: {asset["version"]}; {HUD_PAGES[name]}')
+    for name in LOCAL_HUDS:
+        print(f'{name:<12}{HUD_DESCRIPTIONS[name]}')
+        print(f'            Import with --hud-zip /path/to/archive.zip; {HUD_PAGES[name]}')
+    print('New Center HUD/HUD Fixes/MaxiHud/ToonHUD choices omit all bundled cfg scripts.')
+    print('Their scripted customization menus/first-run tweaks are not enabled; test in-game.')
+    print('ToonHUD imports your theme, not a preset chosen by this installer.')
     print('\nChoose one HUD at a time. Switching backs up the current HUD outside tf/custom.')
     print('Preview: python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-run')
     print('Omitted preset/FPS/visual options keep your earlier setup unchanged on updates.')
@@ -886,6 +1013,10 @@ def parser() -> argparse.ArgumentParser:
                     help='new installs: 300; updates: keep unless explicitly supplied')
     ap.add_argument('--hud', choices=HUD_CHOICES, default='keep',
                     help='one HUD at a time; stock removes detected HUDs; default: keep your HUD')
+    ap.add_argument('--hud-zip', type=Path,
+                    help='local upstream MaxiHud ZIP or exported ToonHUD theme ZIP')
+    ap.add_argument('--hud-sha256',
+                    help='optional independently obtained expected hash for a local ZIP')
     ap.add_argument('--list-huds', action='store_true',
                     help='show the supported HUD catalog and exit without scanning or changing files')
     ap.add_argument('--replace-hud', action='store_true',
@@ -917,14 +1048,16 @@ def main() -> int:
     hud_install = False
     hud_remove: list[str] = []
     update = False
+    asset = None
     if args.restore:
         if (args.tf2_dir or args.update_only or args.preset or args.fps_cap or args.visual_clarity
-                or args.viewmodels or args.hud != 'keep' or args.replace_hud):
+                or args.viewmodels or args.hud != 'keep' or args.replace_hud or args.hud_zip or args.hud_sha256):
             raise SetupError('--restore cannot be combined with installation/update options.')
         tf, restore_ops = load_restore(args.restore.expanduser().resolve())
         print(f'Restore to: {tf}\nRestore affected items: ' + ', '.join(restore_ops))
         print('Your current affected files will be backed up before restoration.')
     else:
+        asset = local_hud_asset(args) or HUDS.get(args.hud)
         if args.tf2_dir:
             game = validate_game(args.tf2_dir)
         else:
@@ -941,7 +1074,7 @@ def main() -> int:
         if args.update_only and not update:
             raise SetupError('--update-only did not find the earlier script-managed setup. '
                              'Check --tf2-dir; no baseline will be installed.')
-        hud_install, hud_remove = plan_hud(tf, args.hud, args.replace_hud)
+        hud_install, hud_remove = plan_hud(tf, args.hud, args.replace_hud, asset)
         print(f'TF2 setup {SCRIPT_VERSION}\nTF2: {game}\nMode: ' +
               ('incremental update (existing setup preserved)' if update else 'first-time baseline install'))
         if update:
@@ -982,8 +1115,8 @@ def main() -> int:
             print('Session-only recovery in the TF2 console: r_drawviewmodel 1')
         warn_other_scripts(tf, args)
         if args.hud != 'keep':
-            if args.hud in HUDS:
-                rel = 'custom/' + args.hud
+            if args.hud in HUDS or args.hud in LOCAL_HUDS:
+                rel = hud_relative(args.hud)
                 guard[rel] = fingerprint(tf, rel)
             for rel in hud_remove:
                 guard[rel] = fingerprint(tf, rel)
@@ -992,21 +1125,32 @@ def main() -> int:
                 print('HUD: use built-in stock HUD files; no HUD download.')
                 print('Other settings (including minimal HUD mode and 3D portrait visibility) stay unchanged.')
             elif hud_install:
-                print(f'HUD install: {args.hud} {HUDS[args.hud]["version"]} '
-                      '(pinned release; SHA-256 checked before any game-file changes).')
-                if args.hud == 'idhud':
+                if args.hud in LOCAL_HUDS:
+                    print(f'HUD import: {args.hud}; local ZIP {asset["local_path"]}')
+                    print('SHA-256: ' + asset['sha256'])
+                    print('Local content is NOT authenticated against an upstream release digest.')
+                else:
+                    print(f'HUD install: {args.hud} {asset["version"]} '
+                          '(pinned release; SHA-256 checked before any game-file changes).')
+                if args.hud in ISOLATED_HUDS:
+                    print('All bundled HUD cfg scripts are omitted to avoid first-run/startup resets.')
+                    print('Scripted customization menus may not work. Upstream screenshots may differ.')
+                    print('Gameplay configuration files are preserved; runtime UI compatibility is untested.')
+                    if args.hud == 'toonhud':
+                        print('ToonHUD: exact appearance depends on your theme and cl_hud_minmode.')
+                elif args.hud == 'idhud':
                     print('IDHUD: original TF2 style; pinned package has no startup cfg scripts.')
                     print('Optional recommended ConVars are not applied; existing settings are preserved.')
                 else:
                     print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')
                     print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')
-                if exists(tf / 'custom' / args.hud):
+                if exists(tf / hud_relative(args.hud)):
                     print('The existing chosen HUD directory will be backed up, then replaced.')
             else:
                 print(f'HUD: unchanged {args.hud} release already installed; no download.')
             if args.hud == 'middlemann':
                 print_middlemann_notes()
-            if hud_remove or (args.hud in HUDS and exists(tf / 'custom' / args.hud) and hud_install):
+            if hud_remove or ((args.hud in HUDS or args.hud in LOCAL_HUDS) and exists(tf / hud_relative(args.hud)) and hud_install):
                 print('The printed --restore command recovers the previous HUD, including local customizations.')
                 print('Selecting a HUD name again downloads a clean pinned copy, not its customized backup.')
             warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')
@@ -1059,8 +1203,17 @@ def main() -> int:
                         ops['custom/' + old.name] = None
                 if hud_install:
                     archive = tmp / (args.hud + '.zip')
-                    download(HUDS[args.hud], archive, 50 * 1024 * 1024)
-                    ops['custom/' + args.hud] = prepare_hud(archive, tmp / 'hud-unpacked', args.hud)
+                    if args.hud in LOCAL_HUDS:
+                        source = Path(asset['local_path'])
+                        assert_plain(source)
+                        if not source.is_file() or source.stat().st_size > 50 * 1024 * 1024:
+                            raise SetupError('Local HUD ZIP changed after preview; nothing applied.')
+                        shutil.copyfile(source, archive)
+                        if tree_hash(archive) != asset['sha256']:
+                            raise SetupError('Local HUD ZIP changed after preview; nothing applied.')
+                    else:
+                        download(asset, archive, 50 * 1024 * 1024)
+                    ops[hud_relative(args.hud)] = prepare_hud(archive, tmp / 'hud-unpacked', args.hud, asset)
                 for rel in hud_remove:
                     ops[rel] = None
                 require_closed()
@@ -1068,7 +1221,7 @@ def main() -> int:
                     if fingerprint(tf, rel) != before:
                         raise SetupError(f'{rel} changed after the preview. No game files were changed; preview again.')
                 # Stop if another HUD appeared while the download/confirmation was in progress.
-                if args.hud != 'keep' and plan_hud(tf, args.hud, args.replace_hud) != (hud_install, hud_remove):
+                if args.hud != 'keep' and plan_hud(tf, args.hud, args.replace_hud, asset) != (hud_install, hud_remove):
                     raise SetupError('Installed HUDs changed after the preview. Run the preview again.')
                 backup = transact(tf, ops, state, 'update' if update else 'install')
             print('\nUpdate applied. Restart Steam/TF2.' if update else '\nBaseline installed. Restart Steam/TF2.')

@@ -1,0 +1,120 @@
+{
+  "summary": {
+    "total_parts": 12,
+    "verified_files": [
+      {
+        "upload_name": "setup_tf2_bazzite(2).py",
+        "bytes": 62680,
+        "sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db"
+      },
+      {
+        "upload_name": "test_setup_tf2_bazzite(2).py",
+        "bytes": 36944,
+        "sha256": "c20f3436dd4d1f1d7610277c4dbe57495d6e4e6bf2062ec7c10bdcbf693b63c2"
+      },
+      {
+        "upload_name": "TF2_HUD_Update_README(6).md",
+        "bytes": 6881,
+        "sha256": "f638856ff114a7253afad964726d87be20558074a81366b2acab244142634f2a"
+      },
+      {
+        "upload_name": "TF2_HUD_Visual_Comparison(1).html",
+        "bytes": 16867,
+        "sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f"
+      }
+    ],
+    "packed_sha256": "91ad7aa31e1f8a6dc256f7a527b6a9169fb688862e8368a769125fb7c5db9565",
+    "decoded_as_data_only": true,
+    "verified_at_utc": "2026-10-19T17:28:45.876083+00:00"
+  },
+  "part_manifest": {
+    "total_parts": 12,
+    "parts": {
+      "1": {
+        "filename": "part-01.b64",
+        "bytes": 5500,
+        "sha256": "b356dbefc8b2d15aeff21404ce5d248acef5ee306e252831abdf4ab296bf961f",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.224542+00:00"
+      },
+      "2": {
+        "filename": "part-02.b64",
+        "bytes": 5500,
+        "sha256": "46a6b4b713e66ad6d2e1b0dc05ad9150045c5a0b83dbd3dea97a3c88ab09d370",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.269124+00:00"
+      },
+      "3": {
+        "filename": "part-03.b64",
+        "bytes": 5500,
+        "sha256": "d02b66fa1b31e73142aeae621ff787b25b738e432d433f6f5daa67c8b45a5b83",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.326385+00:00"
+      },
+      "4": {
+        "filename": "part-04.b64",
+        "bytes": 5500,
+        "sha256": "1133f33984556135dba633a8cabce20d731dfb185f112856ca423dfdde462ccf",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.389211+00:00"
+      },
+      "5": {
+        "filename": "part-05.b64",
+        "bytes": 5500,
+        "sha256": "51388d47721d23f94a6353d60a49655c2f85c6625975cb969b1c25a613875ad8",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.443205+00:00"
+      },
+      "6": {
+        "filename": "part-06.b64",
+        "bytes": 5500,
+        "sha256": "ae39f40618fcaddd1a2d9037f1d4813bbd162620992b8d3a6cf8afae14edc317",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.496376+00:00"
+      },
+      "7": {
+        "filename": "part-07.b64",
+        "bytes": 5500,
+        "sha256": "d98f334cd8ee052d9fd41bdec35ef596cdd6e54adf457eb57beb85f2bb586aaa",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.547851+00:00"
+      },
+      "8": {
+        "filename": "part-08.b64",
+        "bytes": 5500,
+        "sha256": "b9d8a1cac61f78607c8ab0533674adc457a018558c13df30d5d802aa5cba5e26",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.603344+00:00"
+      },
+      "9": {
+        "filename": "part-09.b64",
+        "bytes": 5500,
+        "sha256": "8bfe1c67521b0bce6527461f255fa1ca91253c3c33e128f8f5cc2298d38c7cbf",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.662544+00:00"
+      },
+      "10": {
+        "filename": "part-10.b64",
+        "bytes": 5500,
+        "sha256": "569dc34cf4954a274150990bd3736af6160479d684ad8f0307cce6208e0170f7",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.755501+00:00"
+      },
+      "11": {
+        "filename": "part-11.b64",
+        "bytes": 5500,
+        "sha256": "8acfe3cabb71bf6b180f151a810a503f8c9972528e4b204f05630f90ebe0527c",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.820214+00:00"
+      },
+      "12": {
+        "filename": "part-12.b64",
+        "bytes": 4892,
+        "sha256": "da266d54c5b777fc8c440e21e93e9e191fc3cd0e04999d8ca38badc2b1f0fc7a",
+        "verified": true,
+        "received_at_utc": "2026-10-19T17:28:18.876421+00:00"
+      }
+    }
+  },
+  "raw_base64_or_binary_packet_archived": false
+}

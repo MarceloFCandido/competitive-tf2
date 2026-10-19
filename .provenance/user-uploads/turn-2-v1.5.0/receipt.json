@@ -1,0 +1,89 @@
+{
+  "receipt_type": "original_files_uploaded_by_user",
+  "upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+  "user_label": "2o turno",
+  "associated_announcement_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+  "associated_announcement_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=454439cb-235e-4787-96c0-19a40f8c2b1d",
+  "origin_announcement_timestamp_utc": "2026-10-19T12:30:51.254311+00:00",
+  "upload_message_timestamp_utc": "2026-10-19",
+  "received_and_verified_at_utc": "2026-10-19T17:28:45.876083+00:00",
+  "imported_at_utc": "2026-10-19T17:31:34.550587+00:00",
+  "library_file_ids_as_group": [
+    "libfile_fb0868383ad08191b63e7556e53f97f1",
+    "libfile_2837963dccf48191a3aaedd52e3c9037",
+    "libfile_d26a166f4c3c8191bb4a5c25f6882a99",
+    "libfile_c83ee572769481919f90e530bea5fb62"
+  ],
+  "individual_library_id_mapping_available": false,
+  "version_check": {
+    "installer_SCRIPT_VERSION": "1.5.0",
+    "test_docstring": "1.5.0",
+    "README_heading": "1.5.0",
+    "HTML_version_association": "Parent-provided v1.5.0 group; HTML does not independently declare a semantic version."
+  },
+  "transport": {
+    "kind": "12 verified ASCII base64 parts containing gzip JSON file-byte map",
+    "all_part_hashes_verified": true,
+    "all_final_file_hashes_verified": true
+  },
+  "files": [
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "source_filename": "setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "upload_name": "setup_tf2_bazzite(2).py",
+      "status": "original_user_upload",
+      "sha256": "ce6883d6b426a157ea6a5ace9e8857e914618d133817343daf5545da769ab8db",
+      "bytes": 62680,
+      "previous_repository_sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+      "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+      "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+      "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+      "source_filename": "test_setup_tf2_bazzite.py",
+      "repo_path": "test_setup_tf2_bazzite.py",
+      "upload_name": "test_setup_tf2_bazzite(2).py",
+      "status": "original_user_upload",
+      "sha256": "c20f3436dd4d1f1d7610277c4dbe57495d6e4e6bf2062ec7c10bdcbf693b63c2",
+      "bytes": 36944,
+      "previous_repository_sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+      "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+      "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+      "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided.",
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+      "source_filename": "TF2_HUD_Update_README.md",
+      "repo_path": "TF2_HUD_Update_README.md",
+      "upload_name": "TF2_HUD_Update_README(6).md",
+      "status": "original_user_upload",
+      "sha256": "f638856ff114a7253afad964726d87be20558074a81366b2acab244142634f2a",
+      "bytes": 6881,
+      "previous_repository_sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+      "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+      "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+      "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided."
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Visual_Comparison.html",
+      "source_filename": "TF2_HUD_Visual_Comparison.html",
+      "repo_path": "TF2_HUD_Visual_Comparison.html",
+      "upload_name": "TF2_HUD_Visual_Comparison(1).html",
+      "status": "original_user_upload",
+      "sha256": "789a50f33928747f428955464f953f0bab6353c93dec11933083be0f62975b5f",
+      "bytes": 16867,
+      "previous_repository_sha256": null,
+      "source_upload_message_id": "Sentinel_6954bc13ec2081918848ea17a1e9fef5",
+      "source_message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
+      "library_identity_scope": "Four Library IDs supplied as a group; individual ID-to-filename mapping not provided."
+    }
+  ],
+  "source_code_executions": 0,
+  "test_runs": 0,
+  "historical_link_identity_scope": "User-uploaded originals associated by group and matching declarations with this release; no byte identity across other historical links inferred.",
+  "date_policy": "Append-only late recovery in v1.5.0 then v1.6.0 order. Git dates record import; source dates remain in provenance. All earlier commits preserved."
+}

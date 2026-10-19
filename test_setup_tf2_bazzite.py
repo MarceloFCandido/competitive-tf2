@@ -110,7 +110,8 @@ class SetupTests(unittest.TestCase):
             write(dest, archive_bytes(name))
 
     def run_main(self, *args, downloader=None, confirmer=True):
-        argv = [str(SCRIPT), '--tf2-dir', str(self.game), *args]
+        location = [] if '--restore' in args else ['--tf2-dir', str(self.game)]
+        argv = [str(SCRIPT), *location, *args]
         stdout, stderr = io.StringIO(), io.StringIO()
         with patch.object(sys, 'argv', argv), patch.object(m.os, 'geteuid', return_value=1000), \
              patch.dict(os.environ, {'XDG_STATE_HOME': str(self.state)}), \

@@ -1,0 +1,26 @@
+{
+  "sequence": 456,
+  "message_id": "53e6d4f0-c0fc-4204-8ac4-f51da434b588",
+  "source_timestamp": 1792410818.444497,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+      "repo_path": "test_setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "9e3c083f14de789920ef47c9b0e1039ee9a3d9b0afe6aa77b04a88d4f62d9190",
+      "bytes": 26998,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 3,
+          "old": "        argv = [str(SCRIPT), '--tf2-dir', str(self.game), *args]",
+          "new": "        location = [] if '--restore' in args else ['--tf2-dir', str(self.game)]\n        argv = [str(SCRIPT), *location, *args]",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

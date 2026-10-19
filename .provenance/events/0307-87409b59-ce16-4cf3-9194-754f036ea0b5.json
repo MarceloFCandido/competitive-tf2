@@ -1,0 +1,23 @@
+{
+  "sequence": 307,
+  "message_id": "87409b59-ce16-4cf3-9194-754f036ea0b5",
+  "source_timestamp": 1792380107.125969,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_work/setup_tf2_bazzite_v1_2_0.py",
+      "repo_path": "tf2_work/setup_tf2_bazzite_v1_2_0.py",
+      "status": "static_reconstruction",
+      "sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "bytes": 46353,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "setup_tf2_bazzite.py",
+          "note": "Copy command present; execution output redacted."
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

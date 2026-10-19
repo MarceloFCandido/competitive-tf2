@@ -1,0 +1,38 @@
+{
+  "sequence": 446,
+  "message_id": "c1283adb-bf9f-40d9-b32e-d96a6829203d",
+  "source_timestamp": 1792410697.647932,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_work/setup_tf2_bazzite_v1_3_0.py",
+      "repo_path": "tf2_work/setup_tf2_bazzite_v1_3_0.py",
+      "status": "static_reconstruction",
+      "sha256": "d806076c571a21fbf8dd14774172e37f6d40feae4a46047d391e3dcbb8e79b0b",
+      "bytes": 51363,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "setup_tf2_bazzite.py",
+          "note": "Copy command present; execution output redacted."
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/tf2_work/test_v1_3_0.py",
+      "repo_path": "tf2_work/test_v1_3_0.py",
+      "status": "static_reconstruction",
+      "sha256": "daf65caafee770531824f04cd170a51df3ca24591089fbc906f0473fa9748a04",
+      "bytes": 23826,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "test_setup_tf2_bazzite.py",
+          "note": "Copy command present; execution output redacted."
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

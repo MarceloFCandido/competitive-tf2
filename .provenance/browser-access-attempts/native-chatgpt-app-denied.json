@@ -1,0 +1,33 @@
+{
+  "recorded_at_utc": "2026-10-19T15:19:08.204320+00:00",
+  "user_requested_route": "Native ChatGPT app on the Mac",
+  "intended_conversation_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "attempted_action": "cua.getApp(\"com.openai.codex\")",
+  "target_app_path": "/Applications/ChatGPT.app",
+  "target_bundle_id": "com.openai.codex",
+  "outcome": "denied_before_app_inspection",
+  "reason_verbatim": "Computer Use is not allowed to use the app 'com.openai.codex' for safety reasons.",
+  "installation_metadata": {
+    "checked_at_utc": "2026-10-19T15:17:34.989481+00:00",
+    "installations": [
+      {
+        "path": "/Applications/ChatGPT.app",
+        "bundle_id": "com.openai.codex",
+        "display_name": "ChatGPT",
+        "bundle_name": "ChatGPT",
+        "version": "26.1013.40934"
+      }
+    ],
+    "scope": "top-level ChatGPT/Codex .app names under /Applications and ~/Applications; Info.plist metadata only"
+  },
+  "session_state": "not verified because app control was denied",
+  "conversation_opened_in_app_by_assistant": false,
+  "attachment_download_attempts_in_app": 0,
+  "new_original_files_recovered": 0,
+  "new_binary_versions_verified": 0,
+  "denied_action_retried": false,
+  "alternate_alias_or_automation_bypass_attempted": false,
+  "credentials_or_tokens_extracted": false,
+  "app_download_capability": "unknown; the denial does not prove the app lacks download support",
+  "next_minimal_step": "User downloads the current installer, test suite and README from the authenticated app to Downloads; assistant can then inspect bytes, hash and archive them. Historical links remain unverified until content evidence is available."
+}

@@ -32,3 +32,7 @@
 - 2026-10-19T15:14:04.581578+00:00: Mac desbloqueado confirmado visualmente no Safari; aplicativos disponíveis sem erro de tela bloqueada.
 - Safari acessível; navegação para conversa original redirecionou a chatgpt.com sem autenticação. Diálogo de login aberto; pendente entrar com a mesma conta.
 - Zen ficou legível após timeout inicial, mas navegação não foi confirmada e houve windowNotFoundAtPosition. Nenhum anexo baixado, versão nova inventada ou script recuperado executado.
+
+- 2026-10-19T15:19:08.204320+00:00: solicitado uso do app ChatGPT; seleção de com.openai.codex recusada por segurança antes da inspeção da janela.
+- Info.plist confirma /Applications/ChatGPT.app, nome ChatGPT, bundle com.openai.codex, versão 26.1013.40934. Nenhuma instalação separada encontrada nos diretórios padrão verificados. Somente metadados lidos.
+- Sessão do app e downloads não verificados; operação negada não repetida ou contornada. Zero anexos/versões novos; nenhum instalador executado, nenhuma credencial ou token extraído. Próximo passo mínimo: baixar os anexos pelo app autenticado para Downloads.

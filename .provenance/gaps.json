@@ -126,5 +126,17 @@
     "detail": "Mac unlock is confirmed. Safari is accessible, but the original conversation redirects to a logged-out landing page. Login dialog is open. No attachment bytes downloaded.",
     "next_step": "Log into ChatGPT in the open Safari window using the account that owns the original conversation. Do not send passwords to the assistant.",
     "evidence": ".provenance/browser-access-attempts/unlocked-authentication-required.json"
+  },
+  {
+    "id": "native_chatgpt_app_control_denied",
+    "status": "denied",
+    "action": "cua.getApp(\"com.openai.codex\")",
+    "target": "/Applications/ChatGPT.app",
+    "bundle_id": "com.openai.codex",
+    "reason": "Computer Use is not allowed to use the app 'com.openai.codex' for safety reasons.",
+    "session_status": "unverified",
+    "app_download_capability": "unverified",
+    "next_step": "User downloads the current installer, test suite and README from the authenticated app to Downloads; assistant can then inspect bytes, hash and archive them. Historical links remain unverified until content evidence is available.",
+    "evidence": ".provenance/browser-access-attempts/native-chatgpt-app-denied.json"
   }
 ]

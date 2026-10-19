@@ -96,5 +96,13 @@
     "safari_accessible": true,
     "chatgpt_authentication_required": true,
     "new_original_files_recovered": 0
+  },
+  "native_app_attempt": {
+    "evidence": ".provenance/browser-access-attempts/native-chatgpt-app-denied.json",
+    "bundle_id": "com.openai.codex",
+    "app_path": "/Applications/ChatGPT.app",
+    "status": "denied_before_app_inspection",
+    "session_verified": false,
+    "new_original_files_recovered": 0
   }
 }

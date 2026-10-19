@@ -1,0 +1,95 @@
+[
+  {
+    "id": "middlemann",
+    "name": "Middle Mann",
+    "group": "TF2-like and centered",
+    "caption": "Familiar TF2 panels, with health and ammunition brought inward. This example shows Heavy in combat.",
+    "image": "https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png",
+    "source": "https://tf2huds.dev/hud/-Middle-Mann",
+    "project": "https://github.com/Vexcenot/-middle-mann",
+    "install": "Pinned download: v26.1",
+    "note": "Normal HUD mode is already centered. Upstream expects cl_hud_minmode 0; the installer does not force it."
+  },
+  {
+    "id": "centerhud",
+    "name": "Center HUD",
+    "group": "TF2-like and centered",
+    "caption": "A centered interpretation of the stock TF2 interface. Compare its panels and meter positions with Middle Mann.",
+    "image": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp",
+    "source": "https://comfig.app/huds/page/center-hud/",
+    "project": "https://github.com/RoseyLemonz/center-hud",
+    "install": "Pinned download: v24; layout-first mode",
+    "note": "Automatic first-run/customizer initialization is excluded. Built-in customizer menus may not initialize."
+  },
+  {
+    "id": "maxihud",
+    "name": "MaxiHud",
+    "group": "TF2-like and centered",
+    "caption": "TF2-style artwork with a centered layout and more extensive interface customization. The images below are from the upstream README.",
+    "image": "https://images.gamebanana.com/img/ss/mods/6997885801058.jpg",
+    "more": [
+      "https://images.gamebanana.com/img/ss/mods/6997885854f06.jpg",
+      "https://images.gamebanana.com/img/ss/mods/69978859bcdd9.jpg",
+      "https://images.gamebanana.com/img/ss/mods/69978856896c8.jpg"
+    ],
+    "source": "https://github.com/maxiandrew/maxihud/blob/v17.5/README.md#screenshots",
+    "project": "https://github.com/maxiandrew/maxihud",
+    "install": "Import your trusted upstream ZIP: --hud-zip PATH",
+    "note": "Local ZIP import is not a verified pinned download. Startup overrides are excluded; some customization features may not work."
+  },
+  {
+    "id": "rayshud",
+    "name": "rayshud",
+    "group": "Centered, more minimal styling",
+    "caption": "Your existing reference: large health and ammunition figures with little decoration. Shown here in the normal layout.",
+    "image": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp",
+    "source": "https://comfig.app/huds/page/rayshud/",
+    "project": "https://github.com/raysfire/rayshud",
+    "install": "Pinned download: 2026.0111",
+    "note": "Retained from the previous installer. No automatic switch occurs when you download the updated Python file."
+  },
+  {
+    "id": "budhud",
+    "name": "budhud",
+    "group": "Centered, more minimal styling",
+    "caption": "A redesigned interface with a restrained presentation. Compare the spacing and typography with rayshud.",
+    "image": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp",
+    "source": "https://comfig.app/huds/page/budhud/",
+    "project": "https://github.com/rbjaxter/budhud",
+    "install": "Pinned download: 2511_01",
+    "note": "Retained from the previous installer. The upstream catalog also includes Engineer, Medic and scoreboard previews."
+  },
+  {
+    "id": "toonhud",
+    "name": "ToonHUD",
+    "group": "Theme-dependent; centered mode available",
+    "caption": "The official FAQ compares the default layout with centered minimal mode. ToonHUD appearance depends on the theme you choose; this is an example, not a universal theme.",
+    "image": "https://i.imgur.com/YBG8NkC.png",
+    "source": "https://toonhud.com/faq",
+    "project": "https://toonhud.com/",
+    "install": "Import a theme ZIP: --hud-zip PATH",
+    "note": "The website packages your selected theme into the ZIP. The installer does not change your minimal-HUD setting or download a theme on your behalf."
+  },
+  {
+    "id": "idhud",
+    "name": "Improved Default HUD (IDHUD)",
+    "group": "Stock-style, corner-based",
+    "caption": "Keeps the stock layout while improving readability and fixing interface details. Included for comparison, but not the best match for your centered-information preference.",
+    "image": "https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp",
+    "source": "https://comfig.app/huds/page/improved-default-hud/",
+    "project": "https://github.com/idhud-tf2/idhud",
+    "install": "Pinned download: 4.0.8",
+    "note": "Optional recommended console settings are not applied. Your existing configuration remains unchanged by a HUD-only update."
+  },
+  {
+    "id": "communityhudfixes",
+    "name": "Community HUD Fixes",
+    "group": "Stock-style, corner-based",
+    "caption": "Corrections and optional refinements to the default interface. This preview shows its options menu, not an in-match layout.",
+    "image": "https://images.gamebanana.com/img/ss/mods/6629977e47754.jpg",
+    "source": "https://gamebanana.com/mods/26450",
+    "project": "https://github.com/CriticalFlaw/tf2hud-fixes",
+    "install": "Pinned download: 11.0; layout-first mode",
+    "note": "Startup/customizer initialization is omitted; the options screen is an upstream preview, not a promise that every control works in layout-first mode."
+  }
+]

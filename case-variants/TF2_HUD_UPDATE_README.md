@@ -1,119 +1,139 @@
-# TF2 setup v1.3.0 — stock-style HUD choices
+# TF2 Bazzite setup — cumulative HUD update v1.5.0
 
-This update adds **Improved Default HUD** and **Middle Mann** as alternatives to
-rayshud and budhud. It does not install several active HUDs at once.
+Replace the earlier `setup_tf2_bazzite.py` with this version. It retains every
+previous HUD, performance, visual-clarity, dry-run and restore option.
+`--hud keep` remains the default. Downloading the new script changes no game files.
 
-## Existing installation: preview, then apply
+## Look before choosing
 
-Save the new `setup_tf2_bazzite.py`, replacing the old downloaded script. On
-Bazzite, use a terminal as your normal user, not sudo/root.
+Open `TF2_HUD_Gallery.html` in a browser. It contains labeled published previews
+and source-gallery links for all eight community HUDs discussed. The pictures
+load online, so an internet connection is required. Some full-size image hosts
+could not be fetched in the authoring environment; links were obtained from the
+associated project/catalog pages. They are examples, not screenshots from your
+Bazzite installation or exact representations of the installer result. Resolution,
+class, theme, game/HUD version and disabled visual effects can change the result.
+The Community HUD Fixes picture is an options-menu preview, not gameplay.
 
-```bash
-python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run
-```
+## All choices in the same script
 
-Check that the preview says `Configuration files: no changes.` and lists only
-HUD paths for replacement. Fully exit TF2 and Steam before applying:
-
-```bash
-python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
-```
-
-This asks for confirmation. The HUD-only command leaves the installed
-mastercomfig VPK, preset, FPS cap, effects modules, viewmodel settings, binds,
-sensitivity, and other configuration files unchanged. Do not add baseline or
-visual options just to switch the HUD.
-
-No packages, OS settings, Steam account files, Proton selection, launch options,
-or system fonts are modified. The selected upstream HUD package can contain its
-own bundled assets; none of its updater programs are executed.
-
-## Choices
+| CLI name | Installation method |
+|---|---|
+| `rayshud` | Existing pinned 2026.0111 release |
+| `budhud` | Existing pinned 2511_01 release |
+| `idhud` | Existing pinned 4.0.8 release |
+| `middlemann` | Existing pinned v26.1 release |
+| `centerhud` | New pinned v24 release |
+| `communityhudfixes` | New pinned 11.0 release |
+| `maxihud` | New named local ZIP import |
+| `toonhud` | New named local theme ZIP import |
+| `keep` | Do nothing to the current HUD (default) |
+| `stock` | Back up/remove detected custom HUDs; use built-in HUD files |
 
 ```bash
 python3 setup_tf2_bazzite.py --list-huds
 ```
 
-| `--hud` value | What it does |
-| --- | --- |
-| `keep` | Leave the current HUD alone; this remains the default. |
-| `idhud` | Improved Default HUD 4.0.8. Original TF2 styling and corner placement, with readability/UI fixes. |
-| `middlemann` | Middle Mann v26.1. TF2 styling with health/ammo moved toward the center. |
-| `rayshud` | Existing pinned rayshud 2026.0111 option. |
-| `budhud` | Existing pinned budhud 2511_01 option. |
-| `stock` | Back up and remove detected custom HUDs; no HUD download or configuration reset. |
+Only one HUD is made active. The previous one is backed up outside `tf/custom`,
+not stacked with the new one. Merely selecting a previously used name installs
+its upstream release again; it does not retrieve local customizations from an
+old backup. The printed `--restore` command retrieves the exact previous files.
 
-Replace `idhud` in the preview/apply command with another choice to switch.
-No HUD is downloaded just because its name is listed in the script.
+## Preview a HUD-only switch
 
-All downloaded HUD ZIPs use fixed upstream release URLs and SHA-256 digests.
-Existing rayshud, budhud, and mastercomfig release pins are unchanged.
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud centerhud --replace-hud --dry-run
+```
 
-## Safety and restoration
+Substitute `middlemann`, `rayshud`, `budhud`, `idhud`, `communityhudfixes`, or `stock`
+as desired. The preview should report `Configuration files: no changes.`
+Nothing is downloaded, extracted, written or backed up by the dry run.
 
-The script detects common unpacked HUD layouts, including mixed-case resource
-filenames, installer-marked HUDs, and VPKs whose names contain `hud`.
-`--replace-hud` is required to remove a different or customized HUD. Review the
-exact paths in the preview. Arbitrary renamed/packed mods can escape detection;
-this is not a guarantee against every possible mod conflict.
+Fully exit TF2 and Steam before applying. Run as your normal Bazzite user, without
+sudo, and remove `--dry-run` from the reviewed command. It asks for confirmation.
+The HUD-only update does not rewrite your config, reinstall mastercomfig, reset
+your FPS cap or preset, or re-enable hidden weapons/3D portraits. Do not repeat
+old visual/performance flags unless you intend to change them.
 
-Backups are outside the game's `tf` folder, under
-`$XDG_STATE_HOME/tf2-competitive-backups` or
-`~/.local/state/tf2-competitive-backups`. An undo command is printed after every
-applied operation. It restores the exact affected files, including custom edits
-in the prior HUD. A switch back by HUD name installs its pinned upstream copy,
-not your previous personalized copy. Use the printed `--restore` command for the
-latter. Keep backup folders until you no longer need them.
+## Local ZIP imports: MaxiHud and ToonHUD
 
-Dry runs and `--list-huds` do not download, write files, or create backups.
-Reapplying an unchanged HUD is a no-op; changed/customized copies require consent.
-Older script backups are still readable.
+MaxiHud's checked v17.5 release has no separately published ZIP asset with a
+verified SHA-256 digest available here. Download the ZIP from its upstream
+project: https://github.com/maxiandrew/maxihud
 
-## Compatibility notes
+ToonHUD creates a ZIP containing your chosen theme in the browser. Choose and
+download a theme at https://toonhud.com/ — https://toonhud.com/guide explains it.
 
-Improved Default HUD explicitly lists Linux support. Its pinned source has no
-`cfg` startup override; the installer does not apply its optional recommended
-console settings.
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud toonhud \
+  --hud-zip "$HOME/Downloads/toonhud.zip" --replace-hud --dry-run
+```
 
-Middle Mann's pinned startup file says it is designed for `cl_hud_minmode 0`.
-The installer does not force this setting. It excludes bundled `cfg/valve.rc`
-files as before, avoiding startup-enforced cvars and caching/reload tricks.
-Consequently, some upstream HUD workarounds are omitted. Its optional vignette
-customizations are disabled in the pinned source. Do not enable unrelated HUD
-screen overlays or visual options unless you actually want those changes.
+For MaxiHud, use `--hud maxihud` and the actual path to your downloaded ZIP.
+These two options require `--hud-zip`. They perform no HUD network download.
+The script checks the ZIP structure, size, dangerous paths and source stability,
+prints its SHA-256, and can compare an optional `--hud-sha256 EXPECTED_DIGEST`.
+A digest computed from a local file does NOT authenticate its publisher.
+Use only archives you trust. Packed VPKs inside these new HUD ZIPs are refused.
 
-HUD-only updates preserve configuration bytes; layouts, colors, text sizes, and
-built-in UI animations can naturally differ between HUDs. Other scripts/binds,
-server restrictions, display settings, or future TF2 changes can still affect
-rendering. Restart TF2 when switching. Installing a HUD is not a promise of an
-FPS increase.
+## Startup compatibility and limitations
 
-## Verification performed
+The original startup policy and pinned versions for rayshud, budhud, IDHUD and
+Middle Mann remain unchanged. HUD startup `cfg/valve.rc` is omitted as before.
 
-48 offline automated tests passed in a Linux container, covering HUD switching,
-exact backup restoration, rollback, no-op updates, dry runs, preservation of
-existing effects/viewmodel/preset settings, ZIP safety, and checksum handling.
-Tests use temporary directories and synthetic archives/network responses.
-The two new release URLs and SHA-256 values were read from GitHub's release API;
-live binary downloads were unavailable in the development environment. Neither
-HUD rendering nor installation on Bazzite/TF2 hardware was tested here.
+Center HUD, Community HUD Fixes, MaxiHud and ToonHUD use **layout-first mode**.
+The installer omits standard automatic engine startup/configuration hooks,
+including `valve.rc` and `joystick.cfg`, rather than enabling a new HUD's first-run
+settings over your applied configuration. It does not initialize their built-in
+customization aliases, first-run scripts or automatic workarounds. Consequently
+some customizer-menu controls and features may not work without further review.
+This is a deliberate trade-off, not a claim of complete upstream functionality.
+Other HUD resource/menu code remains installed: manually using menu controls or
+other existing scripts can still change game settings. Arbitrary combinations
+of mods cannot be guaranteed conflict-free.
 
-The optional test file belongs next to the installer and can be run with:
+Middle Mann expects `cl_hud_minmode 0` and is centered in normal mode. ToonHUD's
+FAQ says its minimal mode is the centered mode. The installer does not silently
+change this global preference, so record your old value before changing it.
+Minimal HUD mode and minimal weapon viewmodels are different settings.
+
+## Restore
+
+After a real update the script prints a command such as:
+
+```bash
+python3 /path/to/setup_tf2_bazzite.py --restore /path/to/printed/backup
+```
+
+It restores only files affected by that operation and first backs up their
+current state. It does not undo unrelated earlier baseline/visual settings or
+manual in-game setting changes made afterward. Earlier backup formats remain
+supported. Keep backups outside the TF2 `tf` folder.
+
+## Validation
+
+73 offline tests passed on 19 October 2026. They cover preservation of existing
+settings, prior CLI choices, pinned downloads, local ZIP imports, idempotence,
+no-op previews, conflict checks, backup, exact restore and rollback. Test archives
+are artificial. No running TF2/Bazzite session or actual new HUD release ZIP was
+tested. This environment could not download the live HUD binaries.
 
 ```bash
 python3 -m unittest -v test_setup_tf2_bazzite.py
 ```
 
-## Upstream references
+The script and test suite should be in the same directory.
 
-- Improved Default HUD: https://github.com/idhud-tf2/idhud
-- Pinned IDHUD release: https://github.com/idhud-tf2/idhud/releases/tag/4.0.8
-- Middle Mann: https://github.com/Vexcenot/-middle-mann
-- Pinned Middle Mann release: https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1
-- Middle Mann startup config: https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc
-- Middle Mann optional vignette: https://github.com/Vexcenot/-middle-mann/blob/v26.1/customizations/vignette.res
-- rayshud: https://github.com/raysfire/rayshud
-- budhud: https://github.com/rbjaxter/budhud
+## Sources for the new install methods
 
-These are community HUDs. This script is an independent installer, not an
-upstream HUD release or an official Valve/Bazzite tool.
+- https://github.com/RoseyLemonz/center-hud/releases/tag/v24
+- https://github.com/RoseyLemonz/center-hud/tree/v24/cfg
+- https://github.com/CriticalFlaw/tf2hud-fixes/releases/tag/11.0
+- https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg
+- https://github.com/maxiandrew/maxihud/releases/tag/v17.5
+- https://github.com/maxiandrew/maxihud/tree/v17.5/cfg
+- https://toonhud.com/guide
+- https://toonhud.com/faq
+
+Each gallery card includes the image source and the HUD project link.

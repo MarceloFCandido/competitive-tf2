@@ -1,0 +1,64 @@
+{
+  "sequence": 550,
+  "message_id": "383046e4-70ab-4a95-80bd-0a904ebe68d0",
+  "source_timestamp": 1792412366.713935,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/build_hud_gallery.py",
+      "repo_path": "build_hud_gallery.py",
+      "status": "available_literal",
+      "sha256": "bf44543dcf2bbe7b8aff4ce5ea5e035181b3937acc6e9bc984afd48c7db6ca84",
+      "bytes": 11778,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+      "repo_path": "TF2_HUD_Update_README.md",
+      "status": "available_literal",
+      "sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "bytes": 6430
+    },
+    {
+      "original_path": "/mnt/data/hud_preview_sources.json",
+      "repo_path": "hud_preview_sources.json",
+      "status": "static_reconstruction",
+      "sha256": "9e0a699aec0963f6e4b10c1d55d76fd360bec71d9c347954762d99dd9b13b763",
+      "bytes": 5368,
+      "recipe": [
+        {
+          "operation": "serialize_literal_gallery_metadata",
+          "message": 550
+        }
+      ]
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_UPDATE_README.md",
+      "repo_path": "case-variants/TF2_HUD_UPDATE_README.md",
+      "status": "static_reconstruction",
+      "sha256": "6788c6f647ffaff0b01c98a48a3f7283b9778c64ad783f1c8217a08fde7a8f30",
+      "bytes": 6430,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "/mnt/data/TF2_HUD_Update_README.md",
+          "message": 550
+        }
+      ]
+    },
+    {
+      "original_path": "/mnt/data/TF2_HUD_Gallery.html",
+      "repo_path": "TF2_HUD_Gallery.html",
+      "status": "static_reconstruction",
+      "sha256": "2f245d5b39f410a77dca39a6c7f46f760986dd2aa077e25c9ed1f31eac37e679",
+      "bytes": 17802,
+      "recipe": [
+        {
+          "operation": "own_static_renderer",
+          "message": 550,
+          "note": "Literal metadata/page shell and transcribed card template; no recovered builder execution."
+        }
+      ]
+    }
+  ]
+}

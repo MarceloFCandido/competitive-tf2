@@ -1,0 +1,23 @@
+{
+  "sequence": 359,
+  "message_id": "ca54829f-c120-4cc8-b50c-3eb743ebf6cd",
+  "source_timestamp": 1792380786.14584,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+      "repo_path": "tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+      "status": "static_reconstruction",
+      "sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "bytes": 46353,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "setup_tf2_bazzite.py",
+          "note": "Source path says v1.2.0; later patch asserts v1.2.0 text. The v1.3.0 branch restart is inferred."
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

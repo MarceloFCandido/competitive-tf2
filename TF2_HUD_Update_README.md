@@ -1,0 +1,142 @@
+# TF2 HUD update for Bazzite — installer v1.3.0
+
+This revision adds **Improved Default HUD (IDHUD)** and a return-to-stock option.
+The existing rayshud and budhud choices remain available. It does not publish
+anything to GitHub or change your gaming PC until you run it there.
+
+## Start with Improved Default HUD
+
+Save `setup_tf2_bazzite.py`, replacing the previously downloaded copy. Run as
+your normal desktop user, not with `sudo`.
+
+```bash
+python3 setup_tf2_bazzite.py --version
+python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run
+```
+
+The version should be **1.3.0**. The preview should say **Configuration files:
+no changes** for this HUD-only command. It lists the HUD files/folders that
+would be backed up and removed. Previewing does not download, write, or create
+backups.
+
+Fully exit TF2 and Steam, then apply:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
+```
+
+The script asks for confirmation, downloads the pinned upstream ZIP, verifies
+its SHA-256 digest, validates/extracts it into a temporary directory, and
+creates backups before changing game files. Restart Steam and TF2 afterward.
+
+Use `--tf2-dir '/actual/path/to/Team Fortress 2'` when automatic library detection
+cannot identify one installation.
+
+## Choices
+
+```bash
+python3 setup_tf2_bazzite.py --list-huds
+```
+
+| Selection | Behavior |
+|---|---|
+| `--hud keep` | Default. Leave the active HUD unchanged. |
+| `--hud idhud` | Install Improved Default HUD 4.0.8, preserving the original TF2 art style and corner layout. |
+| `--hud rayshud` | Install the same pinned rayshud 2026.0111 offered in v1.2.0. |
+| `--hud budhud` | Install the same pinned budhud 2511_01 offered in v1.2.0. |
+| `--hud stock` | Back up and remove detected custom HUDs, using TF2's built-in HUD files; no HUD download. |
+
+When switching, add `--replace-hud`. Choices are **alternatives, not layers**.
+The script does not put two selected HUDs into `tf/custom` simultaneously.
+The previous HUD goes into a timestamped backup outside `tf/custom`.
+
+Example of returning to the built-in HUD, with all other settings preserved:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud --dry-run
+python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud
+```
+
+`stock` removes HUD mods, not your HUD preferences: minimal-HUD mode, hidden
+3D portraits, damage-number settings and other config choices remain as set.
+
+## Preserving the setup already applied
+
+The HUD-only update does not rewrite `tf/cfg`, reinstall mastercomfig, change
+the preset or FPS cap, reset graphics/animation reductions, or change weapon
+visibility, sensitivity, crosshair commands, keybinds or Steam launch options.
+There is no need to repeat `--visual-clarity` or any of your earlier settings.
+
+IDHUD's pinned source tree has no `cfg` directory. Its optional recommended
+ConVars are not added. The installer refuses an unexpected `cfg` directory in
+this package rather than accepting surprise startup changes. The previous
+startup policy for rayshud and budhud remains unchanged: their bundled
+`cfg/valve.rc` is excluded, along with the automatic tweaks that file provided.
+
+An unchanged script-installed HUD is a no-op when selected again. A customized
+copy is never replaced without `--replace-hud` and a backup. Ambiguous or
+scripted definitions of settings explicitly being edited still cause a stop.
+
+HUD detection is conservative; arbitrary renamed/packed mods can escape it.
+Review the preview. Custom game files and in-game HUD customization menus may
+still affect behavior; universal compatibility is not guaranteed.
+
+## Undo a HUD switch
+
+After applying, keep the full `--restore` command printed by the script. It
+restores only the files affected by that operation and backs up their current
+contents before restoration. For a HUD-only update it does not undo the older
+performance setup.
+
+Use that restore command to recover the **exact previous customized HUD**.
+Selecting `--hud rayshud` again installs a clean pinned copy; it does not load
+your customized copy from a backup. Restore in reverse order when undoing
+several consecutive operations.
+
+## Other HUDs to consider — recommendations, not installer options
+
+- **Community HUD Fixes:** stock-UI bug fixes and optional quality-of-life
+  changes. Particularly relevant when you want TF2 to look familiar.
+  https://github.com/CriticalFlaw/tf2hud-fixes
+- **Middle-Mann:** retains TF2's art style but moves health/ammo toward the
+  center. A larger layout change than IDHUD.
+  https://github.com/Vexcenot/-middle-mann
+- **ToonHUD:** browser-customizable themes, including documented Linux
+  installation. Its appearance depends on the selected theme; it is not
+  inherently a stock-style HUD.
+  https://toonhud.com/
+  https://toonhud.com/guide
+
+These three are suggestions only in v1.3.0. They do not work as `--hud` values.
+Do not install them on top of an active HUD.
+
+## Validation and limitations
+
+**48 offline regression tests passed** for this revision. Tests use temporary
+TF2-shaped directories and synthetic ZIP files. They exercise configuration
+preservation, both new choices, dry runs, repeat runs, replacement authorization,
+checksum handling, extraction safety, backup/restore, rollback and stale-plan
+checks. Run the supplied tests beside the installer:
+
+```bash
+python3 -m unittest -v test_setup_tf2_bazzite.py
+```
+
+Pinned IDHUD release metadata, its checksum and its source-tree structure were
+checked against upstream GitHub. This environment could not retrieve the real
+release ZIP for an end-to-end download test. Actual HUD rendering, runtime
+compatibility and Bazzite hardware behavior have not been tested here. The
+installer verifies the pinned checksum on your PC before changing game files.
+
+## Upstream references
+
+- IDHUD project and design: https://github.com/idhud-tf2/idhud
+- IDHUD 4.0.8 release: https://github.com/idhud-tf2/idhud/releases/tag/4.0.8
+- IDHUD 4.0.8 source: https://github.com/idhud-tf2/idhud/tree/4.0.8
+- IDHUD ZIP SHA-256: `3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719`
+- rayshud: https://github.com/raysfire/rayshud
+- budhud: https://github.com/rbjaxter/budhud
+
+The new IDHUD metadata was checked on 2026-10-19. Existing mastercomfig,
+rayshud and budhud pins were deliberately retained from v1.2.0 rather than
+silently upgrading them during this feature addition.

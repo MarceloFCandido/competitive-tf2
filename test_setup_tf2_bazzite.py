@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py.
+"""Offline regression tests for setup_tf2_bazzite.py v1.3.0.
 
+Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
+Steam, network, fonts, or downloaded HUD assets are needed or exercised.
 Run: python3 -m unittest -v test_setup_tf2_bazzite.py
-Requires only Python's standard library. Uses temporary game trees and synthetic
-ZIP/network fixtures; does NOT launch TF2 or validate live upstream downloads.
+Place this test file beside setup_tf2_bazzite.py, or set TF2_SETUP_SCRIPT.
 """
 import contextlib
 import hashlib
@@ -18,434 +19,476 @@ import struct
 import sys
 import tempfile
 import unittest
-from unittest import mock
+from unittest.mock import patch
 import zipfile
 
-HERE = Path(__file__).resolve().parent
-spec = importlib.util.spec_from_file_location('tf2setup', HERE / 'setup_tf2_bazzite.py')
+SCRIPT = Path(os.environ.get('TF2_SETUP_SCRIPT', str(Path(__file__).with_name('setup_tf2_bazzite.py'))))
+spec = importlib.util.spec_from_file_location('tf2_setup_tested', SCRIPT)
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 
 
-def archive_bytes(name='fixture', startup=True, extra=None):
-    stream = io.BytesIO()
-    files = {
-        name + '/info.vdf': '"hud" { "ui_version" "3" }',
-        name + '/resource/clientscheme.res': '"Scheme" {}',
-        name + '/scripts/hudlayout.res': '"HudLayout" {}',
-    }
-    if startup:
-        files[name + '/cfg/valve.rc'] = 'vgui_cache_res_files 0\ncl_hud_minmode 0\n'
+def write(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(text if isinstance(text, bytes) else text.encode())
+
+
+def vpk_bytes():
+    return struct.pack('<III', 0x55AA1234, 1, 1) + b'\0'
+
+
+def archive_bytes(name='idhud', extra=None, folder=None):
+    folder = folder or name
+    files = {'info.vdf': '"HUD" { "ui_version" "3" }',
+             'resource/clientscheme.res': '"Scheme" {}',
+             'scripts/hudlayout.res': '"Resource/HudLayout.res" {}'}
+    if name != 'idhud':
+        files['cfg/valve.rc'] = 'exec autoexec.cfg\nmat_antialias 4\n'
     if extra:
-        files.update({name + '/' + rel: data for rel, data in extra.items()})
-    with zipfile.ZipFile(stream, 'w') as archive:
-        for rel, data in files.items():
-            archive.writestr(rel, data)
-    return stream.getvalue()
+        files.update(extra)
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
+        for rel, contents in files.items():
+            z.writestr(folder + '/' + rel, contents)
+    return out.getvalue()
 
 
-class GameCase(unittest.TestCase):
+class Response(io.BytesIO):
+    def geturl(self):
+        return 'https://github.com/example/release.zip'
+
+
+class SetupTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory()
+        self.temp = tempfile.TemporaryDirectory(prefix='tf2-regression-')
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        self.game = self.root / 'Team Fortress 2'
+        self.game = self.root / 'Steam library/steamapps/common/Team Fortress 2'
         self.tf = self.game / 'tf'
-        self.tf.mkdir(parents=True)
-        (self.tf / 'gameinfo.txt').write_text('"GameInfo" {}\n')
-        (self.tf / 'custom').mkdir()
-        staged = self.root / 'initial-cfg'
-        m.stage_cfg(self.tf, staged, 'low', '240', visual_clarity=True, viewmodels='hidden')
-        shutil.copytree(staged, self.tf / 'cfg')
-        (self.tf / 'custom/mastercomfig-base.vpk').write_bytes(struct.pack('<III', 0x55AA1234, 1, 1) + b'\0')
-        auto = self.tf / 'cfg/overrides/autoexec.cfg'
-        auto.write_text('sensitivity 1.7\nbind "q" "lastinv"\n' + auto.read_text())
-        modules = self.tf / 'cfg/overrides/modules.cfg'
-        modules.write_text('effects=very_low\n' + modules.read_text())
-        (self.tf / 'cfg/overrides/soldier.cfg').write_text('// Custom class settings\nviewmodel_fov 80\n')
+        write(self.tf / 'gameinfo.txt', '"GameInfo" {}')
+        write(self.tf / 'custom/mastercomfig-base.vpk', vpk_bytes())
+        for rel, body in zip(m.MANAGED_FILES, ('preset=low', m.personal_config('hidden'),
+                                               m.module_config('240', True))):
+            path = self.tf / rel
+            path.parent.mkdir(parents=True, exist_ok=True)
+            m.managed_file(path, body)
+        # Extra user changes: these must survive a HUD-only update byte-for-byte.
+        with (self.tf / m.MANAGED_FILES[1]).open('a') as f:
+            f.write('\nsensitivity 1.13\nbind "mouse4" "+attack2"\ncl_crosshair_scale 27\n')
+        with (self.tf / m.MANAGED_FILES[2]).open('a') as f:
+            f.write('\neffects=very_low\n// local comment\n')
+        write(self.tf / 'cfg/overrides/scout.cfg', 'viewmodel_fov 85\n')
+        write(self.tf / 'cfg/config.cfg', 'volume 0.65\n')
+        write(self.tf / 'custom/othermod/sound/myhit.wav', b'not a real sound')
         self.state = self.root / 'state'
+        self.downloads = []
 
-    def fixture_hud(self, name, managed=True, extra=None):
-        archive = self.root / (name + '-fixture.zip')
-        archive.write_bytes(archive_bytes(name, startup=(name != 'idhud'), extra=extra))
-        stage = self.root / (name + '-unpack-' + str(len(list(self.root.iterdir()))))
-        result = m.prepare_hud(archive, stage, name)
+    def args(self, *args):
+        return m.parser().parse_args(list(args))
+
+    def snapshot(self, root=None):
+        root = root or self.root
+        return {str(p.relative_to(root)): ('dir' if p.is_dir() else p.read_bytes())
+                for p in sorted(root.rglob('*')) if not p.is_symlink()}
+
+    def install_hud_fixture(self, name='rayshud', customized=False):
+        src = self.root / (name + '-fixture.zip')
+        write(src, archive_bytes(name))
+        prepared = m.prepare_hud(src, self.root / (name + '-staging'), name)
         dest = self.tf / 'custom' / name
-        shutil.copytree(result, dest)
-        if not managed:
-            (dest / m.HUD_MARKER).unlink()
+        shutil.copytree(prepared, dest)
+        if customized:
+            write(dest / 'resource/local_changes.res', '"PlayerChoice" "keep me"')
         return dest
 
-    def protected_bytes(self):
-        paths = list((self.tf / 'cfg').rglob('*')) + [self.tf / 'custom/mastercomfig-base.vpk']
-        return {str(p.relative_to(self.tf)): p.read_bytes() for p in paths if p.is_file()}
+    def fake_download(self, asset, dest, maximum):
+        self.downloads.append(asset['url'])
+        if asset is m.COMFIG:
+            write(dest, vpk_bytes())
+        else:
+            name = next(name for name, a in m.HUDS.items() if a is asset)
+            write(dest, archive_bytes(name))
 
-    def args(self, *options):
-        return m.parser().parse_args(['--tf2-dir', str(self.game), '--update-only', *options])
-
-    def run_main(self, *options, download=None):
-        output = io.StringIO()
-        if download is None:
-            def download(asset, dest, maximum):
-                name = next(n for n, a in m.HUDS.items() if asset is a)
-                dest.write_bytes(archive_bytes(name, startup=(name != 'idhud')))
-        with mock.patch.object(sys, 'argv', ['setup', '--tf2-dir', str(self.game), *options]), \
-             mock.patch.object(os, 'geteuid', return_value=1000), \
-             mock.patch.dict(os.environ, {'XDG_STATE_HOME': str(self.state)}), \
-             mock.patch.object(m, 'require_closed'), \
-             mock.patch.object(m, 'download', side_effect=download) as dl, \
-             contextlib.redirect_stdout(output), contextlib.redirect_stderr(output):
+    def run_main(self, *args, downloader=None, confirmer=True):
+        argv = [str(SCRIPT), '--tf2-dir', str(self.game), *args]
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with patch.object(sys, 'argv', argv), patch.object(m.os, 'geteuid', return_value=1000), \
+             patch.dict(os.environ, {'XDG_STATE_HOME': str(self.state)}), \
+             patch.object(m, 'require_closed') as closed, \
+             patch.object(m, 'confirm', return_value=confirmer) as confirm, \
+             patch.object(m, 'download', side_effect=downloader or self.fake_download) as download, \
+             contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             result = m.main()
-        return result, output.getvalue(), dl.call_count
+        return result, stdout.getvalue(), stderr.getvalue(), download, confirm, closed
 
-    def test_existing_setup_is_recognized(self):
-        self.assertTrue(m.recognized_install(self.tf))
+    def test_catalog_choices_include_previous_and_new(self):
+        self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'idhud', 'rayshud', 'budhud'})
+        self.assertEqual(self.args().hud, 'keep')
+        self.assertEqual(self.args('--hud', 'idhud').hud, 'idhud')
 
-    def test_each_hud_only_delta_is_empty(self):
-        before = self.protected_bytes()
-        for name in m.HUD_CHOICES:
-            with self.subTest(hud=name):
-                self.assertEqual(m.plan_update(self.tf, self.args('--hud', name)), {})
-        self.assertEqual(before, self.protected_bytes())
-
-    def test_visual_clarity_reapply_is_noop(self):
-        self.assertEqual(m.plan_update(self.tf, self.args('--visual-clarity')), {})
-
-    def test_effects_and_hidden_weapons_survive_hud_update(self):
-        self.fixture_hud('rayshud')
-        before = self.protected_bytes()
-        self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', '--yes')
-        self.assertEqual(before, self.protected_bytes())
-        self.assertIn('effects=very_low', (self.tf / m.MANAGED_FILES[2]).read_text())
-        self.assertIn('r_drawviewmodel 0', (self.tf / m.MANAGED_FILES[1]).read_text())
-
-    def test_keep_has_no_hud_operations(self):
-        self.fixture_hud('rayshud')
-        self.assertEqual(m.plan_hud(self.tf, 'keep', False), (False, []))
-
-    def test_keep_with_replace_fails(self):
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'keep', True)
-
-    def test_new_idhud_requests_download(self):
-        self.assertEqual(m.plan_hud(self.tf, 'idhud', False), (True, []))
-
-    def test_new_middlemann_requests_download(self):
-        self.assertEqual(m.plan_hud(self.tf, 'middlemann', False), (True, []))
-
-    def test_switch_requires_authorization(self):
-        self.fixture_hud('rayshud')
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'idhud', False)
-
-    def test_authorized_switch_removes_other_hud(self):
-        self.fixture_hud('rayshud')
-        self.assertEqual(m.plan_hud(self.tf, 'idhud', True), (True, ['custom/rayshud']))
-
-    def test_same_release_is_noop_for_all_choices(self):
-        for name in m.HUDS:
-            with self.subTest(hud=name):
-                p = self.fixture_hud(name)
-                self.assertTrue(m.hud_is_current(p, name))
-                self.assertEqual(m.plan_hud(self.tf, name, False), (False, []))
-                shutil.rmtree(p)
-
-    def test_customized_hud_is_not_overwritten_silently(self):
-        p = self.fixture_hud('rayshud')
-        (p / 'resource/custom-color.res').write_text('My custom settings\n')
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'rayshud', False)
-        self.assertEqual(m.plan_hud(self.tf, 'rayshud', True), (True, []))
-
-    def test_old_hud_policy_still_accepted(self):
-        p = self.fixture_hud('budhud')
-        self.assertEqual(json.loads((p / m.HUD_MARKER).read_text())['policy'], 'preserve-startup-v1')
-        self.assertTrue(m.hud_is_current(p, 'budhud'))
-
-    def test_dry_run_has_no_writes_downloads_or_backups(self):
-        self.fixture_hud('rayshud')
-        before = m.tree_hash(self.root)
-        result, text, count = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', '--dry-run')
-        self.assertEqual(result, 0)
-        self.assertEqual(count, 0)
-        self.assertIn('Configuration files: no changes.', text)
-        self.assertIn('custom/rayshud', text)
-        self.assertIn('HUD install: idhud 4.0.8', text)
-        self.assertEqual(before, m.tree_hash(self.root))
-        self.assertFalse(self.state.exists())
-
-    def test_other_new_hud_dry_run_is_readonly(self):
-        before = m.tree_hash(self.root)
-        _, text, count = self.run_main('--update-only', '--hud', 'middlemann', '--dry-run')
-        self.assertEqual(count, 0)
-        self.assertIn('cl_hud_minmode 0', text)
-        self.assertEqual(before, m.tree_hash(self.root))
-
-    def test_noop_does_not_download_or_create_state(self):
-        self.fixture_hud('idhud')
-        before = m.tree_hash(self.root)
-        _, text, count = self.run_main('--update-only', '--hud', 'idhud', '--yes')
-        self.assertEqual(count, 0)
-        self.assertIn('Already configured', text)
-        self.assertEqual(before, m.tree_hash(self.root))
-
-    def test_switch_and_exact_restore(self):
-        p = self.fixture_hud('rayshud')
-        (p / 'personal-notes.txt').write_text('Keep my exact customized HUD\n')
-        protected = self.protected_bytes()
-        old = m.tree_hash(p)
-        _, text, count = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', '--yes')
-        self.assertEqual(count, 1)
-        self.assertEqual([p.name for p in m.hud_candidates(self.tf)], ['idhud'])
-        self.assertEqual(protected, self.protected_bytes())
-        self.assertIn('--restore', text)
-        backups = list((self.state / 'tf2-competitive-backups').glob('*/manifest.json'))
-        self.assertEqual(len(backups), 1)
-        tf, ops = m.load_restore(backups[0].parent)
-        self.assertEqual(tf, self.tf)
-        self.assertEqual(set(ops), {'custom/idhud', 'custom/rayshud'})
-        m.transact(tf, ops, self.state / 'tf2-competitive-backups', 'before-restore')
-        self.assertFalse((tf / 'custom/idhud').exists())
-        self.assertEqual(old, m.tree_hash(tf / 'custom/rayshud'))
-        self.assertEqual(protected, self.protected_bytes())
-
-    def test_three_sequential_switches_do_not_stack(self):
-        before = self.protected_bytes()
-        self.fixture_hud('rayshud')
-        for name in ('idhud', 'middlemann', 'budhud'):
-            self.run_main('--update-only', '--hud', name, '--replace-hud', '--yes')
-            self.assertEqual([p.name for p in m.hud_candidates(self.tf)], [name])
-            self.assertEqual(before, self.protected_bytes())
-
-    def test_stock_requires_authorization(self):
-        self.fixture_hud('rayshud')
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'stock', False)
-
-    def test_stock_without_custom_hud_is_noop(self):
-        self.assertEqual(m.plan_hud(self.tf, 'stock', False), (False, []))
-        _, _, count = self.run_main('--update-only', '--hud', 'stock', '--yes')
-        self.assertEqual(count, 0)
-        self.assertFalse(self.state.exists())
-
-    def test_stock_only_removes_detected_huds(self):
-        self.fixture_hud('rayshud')
-        extra = self.tf / 'custom/my-sound-pack/sound/hitsound.wav'
-        extra.parent.mkdir(parents=True)
-        extra.write_bytes(b'fake-sound-file')
-        before = self.protected_bytes()
-        _, text, count = self.run_main('--update-only', '--hud', 'stock', '--replace-hud', '--yes')
-        self.assertEqual(count, 0)
-        self.assertEqual(m.hud_candidates(self.tf), [])
-        self.assertTrue(extra.is_file())
-        self.assertEqual(before, self.protected_bytes())
-        self.assertIn('no HUD download or config reset', text)
-
-    def test_stock_dry_run_is_readonly(self):
-        self.fixture_hud('budhud')
-        before = m.tree_hash(self.root)
-        _, _, count = self.run_main('--update-only', '--hud', 'stock', '--replace-hud', '--dry-run')
-        self.assertEqual(count, 0)
-        self.assertEqual(before, m.tree_hash(self.root))
-
-    def test_case_insensitive_hud_detection(self):
-        p = self.tf / 'custom/not_named_as_a_hud/Resource/UI/HudPlayerHealth.res'
-        p.parent.mkdir(parents=True)
-        p.write_text('HUD fixture\n')
-        self.assertIn(p.parents[2], m.hud_candidates(self.tf))
-
-    def test_marker_detects_renamed_managed_hud(self):
-        p = self.tf / 'custom/random_name'
-        p.mkdir()
-        (p / m.HUD_MARKER).write_text('{}')
-        self.assertIn(p, m.hud_candidates(self.tf))
-
-    def test_packed_hud_is_included_in_replacement(self):
-        p = self.tf / 'custom/idhud.vpk'
-        p.write_bytes(b'fixture')
-        self.assertEqual(m.plan_hud(self.tf, 'idhud', True), (True, ['custom/idhud.vpk']))
-
-    def test_mastercomfig_addons_are_not_huds(self):
-        p = self.tf / 'custom/mastercomfig-addon-hud.vpk'
-        p.write_bytes(b'fixture')
-        self.assertEqual(m.hud_candidates(self.tf), [])
-
-    def test_symlinked_hud_refused(self):
-        external = self.root / 'external'
-        external.mkdir()
-        (external / 'info.vdf').write_text('fixture')
-        (self.tf / 'custom/rayshud').symlink_to(external, target_is_directory=True)
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'idhud', True)
-
-    def test_failed_download_does_not_change_game(self):
-        self.fixture_hud('rayshud')
-        before = m.tree_hash(self.tf)
-        def fail(*args):
-            raise m.SetupError('Simulated failed download')
-        with self.assertRaises(m.SetupError):
-            self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', '--yes', download=fail)
-        self.assertEqual(before, m.tree_hash(self.tf))
-        self.assertEqual(list(self.state.rglob('manifest.json')), [])
-
-    def test_preserve_unrelated_bytes_on_visual_change(self):
-        a = self.args('--viewmodels', 'minimal')
-        result = m.plan_update(self.tf, a)
-        self.assertEqual(set(result), {m.MANAGED_FILES[1]})
-        self.assertEqual(result[m.MANAGED_FILES[1]], (self.tf / m.MANAGED_FILES[1]).read_bytes().replace(b'r_drawviewmodel 0', b'r_drawviewmodel 1'))
-
-    def test_conflicting_scalar_fails(self):
-        file = self.tf / m.MANAGED_FILES[1]
-        file.write_text(file.read_text() + '\nr_drawviewmodel 1\n')
-        with self.assertRaises(m.SetupError):
-            m.plan_update(self.tf, self.args('--viewmodels', 'minimal'))
-
-    def test_invalid_hud_rejected(self):
-        with self.assertRaises(m.SetupError):
-            m.plan_hud(self.tf, 'unknown', True)
-
-    def test_old_format_backup_can_be_read(self):
-        b = self.root / 'old-v1-backup'
-        src = b / 'originals/cfg'
-        shutil.copytree(self.tf / 'cfg', src)
-        m.save_json(b / 'manifest.json', {'format': 'tf2-competitive-setup-v1', 'tf': str(self.tf), 'status': 'complete',
-                                       'entries': [{'path': 'cfg', 'existed': True, 'sha256': m.tree_hash(src)}]})
-        tf, ops = m.load_restore(b)
-        self.assertEqual(tf, self.tf)
-        self.assertEqual(ops['cfg'], src)
-
-    def test_transaction_failure_rolls_back(self):
-        self.fixture_hud('rayshud')
-        staged = self.root / 'staged'
-        staged.mkdir()
-        (staged / 'info.vdf').write_text('fixture')
-        state = self.root / 'backup-state'
-        state.mkdir()
-        before = m.tree_hash(self.tf)
-        original_copy = m.copy_item
-        def interrupted_copy(src, dst):
-            if src == staged:
-                raise OSError('Simulated failure applying new HUD')
-            return original_copy(src, dst)
-        with mock.patch.object(m, 'copy_item', side_effect=interrupted_copy), self.assertRaises(OSError):
-            m.transact(self.tf, {'custom/rayshud': None, 'custom/idhud': staged}, state, 'failure-test')
-        self.assertEqual(before, m.tree_hash(self.tf))
-
-    def test_update_only_rejects_unmanaged_game(self):
-        for rel in m.MANAGED_FILES:
-            (self.tf / rel).unlink()
-        with self.assertRaises(m.SetupError):
-            self.run_main('--update-only', '--hud', 'idhud', '--dry-run')
-
-
-class ArchiveAndCatalogCase(unittest.TestCase):
-    def test_catalog_lists_new_and_existing_huds_without_game_or_network(self):
-        with mock.patch.object(sys, 'argv', ['setup', '--list-huds']), \
-             mock.patch.object(m, 'discover_games', side_effect=AssertionError('must not inspect game')), \
-             mock.patch.object(m, 'download', side_effect=AssertionError('must not download')), \
-             contextlib.redirect_stdout(io.StringIO()) as text:
+    def test_catalog_no_game_no_network_no_writes(self):
+        before = self.snapshot()
+        with patch.object(sys, 'argv', [str(SCRIPT), '--list-huds']), \
+             patch.object(m, 'discover_games', side_effect=AssertionError('must not discover')), \
+             patch.object(m, 'download', side_effect=AssertionError('must not download')), \
+             contextlib.redirect_stdout(io.StringIO()) as out:
             self.assertEqual(m.main(), 0)
         for name in m.HUD_CHOICES:
-            self.assertIn(name, text.getvalue())
+            self.assertIn(name, out.getvalue())
+        self.assertEqual(before, self.snapshot())
 
-    def test_catalog_rejects_mutation_options(self):
-        with mock.patch.object(sys, 'argv', ['setup', '--list-huds', '--hud', 'idhud']), self.assertRaises(m.SetupError):
-            m.main()
-
-    def test_parser_retains_old_options(self):
-        for name in ('keep', 'budhud', 'rayshud'):
-            args = m.parser().parse_args(['--hud', name, '--visual-clarity', '--viewmodels', 'hidden', '--dry-run'])
-            self.assertEqual(args.hud, name)
-            self.assertTrue(args.visual_clarity)
-            self.assertTrue(args.dry_run)
-
-    def test_baseline_dependency_pin_unchanged(self):
+    def test_release_pins_unchanged_for_existing_installs(self):
         self.assertEqual(m.COMFIG['version'], '9.100.1')
         self.assertEqual(m.COMFIG['sha256'], 'cdabc8251864a1ab2ef7f7ffed1b44f52810956e476d62183b8d7e3e960d8650')
-
-    def test_all_downloads_pinned_to_https_releases_with_digests(self):
-        for asset in [m.COMFIG, *m.HUDS.values()]:
-            self.assertTrue(asset['url'].startswith('https://github.com/'))
-            self.assertIn('/releases/download/' + asset['version'] + '/', asset['url'])
-            self.assertRegex(asset['sha256'], r'^[0-9a-f]{64}$')
-
-    def test_old_hud_pins_unchanged(self):
         self.assertEqual(m.RAYSHUD['version'], '2026.0111')
         self.assertEqual(m.RAYSHUD['sha256'], '09c695faa1243d649dff5636d1ccb0c831a6f4f6d118380b2e40d451f6dbd014')
         self.assertEqual(m.BUDHUD['version'], '2511_01')
-        self.assertEqual(m.BUDHUD['sha256'], 'f42f2af1d6469c80a01f093930a0db32f901e0a03bad5aaa1dbe7e17749335c2')
+        self.assertEqual(m.HUD_POLICY, 'preserve-startup-v1')
+        self.assertEqual(m.IDHUD['version'], '4.0.8')
+        for a in m.HUDS.values():
+            self.assertEqual(len(a['sha256']), 64)
+            self.assertIn('/releases/download/' + a['version'] + '/', a['url'])
+            self.assertTrue(a['url'].startswith('https://github.com/'))
 
-    def test_archive_valve_rc_removed(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            arc.write_bytes(archive_bytes())
-            hud = m.prepare_hud(arc, root / 'unpacked', 'middlemann')
-            self.assertFalse((hud / 'cfg/valve.rc').exists())
-            self.assertTrue((hud / 'scripts/hudlayout.res').exists())
-            self.assertTrue(m.hud_is_current(hud, 'middlemann'))
+    def test_legacy_managed_install_recognized(self):
+        self.assertTrue(m.recognized_install(self.tf))
 
-    def test_idhud_without_cfg_preserves_layout(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            arc.write_bytes(archive_bytes(startup=False))
-            hud = m.prepare_hud(arc, root / 'unpacked', 'idhud')
-            self.assertFalse((hud / 'cfg').exists())
-            self.assertTrue(m.hud_is_current(hud, 'idhud'))
+    def test_hud_only_plan_changes_no_configs(self):
+        before = self.snapshot(self.tf)
+        self.assertEqual(m.plan_update(self.tf, self.args('--hud', 'idhud', '--replace-hud')), {})
+        self.assertEqual(before, self.snapshot(self.tf))
 
-    def test_unexpected_autoexec_rejected(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            arc.write_bytes(archive_bytes(extra={'cfg/autoexec.cfg': 'fps_max 60'}))
-            with self.assertRaises(m.SetupError):
-                m.prepare_hud(arc, root / 'unpacked', 'idhud')
+    def test_clarity_keeps_stricter_effects_and_is_idempotent(self):
+        self.assertEqual(m.plan_update(self.tf, self.args('--visual-clarity')), {})
+        self.assertIn('effects=very_low', (self.tf / m.MANAGED_FILES[2]).read_text())
+
+    def test_viewmodels_changes_only_requested_commands(self):
+        result = m.plan_update(self.tf, self.args('--viewmodels', 'minimal'))
+        self.assertEqual(set(result), {m.MANAGED_FILES[1]})
+        old = (self.tf / m.MANAGED_FILES[1]).read_bytes()
+        self.assertEqual(result[m.MANAGED_FILES[1]], old.replace(b'r_drawviewmodel 0', b'r_drawviewmodel 1'))
+
+    def test_explicit_fps_and_preset_still_work(self):
+        result = m.plan_update(self.tf, self.args('--preset', 'high', '--fps-cap', '360'))
+        self.assertEqual(set(result), {m.MANAGED_FILES[0], m.MANAGED_FILES[2]})
+        self.assertIn(b'preset=high', result[m.MANAGED_FILES[0]])
+        self.assertIn(b'fpscap=360', result[m.MANAGED_FILES[2]])
+        self.assertIn(b'effects=very_low', result[m.MANAGED_FILES[2]])
+
+    def test_duplicate_targeted_setting_rejected(self):
+        with (self.tf / m.MANAGED_FILES[1]).open('a') as f:
+            f.write('r_drawviewmodel 1\n')
+        with self.assertRaises(m.SetupError):
+            m.plan_update(self.tf, self.args('--viewmodels', 'minimal'))
+
+    def test_ambiguous_targeted_script_rejected(self):
+        with (self.tf / m.MANAGED_FILES[1]).open('a') as f:
+            f.write('alias vm "r_drawviewmodel 1"\n')
+        with self.assertRaises(m.SetupError):
+            m.plan_update(self.tf, self.args('--viewmodels', 'minimal'))
+
+    def test_keep_does_not_touch_current_hud(self):
+        self.install_hud_fixture(customized=True)
+        self.assertEqual(m.plan_hud(self.tf, 'keep', False), (False, []))
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'keep', True)
+
+    def test_switch_needs_replacement_permission(self):
+        self.install_hud_fixture()
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'idhud', False)
+        self.assertEqual(m.plan_hud(self.tf, 'idhud', True), (True, ['custom/rayshud']))
+
+    def test_stock_removal_permission(self):
+        self.install_hud_fixture()
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'stock', False)
+        self.assertEqual(m.plan_hud(self.tf, 'stock', True), (False, ['custom/rayshud']))
+
+    def test_stock_without_custom_hud_is_noop(self):
+        self.assertEqual(m.plan_hud(self.tf, 'stock', False), (False, []))
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'stock')
+        self.assertEqual(result[0], 0)
+        self.assertIn('Already configured', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_existing_rayshud_marker_still_noop(self):
+        self.install_hud_fixture('rayshud')
+        self.assertEqual(m.plan_hud(self.tf, 'rayshud', False), (False, []))
+
+    def test_customized_current_hud_not_overwritten_silently(self):
+        self.install_hud_fixture('idhud', customized=True)
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'idhud', False)
+        self.assertEqual(m.plan_hud(self.tf, 'idhud', True), (True, []))
+
+    def test_named_unrecognized_destination_conflicts(self):
+        write(self.tf / 'custom/idhud/private.txt', 'unrelated local directory')
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'idhud', False)
+
+    def test_all_detected_huds_replaced_not_layered(self):
+        self.install_hud_fixture('rayshud')
+        self.install_hud_fixture('budhud')
+        self.assertEqual(m.plan_hud(self.tf, 'idhud', True),
+                         (True, ['custom/budhud', 'custom/rayshud']))
+
+    def test_vpk_hud_detected_and_nonhud_mod_kept(self):
+        write(self.tf / 'custom/oldhud.vpk', vpk_bytes())
+        write(self.tf / 'custom/soundpack.vpk', vpk_bytes())
+        self.assertEqual(m.plan_hud(self.tf, 'stock', True), (False, ['custom/oldhud.vpk']))
+
+    def test_symlink_hud_rejected(self):
+        outside = self.root / 'outside-hud'
+        write(outside / 'scripts/hudlayout.res', '{}')
+        (self.tf / 'custom/linkedhud').symlink_to(outside, target_is_directory=True)
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, 'idhud', True)
+
+    def test_invalid_selection_rejected(self):
+        with self.assertRaises(m.SetupError):
+            m.plan_hud(self.tf, '../escape', True)
+
+    def test_hud_switch_dry_run_does_nothing(self):
+        self.install_hud_fixture(customized=True)
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', '--dry-run')
+        self.assertEqual(result[0], 0)
+        self.assertIn('Configuration files: no changes.', result[1])
+        self.assertIn('custom/rayshud', result[1])
+        self.assertIn('IDHUD', result[1])
+        self.assertIn('4.0.8', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertFalse(result[5].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_stock_dry_run_does_nothing(self):
+        self.install_hud_fixture()
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'stock', '--replace-hud', '--dry-run')
+        self.assertIn('built-in stock HUD', result[1])
+        self.assertFalse(result[3].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_apply_switch_preserves_everything_but_hud(self):
+        oldhud = self.install_hud_fixture(customized=True)
+        cfg_before = self.snapshot(self.tf / 'cfg')
+        base_before = (self.tf / 'custom/mastercomfig-base.vpk').read_bytes()
+        oldhash = m.tree_hash(oldhud)
+        result = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud')
+        self.assertEqual(result[0], 0)
+        self.assertFalse(oldhud.exists())
+        self.assertTrue(m.hud_is_current(self.tf / 'custom/idhud', 'idhud'))
+        self.assertEqual(cfg_before, self.snapshot(self.tf / 'cfg'))
+        self.assertEqual(base_before, (self.tf / 'custom/mastercomfig-base.vpk').read_bytes())
+        self.assertTrue((self.tf / 'custom/othermod/sound/myhit.wav').exists())
+        self.assertEqual(self.downloads, [m.IDHUD['url']])
+        manifest_path = next(self.state.rglob('manifest.json'))
+        manifest = json.loads(manifest_path.read_text())
+        self.assertEqual({e['path'] for e in manifest['entries']}, {'custom/rayshud', 'custom/idhud'})
+        self.assertEqual(m.tree_hash(manifest_path.parent / 'originals/custom/rayshud'), oldhash)
+        self.assertIn('--restore', result[1])
+        self.assertNotIn(self.tf, manifest_path.parents)
+
+    def test_reapplying_idhud_is_noop(self):
+        self.install_hud_fixture('idhud')
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud')
+        self.assertIn('Already configured', result[1])
+        self.assertFalse(result[3].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_declining_switch_changes_nothing(self):
+        self.install_hud_fixture()
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', confirmer=False)
+        self.assertIn('Cancelled', result[1])
+        self.assertFalse(result[3].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_stock_apply_preserves_config_and_makes_restorable_backup(self):
+        self.install_hud_fixture('rayshud', customized=True)
+        before_cfg = self.snapshot(self.tf / 'cfg')
+        self.run_main('--update-only', '--hud', 'stock', '--replace-hud')
+        self.assertEqual(m.hud_candidates(self.tf), [])
+        self.assertEqual(self.downloads, [])
+        self.assertEqual(before_cfg, self.snapshot(self.tf / 'cfg'))
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        self.assertEqual(set(ops), {'custom/rayshud'})
+        m.transact(tf, ops, backup.parent, 'test-restore')
+        self.assertTrue((self.tf / 'custom/rayshud/resource/local_changes.res').is_file())
+
+    def test_restore_undoes_only_latest_switch(self):
+        self.install_hud_fixture(customized=True)
+        before = self.snapshot(self.tf)
+        self.run_main('--update-only', '--hud', 'idhud', '--replace-hud')
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        self.assertEqual(set(ops), {'custom/rayshud', 'custom/idhud'})
+        m.transact(tf, ops, backup.parent, 'test-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_updates_require_earlier_baseline(self):
+        for rel in m.MANAGED_FILES:
+            (self.tf / rel).unlink()
+        before = self.snapshot()
+        with self.assertRaises(m.SetupError):
+            self.run_main('--update-only', '--hud', 'idhud', '--replace-hud')
+        self.assertEqual(before, self.snapshot())
+
+    def test_missing_base_refuses_update(self):
+        (self.tf / 'custom/mastercomfig-base.vpk').unlink()
+        with self.assertRaises(m.SetupError):
+            m.recognized_install(self.tf)
+
+    def test_bad_download_does_not_change_game(self):
+        self.install_hud_fixture()
+        before = self.snapshot(self.tf)
+        def fail(*args):
+            raise m.SetupError('SHA-256 mismatch')
+        with self.assertRaisesRegex(m.SetupError, 'SHA-256'):
+            self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', downloader=fail)
+        self.assertEqual(before, self.snapshot(self.tf))
+        self.assertFalse(list(self.state.rglob('manifest.json')))
+
+    def test_stale_config_during_download_refused(self):
+        self.install_hud_fixture()
+        def race(asset, dest, maximum):
+            self.fake_download(asset, dest, maximum)
+            with (self.tf / m.MANAGED_FILES[2]).open('a') as f:
+                f.write('// another editor\n')
+        with self.assertRaisesRegex(m.SetupError, 'changed after the preview'):
+            self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', downloader=race)
+        self.assertTrue((self.tf / 'custom/rayshud').exists())
+        self.assertFalse((self.tf / 'custom/idhud').exists())
+
+    def test_new_hud_during_download_refused(self):
+        self.install_hud_fixture()
+        def race(asset, dest, maximum):
+            self.fake_download(asset, dest, maximum)
+            write(self.tf / 'custom/surprisehud/scripts/hudlayout.res', '{}')
+        with self.assertRaisesRegex(m.SetupError, 'HUDs changed after the preview'):
+            self.run_main('--update-only', '--hud', 'idhud', '--replace-hud', downloader=race)
+        self.assertTrue((self.tf / 'custom/rayshud').exists())
+        self.assertFalse((self.tf / 'custom/idhud').exists())
+
+    def test_idhud_no_startup_scripts(self):
+        path = self.install_hud_fixture('idhud')
+        self.assertFalse((path / 'cfg').exists())
+        self.assertTrue(m.hud_is_current(path, 'idhud'))
+
+    def test_idhud_unexpected_startup_folder_rejected(self):
+        src = self.root / 'bad.zip'
+        write(src, archive_bytes('idhud', {'cfg/valve.rc': 'exec anything.cfg'}))
+        with self.assertRaisesRegex(m.SetupError, 'Unexpected cfg'):
+            m.prepare_hud(src, self.root / 'bad-extract', 'idhud')
+
+    def test_old_hud_startup_is_excluded(self):
+        for name in ('budhud', 'rayshud'):
+            path = self.install_hud_fixture(name)
+            self.assertFalse((path / 'cfg/valve.rc').exists())
+            self.assertTrue(m.hud_is_current(path, name))
 
     def test_zip_traversal_rejected(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            with zipfile.ZipFile(arc, 'w') as z:
-                z.writestr('../escape', 'bad')
-            with self.assertRaises(m.SetupError):
-                m.extract_hud(arc, root / 'unpacked')
-            self.assertFalse((root / 'escape').exists())
+        archive = self.root / 'unsafe.zip'
+        with zipfile.ZipFile(archive, 'w') as z:
+            z.writestr('../../outside.txt', 'bad')
+        with self.assertRaises(m.SetupError):
+            m.extract_hud(archive, self.root / 'unsafe')
+        self.assertFalse((self.root.parent / 'outside.txt').exists())
 
     def test_zip_symlink_rejected(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            with zipfile.ZipFile(arc, 'w') as z:
-                i = zipfile.ZipInfo('symlink')
-                i.external_attr = (stat.S_IFLNK | 0o777) << 16
-                z.writestr(i, '/tmp')
-            with self.assertRaises(m.SetupError):
-                m.extract_hud(arc, root / 'unpacked')
+        archive = self.root / 'link.zip'
+        with zipfile.ZipFile(archive, 'w') as z:
+            item = zipfile.ZipInfo('idhud/link')
+            item.create_system = 3
+            item.external_attr = (stat.S_IFLNK | 0o777) << 16
+            z.writestr(item, '/etc/passwd')
+        with self.assertRaises(m.SetupError):
+            m.extract_hud(archive, self.root / 'unsafe')
 
-    def test_ambiguous_archive_roots_rejected(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            arc = root / 'hud.zip'
-            arc.write_bytes(archive_bytes(extra={'extra/info.vdf': 'fixture', 'extra/resource/a': 'fixture', 'extra/scripts/a': 'fixture'}))
-            with self.assertRaises(m.SetupError):
-                m.extract_hud(arc, root / 'unpacked')
+    def test_ambiguous_hud_roots_rejected(self):
+        archive = self.root / 'multiple.zip'
+        with zipfile.ZipFile(archive, 'w') as z:
+            for name in ('hud1', 'hud2'):
+                for rel in ('info.vdf', 'resource/clientscheme.res', 'scripts/hudlayout.res'):
+                    z.writestr(name + '/' + rel, '{}')
+        with self.assertRaises(m.SetupError):
+            m.extract_hud(archive, self.root / 'multi')
 
-    def test_checksum_verification_accepts_matching_data(self):
-        data = b'Synthetic network fixture, not an actual HUD.'
-        response = io.BytesIO(data)
-        response.geturl = lambda: 'https://github.com/example/fixture'
-        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(m.urllib.request, 'urlopen', return_value=response):
-            p = Path(tmp) / 'file'
-            m.download({'version': 'fixture', 'url': 'https://github.com/example/fixture', 'sha256': hashlib.sha256(data).hexdigest()}, p, 1000)
-            self.assertEqual(p.read_bytes(), data)
+    def test_download_checksum_verification(self):
+        data = archive_bytes()
+        asset = {'version': 'test', 'url': 'https://github.com/example/release.zip',
+                 'sha256': hashlib.sha256(data).hexdigest()}
+        with patch.object(m.urllib.request, 'urlopen', return_value=Response(data)):
+            m.download(asset, self.root / 'download.zip', len(data) + 1)
+        self.assertEqual((self.root / 'download.zip').read_bytes(), data)
 
-    def test_checksum_verification_rejects_changed_data(self):
-        response = io.BytesIO(b'Bad fixture')
-        response.geturl = lambda: 'https://github.com/example/fixture'
-        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(m.urllib.request, 'urlopen', return_value=response):
-            with self.assertRaises(m.SetupError):
-                m.download({'version': 'fixture', 'url': 'https://github.com/example/fixture', 'sha256': '0' * 64}, Path(tmp) / 'file', 1000)
+    def test_download_checksum_mismatch_rejected(self):
+        asset = {'version': 'test', 'url': 'https://github.com/example/release.zip', 'sha256': '0' * 64}
+        with patch.object(m.urllib.request, 'urlopen', return_value=Response(b'wrong')):
+            with self.assertRaisesRegex(m.SetupError, 'SHA-256 mismatch'):
+                m.download(asset, self.root / 'download.zip', 1024)
+
+    def test_download_size_limit(self):
+        asset = {'version': 'test', 'url': 'https://github.com/example/release.zip', 'sha256': '0' * 64}
+        with patch.object(m.urllib.request, 'urlopen', return_value=Response(b'a' * 100)):
+            with self.assertRaisesRegex(m.SetupError, 'size limit'):
+                m.download(asset, self.root / 'download.zip', 10)
+
+    def test_transaction_rollback(self):
+        oldhud = self.install_hud_fixture(customized=True)
+        before = self.snapshot(self.tf)
+        source = self.root / 'replacement'
+        write(source / 'info.vdf', '{}')
+        self.state.mkdir()
+        original = m.copy_item
+        def fails_once(src, dest):
+            if src == source:
+                raise OSError('injected failure')
+            return original(src, dest)
+        with patch.object(m, 'copy_item', side_effect=fails_once):
+            with self.assertRaises(OSError):
+                m.transact(self.tf, {'custom/rayshud': None, 'custom/idhud': source}, self.state, 'test')
+        self.assertEqual(before, self.snapshot(self.tf))
+        self.assertTrue(oldhud.exists())
+
+    def test_edited_backup_not_restored(self):
+        self.install_hud_fixture()
+        self.run_main('--update-only', '--hud', 'stock', '--replace-hud')
+        backup = next(self.state.rglob('manifest.json')).parent
+        write(backup / 'originals/custom/rayshud/resource/clientscheme.res', 'modified')
+        with self.assertRaisesRegex(m.SetupError, 'Backup missing or changed'):
+            m.load_restore(backup)
+
+    def test_bom_crlf_untouched_on_hud_only_update(self):
+        path = self.tf / m.MANAGED_FILES[1]
+        content = b'\xef\xbb\xbf' + path.read_bytes().replace(b'\n', b'\r\n')
+        path.write_bytes(content)
+        self.assertEqual(m.plan_update(self.tf, self.args('--hud', 'idhud')), {})
+        self.assertEqual(path.read_bytes(), content)
+
+    def test_multiple_old_preset_vpks_refused(self):
+        write(self.tf / 'custom/mastercomfig-low-preset.vpk', vpk_bytes())
+        with self.assertRaises(m.SetupError):
+            m.recognized_install(self.tf)
+
+    def test_native_and_flatpak_library_detection(self):
+        for label, steam_rel in (('native', '.local/share/Steam'),
+                                 ('flatpak', '.var/app/com.valvesoftware.Steam/data/Steam')):
+            home = self.root / label
+            write(home / steam_rel / 'steamapps/libraryfolders.vdf',
+                  '"libraryfolders" { "1" { "path" "' + str(self.game.parents[2]) + '" } }')
+            self.assertEqual(m.discover_games(home), [self.game.resolve()])
+
+    def test_restore_with_install_options_rejected(self):
+        with self.assertRaises(m.SetupError):
+            self.run_main('--restore', str(self.root / 'backup'), '--hud', 'stock')
 
 
 if __name__ == '__main__':

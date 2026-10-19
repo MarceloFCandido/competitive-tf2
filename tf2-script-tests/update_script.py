@@ -1,0 +1,160 @@
+from pathlib import Path
+p = Path('/mnt/data/setup_tf2_bazzite.py')
+s = p.read_text()
+s = s.replace('    python3 setup_tf2_bazzite.py --dry-run\n',
+'''    python3 setup_tf2_bazzite.py --dry-run
+    python3 setup_tf2_bazzite.py --dry-run --visual-clarity --viewmodels hidden
+    python3 setup_tf2_bazzite.py --visual-clarity
+''', 1)
+s = s.replace('Sources checked 2026-10-17:', '''Optional visibility settings:
+    --visual-clarity: reduce cosmetic effects with normal config settings.
+    --viewmodels hidden: hide your first-person weapon/hands, including their
+        firing/reload animations. Does not shorten reloads or change weapons.
+    Defaults remain the original baseline: minimal visible weapons, no extra
+        clarity overrides. Repeat your chosen flags on subsequent runs; options
+        are not remembered. Class scripts or binds can override viewmodels.
+    This does not install replacement animations/particles or remove all
+        explosions, flames, status overlays, camera recoil, or screen shake.
+
+Sources (original setup checked 2026-10-17; visibility checked 2026-10-18):''', 1)
+s = s.replace('    https://docs.comfig.app/latest/customization/modules/\n',
+'''    https://docs.comfig.app/latest/customization/modules/
+    https://docs.comfig.app/latest/tf2/cvarlist_linux/
+    https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/viewrender.cpp
+''', 1)
+s = s.replace("COMFIG = {", "SCRIPT_VERSION = '1.1.0'\n\nCOMFIG = {", 1)
+start = s.index("PERSONAL = '''")
+end = s.index('// No sensitivity or keybind changes.', start)
+s = s[:start] + "PERSONAL_COMMON = '''" + s[end:]
+insert_at = s.index('\n\n\nclass SetupError')
+s = s[:insert_at] + '''
+
+# Keep impact effects rather than using effects=low/very_low. Some effects are
+# already reduced by Medium. These explicit choices also apply with --preset
+# high/low; effects=medium intentionally keeps more impact cues than Low does.
+# Descriptions describe upstream intentions, not a promise about every effect.
+CLARITY_MODULES = (
+    ('effects', 'medium', 'Reduce supported weather, muzzle flashes, casings and particle density; keep impact effects'),
+    ('tracers', 'low', 'Hide first-person bullet tracers (not all world/projectile trails)'),
+    ('post_processing', 'off', 'Disable standard bloom/HDR post-processing'),
+    ('pyrovision', 'low', 'Remove Pyrovision vignette and depth-of-field effects, not all Pyroland assets'),
+    ('jigglebones', 'off', 'Disable cosmetic cloth/item jiggle physics'),
+    ('sheens_speed', 'off', 'Stop updating killstreak weapon sheen animation'),
+    ('hud_player_model', 'off', 'Disable the live 3D class portrait in the HUD'),
+)
+''' + s[insert_at:]
+start = s.index('\ndef stage_cfg(')
+s = s[:start] + '''
+def personal_config(viewmodels: str = 'minimal') -> str:
+    """Generate a render-only weapon choice; never bind keys or change timing."""
+    if viewmodels not in ('minimal', 'hidden'):
+        raise SetupError('Unknown viewmodel mode: ' + viewmodels)
+    visible = int(viewmodels == 'minimal')
+    comment = ('// World FOV and minimal, visible first-person weapon.' if visible else
+               '// World FOV; hide first-person weapon/hands and their animations.\n'
+               '// This only hides rendering; firing, reload timing and camera movement remain.')
+    return (comment + '\n'
+            'fov_desired 90\n'
+            'viewmodel_fov 70\n'
+            'tf_use_min_viewmodels 1\n'
+            f'r_drawviewmodel {visible}\n\n' + PERSONAL_COMMON)
+
+
+def module_config(cap: str, visual_clarity: bool = False) -> str:
+    body = f''' + "'''" + '''motion_blur=off
+vsync=off
+ragdolls=off
+gibs=off
+anti_aliasing=off
+packet_rate=standard
+snapshot_buffer=auto
+fpscap={cap}
+''' + "'''" + '''
+    if visual_clarity:
+        body += '\n// Optional visual clarity. Some effects may ignore these settings.\n'
+        for name, value, description in CLARITY_MODULES:
+            body += f'// {description}.\n{name}={value}\n'
+    return body
+
+''' + s[start:]
+# Fix escaped literals in the inserted source (the patch literal interprets \n).
+new_functions_start = s.index('\ndef personal_config(')
+new_functions_end = s.index('\ndef stage_cfg(', new_functions_start)
+# Use a raw-string replacement for the complete new function section.
+s = s[:new_functions_start] + r'''
+def personal_config(viewmodels: str = 'minimal') -> str:
+    """Generate a render-only weapon choice; never bind keys or change timing."""
+    if viewmodels not in ('minimal', 'hidden'):
+        raise SetupError('Unknown viewmodel mode: ' + viewmodels)
+    visible = int(viewmodels == 'minimal')
+    comment = ('// World FOV and minimal, visible first-person weapon.' if visible else
+               '// World FOV; hide first-person weapon/hands and their animations.\n'
+               '// This only hides rendering; firing, reload timing and camera movement remain.')
+    return (comment + '\n'
+            'fov_desired 90\n'
+            'viewmodel_fov 70\n'
+            'tf_use_min_viewmodels 1\n'
+            f'r_drawviewmodel {visible}\n\n' + PERSONAL_COMMON)
+
+
+def module_config(cap: str, visual_clarity: bool = False) -> str:
+    body = f''' + "'''" + '''motion_blur=off
+vsync=off
+ragdolls=off
+gibs=off
+anti_aliasing=off
+packet_rate=standard
+snapshot_buffer=auto
+fpscap={cap}
+''' + "'''" + r'''
+    if visual_clarity:
+        body += '\n// Optional visual clarity. Some effects may ignore these settings.\n'
+        for name, value, description in CLARITY_MODULES:
+            body += f'// {description}.\n{name}={value}\n'
+    return body
+
+''' + s[new_functions_end:]
+s = s.replace('def stage_cfg(tf: Path, dest: Path, preset: str, cap: str) -> None:',
+'''def stage_cfg(tf: Path, dest: Path, preset: str, cap: str,
+              visual_clarity: bool = False, viewmodels: str = 'minimal') -> None:''', 1)
+start = s.index("    managed_file(overrides / 'autoexec.cfg', PERSONAL)")
+end = s.index('\n\n\ndef download(', start)
+s = s[:start] + '''    managed_file(overrides / 'autoexec.cfg', personal_config(viewmodels))
+    managed_file(overrides / 'modules.cfg', module_config(cap, visual_clarity))
+''' + s[end:]
+s = s.replace("headers={'User-Agent': 'tf2-competitive-setup/1.0'}", "headers={'User-Agent': 'tf2-competitive-setup/' + SCRIPT_VERSION}", 1)
+s = s.replace("    ap.add_argument('--dry-run', action='store_true', help='preview only; no downloads or writes')", '''    ap.add_argument('--visual-clarity', action='store_true',
+                    help='reduce cosmetic effects; keeps impact cues with effects=medium')
+    ap.add_argument('--viewmodels', choices=('minimal', 'hidden'), default='minimal',
+                    help='first-person weapon/hands: minimal visible (default) or hidden')
+    ap.add_argument('--dry-run', action='store_true', help='preview only; no downloads or writes')
+    ap.add_argument('--version', action='version', version='%(prog)s ' + SCRIPT_VERSION)''', 1)
+s = s.replace("        print('Back up tf/cfg and affected custom items; keep unrelated custom mods.')", '''        print(f'Visual clarity: {"on" if args.visual_clarity else "off"}; '
+              f'viewmodels: {args.viewmodels}')
+        print('Baseline: motion_blur=off; ragdolls=off; gibs=off.')
+        if args.visual_clarity:
+            print('Additional clarity overrides:')
+            for name, value, description in CLARITY_MODULES:
+                print(f'  {name}={value}: {description}.')
+            print('  effects=medium is intentional even with --preset low: preserve impact cues.')
+            print('  These settings cannot suppress every effect; no replacement particle/animation mods.')
+        print(f'  r_drawviewmodel {int(args.viewmodels == "minimal")}')
+        if args.viewmodels == 'hidden':
+            print('  Hides your weapon/hands and their firing/reload animations, not their timing.')
+            print('  You lose visual weapon/reload cues; camera recoil and screen shake are unchanged.')
+            print('  Session-only recovery in the TF2 console: r_drawviewmodel 1')
+            print('  Existing class scripts or weapon binds may turn viewmodels back on.')
+        print('Back up tf/cfg and affected custom items; keep unrelated custom mods.')''', 1)
+s = s.replace("        print('Leave sensitivity, binds, crosshair, resolution, Steam settings, and the OS alone.')", "        print('Leave sensitivity, binds, crosshair, resolution, Steam settings, and the OS alone.')\n        print('Repeat your chosen options each run; previous CLI options are not remembered.')", 1)
+s = s.replace('                stage_cfg(tf, cfg, args.preset, args.fps_cap)',
+'''                stage_cfg(tf, cfg, args.preset, args.fps_cap,
+                          visual_clarity=args.visual_clarity, viewmodels=args.viewmodels)''', 1)
+s = s.replace("            print('Verify in the TF2 console: version_comfig; preset_level; fov_desired; fps_max')", '''            print('Verify in the TF2 console: version_comfig; preset_level; fov_desired; fps_max; r_drawviewmodel')
+            if args.visual_clarity:
+                print('Check selected clarity modules in the TF2 console: module_levels')
+            if args.viewmodels == 'hidden':
+                print('Show weapons for this session: r_drawviewmodel 1')
+                print('For persistent visible weapons, rerun with --viewmodels minimal and your other options.')''', 1)
+p.write_text(s)
+compile(s, str(p), 'exec')
+print('Updated and syntax-checked:', p, len(s.encode()), 'bytes')

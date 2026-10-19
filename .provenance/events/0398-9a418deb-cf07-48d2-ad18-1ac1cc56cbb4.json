@@ -1,0 +1,143 @@
+{
+  "sequence": 398,
+  "message_id": "9a418deb-cf07-48d2-ad18-1ac1cc56cbb4",
+  "source_timestamp": 1792380890.282801,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_hud_work/upgrade_script.py",
+      "repo_path": "tf2_hud_work/upgrade_script.py",
+      "status": "available_literal",
+      "sha256": "71fa61ac1036a729b1d49b248d3caf06670dab452758afac0e8c068e2b8d4839",
+      "bytes": 9860,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "d806076c571a21fbf8dd14774172e37f6d40feae4a46047d391e3dcbb8e79b0b",
+      "bytes": 51363,
+      "recipe": [
+        {
+          "operation": "choose_baseline",
+          "message": 251,
+          "note": "Independent v1.3.0 variant; using preceding v1.3.0 text would fail old-text assertions."
+        },
+        {
+          "operation": "replace",
+          "source_line": 4,
+          "old": "SCRIPT_VERSION = '1.2.0'",
+          "new": "SCRIPT_VERSION = '1.3.0'",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "    python3 setup_tf2_bazzite.py --update-only --dry-run --visual-clarity --hud rayshud --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --visual-clarity --hud rayshud --replace-hud",
+          "new": "    python3 setup_tf2_bazzite.py --update-only --dry-run --hud idhud --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 6,
+          "old": "Other examples:\n",
+          "new": "Other examples:\n    python3 setup_tf2_bazzite.py --list-huds\n    python3 setup_tf2_bazzite.py --update-only --hud rayshud --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud --dry-run\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 7,
+          "old": "HUDs:\n    --hud rayshud or --hud budhud installs one pinned, checksum-verified HUD.",
+          "new": "HUDs:\n    --hud idhud installs Improved Default HUD: original TF2 style/positions with\n    readability and UI fixes. --hud rayshud and --hud budhud remain available.\n    --list-huds lists the installer choices without scanning or changing files.\n    --hud stock backs up/removes detected custom HUDs; no download. It preserves\n    your other settings, including minimal-HUD mode and hidden 3D portraits.\n    --hud keep (default) leaves the active HUD alone.\n    Choices are alternatives, NOT layered HUDs. Only the selected HUD is added\n    to tf/custom. Old HUDs are backed up outside tf/custom before replacement.\n    Use the printed --restore command to recover your exact previous HUD,\n    including local customizations. Selecting its name again installs a clean\n    pinned copy instead; it does NOT retrieve a customized backup.\n    Custom HUD downloads are pinned and SHA-256 checked before installation.",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 20,
+          "old": "    this also omits their automatic HUD-specific tweaks (e.g. menu dimmer fix).",
+          "new": "    this also omits their automatic HUD-specific tweaks (e.g. menu dimmer fix).\n    The pinned IDHUD package contains no cfg folder; no startup patch is needed.\n    IDHUD's optional recommended ConVars are NOT applied by the installer.",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 21,
+          "old": "Sources checked 2026-10-18:",
+          "new": "Baseline sources checked 2026-10-18; IDHUD addition checked 2026-10-19:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 22,
+          "old": "    https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc\n",
+          "new": "    https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc\n    https://github.com/idhud-tf2/idhud/releases/tag/4.0.8\n    https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 23,
+          "old": "HUDS = {'budhud': BUDHUD, 'rayshud': RAYSHUD}",
+          "new": "IDHUD = {\n    'version': '4.0.8',\n    'url': 'https://github.com/idhud-tf2/idhud/releases/download/4.0.8/idhud.zip',\n    'sha256': '3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719',\n}\n# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.\nHUDS = {'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}\nHUD_CHOICES = ('keep', 'stock', *HUDS)\nHUD_DESCRIPTIONS = {\n    'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',\n    'rayshud': 'Simplified, bold redesign; the HUD offered in the previous installer.',\n    'budhud': 'A more extensively redesigned HUD inspired by yahud and rayshud.',\n}\nHUD_PAGES = {\n    'idhud': 'https://github.com/idhud-tf2/idhud',\n    'rayshud': 'https://github.com/raysfire/rayshud',\n    'budhud': 'https://github.com/rbjaxter/budhud',\n}",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 68,
+          "old": "    if name == 'keep':\n        if replace:\n            raise SetupError('--replace-hud requires --hud rayshud or --hud budhud.')\n        return False, []\n    selected = target_path(tf, 'custom/' + name)\n    candidates = hud_candidates(tf)\n",
+          "new": "    if name not in HUD_CHOICES:\n        raise SetupError('Unsupported HUD selection: ' + name)\n    if name == 'keep':\n        if replace:\n            raise SetupError('--replace-hud requires an explicit --hud choice other than keep. '\n                             'See --list-huds.')\n        return False, []\n    candidates = hud_candidates(tf)\n    if name == 'stock':\n        for path in candidates:\n            assert_plain(target_path(tf, path.relative_to(tf).as_posix()))\n        if candidates and not replace:\n            names = ', '.join(str(p.relative_to(tf)) for p in candidates)\n            raise SetupError('Restoring stock HUD would remove these custom HUDs: ' + names\n                             + '. Preview again with --replace-hud to authorize backing up '\n                             'and removing them; no files have been changed.')\n        return False, [path.relative_to(tf).as_posix() for path in candidates]\n    selected = target_path(tf, 'custom/' + name)\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 71,
+          "old": "    startup = root / 'cfg/valve.rc'\n",
+          "new": "    if name == 'idhud' and exists(root / 'cfg'):\n        raise SetupError('Unexpected cfg directory in the pinned IDHUD package; refusing startup changes.')\n    startup = root / 'cfg/valve.rc'\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 72,
+          "old": "def parser() -> argparse.ArgumentParser:\n",
+          "new": "def print_hud_catalog() -> None:\n    \"\"\"Read-only catalog; no game discovery, network, or backup operations.\"\"\"\n    print('TF2 setup ' + SCRIPT_VERSION + ' - HUD choices')\n    print('keep    Leave the current HUD alone (default).')\n    print('stock   Remove detected custom HUDs after backup; no HUD download.')\n    for name, asset in HUDS.items():\n        print(f'{name:<8}{HUD_DESCRIPTIONS[name]}')\n        print(f'        Pinned release: {asset[\"version\"]}; {HUD_PAGES[name]}')\n    print('\\nChoose one HUD at a time. Switching backs up the current HUD outside tf/custom.')\n    print('Preview: python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run')\n    print('Omitted preset/FPS/visual options keep your earlier setup unchanged on updates.')\n    print('To recover local HUD customizations, use the printed --restore command, not --hud NAME.')\n\n\ndef parser() -> argparse.ArgumentParser:\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 88,
+          "old": "    ap.add_argument('--hud', choices=('keep', 'budhud', 'rayshud'), default='keep',\n                    help='default: keep your HUD')",
+          "new": "    ap.add_argument('--hud', choices=HUD_CHOICES, default='keep',\n                    help='one HUD at a time; stock removes detected HUDs; default: keep your HUD')\n    ap.add_argument('--list-huds', action='store_true',\n                    help='show the supported HUD catalog and exit without scanning or changing files')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 89,
+          "old": "    args = parser().parse_args()\n    if sys.platform",
+          "new": "    args = parser().parse_args()\n    if args.list_huds:\n        print_hud_catalog()\n        return 0\n    if sys.platform",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 136,
+          "old": "        if args.hud != 'keep':\n            rel = 'custom/' + args.hud\n            guard[rel] = fingerprint(tf, rel)\n            for rel in hud_remove:\n                guard[rel] = fingerprint(tf, rel)\n                print('HUD replacement: back up and remove ' + rel)\n            if hud_install:\n                print(f'HUD install: {args.hud} {HUDS[args.hud][\"version\"]} '\n                      '(pinned release; SHA-256 checked before any game-file changes).')\n                print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')\n                print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')\n                if exists(tf / 'custom' / args.hud):\n                    print('The existing chosen HUD directory will be backed up, then replaced.')\n            else:\n                print(f'HUD: unchanged {args.hud} release already installed; no download.')\n            warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')\n",
+          "new": "        if args.hud != 'keep':\n            if args.hud in HUDS:\n                rel = 'custom/' + args.hud\n                guard[rel] = fingerprint(tf, rel)\n            for rel in hud_remove:\n                guard[rel] = fingerprint(tf, rel)\n                print('HUD replacement: back up and remove ' + rel)\n            if args.hud == 'stock':\n                print('HUD: use built-in stock HUD files; no HUD download.')\n                print('Other settings (including minimal HUD mode and 3D portrait visibility) stay unchanged.')\n            elif hud_install:\n                print(f'HUD install: {args.hud} {HUDS[args.hud][\"version\"]} '\n                      '(pinned release; SHA-256 checked before any game-file changes).')\n                if args.hud == 'idhud':\n                    print('IDHUD: original TF2 style; pinned package has no startup cfg scripts.')\n                    print('Optional recommended ConVars are not applied; existing settings are preserved.')\n                else:\n                    print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')\n                    print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')\n                if exists(tf / 'custom' / args.hud):\n                    print('The existing chosen HUD directory will be backed up, then replaced.')\n            else:\n                print(f'HUD: unchanged {args.hud} release already installed; no download.')\n            if hud_remove or (args.hud in HUDS and exists(tf / 'custom' / args.hud) and hud_install):\n                print('The printed --restore command recovers the previous HUD, including local customizations.')\n                print('Selecting a HUD name again downloads a clean pinned copy, not its customized backup.')\n            warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')\n",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

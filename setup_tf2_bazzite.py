@@ -6,18 +6,16 @@ No sudo, pip, package installs, Steam-account edits, or OS tuning.
 Downloads only pinned upstream game data; never executes downloaded programs.
 
 Already applied an earlier version? Use:
-    python3 setup_tf2_bazzite.py --update-only --dry-run --visual-clarity --hud rayshud --replace-hud
-    python3 setup_tf2_bazzite.py --update-only --visual-clarity --hud rayshud --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --dry-run --hud idhud --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
 
 Other examples:
+    python3 setup_tf2_bazzite.py --list-huds
+    python3 setup_tf2_bazzite.py --update-only --hud rayshud --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud --dry-run
     python3 setup_tf2_bazzite.py --update-only --viewmodels hidden --dry-run
     python3 setup_tf2_bazzite.py --update-only --viewmodels minimal
     python3 setup_tf2_bazzite.py --update-only --hud budhud --replace-hud
-    python3 setup_tf2_bazzite.py --list-huds
-    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run
-    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
-    python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
-    python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud
     python3 setup_tf2_bazzite.py --dry-run
     python3 setup_tf2_bazzite.py --preset low --fps-cap 240
     python3 setup_tf2_bazzite.py --tf2-dir '/path/to/Team Fortress 2'
@@ -44,28 +42,31 @@ Visual options:
     Not every flame, explosion, flash or status overlay can be disabled.
 
 HUDs:
-    --list-huds prints available choices and notes without any downloads/writes.
-    --hud idhud: Improved Default HUD, close to Valve's original corner layout.
-    --hud middlemann: Middle Mann, stock styling with centered health/ammo.
-    --hud rayshud and --hud budhud remain available, with their existing pins.
-    --hud stock removes detected custom HUDs without changing your configuration.
-    --hud keep (default) does nothing to your current HUD.
-    Only ONE HUD is active. Options are alternatives, not stacked overlays.
-    HUDs download only when selected; removed copies remain in undo backups.
-    Switching back by name installs the pinned upstream copy, NOT any custom
-    edits you made to a previous copy. Use the printed undo command to restore
-    the exact previous files, including their customizations.
+    --hud idhud installs Improved Default HUD: original TF2 style/positions with
+    readability and UI fixes. --hud rayshud and --hud budhud remain available.
+    --list-huds lists the installer choices without scanning or changing files.
+    --hud stock backs up/removes detected custom HUDs; no download. It preserves
+    your other settings, including minimal-HUD mode and hidden 3D portraits.
+    --hud keep (default) leaves the active HUD alone.
+    Choices are alternatives, NOT layered HUDs. Only the selected HUD is added
+    to tf/custom. Old HUDs are backed up outside tf/custom before replacement.
+    Use the printed --restore command to recover your exact previous HUD,
+    including local customizations. Selecting its name again installs a clean
+    pinned copy instead; it does NOT retrieve a customized backup.
+    Custom HUD downloads are pinned and SHA-256 checked before installation.
     --replace-hud permits backing up/replacing detected existing HUDs, including
     a customized copy of the chosen HUD. Otherwise conflicts stop installation.
     Bundled cfg/valve.rc files are excluded to preserve your startup/settings;
     this also omits their automatic HUD-specific tweaks (e.g. menu dimmer fix).
+    The pinned IDHUD package contains no cfg folder; no startup patch is needed.
+    IDHUD's optional recommended ConVars are NOT applied by the installer.
     Detection is conservative; arbitrary packed/renamed mods may go undetected.
 
 Dry runs never download, write game files, or create backups. Incremental dry
 runs show config diffs and planned HUD replacements. Backups from older script
 versions remain restorable. The program prints an undo command after changes.
 
-Baseline sources checked 2026-10-18; new HUD sources checked 2026-10-19:
+Baseline sources checked 2026-10-18; IDHUD addition checked 2026-10-19:
     https://docs.comfig.app/latest/setup/install/
     https://docs.comfig.app/latest/customization/custom_configs/
     https://docs.comfig.app/latest/customization/modules/
@@ -78,8 +79,6 @@ Baseline sources checked 2026-10-18; new HUD sources checked 2026-10-19:
     https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc
     https://github.com/idhud-tf2/idhud/releases/tag/4.0.8
     https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md
-    https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1
-    https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc
 """
 from __future__ import annotations
 
@@ -120,48 +119,24 @@ RAYSHUD = {
     'url': 'https://github.com/raysfire/rayshud/releases/download/2026.0111/rayshud.zip',
     'sha256': '09c695faa1243d649dff5636d1ccb0c831a6f4f6d118380b2e40d451f6dbd014',
 }
-# Pinned release assets and SHA-256 digests from the upstream GitHub release
-# API, checked 2026-10-19. Keep existing budhud/rayshud pins unchanged so this
-# update does not silently upgrade, replace or restyle an installed HUD.
 IDHUD = {
     'version': '4.0.8',
     'url': 'https://github.com/idhud-tf2/idhud/releases/download/4.0.8/idhud.zip',
     'sha256': '3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719',
 }
-MIDDLEMANN = {
-    'version': 'v26.1',
-    'url': 'https://github.com/Vexcenot/-middle-mann/releases/download/v26.1/-middle-mann-v26.1.zip',
-    'sha256': '4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899',
-}
-HUDS = {'idhud': IDHUD, 'middlemann': MIDDLEMANN, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
-HUD_DETAILS = {
-    'idhud': {
-        'title': 'Improved Default HUD',
-        'description': 'Original TF2 styling and corner placement, with readability and UI fixes.',
-        'homepage': 'https://github.com/idhud-tf2/idhud',
-        'notes': 'Upstream lists Linux support. No bundled cfg startup file; recommended console settings are NOT applied.',
-    },
-    'middlemann': {
-        'title': 'Middle Mann',
-        'description': 'Original TF2 styling with health/ammo moved toward the center.',
-        'homepage': 'https://github.com/Vexcenot/-middle-mann',
-        'notes': 'Designed for cl_hud_minmode 0; your setting is NOT changed. Startup caching/reload tweaks are excluded. In-game Linux rendering has not been tested by this installer author.',
-    },
-    'rayshud': {
-        'title': 'rayshud',
-        'description': 'Simplified, bold layout with strong health/ammo color cues.',
-        'homepage': 'https://github.com/raysfire/rayshud',
-        'notes': 'Existing release pin retained. Menu-dimmer/startup tweaks are excluded.',
-    },
-    'budhud': {
-        'title': 'budhud',
-        'description': 'Minimal, configurable layout that differs substantially from stock TF2.',
-        'homepage': 'https://github.com/rbjaxter/budhud',
-        'notes': 'Existing release pin retained. Bundled startup-enforced HUD settings are excluded.',
-    },
-}
+# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.
+HUDS = {'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
 HUD_CHOICES = ('keep', 'stock', *HUDS)
-
+HUD_DESCRIPTIONS = {
+    'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',
+    'rayshud': 'Simplified, bold redesign; the HUD offered in the previous installer.',
+    'budhud': 'A more extensively redesigned HUD inspired by yahud and rayshud.',
+}
+HUD_PAGES = {
+    'idhud': 'https://github.com/idhud-tf2/idhud',
+    'rayshud': 'https://github.com/raysfire/rayshud',
+    'budhud': 'https://github.com/rbjaxter/budhud',
+}
 HUD_MARKER = '.tf2-competitive-setup-hud.json'
 HUD_POLICY = 'preserve-startup-v1'
 MANAGED_FILES = ('cfg/overrides/setup_hook.cfg', 'cfg/overrides/autoexec.cfg',
@@ -745,37 +720,19 @@ def warn_other_scripts(tf: Path, args: argparse.Namespace) -> None:
              + '. Class changes or binds may override the selection. Review these before applying.')
 
 
-def has_hud_signature(path: Path) -> bool:
-    """Recognize common HUD paths despite filename capitalization on Linux.
-
-    Only inspect the relevant shallow directories, not every asset. This does
-    not make a Windows-only HUD Linux-compatible or rewrite any filenames.
-    """
-    if (path / HUD_MARKER).is_file():
-        return True
-    patterns = (('scripts', 'hudlayout.res'), ('resource', 'clientscheme.res'),
-                ('resource', 'ui', 'hudplayerhealth.res'))
-    for parts in patterns:
-        level = [path]
-        for part in parts:
-            level = [entry for parent in level if parent.is_dir()
-                     for entry in parent.iterdir() if entry.name.casefold() == part]
-        if any(entry.is_file() for entry in level):
-            return True
-    return False
-
-
 def hud_candidates(tf: Path) -> list[Path]:
     custom = tf / 'custom'
     if not custom.is_dir():
         return []
     found = []
+    signatures = ('scripts/hudlayout.res', 'resource/clientscheme.res',
+                  'resource/ui/hudplayerhealth.res')
     for path in sorted(custom.iterdir()):
         name = path.name.lower()
         if name.startswith('mastercomfig-'):
             continue
         looks_like_hud = (path.is_dir() and
-                          (has_hud_signature(path)
+                          (any((path / rel).is_file() for rel in signatures)
                            or ('hud' in name and (path / 'info.vdf').is_file())))
         if looks_like_hud or (path.suffix.lower() == '.vpk' and 'hud' in name):
             found.append(path)
@@ -796,19 +753,20 @@ def hud_is_current(path: Path, name: str) -> bool:
 
 
 def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
+    if name not in HUD_CHOICES:
+        raise SetupError('Unsupported HUD selection: ' + name)
     if name == 'keep':
         if replace:
-            raise SetupError('--replace-hud requires a HUD name or --hud stock; use --list-huds.')
+            raise SetupError('--replace-hud requires an explicit --hud choice other than keep. '
+                             'See --list-huds.')
         return False, []
-    if name not in HUD_CHOICES:
-        raise SetupError('Unknown HUD: ' + name + '. Use --list-huds.')
     candidates = hud_candidates(tf)
     if name == 'stock':
         for path in candidates:
             assert_plain(target_path(tf, path.relative_to(tf).as_posix()))
         if candidates and not replace:
             names = ', '.join(str(p.relative_to(tf)) for p in candidates)
-            raise SetupError('Returning to stock would remove detected HUD(s): ' + names
+            raise SetupError('Restoring stock HUD would remove these custom HUDs: ' + names
                              + '. Preview again with --replace-hud to authorize backing up '
                              'and removing them; no files have been changed.')
         return False, [path.relative_to(tf).as_posix() for path in candidates]
@@ -831,6 +789,8 @@ def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
 
 def prepare_hud(archive: Path, dest: Path, name: str) -> Path:
     root = extract_hud(archive, dest)
+    if name == 'idhud' and exists(root / 'cfg'):
+        raise SetupError('Unexpected cfg directory in the pinned IDHUD package; refusing startup changes.')
     startup = root / 'cfg/valve.rc'
     if startup.is_file():
         startup.unlink()
@@ -867,21 +827,18 @@ def print_diff(tf: Path, changes: dict[str, bytes]) -> None:
             print()
 
 
-def list_huds() -> None:
-    """Print an offline catalog; do not inspect or modify the game."""
-    print(f'TF2 setup {SCRIPT_VERSION} - HUD choices (one active at a time)')
-    print('  keep        Leave the active HUD untouched (default).')
-    print('  stock       Back up/remove detected custom HUDs; no download or config reset.')
+def print_hud_catalog() -> None:
+    """Read-only catalog; no game discovery, network, or backup operations."""
+    print('TF2 setup ' + SCRIPT_VERSION + ' - HUD choices')
+    print('keep    Leave the current HUD alone (default).')
+    print('stock   Remove detected custom HUDs after backup; no HUD download.')
     for name, asset in HUDS.items():
-        detail = HUD_DETAILS[name]
-        print(f"  {name:<11} {detail['title']} ({asset['version']})")
-        print('              ' + detail['description'])
-        print('              ' + detail['notes'])
-        print('              ' + detail['homepage'])
-    print('Switch: --update-only --hud NAME --replace-hud; add --dry-run to preview.')
-    print('Previous active HUD files are kept in undo backups, outside tf/custom.')
-    print('A switch by name reinstalls the upstream copy; use --restore for exact old customizations.')
-    print('This listing makes no network requests, backups, or file changes.')
+        print(f'{name:<8}{HUD_DESCRIPTIONS[name]}')
+        print(f'        Pinned release: {asset["version"]}; {HUD_PAGES[name]}')
+    print('\nChoose one HUD at a time. Switching backs up the current HUD outside tf/custom.')
+    print('Preview: python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run')
+    print('Omitted preset/FPS/visual options keep your earlier setup unchanged on updates.')
+    print('To recover local HUD customizations, use the printed --restore command, not --hud NAME.')
 
 
 def parser() -> argparse.ArgumentParser:
@@ -894,9 +851,9 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument('--fps-cap', choices=FPS_CAPS,
                     help='new installs: 300; updates: keep unless explicitly supplied')
     ap.add_argument('--hud', choices=HUD_CHOICES, default='keep',
-                    help='choose one HUD, stock to remove detected custom HUDs, or keep (default)')
+                    help='one HUD at a time; stock removes detected HUDs; default: keep your HUD')
     ap.add_argument('--list-huds', action='store_true',
-                    help='list choices and notes without looking for TF2 or writing/downloading anything')
+                    help='show the supported HUD catalog and exit without scanning or changing files')
     ap.add_argument('--replace-hud', action='store_true',
                     help='back up and replace detected old HUD(s); required for customized/existing copies')
     ap.add_argument('--visual-clarity', action='store_true',
@@ -913,10 +870,7 @@ def parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = parser().parse_args()
     if args.list_huds:
-        if (args.restore or args.tf2_dir or args.update_only or args.preset or args.fps_cap
-                or args.visual_clarity or args.viewmodels or args.hud != 'keep' or args.replace_hud):
-            raise SetupError('--list-huds is a read-only catalog; do not combine it with update/restore options.')
-        list_huds()
+        print_hud_catalog()
         return 0
     if sys.platform != 'linux':
         raise SetupError('This script is intended for Linux.')
@@ -994,27 +948,31 @@ def main() -> int:
             print('Session-only recovery in the TF2 console: r_drawviewmodel 1')
         warn_other_scripts(tf, args)
         if args.hud != 'keep':
-            if args.hud != 'stock':
+            if args.hud in HUDS:
                 rel = 'custom/' + args.hud
                 guard[rel] = fingerprint(tf, rel)
             for rel in hud_remove:
                 guard[rel] = fingerprint(tf, rel)
                 print('HUD replacement: back up and remove ' + rel)
             if args.hud == 'stock':
-                print('HUD: return to stock layout; no HUD download or config reset.')
-                print('Only detected HUD files are removed; other mods may still alter the interface.')
+                print('HUD: use built-in stock HUD files; no HUD download.')
+                print('Other settings (including minimal HUD mode and 3D portrait visibility) stay unchanged.')
             elif hud_install:
                 print(f'HUD install: {args.hud} {HUDS[args.hud]["version"]} '
                       '(pinned release; SHA-256 checked before any game-file changes).')
-                print(HUD_DETAILS[args.hud]['description'])
-                print(HUD_DETAILS[args.hud]['notes'])
-                print('Any bundled HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')
-                print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')
+                if args.hud == 'idhud':
+                    print('IDHUD: original TF2 style; pinned package has no startup cfg scripts.')
+                    print('Optional recommended ConVars are not applied; existing settings are preserved.')
+                else:
+                    print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')
+                    print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')
                 if exists(tf / 'custom' / args.hud):
                     print('The existing chosen HUD directory will be backed up, then replaced.')
             else:
                 print(f'HUD: unchanged {args.hud} release already installed; no download.')
-            print('Only one detected HUD remains active; previous HUD files stay in undo backups.')
+            if hud_remove or (args.hud in HUDS and exists(tf / 'custom' / args.hud) and hud_install):
+                print('The printed --restore command recovers the previous HUD, including local customizations.')
+                print('Selecting a HUD name again downloads a clean pinned copy, not its customized backup.')
             warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')
         else:
             print('HUD: keep existing files.')

@@ -1,5 +1,5 @@
-# Candidato incompleto, não um anexo original
+# Candidato histórico incompleto, não um anexo original
 
-Estes arquivos resultam de alterações de texto das mensagens 544 e 548 aplicadas à última base recuperável (v1.3.1 e seus testes). A base v1.4.0 esperada não está disponível. A troca `1.4.0 → 1.5.0` não corresponde ao texto recuperado; nenhum número de versão foi inventado.
+Estes arquivos foram produzidos a partir das alterações de texto das mensagens 544 e 548 aplicadas à reconstrução v1.3.1 e seus testes. À época, a base v1.4.0 esperada não estava disponível; a troca `1.4.0 → 1.5.0` não correspondia ao texto e nenhum número foi inventado.
 
-Consulte `../../GAPS.md` e as receitas em `../../.provenance/revisions.json`. Nenhum destes arquivos foi executado, importado ou testado em TF2.
+Os originais v1.4.0 foram recebidos posteriormente por upload e estão na raiz e no histórico, conforme `../../UPLOADS.md`. Este candidato antigo foi preservado sem alteração dos bytes de código; não foi reconstruído novamente nem promovido a original v1.5.0. Os originais v1.5.0 ainda não foram recebidos. Nenhum destes scripts ou testes foi executado.

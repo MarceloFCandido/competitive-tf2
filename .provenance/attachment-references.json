@@ -303,13 +303,18 @@
       "evidence": "parent direct-read audit, independently matched to literal shared-snapshot links",
       "source_timestamp_utc": "2026-10-19T12:00:47.614059+00:00",
       "original_attachment_bytes_verified": false,
-      "binary_revision_identity": "unknown; a repeated path or link is not proof of identical or distinct bytes",
+      "binary_revision_identity": "User-uploaded v1.4.0 bytes verified. Identity with other historical links is not inferred.",
       "literal_sandbox_reference": "sandbox:/mnt/data/setup_tf2_bazzite.py",
       "related_recovered_paths": [
         "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
         "setup_tf2_bazzite.py"
       ],
-      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted."
+      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted.",
+      "user_uploaded_bytes_verified": true,
+      "uploaded_sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+      "upload_name": "setup_tf2_bazzite(1).py",
+      "user_upload_receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5"
     },
     {
       "message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
@@ -321,12 +326,17 @@
       "evidence": "parent direct-read audit, independently matched to literal shared-snapshot links",
       "source_timestamp_utc": "2026-10-19T12:00:47.614059+00:00",
       "original_attachment_bytes_verified": false,
-      "binary_revision_identity": "unknown; a repeated path or link is not proof of identical or distinct bytes",
+      "binary_revision_identity": "User-uploaded v1.4.0 bytes verified. Identity with other historical links is not inferred.",
       "literal_sandbox_reference": "sandbox:/mnt/data/TF2_HUD_Update_README.md",
       "related_recovered_paths": [
         "TF2_HUD_Update_README.md"
       ],
-      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted."
+      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted.",
+      "user_uploaded_bytes_verified": true,
+      "uploaded_sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+      "upload_name": "TF2_HUD_Update_README(5).md",
+      "user_upload_receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5"
     },
     {
       "message_id": "5ee4f90d-4bdd-4de7-9845-74f77fe5e13a",
@@ -338,13 +348,18 @@
       "evidence": "parent direct-read audit, independently matched to literal shared-snapshot links",
       "source_timestamp_utc": "2026-10-19T12:00:47.614059+00:00",
       "original_attachment_bytes_verified": false,
-      "binary_revision_identity": "unknown; a repeated path or link is not proof of identical or distinct bytes",
+      "binary_revision_identity": "User-uploaded v1.4.0 bytes verified. Identity with other historical links is not inferred.",
       "literal_sandbox_reference": "sandbox:/mnt/data/test_setup_tf2_bazzite.py",
       "related_recovered_paths": [
         "reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
         "test_setup_tf2_bazzite.py"
       ],
-      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted."
+      "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted.",
+      "user_uploaded_bytes_verified": true,
+      "uploaded_sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+      "upload_name": "test_setup_tf2_bazzite(1).py",
+      "user_upload_receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5"
     },
     {
       "message_id": "454439cb-235e-4787-96c0-19a40f8c2b1d",
@@ -471,5 +486,7 @@
       "relationship_note": "Related recovered source material is inventoried separately; no exact announcement-to-attachment binary match is asserted."
     }
   ],
-  "audit_evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json"
+  "audit_evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
+  "verified_user_upload_group_count": 1,
+  "verified_user_uploaded_file_count": 3
 }

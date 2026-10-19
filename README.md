@@ -1,22 +1,16 @@
 # TF2 Competitive Setup Linux — arquivo da conversa
 
-Repositório Git **local** de preservação de [TF2 Competitive Setup Linux](https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66), recuperado em 2026-10-19T13:26:27.054350+00:00. Não é uma instalação de TF2.
+Repositório Git local de preservação da [conversa compartilhada](https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66), em `/Users/marcelofcandido/git/personal/games/competitive-tf2`, no `NEBULOSA-2.local`.
 
-Foram preservados **27 caminhos de artefatos**, com **42 registros de revisão** em **22 commits cronológicos de conteúdo** e **6 commits de documentação/evidências** (**28 commits no total**). Os registros se dividem em **18 conteúdos literais disponíveis**, **22 reconstruções estáticas** e **2 candidatos incompletos**. Cópias com bytes idênticos são identificadas pelos mesmos hashes; registros não significam 42 versões distintas.
+**Os três arquivos canônicos da raiz agora são os originais v1.4.0 fornecidos pelo usuário:** `setup_tf2_bazzite.py`, `test_setup_tf2_bazzite.py` e `TF2_HUD_Update_README.md`. Todos os hashes da transferência conferem; instalador, docstring dos testes e README identificam v1.4.0. Veja [UPLOADS.md](UPLOADS.md).
 
-O instalador na raiz possui **8 estados recuperáveis**: original sem `SCRIPT_VERSION`, ajuste inicial, v1.1.0, duas revisões v1.2.0, duas variantes v1.3.0 e v1.3.1. As oito revisões representam novos commits de importação. **Os bytes originais completos de v1.4.0, v1.5.0 e v1.6.0 não foram recuperados**, nem o HTML anunciado como `TF2_HUD_Visual_Comparison.html`. Veja [GAPS.md](GAPS.md).
+Há **30 commits**: **23 de conteúdo** (22 etapas da captura inicial e este grupo original) e **7 de documentação/evidências**. Os **27 caminhos de artefatos** têm **45 registros de revisão**: 18 conteúdos literais da captura, 22 reconstruções estáticas, 2 candidatos incompletos e **3 originais recebidos por upload**. Registros e links repetidos não significam versões binárias distintas. Os 28 commits anteriores foram preservados.
 
-Uma leitura posterior da conversa original, relatada pelo thread pai, identificou o [anúncio de v1.6.0](https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e) em **19/10/2026 às 13:12:17 UTC**, com 103 testes relatados e as opções `--hud-info all`, `--fetch-hud middlemann --output` e `--build-gallery`. Essa mensagem **não consta nos 615 nós da captura pública**, que é um estado anterior da mesma conversa. A evidência suplementar é um relato identificado; o texto integral e os bytes dos anexos não foram recebidos aqui. O anúncio esclarece que os binários de screenshots não puderam ser baixados e que a galeria offline deveria ser construída no PC. **Não existe uma galeria já reparada a classificar como anexo faltante.**
+O instalador possui nove estados arquivados, incluindo as reconstruções anteriores e o original v1.4.0. `1.3.1` permanece identificado como estado literal de código/README, sem anúncio visível de lançamento. A lacuna do grupo v1.4.0 foi resolvida por este upload. **Os outros grupos originais, especialmente v1.5.0, v1.6.0 e o corpo de `TF2_HUD_Visual_Comparison.html`, ainda não foram recebidos.** A galeria offline reparada não foi entregue no chat; deveria ser construída no PC. Veja [GAPS.md](GAPS.md).
 
-A auditoria das mensagens visíveis registra **19 referências únicas de mensagem + anexo** (8 instalador, 5 testes, 5 README, 1 HTML), sem confirmar 19 revisões binárias. A sequência completa está em [ATTACHMENTS.md](ATTACHMENTS.md). **`1.3.1` é um estado literal de código e README recuperados, não um lançamento anunciado nas mensagens visíveis.** Ele permanece preservado com sua proveniência; os anúncios v1.3.0 e v1.4.0 são registrados separadamente.
+A auditoria identifica 19 referências únicas de mensagem + anexo (8 instalador, 5 testes, 5 README, 1 HTML), sem confirmar 19 revisões binárias. [ATTACHMENTS.md](ATTACHMENTS.md) distingue esses anúncios dos conteúdos recuperados. O candidato v1.5.0 anterior permanece separado, com sua limitação histórica registrada; não foi apresentado como anexo original.
 
-Conteúdos literais vieram de heredocs/blocos fornecidos no chat; isso não equivale a verificar os bytes de um anexo original. Reconstruções usam somente extração de literais e edições de texto revisadas. **Nenhum instalador, script de alteração, teste ou CFG recuperado foi executado.** A validação verifica hashes e sintaxe por análise estática.
-
-O compartilhamento atualizado foi consultado novamente às **14:57 e 14:58 UTC** de 19/10/2026, incluindo uma requisição com cabeçalhos de não usar cache. Embora `update_time` confirme a atualização do link às **14:55:52 UTC**, ambas as respostas mantêm exatamente os mesmos 615 nós, 89 mensagens de código e último nó de 12:56:12 UTC. **Nenhuma revisão nova foi recuperada.** Consulte [REFRESH.md](REFRESH.md) para a comparação e os hashes das novas capturas.
-
-A verificação posterior do computador confirmou visualmente o **Mac desbloqueado e o Safari acessível**. A conversa original, porém, abre o ChatGPT sem autenticação. O diálogo de login está aberto; os anexos ainda dependem de entrar com a mesma conta da conversa. Veja [BROWSER_ACCESS.md](BROWSER_ACCESS.md). Nenhum novo arquivo foi recuperado nessa tentativa.
-
-A via do **app ChatGPT** também foi tentada a pedido do usuário. O app instalado é `/Applications/ChatGPT.app`, identificador `com.openai.codex`; a ferramenta de controle recusou acessá-lo por segurança. A sessão e os downloads do app não puderam ser inspecionados. Nenhum arquivo foi recuperado por essa tentativa; o usuário pode baixar os anexos pelo app para `Downloads`, permitindo posterior verificação dos bytes. A recusa e os metadados estão documentados em [BROWSER_ACCESS.md](BROWSER_ACCESS.md).
+**Nenhum instalador, script de alteração, teste ou CFG recuperado foi executado.** A validação usa hashes, comparação de bytes e análise sintática estática. A suíte v1.4.0 possui 56 métodos contados estaticamente; isso não é um resultado de execução.
 
 ## Consultar o histórico
 
@@ -24,11 +18,13 @@ A via do **app ChatGPT** também foi tentada a pedido do usuário. O app instala
 git status --short
 git log --reverse --format='%h %aI %s'
 git log --follow -- setup_tf2_bazzite.py
-git show COMMIT:setup_tf2_bazzite.py
+git show 34220f09ebaae2b85b88fdc9e12a6285ca655ce5:setup_tf2_bazzite.py
 ```
 
-[REVISIONS.md](REVISIONS.md) lista os commits e arquivos. `.provenance/revisions.json` liga cada registro à mensagem, caminho original, SHA-256 e receita. `.provenance/source/` preserva a captura pública e os textos originais, como dados. O HTML bruto termina em `.txt` para evitar execução acidental da página. `.provenance/references.json` distingue arquivos arquivados de referências sem conteúdo disponível.
+[REVISIONS.md](REVISIONS.md) e `.provenance/revisions.json` registram commits, mensagens de origem, classificação e SHA-256. `.provenance/user-uploads/turn-1-v1.4.0/` preserva nomes recebidos, IDs Library do grupo, mensagem de envio, partes de transporte verificadas e versão declarada. Os nomes canônicos mantêm os nomes originais do chat; os sufixos dos uploads são metadados de recebimento.
 
-Os diretórios `/mnt/data/` da conversa foram mapeados relativamente à raiz, mantendo nomes e subpastas. Para preservar simultaneamente `TF2_HUD_UPDATE_README.md` e `TF2_HUD_Update_README.md` em um disco que pode ignorar diferenças de maiúsculas, o primeiro está em `case-variants/`, com o caminho original registrado no manifesto. O arquivo de Medic é uma alternativa opcional do guia; o candidato v1.5.0 permanece em diretório explicitamente incompleto.
+As capturas públicas, incluindo duas rechecagens que retornaram os mesmos 615 nós e 89 mensagens de código, estão preservadas como dados. [REFRESH.md](REFRESH.md) explica seus limites. [BROWSER_ACCESS.md](BROWSER_ACCESS.md) registra o desbloqueio confirmado do Mac, a autenticação pendente no Safari e a recusa da ferramenta em controlar o app ChatGPT; essas tentativas não são a fonte dos arquivos recebidos.
 
-O destino final foi inspecionado antes da criação. Nenhum trabalho anterior foi sobrescrito. Não há remoto configurado e nada foi publicado. `AuthorDate` registra o horário UTC da mensagem; `CommitDate` registra a importação. O conteúdo é preservado com suas inconsistências, sem correções funcionais ou alegação de compatibilidade com Bazzite.
+O README `TF2_HUD_UPDATE_README.md` está em `case-variants/` para preservar a diferença de maiúsculas no macOS. O CFG opcional de Medic está em `alternatives/medic/`. Templates que dependem do estado de uma instalação TF2 não foram executados para produzir arquivos presumidos.
+
+Nos commits iniciais de conteúdo, `AuthorDate` registra a data da mensagem da captura. Recuperações tardias por upload e commits de documentação usam a data de importação, preservando a data histórica da origem nos manifestos e sem reescrever o histórico existente. Não há remoto configurado e nada foi publicado. Este repositório é um arquivo histórico, não uma instalação ou configuração aplicada de TF2.

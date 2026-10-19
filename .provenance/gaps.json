@@ -2,9 +2,19 @@
   {
     "id": "version_1_4_0",
     "message": 468,
-    "detail": "Response advertises v1.4.0, but the last available edit sets SCRIPT_VERSION to 1.3.1. No complete v1.4.0 bytes or intervening version edit are present.",
+    "detail": "Three original uploads received for the v1.4.0 group. Installer SCRIPT_VERSION, test docstring and README identify v1.4.0; all supplied file hashes match.",
     "literal_code_state": "1.3.1 is directly present in recovered code and a literal README, not a visible release announcement.",
-    "code_state_inventory": ".provenance/code-version-states.json"
+    "code_state_inventory": ".provenance/code-version-states.json",
+    "status": "resolved_by_original_user_upload",
+    "resolution": {
+      "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+      "commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+      "files": [
+        "setup_tf2_bazzite.py",
+        "test_setup_tf2_bazzite.py",
+        "TF2_HUD_Update_README.md"
+      ]
+    }
   },
   {
     "id": "branch_restart",
@@ -18,7 +28,7 @@
   {
     "id": "version_1_5_0",
     "message": 544,
-    "detail": "The v1.5.0 edit expects the missing v1.4.0 baseline. Only an incomplete candidate is archived. The exact installer remains unavailable.",
+    "detail": "Original v1.4.0 baseline is now available through the user upload. The previous incomplete candidate is preserved as an earlier reconstruction and has not been replaced by original v1.5.0 bytes.",
     "unmatched_replacements": [
       {
         "operation": "replace",
@@ -28,7 +38,9 @@
         "limit": -1,
         "matches": 0
       }
-    ]
+    ],
+    "status": "original_v1_5_upload_not_yet_received",
+    "v1_4_baseline_available": true
   },
   {
     "id": "visual_comparison",
@@ -68,7 +80,12 @@
   },
   {
     "id": "sandbox_attachments",
-    "detail": "sandbox:/mnt/data links refer to the original conversation runtime, not public download URLs. Exact attachment bytes were not recovered; no content is guessed from a filename."
+    "detail": "sandbox:/mnt/data links refer to the original conversation runtime, not public download URLs. Exact attachment bytes were not recovered; no content is guessed from a filename.",
+    "user_upload_recovery": {
+      "declared_version": "1.4.0",
+      "verified_file_count": 3,
+      "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json"
+    }
   },
   {
     "id": "generated_configuration",
@@ -107,7 +124,9 @@
       "html": 1
     },
     "detail": "The complete direct-text audit reports no omitted text, but supplies no attachment bytes. 19 message+attachment references do not establish 19 distinct binary revisions.",
-    "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json"
+    "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
+    "verified_original_user_uploads": 3,
+    "identity_note": "Three user-uploaded v1.4.0 contents are verified. This does not establish binary identity across all 19 historical message+attachment references."
   },
   {
     "id": "updated_share_still_serves_same_message_content",

@@ -68,6 +68,14 @@
         "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
         "repo_path": "TF2_HUD_Update_README.md",
         "status": "available_literal"
+      },
+      {
+        "sequence": "user-upload-turn-1",
+        "commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "original_user_upload",
+        "sha256": "adc01d907b9e16b60c29cf144252775c5a89cda4899ea12911688334e8fe896e",
+        "upload_name": "TF2_HUD_Update_README(5).md"
       }
     ],
     "later_announcements": [
@@ -339,6 +347,14 @@
         "commit": "39ebe36108371e0e7bdeeb24a5058b44ad57aef2",
         "repo_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
         "status": "partial_static_candidate"
+      },
+      {
+        "sequence": "user-upload-turn-1",
+        "commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "a8d6f6623ee378387a79b3ab18a96d783600f7b41667f19b7dfec4ebcacbc84a",
+        "upload_name": "setup_tf2_bazzite(1).py"
       }
     ],
     "later_announcements": [
@@ -409,6 +425,14 @@
         "commit": "572c7e493d2875c7ef54e87cf9d01b950a793e6d",
         "repo_path": "reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
         "status": "partial_static_candidate"
+      },
+      {
+        "sequence": "user-upload-turn-1",
+        "commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "original_user_upload",
+        "sha256": "8544d7149c3b7fb4fef57e62117d0751449f04256186ae122e1e0012aa86b390",
+        "upload_name": "test_setup_tf2_bazzite(1).py"
       }
     ],
     "later_announcements": [

@@ -50,8 +50,10 @@
       "test_setup_tf2_bazzite.py"
     ],
     "evidence": "parent direct-read audit, independently matched to literal shared-snapshot links",
-    "content_status": "announcement_attachment_bytes_not_verified",
-    "note": "Recoverable literal bodies, reconstructed states and attachment announcements are separate inventories. Repeated version labels do not establish binary identity."
+    "content_status": "original_user_uploads_received_and_hash_verified",
+    "note": "User-provided group labeled 1o turno, associated with this announcement; code/test docstring/README identify v1.4.0. No equivalence with other links or version groups is assumed.",
+    "receipt": ".provenance/user-uploads/turn-1-v1.4.0/receipt.json",
+    "content_commit": "34220f09ebaae2b85b88fdc9e12a6285ca655ce5"
   },
   {
     "version": "1.5.0",

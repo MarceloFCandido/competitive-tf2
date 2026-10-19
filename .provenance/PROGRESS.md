@@ -36,3 +36,7 @@
 - 2026-10-19T15:19:08.204320+00:00: solicitado uso do app ChatGPT; seleção de com.openai.codex recusada por segurança antes da inspeção da janela.
 - Info.plist confirma /Applications/ChatGPT.app, nome ChatGPT, bundle com.openai.codex, versão 26.1013.40934. Nenhuma instalação separada encontrada nos diretórios padrão verificados. Somente metadados lidos.
 - Sessão do app e downloads não verificados; operação negada não repetida ou contornada. Zero anexos/versões novos; nenhum instalador executado, nenhuma credencial ou token extraído. Próximo passo mínimo: baixar os anexos pelo app autenticado para Downloads.
+
+- 2026-10-19T15:48:55.689810+00:00: dez partes recebidas e verificadas individualmente; base64/gzip/JSON decodificados somente como dados. Os três SHA-256 finais conferem.
+- Originais recebidos: instalador 53.740 bytes, testes 27.981 bytes e README 5.823 bytes. Instalador, docstring dos testes e README identificam v1.4.0; 56 métodos de teste contados estaticamente. Nenhum código recuperado executado.
+- Bytes importados no commit 34220f09ebaae2b85b88fdc9e12a6285ca655ce5; nomes de upload e origem preservados. Busca restrita em Downloads sem cópias alternativas. Outros grupos originais ainda não recebidos.

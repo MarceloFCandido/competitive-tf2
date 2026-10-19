@@ -32,7 +32,7 @@ Cada commit importa uma etapa da fonte. O manifesto registra mensagem, caminho o
 | `tf/cfg/overrides/autoexec.cfg` | 1 |
 | `tf/cfg/overrides/modules.cfg` | 1 |
 | `alternatives/medic/tf/cfg/overrides/autoexec.cfg` | 1 |
-| `setup_tf2_bazzite.py` | 8 |
+| `setup_tf2_bazzite.py` | 9 |
 | `tf2-script-tests/update_script.py` | 1 |
 | `tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py` | 1 |
 | `tf2-script-tests/upgrade_v1_2.py` | 1 |
@@ -40,12 +40,12 @@ Cada commit importa uma etapa da fonte. O manifesto registra mensagem, caminho o
 | `tf2-script-tests/test_setup_v1_2.py` | 2 |
 | `tf2_work/setup_tf2_bazzite_v1_2_0.py` | 1 |
 | `tf2_work/update_script.py` | 2 |
-| `test_setup_tf2_bazzite.py` | 4 |
+| `test_setup_tf2_bazzite.py` | 5 |
 | `case-variants/TF2_HUD_UPDATE_README.md` | 2 |
 | `tf2_hud_work/setup_tf2_bazzite_v1.2.0.py` | 1 |
 | `tf2_hud_work/upgrade_script.py` | 1 |
 | `tf2_hud_work/test_setup_tf2_bazzite.py` | 1 |
-| `TF2_HUD_Update_README.md` | 3 |
+| `TF2_HUD_Update_README.md` | 4 |
 | `tf2_work/setup_tf2_bazzite_v1_3_0.py` | 1 |
 | `tf2_work/test_v1_3_0.py` | 1 |
 | `tf2_work/v1_3_1.diff` | 1 |
@@ -70,3 +70,9 @@ A sequência completa de oito mensagens com links, incluindo o relink sem versã
 ## Capturas atualizadas sem nova revisão de artefato
 
 As consultas HTTP de 19/10/2026 às 14:57 e 14:58 UTC confirmaram a atualização de `update_time` do compartilhamento, mas não acrescentaram mensagens, código ou referências de anexos. O mapa de 615 nós e as 89 mensagens de código são idênticos à captura inicial. O commit da rechecagem preserva as duas respostas e sua comparação; os 42 registros de revisão de artefatos permanecem inalterados. Veja [REFRESH.md](REFRESH.md).
+
+## Originais v1.4.0 recebidos por upload
+
+Commit `34220f09ebaae2b85b88fdc9e12a6285ca655ce5`: os três arquivos do grupo “1o turno”, mensagem de envio `Sentinel_65bd7dffb4088191a07990779e0f39f1`, foram preservados byte a byte sob nomes canônicos. A origem indicada é [o anúncio v1.4.0](https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=5ee4f90d-4bdd-4de7-9845-74f77fe5e13a), de 2026-10-19T12:00:47.614059+00:00. Os nomes de upload, Library IDs do grupo e hashes estão em [UPLOADS.md](UPLOADS.md). As datas deste novo commit registram a recuperação tardia; os 28 commits anteriores não foram reescritos.
+
+O manifesto agora possui 45 registros em 27 caminhos: os 42 anteriores e três originais recebidos. A suíte v1.4.0 tem 56 métodos de teste contados por AST, sem execução. Os estados 1.3.1 e o README literal v1.5.0 permanecem disponíveis nos commits anteriores.

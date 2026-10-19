@@ -26,3 +26,7 @@ A mensagem v1.6.0 confirma que os binários dos screenshots não foram baixados 
 Dados estruturados: `.provenance/attachment-references.json`, `.provenance/announced-revisions.json` e `.provenance/code-version-states.json`. O relato da auditoria está preservado em `.provenance/supplemental-evidence/complete-attachment-audit-parent-report.json`.
 
 Rechecagem de 19/10/2026 às 14:57/14:58 UTC: o link atualizado ainda contém as mesmas 16 referências literais das sete primeiras mensagens. A mensagem v1.6.0 e suas três referências continuam ausentes da resposta pública e fundamentadas no relato do pai. Nenhuma nova referência ou identidade binária foi confirmada.
+
+## Bytes recebidos para o grupo v1.4.0
+
+O usuário forneceu os três arquivos do grupo associado à mensagem `5ee4f90d-4bdd-4de7-9845-74f77fe5e13a` como “1o turno”. Os hashes conferem e instalador, testes e README identificam v1.4.0. Foram importados em `34220f09ebaae2b85b88fdc9e12a6285ca655ce5`; nomes de upload e hashes constam em [UPLOADS.md](UPLOADS.md). A associação é fornecida pelo usuário e compatível com o conteúdo; não se deduz identidade binária para os demais links. O total permanece 19 referências de mensagem + anexo, agora com três conteúdos originais fornecidos por upload verificados.

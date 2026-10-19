@@ -62,3 +62,7 @@ Cada commit importa uma etapa da fonte. O manifesto registra mensagem, caminho o
 Em **2026-10-19T13:12:17Z**, a [mensagem original `e4b8944c-7916-4302-8016-463828ec503e`](https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=e4b8944c-7916-4302-8016-463828ec503e) anuncia **v1.6.0**, uma suíte de **103 testes** e revisões dos mesmos três nomes: `setup_tf2_bazzite.py`, `test_setup_tf2_bazzite.py` e `TF2_HUD_Update_README.md`. A leitura foi relatada pelo pai; o texto integral e os bytes não foram recebidos. O inventário `.provenance/announced-revisions.json` registra esse anúncio sem contá-lo como arquivo recuperado.
 
 A captura pública é anterior e não contém essa mensagem. O anúncio também confirma que a galeria offline precisa ser construída no PC; uma galeria já reparada não foi entregue como anexo. Os 42 registros e 27 caminhos de artefatos acima permanecem iguais. A correção foi acrescentada em um novo commit, preservando os 23 anteriores.
+
+## Reconciliação com os links de anexos
+
+A sequência completa de oito mensagens com links, incluindo o relink sem versão nova e os dois anúncios v1.3.0, está em [ATTACHMENTS.md](ATTACHMENTS.md). São 19 pares únicos mensagem + anexo, não 19 versões binárias confirmadas. `1.3.1` permanece como estado literal de código/README das mensagens 451 e 458; não foi promovido a anúncio de lançamento. Os 42 registros de revisão, 27 caminhos de artefatos e todos os commits anteriores foram preservados.

@@ -1,0 +1,17 @@
+[
+  {
+    "version": "1.3.1",
+    "classification": "literal_code_state_not_a_visible_release_announcement",
+    "literal_source_edit": "s = s.replace(\"SCRIPT_VERSION = '1.3.0'\", \"SCRIPT_VERSION = '1.3.1'\")",
+    "source_code_message_id": "5bd64030-9aa7-4890-8d69-d72572b6defb",
+    "source_code_sequence": 451,
+    "source_code_message_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=5bd64030-9aa7-4890-8d69-d72572b6defb",
+    "literal_readme_message_id": "2605ea9c-a8e4-4313-ab69-9b2de2883044",
+    "literal_readme_sequence": 458,
+    "literal_readme_heading": "# Centered TF2-style HUD option — installer v1.3.1",
+    "reconstructed_installer_commit": "48556b89bba3f8a4c9d846af7d45d313ebeca7b7",
+    "reconstructed_installer_sha256": "d968561069ae0a2ef9adf508658480e4b4321dc9d203be778ac1f170c30c058b",
+    "visible_release_announcement_present": false,
+    "note": "Retained from the shared snapshot as a recoverable code state. The later visible message announces v1.4.0; the intervening edit is not available. Neither evidence is discarded or treated as equivalent."
+  }
+]

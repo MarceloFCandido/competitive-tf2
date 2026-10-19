@@ -19,3 +19,7 @@
 - 2026-10-19T13:42:54.672768+00:00: evidência suplementar do pai registra anúncio original de v1.6.0 (2026-10-19T13:12:17Z, mensagem e4b8944c-7916-4302-8016-463828ec503e), 103 testes relatados e opções adicionais. Sem bytes dos anexos.
 - Comparação local: mesma conversa original; mensagem v1.6.0 ausente dos 615 nós do compartilhamento; último nó da captura em 2026-10-19T12:56:12.535328+00:00.
 - Corrigido: galeria offline deveria ser construída no PC, não foi entregue como anexo reparado. Commit de correção novo; histórico anterior preservado.
+
+- 2026-10-19T13:45:58.545590+00:00: auditoria completa do pai reconciliada: 26 mensagens, três páginas esgotadas, sem content_omitted; 19 pares únicos mensagem+anexo (8 instalador, 5 testes, 5 README, 1 HTML), sem confirmação de identidade binária.
+- Sete mensagens/16 pares conferidos contra a captura pública; v1.6.0/3 pares permanecem como relato suplementar.
+- Estado literal de código/README 1.3.1 diferenciado de anúncios visíveis. Nenhum estado recuperado removido; nenhuma galeria reparada alegada.

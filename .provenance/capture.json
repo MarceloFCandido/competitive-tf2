@@ -53,5 +53,20 @@
     "timestamp_utc": "2026-10-19T13:12:17Z",
     "content_available": false,
     "evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+  },
+  "visible_message_audit": {
+    "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json",
+    "reported_messages": 26,
+    "reported_pages_exhausted": 3,
+    "reported_content_omitted": false,
+    "unique_message_attachment_references": 19,
+    "counts": {
+      "installer": 8,
+      "readme": 5,
+      "tests": 5,
+      "html": 1
+    },
+    "verified_distinct_binary_revisions": null,
+    "literal_code_version_1_3_1_distinct_from_visible_announcements": true
   }
 }

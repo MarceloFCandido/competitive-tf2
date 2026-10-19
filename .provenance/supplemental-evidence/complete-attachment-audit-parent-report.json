@@ -1,0 +1,24 @@
+{
+  "evidence_type": "parent_report_of_complete_direct_conversation_text_read",
+  "received_at_utc": "2026-10-19T13:45:58.545590+00:00",
+  "conversation_id": "6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "reported_message_count": 26,
+  "reported_pages_exhausted": 3,
+  "reported_content_omitted": false,
+  "attachment_bytes_provided": false,
+  "unique_message_attachment_pairs": 19,
+  "counts": {
+    "installer": 8,
+    "readme": 5,
+    "tests": 5,
+    "html": 1
+  },
+  "not_a_binary_revision_count": true,
+  "independent_snapshot_crosscheck": {
+    "matched_message_groups": 7,
+    "message_groups_absent_from_snapshot": 1,
+    "unique_pairs_matched_to_literal_links": 16,
+    "later_pairs_reported_only": 3
+  },
+  "parent_message_verbatim": "Auditoria completa da leitura direta:26 mensagens, três páginas esgotadas, sem content_omitted. Há19 referências únicas mensagem+anexo (não19 revisões binárias confirmadas):8 instalador,5 testes,5 README,1HTML. Sequência:18Oct00:37 sem versão msg2c2ebc16-741c-48e5-84fb-c2023c643341;18Oct00:46 relink sem nova versão msg3d1026f5-29a5-4318-8091-2f5a8b143c83;19Oct02:43 v1.2 msgb59710b3-be3f-4531-bef4-76ec764c8ec3;03:34 v1.3 msg49a6cc70-733a-44f2-be7d-384c1382ae26 com TF2_HUD_UPDATE_README.md e testes;03:45 outra v1.3 msg62fc5fff-4c15-45a9-b7cd-a332d4e886ac com TF2_HUD_Update_README.md e testes;12:00 v1.4 msg5ee4f90d-4bdd-4de7-9845-74f77fe5e13a mesmos três;12:30 v1.5 msg454439cb-235e-4787-96c0-19a40f8c2b1d mais TF2_HUD_Visual_Comparison.html;13:12 v1.6 msge4b8944c-7916-4302-8016-463828ec503e mesmos três. URLs: https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b?messageId=ID . Não há rótulo1.3.1 nas mensagens visíveis, mas se ele consta literalmente no código recuperado, registre sua proveniência como estado de código e diferencie dos anúncios. Não descarte estados verificados do compartilhamento. Não foi fornecida galeria offline reparada. Confira inventário versus essa sequência e finalize correções. Estou aguardando usuário desbloquear Mac para tentar originais."
+}

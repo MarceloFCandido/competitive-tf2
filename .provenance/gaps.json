@@ -2,7 +2,9 @@
   {
     "id": "version_1_4_0",
     "message": 468,
-    "detail": "Response advertises v1.4.0, but the last available edit sets SCRIPT_VERSION to 1.3.1. No complete v1.4.0 bytes or intervening version edit are present."
+    "detail": "Response advertises v1.4.0, but the last available edit sets SCRIPT_VERSION to 1.3.1. No complete v1.4.0 bytes or intervening version edit are present.",
+    "literal_code_state": "1.3.1 is directly present in recovered code and a literal README, not a visible release announcement.",
+    "code_state_inventory": ".provenance/code-version-states.json"
   },
   {
     "id": "branch_restart",
@@ -93,5 +95,18 @@
     ],
     "detail": "Later announcement of v1.6.0, 103 tests and new CLI features. No original file bytes supplied to this executor. No synthetic v1.6.0 artifact created.",
     "supplementary_evidence": ".provenance/supplemental-evidence/v1.6.0-parent-report.json"
+  },
+  {
+    "id": "attachment_binary_identity",
+    "status": "not_verified",
+    "unique_message_attachment_references": 19,
+    "counts": {
+      "installer": 8,
+      "readme": 5,
+      "tests": 5,
+      "html": 1
+    },
+    "detail": "The complete direct-text audit reports no omitted text, but supplies no attachment bytes. 19 message+attachment references do not establish 19 distinct binary revisions.",
+    "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json"
   }
 ]

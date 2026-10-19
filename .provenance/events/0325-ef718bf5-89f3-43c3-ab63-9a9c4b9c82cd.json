@@ -1,0 +1,170 @@
+{
+  "sequence": 325,
+  "message_id": "ef718bf5-89f3-43c3-ab63-9a9c4b9c82cd",
+  "source_timestamp": 1792380266.637882,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_work/update_script.py",
+      "repo_path": "tf2_work/update_script.py",
+      "status": "available_literal",
+      "sha256": "f233bb86e5a273cf4785cec04c01bf440635f33a6a537ab754a1bb78dbf8f7e4",
+      "bytes": 10053,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "f12a1e31ca885dae8e7639449712afc0eda0531303dcb51c4098769afc9e7ccb",
+      "bytes": 53262,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 4,
+          "old": "SCRIPT_VERSION = '1.2.0'",
+          "new": "SCRIPT_VERSION = '1.3.0'",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "    python3 setup_tf2_bazzite.py --update-only --hud budhud --replace-hud\n",
+          "new": "    python3 setup_tf2_bazzite.py --update-only --hud budhud --replace-hud\n    python3 setup_tf2_bazzite.py --list-huds\n    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run\n    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud stock --replace-hud\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 12,
+          "old": "    --hud rayshud or --hud budhud installs one pinned, checksum-verified HUD.\n",
+          "new": "    --list-huds prints available choices and notes without any downloads/writes.\n    --hud idhud: Improved Default HUD, close to Valve's original corner layout.\n    --hud middlemann: Middle Mann, stock styling with centered health/ammo.\n    --hud rayshud and --hud budhud remain available, with their existing pins.\n    --hud stock removes detected custom HUDs without changing your configuration.\n    --hud keep (default) does nothing to your current HUD.\n    Only ONE HUD is active. Options are alternatives, not stacked overlays.\n    HUDs download only when selected; removed copies remain in undo backups.\n    Switching back by name installs the pinned upstream copy, NOT any custom\n    edits you made to a previous copy. Use the printed undo command to restore\n    the exact previous files, including their customizations.\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 24,
+          "old": "Sources checked 2026-10-18:",
+          "new": "Baseline sources checked 2026-10-18; new HUD sources checked 2026-10-19:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 25,
+          "old": "    https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc\n",
+          "new": "    https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc\n    https://github.com/idhud-tf2/idhud/releases/tag/4.0.8\n    https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md\n    https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1\n    https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 31,
+          "old": "HUDS = {'budhud': BUDHUD, 'rayshud': RAYSHUD}",
+          "new": "# Pinned release assets and SHA-256 digests from the upstream GitHub release\n# API, checked 2026-10-19. Keep existing budhud/rayshud pins unchanged so this\n# update does not silently upgrade, replace or restyle an installed HUD.\nIDHUD = {\n    'version': '4.0.8',\n    'url': 'https://github.com/idhud-tf2/idhud/releases/download/4.0.8/idhud.zip',\n    'sha256': '3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719',\n}\nMIDDLEMANN = {\n    'version': 'v26.1',\n    'url': 'https://github.com/Vexcenot/-middle-mann/releases/download/v26.1/-middle-mann-v26.1.zip',\n    'sha256': '4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899',\n}\nHUDS = {'idhud': IDHUD, 'middlemann': MIDDLEMANN, 'rayshud': RAYSHUD, 'budhud': BUDHUD}\nHUD_DETAILS = {\n    'idhud': {\n        'title': 'Improved Default HUD',\n        'description': 'Original TF2 styling and corner placement, with readability and UI fixes.',\n        'homepage': 'https://github.com/idhud-tf2/idhud',\n        'notes': 'Upstream lists Linux support. No bundled cfg startup file; recommended console settings are NOT applied.',\n    },\n    'middlemann': {\n        'title': 'Middle Mann',\n        'description': 'Original TF2 styling with health/ammo moved toward the center.',\n        'homepage': 'https://github.com/Vexcenot/-middle-mann',\n        'notes': 'Designed for cl_hud_minmode 0; your setting is NOT changed. Startup caching/reload tweaks are excluded. In-game Linux rendering has not been tested by this installer author.',\n    },\n    'rayshud': {\n        'title': 'rayshud',\n        'description': 'Simplified, bold layout with strong health/ammo color cues.',\n        'homepage': 'https://github.com/raysfire/rayshud',\n        'notes': 'Existing release pin retained. Menu-dimmer/startup tweaks are excluded.',\n    },\n    'budhud': {\n        'title': 'budhud',\n        'description': 'Minimal, configurable layout that differs substantially from stock TF2.',\n        'homepage': 'https://github.com/rbjaxter/budhud',\n        'notes': 'Existing release pin retained. Bundled startup-enforced HUD settings are excluded.',\n    },\n}\nHUD_CHOICES = ('keep', 'stock', *HUDS)\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 73,
+          "old": "def hud_candidates(tf: Path) -> list[Path]:",
+          "new": "def has_hud_signature(path: Path) -> bool:\n    \"\"\"Recognize common HUD paths despite filename capitalization on Linux.\n\n    Only inspect the relevant shallow directories, not every asset. This does\n    not make a Windows-only HUD Linux-compatible or rewrite any filenames.\n    \"\"\"\n    if (path / HUD_MARKER).is_file():\n        return True\n    patterns = (('scripts', 'hudlayout.res'), ('resource', 'clientscheme.res'),\n                ('resource', 'ui', 'hudplayerhealth.res'))\n    for parts in patterns:\n        level = [path]\n        for part in parts:\n            level = [entry for parent in level if parent.is_dir()\n                     for entry in parent.iterdir() if entry.name.casefold() == part]\n        if any(entry.is_file() for entry in level):\n            return True\n    return False\n\n\ndef hud_candidates(tf: Path) -> list[Path]:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 94,
+          "old": "    signatures = ('scripts/hudlayout.res', 'resource/clientscheme.res',\n                  'resource/ui/hudplayerhealth.res')\n",
+          "new": "",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 95,
+          "old": "(any((path / rel).is_file() for rel in signatures)\n                           or ('hud' in name and (path / 'info.vdf').is_file()))",
+          "new": "(has_hud_signature(path)\n                           or ('hud' in name and (path / 'info.vdf').is_file()))",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 96,
+          "old": "raise SetupError('--replace-hud requires --hud rayshud or --hud budhud.')",
+          "new": "raise SetupError('--replace-hud requires a HUD name or --hud stock; use --list-huds.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 97,
+          "old": "    selected = target_path(tf, 'custom/' + name)\n    candidates = hud_candidates(tf)\n",
+          "new": "    if name not in HUD_CHOICES:\n        raise SetupError('Unknown HUD: ' + name + '. Use --list-huds.')\n    candidates = hud_candidates(tf)\n    if name == 'stock':\n        for path in candidates:\n            assert_plain(target_path(tf, path.relative_to(tf).as_posix()))\n        if candidates and not replace:\n            names = ', '.join(str(p.relative_to(tf)) for p in candidates)\n            raise SetupError('Returning to stock would remove detected HUD(s): ' + names\n                             + '. Preview again with --replace-hud to authorize backing up '\n                             'and removing them; no files have been changed.')\n        return False, [path.relative_to(tf).as_posix() for path in candidates]\n    selected = target_path(tf, 'custom/' + name)\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 112,
+          "old": "def parser() -> argparse.ArgumentParser:\n",
+          "new": "def list_huds() -> None:\n    \"\"\"Print an offline catalog; do not inspect or modify the game.\"\"\"\n    print(f'TF2 setup {SCRIPT_VERSION} - HUD choices (one active at a time)')\n    print('  keep        Leave the active HUD untouched (default).')\n    print('  stock       Back up/remove detected custom HUDs; no download or config reset.')\n    for name, asset in HUDS.items():\n        detail = HUD_DETAILS[name]\n        print(f\"  {name:<11} {detail['title']} ({asset['version']})\")\n        print('              ' + detail['description'])\n        print('              ' + detail['notes'])\n        print('              ' + detail['homepage'])\n    print('Switch: --update-only --hud NAME --replace-hud; add --dry-run to preview.')\n    print('Previous active HUD files are kept in undo backups, outside tf/custom.')\n    print('A switch by name reinstalls the upstream copy; use --restore for exact old customizations.')\n    print('This listing makes no network requests, backups, or file changes.')\n\n\ndef parser() -> argparse.ArgumentParser:\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 130,
+          "old": "    ap.add_argument('--hud', choices=('keep', 'budhud', 'rayshud'), default='keep',\n                    help='default: keep your HUD')",
+          "new": "    ap.add_argument('--hud', choices=HUD_CHOICES, default='keep',\n                    help='choose one HUD, stock to remove detected custom HUDs, or keep (default)')\n    ap.add_argument('--list-huds', action='store_true',\n                    help='list choices and notes without looking for TF2 or writing/downloading anything')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 131,
+          "old": "    args = parser().parse_args()\n    if sys.platform",
+          "new": "    args = parser().parse_args()\n    if args.list_huds:\n        if (args.restore or args.tf2_dir or args.update_only or args.preset or args.fps_cap\n                or args.visual_clarity or args.viewmodels or args.hud != 'keep' or args.replace_hud):\n            raise SetupError('--list-huds is a read-only catalog; do not combine it with update/restore options.')\n        list_huds()\n        return 0\n    if sys.platform",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 139,
+          "old": "            rel = 'custom/' + args.hud\n            guard[rel] = fingerprint(tf, rel)\n",
+          "new": "            if args.hud != 'stock':\n                rel = 'custom/' + args.hud\n                guard[rel] = fingerprint(tf, rel)\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 140,
+          "old": "            if hud_install:\n                print(f'HUD install:",
+          "new": "            if args.hud == 'stock':\n                print('HUD: return to stock layout; no HUD download or config reset.')\n                print('Only detected HUD files are removed; other mods may still alter the interface.')\n            elif hud_install:\n                print(f'HUD install:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 141,
+          "old": "                print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')",
+          "new": "                print(HUD_DETAILS[args.hud]['description'])\n                print(HUD_DETAILS[args.hud]['notes'])\n                print('Any bundled HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 142,
+          "old": "            warn('HUD detection cannot prove compatibility",
+          "new": "            print('Only one detected HUD remains active; previous HUD files stay in undo backups.')\n            warn('HUD detection cannot prove compatibility",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

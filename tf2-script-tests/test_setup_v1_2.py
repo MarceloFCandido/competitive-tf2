@@ -362,6 +362,45 @@ class Tests(unittest.TestCase):
         self.assertIn('soldier.cfg:1', error)
         self.assertEqual(path.read_bytes(), before)
 
+    def test_bom_is_preserved(self):
+        path = self.tf / new.MANAGED_FILES[2]
+        path.write_bytes(b'\xef\xbb\xbf' + path.read_bytes())
+        self.assertTrue(new.recognized_install(self.tf))
+        changes = new.plan_update(self.tf, args('--visual-clarity'))
+        self.assertTrue(changes[new.MANAGED_FILES[2]].startswith(b'\xef\xbb\xbf'))
+
+    def test_file_permissions_preserved(self):
+        path = self.tf / new.MANAGED_FILES[2]
+        path.chmod(0o600)
+        self.run_main('--update-only', '--visual-clarity', '--yes')
+        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+
+    def test_fresh_install_is_still_supported(self):
+        shutil.rmtree(self.tf / 'cfg/overrides')
+        (self.tf / 'custom/mastercomfig-base.vpk').unlink()
+        def mock_download(asset, path, maximum):
+            self.assertIs(asset, new.COMFIG)
+            path.write_bytes(struct.pack('<III', 0x55AA1234, 1, 1) + b'\0')
+        result, output, _ = self.run_main('--yes', download=mock_download)
+        self.assertEqual(result, 0)
+        self.assertIn('first-time baseline install', output)
+        self.assertTrue(new.recognized_install(self.tf))
+        self.assertIn('fpscap=300', (self.tf / new.MANAGED_FILES[2]).read_text())
+        self.assertIn('preset=medium', (self.tf / new.MANAGED_FILES[0]).read_text())
+
+    def test_change_during_download_stops_stale_plan(self):
+        before = self.snapshot()
+        archive = self.zip_hud()
+        path = self.tf / new.MANAGED_FILES[2]
+        def mock_download(asset, dest, maximum):
+            shutil.copy2(archive, dest)
+            path.write_bytes(path.read_bytes() + b'// changed during download\n')
+        with self.assertRaisesRegex(new.SetupError, 'changed after the preview'):
+            self.run_main('--update-only', '--visual-clarity', '--hud', 'rayshud', '--yes', download=mock_download)
+        self.assertFalse((self.tf / 'custom/rayshud').exists())
+        self.assertEqual(path.read_bytes(), before[new.MANAGED_FILES[2]] + b'// changed during download\n')
+        self.assertEqual(len(list(self.state.rglob('manifest.json'))), 0)
+
     def test_checksum_verification_rejects_bad_content(self):
         class Response(io.BytesIO):
             def geturl(self): return 'https://example.org/hud.zip'

@@ -559,7 +559,7 @@ def active_line(line: str) -> str:
 def managed_bounds(text: str, label: str) -> tuple[list[str], int, int]:
     """Recognize the old and new script's exact, single managed block."""
     lines = text.splitlines(keepends=True)
-    begin = [i for i, line in enumerate(lines) if line.strip() == BEGIN]
+    begin = [i for i, line in enumerate(lines) if line.strip().lstrip('\ufeff') == BEGIN]
     end = [i for i, line in enumerate(lines) if line.strip() == END]
     if (len(begin) != 1 or len(end) != 1 or begin[0] >= end[0]
             or text.count(BEGIN) != 1 or text.count(END) != 1):
@@ -930,6 +930,7 @@ def main() -> int:
                         staged = tmp / rel
                         staged.parent.mkdir(parents=True, exist_ok=True)
                         staged.write_bytes(data)
+                        staged.chmod(stat.S_IMODE(target_path(tf, rel).stat().st_mode))
                         ops[rel] = staged
                 else:
                     base = tmp / 'mastercomfig-base.vpk'

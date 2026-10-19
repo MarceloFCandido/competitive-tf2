@@ -1,0 +1,50 @@
+{
+  "sequence": 251,
+  "message_id": "1642829b-1912-4a66-bf41-47e65d97e2ca",
+  "source_timestamp": 1792377352.083323,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "d6ec2c0366bb284747b59d92ef6001997225a24376c71f14211cf4b52a623509",
+      "bytes": 46353,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 4,
+          "old": "if line.strip() == BEGIN]",
+          "new": "if line.strip().lstrip('\\ufeff') == BEGIN]",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "                        staged.write_bytes(data)\n                        ops[rel] = staged",
+          "new": "                        staged.write_bytes(data)\n                        staged.chmod(stat.S_IMODE(target_path(tf, rel).stat().st_mode))\n                        ops[rel] = staged",
+          "limit": 1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/tf2-script-tests/test_setup_v1_2.py",
+      "repo_path": "tf2-script-tests/test_setup_v1_2.py",
+      "status": "static_reconstruction",
+      "sha256": "e2ff38619b07ce87659fc3b2dfbb8d9c728df1412201a96e3b690236cedd710f",
+      "bytes": 20769,
+      "recipe": [
+        {
+          "operation": "splice",
+          "start": "\n    def test_checksum_verification_rejects_bad_content",
+          "end": null,
+          "insert": "\n    def test_bom_is_preserved(self):\n        path = self.tf / new.MANAGED_FILES[2]\n        path.write_bytes(b'\\xef\\xbb\\xbf' + path.read_bytes())\n        self.assertTrue(new.recognized_install(self.tf))\n        changes = new.plan_update(self.tf, args('--visual-clarity'))\n        self.assertTrue(changes[new.MANAGED_FILES[2]].startswith(b'\\xef\\xbb\\xbf'))\n\n    def test_file_permissions_preserved(self):\n        path = self.tf / new.MANAGED_FILES[2]\n        path.chmod(0o600)\n        self.run_main('--update-only', '--visual-clarity', '--yes')\n        self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)\n\n    def test_fresh_install_is_still_supported(self):\n        shutil.rmtree(self.tf / 'cfg/overrides')\n        (self.tf / 'custom/mastercomfig-base.vpk').unlink()\n        def mock_download(asset, path, maximum):\n            self.assertIs(asset, new.COMFIG)\n            path.write_bytes(struct.pack('<III', 0x55AA1234, 1, 1) + b'\\0')\n        result, output, _ = self.run_main('--yes', download=mock_download)\n        self.assertEqual(result, 0)\n        self.assertIn('first-time baseline install', output)\n        self.assertTrue(new.recognized_install(self.tf))\n        self.assertIn('fpscap=300', (self.tf / new.MANAGED_FILES[2]).read_text())\n        self.assertIn('preset=medium', (self.tf / new.MANAGED_FILES[0]).read_text())\n\n    def test_change_during_download_stops_stale_plan(self):\n        before = self.snapshot()\n        archive = self.zip_hud()\n        path = self.tf / new.MANAGED_FILES[2]\n        def mock_download(asset, dest, maximum):\n            shutil.copy2(archive, dest)\n            path.write_bytes(path.read_bytes() + b'// changed during download\\n')\n        with self.assertRaisesRegex(new.SetupError, 'changed after the preview'):\n            self.run_main('--update-only', '--visual-clarity', '--hud', 'rayshud', '--yes', download=mock_download)\n        self.assertFalse((self.tf / 'custom/rayshud').exists())\n        self.assertEqual(path.read_bytes(), before[new.MANAGED_FILES[2]] + b'// changed during download\\n')\n        self.assertEqual(len(list(self.state.rglob('manifest.json'))), 0)\n"
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

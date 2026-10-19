@@ -1,0 +1,10 @@
+bash -lc python3 - <<'PY'
+from pathlib import Path
+p=Path('/mnt/data/test_setup_tf2_bazzite.py')
+s=p.read_text().replace("        argv = [str(SCRIPT), '--tf2-dir', str(self.game), *args]", "        location = [] if '--restore' in args else ['--tf2-dir', str(self.game)]\n        argv = [str(SCRIPT), *location, *args]")
+p.write_text(s)
+PY
+cd /mnt/data && python3 -m unittest -q test_setup_tf2_bazzite.py > /mnt/data/tf2_work/test_run.log 2>&1; rc=$?; tail -8 /mnt/data/tf2_work/test_run.log
+python3 /mnt/data/setup_tf2_bazzite.py --version
+python3 /mnt/data/setup_tf2_bazzite.py --list-huds
+exit $rc

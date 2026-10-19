@@ -1,0 +1,1 @@
+bash -lc sed -n '914,1075p' /mnt/data/setup_tf2_bazzite.py && sed -n '1100,1260p' /mnt/data/setup_tf2_bazzite.py && grep -nE '^    def test_|mock|patch|args' /mnt/data/test_setup_tf2_bazzite.py | tail -85

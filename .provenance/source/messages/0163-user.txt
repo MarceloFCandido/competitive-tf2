@@ -1,0 +1,1 @@
+Does it has a dry run mode?

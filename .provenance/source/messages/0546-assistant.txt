@@ -1,0 +1,1 @@
+bash -lc tail -60 /mnt/data/test_setup_tf2_bazzite.py

@@ -1,0 +1,15 @@
+bash -lc python3 - <<'PY'
+import urllib.request, json, concurrent.futures
+urls=['https://paste.rs','https://dpaste.com/api/','https://api.github.com/repos/mastercomfig/mastercomfig/releases/tags/9.100.1','https://api.github.com/repos/rbjaxter/budhud/releases/tags/2511_01']
+def fetch(url):
+ try:
+  with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'tf2-setup-verification/1.0'}),timeout=12) as r:
+   data=r.read(200000)
+  if 'api.github' in url:
+   o=json.loads(data); out=json.dumps({'tag':o['tag_name'],'published_at':o['published_at'],'assets':[{k:a.get(k) for k in ('name','digest','size','browser_download_url')} for a in o.get('assets',[]) if a['name'] in ['mastercomfig-base.vpk','budhud.zip']]},indent=2)
+  else: out=data[:5000].decode(errors='replace')
+  return url+'\n'+out
+ except Exception as e:return url+' '+repr(e)
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as p:
+ for out in p.map(fetch,urls): print(out+'\n')
+PY

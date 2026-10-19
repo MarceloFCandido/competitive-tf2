@@ -1,0 +1,1 @@
+It already disables motion blur, ragdolls, and gibs. I’m keeping reduced effects separate from weapon hiding, since hidden viewmodels also remove useful reload and weapon-state cues.

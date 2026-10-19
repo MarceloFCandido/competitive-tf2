@@ -1,0 +1,98 @@
+iturn199597image0
+
+**Yes—and all eight HUDs are now choices in the same script.** None of the earlier options have been removed.
+
+I also made a **[visual comparison page with all eight HUDs](sandbox:/mnt/data/TF2_HUD_Visual_Comparison.html)**, including full-size image links and the original galleries. Open it in your browser; it loads the images online.
+
+These are **published screenshots, not generated mockups or captures from your Bazzite installation**. Versions, themes, HUD modes, and your existing settings can affect the appearance. Some image hosts would not render in this environment, so the comparison page includes original-gallery links as a fallback.
+
+## Middle Mann — TF2 styling, centered information
+
+**Shown above.** This is still my first candidate for you: familiar TF2 panels, with health and ammunition brought closer to the center instead of left in the corners. Its stated purpose closely matches what you described. citeturn401493view0
+
+Script option: **`--hud middlemann`**
+
+## Center HUD — another close match
+
+![Center HUD published preview](https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp)
+
+Center HUD explicitly focuses on **centralizing critical information while preserving the default HUD’s style**. I would compare this directly against Middle Mann before looking at the more heavily redesigned alternatives. citeturn835028view1
+
+Script option: **`--hud centerhud`**
+
+## MaxiHud — TF2-like, with more interface features
+
+![MaxiHud author-published screenshot](https://images.gamebanana.com/img/ss/mods/6997885801058.jpg)
+
+MaxiHud is also a centered, vanilla-inspired HUD, but includes more menu features and customization. The comparison page contains **all four screenshots from its author’s published set**, rather than only this example. The author notes that some screenshots may show earlier versions. citeturn835028view2 fileciteturn23file0L2-L2
+
+Script option: **`--hud maxihud --hud-zip /path/to/maxihud.zip`**
+
+## rayshud — your existing reference point
+
+![rayshud gameplay preview](https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp)
+
+This is the layout you already like: prominent centered numbers with considerably less decorative framing. Its colors help distinguish low-health and ammunition states, but the presentation is a larger departure from stock TF2. citeturn245382view0turn401493view4
+
+Script option: **`--hud rayshud`**
+
+## budhud — another simplified presentation
+
+![budhud player HUD preview](https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp)
+
+Budhud is inspired by yahud and rayshud, rather than being a lightly modified default HUD. It remains available for comparison, though I would prioritize Middle Mann and Center HUD for your preference. The comparison page also includes its Medic preview. citeturn245382view1
+
+Script option: **`--hud budhud`**
+
+## Improved Default HUD — familiar styling, mostly familiar placement
+
+![Improved Default HUD combat preview](https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp)
+
+IDHUD improves readability and fixes parts of the original interface, but **deliberately retains its corner-based layout**. That is why it is less suited to your clarified preference for centered numbers. I have kept it as an option, not made it the default. citeturn245382view2
+
+Script option: **`--hud idhud`**
+
+## Community HUD Fixes — stock-oriented corrections
+
+![Community HUD Fixes gameplay preview](https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp)
+
+This focuses on **fixes and improvements to the default HUD**. The example retains the familiar health and ammunition placement, so it is another stock-oriented alternative rather than my leading recommendation for you. citeturn245382view3turn317407view3
+
+Script option: **`--hud hudfixes`**
+
+## ToonHUD — appearance depends on the theme
+
+![ToonHUD example theme in gameplay](https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg)
+
+Treat this as **one example**, not a universal ToonHUD appearance. You select or customize a theme on its website, then export a ZIP containing that theme. The installer imports your ZIP instead of choosing a look for you. citeturn835028view3
+
+Script option: **`--hud toonhud --hud-zip /path/to/toonhud.zip`**
+
+---
+
+## Updated script and compatibility
+
+### [Download the existing installer updated to v1.5.0](sandbox:/mnt/data/setup_tf2_bazzite.py)
+
+**Six options use automatic, checksum-verified downloads:** Middle Mann, Center HUD, rayshud, budhud, IDHUD, and Community HUD Fixes. **MaxiHud and ToonHUD use ZIP imports.** `--hud keep` and `--hud stock` remain available too.
+
+To see all choices without changing anything:
+
+```bash
+python3 setup_tf2_bazzite.py --list-huds
+```
+
+To preview a HUD-only switch:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud centerhud --replace-hud --dry-run
+```
+
+**Your existing gameplay configuration is not rewritten by that HUD-only command.** It does not reset your preset, FPS cap, animation reductions, weapon visibility, sensitivity, or binds. Only one HUD is activated; the previous one is backed up.
+
+**There is an important limitation for the four newly added options:** Center HUD, Community HUD Fixes, MaxiHud, and ToonHUD are installed **without their bundled `cfg` directories**, to prevent those scripts from overriding your existing settings. Consequently, script-dependent customization menus, initialization, or workarounds may not function. These are conservative integrations—not a guarantee that every upstream feature works unchanged.
+
+All **75 offline tests passed**, including configuration preservation, ZIP validation, switching, and restoration. I have not tested these installations inside a running TF2 session on Bazzite.
+
+[Full comparison gallery](sandbox:/mnt/data/TF2_HUD_Visual_Comparison.html) · [Compatibility and restoration notes](sandbox:/mnt/data/TF2_HUD_Update_README.md) · [Test suite](sandbox:/mnt/data/test_setup_tf2_bazzite.py)

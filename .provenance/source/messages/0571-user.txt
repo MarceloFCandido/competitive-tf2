@@ -1,0 +1,1 @@
+Images aren’t loading on the visual comparison

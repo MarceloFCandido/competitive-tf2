@@ -1,0 +1,1 @@
+Some newer HUDs include startup scripts that can alter settings, so their installer options will omit those files and warn when that may disable HUD-specific customization features.

@@ -1,0 +1,9 @@
+I’ll also separate automatically downloadable dependencies from user-chosen theme ZIPs, add source links, and identify support files v1.5 intentionally omits for compatibility.
+
+---
+
+If you want, I can:
+
+- Add HUD dependencies download instructions to the script
+- Create a detailed guide linking HUD options to required external files
+- Develop a fallback plan for missing HUD external dependencies

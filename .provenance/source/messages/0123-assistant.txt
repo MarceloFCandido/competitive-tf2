@@ -1,0 +1,1 @@
+bash -lc command -v gh || true; if command -v gh >/dev/null 2>&1; then gh auth status 2>&1; fi; find /mnt/data -maxdepth 2 -type f -printf '%P\n' | head -60

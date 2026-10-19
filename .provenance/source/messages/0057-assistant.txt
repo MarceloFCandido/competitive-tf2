@@ -1,0 +1,1 @@
+Yes. I’ll make a script that finds TF2 on Bazzite, backs up existing settings, and installs a configurable baseline, while noting anything that still requires Steam’s interface.

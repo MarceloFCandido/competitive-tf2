@@ -1,0 +1,16 @@
+**Not through the GitHub connection available in this chat.** I confirmed that it works for **`MarceloFCandido`**, but its available actions cover repository files, branches, issues, and pull requests—not creating gists. Making the gist public does not change that limitation. I should have made this distinction clearer earlier.
+
+The script itself is ready:
+
+**[Download `setup_tf2_bazzite.py`](sandbox:/mnt/data/setup_tf2_bazzite.py)**
+
+It detects TF2’s Steam library, installs a pinned mastercomfig release with checksum verification, writes the settings, and creates restorable backups. Installing budhud is optional. I tested configuration migration and backup/restore in temporary directories, **not in a running TF2 installation or on Bazzite hardware**.
+
+For an actual public gist, a machine with GitHub CLI installed and signed into your account can publish the file with this command: citeturn720862search0turn720862search1
+
+```bash
+gh gist create setup_tf2_bazzite.py --public \
+  --desc "TF2 competitive-style setup for Bazzite Linux"
+```
+
+**Nothing has been published, and no short URL has been created.** Publishing it as a normal file in an existing public GitHub repository is supported by the tools here instead.

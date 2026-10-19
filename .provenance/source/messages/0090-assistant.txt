@@ -1,0 +1,1 @@
+bash -lc ls -la /mnt/data | head -60; printf '\nAvailable executables:\n'; command -v curl python3 git gh bash shellcheck || true

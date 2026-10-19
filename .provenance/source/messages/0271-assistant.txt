@@ -1,0 +1,52 @@
+**Yes. I’ve added rayshud as an option and changed the script to support incremental updates to the setup you already applied.** Rayshud has a more distinctive interface than the stock HUD, with prominent health/ammo numbers and stronger color cues. The installer uses its pinned `2026.0111` release; budhud remains available too. citeturn192727search2turn372080view0
+
+### [Download the updated script — v1.2.0](sandbox:/mnt/data/setup_tf2_bazzite.py)
+
+Replace your previous downloaded script with this file.
+
+## Update your existing installation
+
+On Bazzite, run it as your normal user, **without `sudo`**. First preview the HUD replacement and visual changes:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --dry-run \
+  --visual-clarity --hud rayshud --replace-hud
+```
+
+The preview shows **configuration diffs and which existing HUD directories would be replaced**. It does not download anything, write files, or create backups.
+
+Then fully exit TF2 and Steam and run:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --visual-clarity --hud rayshud --replace-hud
+```
+
+It asks for confirmation before applying anything. To change **only the HUD**, omit `--visual-clarity` from both commands.
+
+## What happens to your existing settings?
+
+**You do not need to repeat your previous preset, FPS cap, or other options.** In update mode, unspecified settings stay unchanged.
+
+The script now:
+- **Preserves your baseline:** no mastercomfig reinstall, preset/FPS reset, or class-config migration. Your existing sensitivity, binds, networking settings, and unrelated configuration entries are left alone.
+- **Replaces rather than stacks detected HUDs:** `--replace-hud` authorizes backing up and replacing an existing HUD. A customized copy is backed up too.
+- **Avoids duplicate settings:** rerunning the same visual options makes no further changes. Ambiguous or duplicate definitions of a setting being edited cause it to stop rather than guess.
+
+I also excluded the HUDs’ bundled startup override, `cfg/valve.rc`. Rayshud’s version includes a temporary anti-aliasing change, while budhud’s enforces several HUD-related settings after your configuration loads. Excluding those files protects your existing startup settings, but also omits their automatic HUD-specific tweaks, such as rayshud’s menu-dimmer workaround. fileciteturn6file0L2-L2 fileciteturn8file0L2-L2
+
+## Visual effects and weapon animations
+
+`--visual-clarity` adds reductions for cosmetic item movement, killstreak sheen animation, first-person bullet tracers, the animated 3D class portrait, bloom/HDR post-processing, and Pyrovision’s vignette effects. These use mastercomfig’s existing modules—not replacement particle or animation mods. Some effects do not consistently obey these settings. citeturn192727search1
+
+**Your current `effects` module stays unchanged.** In particular, this update will not turn an existing Low/Very Low effects setting back up to Medium. Your already-applied motion-blur, ragdoll, and gib settings are also preserved.
+
+Weapon visibility stays as you currently have it. To hide your first-person weapon and hands, including their visible firing/reload animations, add **`--viewmodels hidden`** to the preview and apply commands. This uses `r_drawviewmodel`; it is a rendering change, not a shorter reload. citeturn724016view0
+
+To bring back minimal visible weapons later, without resetting the other options:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --viewmodels minimal
+```
+
+**Backup and testing:** each applied update prints an undo command that restores the files affected by that update, rather than removing your earlier baseline. All **40 automated tests passed**, covering preservation of existing settings, dry-run behavior, HUD replacement, repeat runs, rollback, and older backups. These used local test fixtures—not a running TF2 session on Bazzite. Arbitrary class scripts or renamed/packed mods can still introduce conflicts; the script reports detected issues but cannot guarantee compatibility with every custom configuration.

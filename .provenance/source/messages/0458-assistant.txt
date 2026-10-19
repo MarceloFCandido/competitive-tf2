@@ -1,0 +1,139 @@
+bash -lc cat > /mnt/data/TF2_HUD_Update_README.md <<'EOF'
+# Centered TF2-style HUD option — installer v1.3.1
+
+This revision adds **Middle Mann** as `--hud middlemann`. It keeps rayshud,
+budhud, Improved Default HUD (IDHUD), `stock`, and `keep` available. Nothing is
+published to GitHub or installed on your gaming PC by downloading this script.
+
+Middle Mann is the option for TF2-style artwork with centered health/ammo.
+IDHUD keeps the original corner layout and is not the centered alternative.
+
+## Preview, then switch only the HUD
+
+Save `setup_tf2_bazzite.py`, replacing your older downloaded copy. Run as your
+normal user, without sudo.
+
+```bash
+python3 setup_tf2_bazzite.py --version
+python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-run
+```
+
+The version should be **1.3.1**. The HUD-only preview should report
+**Configuration files: no changes.** It shows the detected HUDs to back up and
+replace. A dry run makes no downloads, writes or backups.
+
+Fully exit TF2 and Steam, then run:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
+```
+
+The script asks for confirmation, verifies the pinned download checksum,
+extracts and checks the archive, then backs up affected files before changing
+the active HUD. Restart Steam and TF2 afterward.
+
+For a library that cannot be auto-detected, add
+`--tf2-dir '/actual/path/to/Team Fortress 2'` to an installation/update command.
+
+## What stays as it is
+
+A HUD-only incremental update does not rewrite `tf/cfg` or reinstall mastercomfig.
+Your preset, FPS cap, networking settings, animation/effect reductions,
+viewmodel visibility, sensitivity, crosshair commands, binds and Steam launch
+options stay as currently configured. Do not repeat your earlier options.
+The HUD itself changes the arrangement and appearance of HUD elements.
+
+Previous HUD/mastercomfig version pins are unchanged. Downloading this new
+installer does not switch HUDs; only running the apply command does that.
+
+Only one HUD is activated. Previous detected HUDs are backed up outside
+`tf/custom`, not stacked alongside the new one. Unknown renamed/packed mods may
+escape detection; review the preview rather than assuming every conflict can
+be discovered automatically.
+
+## Middle Mann compatibility notes
+
+The installer pins Middle Mann **v26.1**:
+
+- Release: https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1
+- ZIP SHA-256: `4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899`
+- Startup source: https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc
+
+Like the existing rayshud/budhud options, the installer excludes the HUD's
+bundled `cfg/valve.rc` so it does not override your startup configuration. For
+Middle Mann that also omits its automatic minimal-HUD, caching and delayed
+HUD-reload commands. Unexpected additional Middle Mann cfg files cause a stop.
+
+Middle Mann's startup source says it requires **`cl_hud_minmode 0`**. The
+installer warns about this but leaves your saved value untouched. In the TF2
+console, enter `cl_hud_minmode` to see its current value. When it is 1, use:
+
+```text
+cl_hud_minmode 0
+```
+
+This is **HUD layout mode**, not minimal weapon viewmodels. A personal config
+that explicitly sets it to 1 may reapply that on startup; do not add duplicate
+commands blindly. This manual/in-game change is not part of the script's
+HUD-file backup. It may persist in TF2's saved configuration.
+
+If clipless ammunition text renders incorrectly, the excluded upstream startup
+file included a delayed `hud_reloadscheme` workaround. Try `hud_reloadscheme`
+in the console once rather than changing your performance configuration.
+This is a troubleshooting suggestion, not a confirmed fix for your system.
+
+Upstream issue #166 reports overlapping elements when spectating in tournament
+mode, on Fedora with mastercomfig and Middle Mann v25. This is a reported
+limitation, not proof that every Linux setup or the pinned version is affected:
+https://github.com/Vexcenot/-middle-mann/issues/166
+
+Gallery images may show an animated class portrait. The installer does not
+re-enable a 3D portrait you already disabled. Test your actual classes, screen
+resolution and game modes; no HUD can be guaranteed readable in all contexts.
+
+## Returning to rayshud
+
+The printed `--restore` command restores the **exact previous HUD files**,
+including customizations, without reverting the older performance setup.
+Run it after fully exiting TF2 and Steam. Do not append `--tf2-dir` or other
+installation options to a restore command. To undo several operations, restore
+in reverse chronological order.
+
+Using `--hud rayshud --replace-hud` instead installs a clean pinned rayshud copy;
+it does not recover personal edits from a backup. `--hud keep` leaves the
+current HUD alone and is still the default. Selecting the same unmodified
+script-installed HUD again is a no-op.
+
+## Another centered, stock-style option
+
+**Center HUD** also focuses on centralizing critical information while keeping
+TF2's original style. It is a recommendation, **not** a `--hud` choice in this
+revision: https://github.com/RoseyLemonz/center-hud
+
+## Validation
+
+All **53 offline regression tests passed**. These include the previous 48
+cases and five new Middle Mann cases: dry-run preservation, switching and
+exact restoration, repeat-run no-op, archive-root/startup handling, and refusal
+of unexpected startup configuration. Run them with:
+
+```bash
+python3 -m unittest -v test_setup_tf2_bazzite.py
+```
+
+Tests use temporary TF2-shaped directories and synthetic archives. They do not
+exercise the real HUD assets, game rendering or Bazzite hardware. Release
+metadata/checksum and the startup file were checked against upstream GitHub on
+2026-10-19. A real ZIP download in this environment failed due to unavailable
+DNS; no real-archive install or in-game test is claimed. The script verifies the
+pinned checksum on your PC before modifying game files.
+EOF
+python3 - <<'PY'
+from pathlib import Path
+import difflib
+old=Path('/mnt/data/tf2_work/setup_tf2_bazzite_v1_3_0.py').read_text().splitlines(True)
+new=Path('/mnt/data/setup_tf2_bazzite.py').read_text().splitlines(True)
+diff=''.join(difflib.unified_diff(old,new,fromfile='v1.3.0',tofile='v1.3.1'))
+Path('/mnt/data/tf2_work/v1_3_1.diff').write_text(diff)
+print(diff)
+PY

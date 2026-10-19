@@ -1,0 +1,1 @@
+I’ll add rayshud as an optional HUD upgrade, backing up what it replaces. If an unknown HUD conflict is detected, installation will stop rather than mix incompatible files.

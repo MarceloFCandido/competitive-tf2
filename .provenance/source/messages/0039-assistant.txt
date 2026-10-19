@@ -1,0 +1,1 @@
+I’ll center this on mastercomfig plus visibility and input settings, keeping your sensitivity and movement binds intact. Personal tweaks belong in `tf/cfg/overrides/autoexec.cfg`, and I’ll avoid obsolete Windows launch options.

@@ -1,0 +1,175 @@
+For a competitive-style TF2 setup on Linux, I’d use **the native Linux build, mastercomfig, a small personal config, and an optional custom HUD**. The aim is consistent performance, clear visibility, and useful feedback—not copying someone else’s entire configuration.
+
+Here’s the setup I’d start with.
+
+## 1. Use the native Linux version and sensible launch options
+
+Use TF2’s normal Linux launch option rather than forcing Proton or selecting Legacy OpenGL. The Linux version has 64-bit support and uses Vulkan through DXVK by default; you don’t need to install DXVK separately for it. citeturn143146search0
+
+In **Steam → TF2 → Properties → General → Launch Options**, use this for keyboard-and-mouse play:
+
+```text
+-novid -nojoy -nosteamcontroller -nohltv -particles 1
+```
+
+This is mastercomfig’s recommended launch string. It skips the startup video and disables a few unnecessary systems. The controller-related options should be omitted when using a controller. citeturn310406view0
+
+**Don’t add a giant “FPS boost” launch string.** In particular, skip `-high`, `-threads`, `-heapsize`, and Windows-oriented `-dxlevel 81` advice. Some are obsolete, some can be counterproductive, and Linux does not use the configurable DX-level path described in Windows guides. citeturn310406view1turn310406view0
+
+## 2. Install mastercomfig as your one performance config
+
+I’d start with the **Medium preset**, then try Low only if performance is still insufficient. Both are supported presets; start from the current download app rather than an old player-config archive. citeturn310406view3turn517018view0
+
+Close TF2 and back up your existing `tf/cfg` and `tf/custom` folders somewhere outside the game directory. Keep your existing binds, but don’t stack multiple performance configs.
+
+To install, generate a package using **mastercomfig’s download app**, then open **Steam → TF2 → Properties → Installed Files → Browse**. Extract the downloaded ZIP’s `tf` folder into the `Team Fortress 2` folder, merging it with the existing `tf` folder. Using Steam’s Browse button avoids guessing paths for different Steam installations or library locations. citeturn345016view0
+
+**Important:** with mastercomfig, your personal settings belong in:
+
+```text
+Team Fortress 2/tf/cfg/overrides/autoexec.cfg
+```
+
+Create `overrides` if necessary. Existing personal `autoexec.cfg` and class configs need to move into that folder so they run at the appropriate point. citeturn345016view0
+
+## 3. Add a small personal config
+
+Put the following into `tf/cfg/overrides/autoexec.cfg`. These use TF2’s built-in controls for viewmodels, weapon switching, reloading, damage feedback, and mouse input. The chosen values are a starting configuration, not a claim that every competitive player uses identical settings. citeturn143146search1turn143146search5turn235925search0turn223117view0
+
+```cfg
+// World view and first-person weapon
+fov_desired 90
+viewmodel_fov 70
+tf_use_min_viewmodels 1
+r_drawviewmodel 1
+
+// Mouse: no in-game acceleration or smoothing
+m_rawinput 1
+m_customaccel 0
+m_filter 0
+
+// Weapon handling
+hud_fastswitch 1
+cl_autoreload 1
+
+// Damage numbers
+hud_combattext 1
+hud_combattext_batching 1
+hud_combattext_batching_window 0.2
+
+// Audible hit and kill confirmation
+tf_dingalingaling 1
+tf_dingalingaling_lasthit 1
+
+// Console
+con_enable 1
+
+echo "Personal competitive settings loaded"
+```
+
+A few distinctions matter:
+
+**World FOV and weapon FOV are different.** `fov_desired 90` controls your world view; `viewmodel_fov 70` changes how your first-person weapon is presented. Increasing the latter does not give you a wider view of the map. citeturn599353view5turn235925view1
+
+**Hidden weapons are optional.** I’d start with minimal viewmodels and keep them visible. To experiment with hiding your weapon, use `r_drawviewmodel 0`; restore it with `r_drawviewmodel 1`. citeturn143146search1
+
+**Damage batching is preference.** This configuration merges closely spaced damage numbers. Change `hud_combattext_batching` to `0` to display them separately. citeturn599353view3
+
+**Keep your own sensitivity initially.** I’ve deliberately left it out of the config. Judge it by whether you can track comfortably and turn around without running out of mousepad, rather than by whether the number matches a good player’s settings.
+
+### Useful additions for Medic
+
+Add these to the same file when playing Medic:
+
+```cfg
+tf_medigun_autoheal 1
+hud_medichealtargetmarker 1
+hud_medicautocallers 1
+hud_medicautocallersthreshold 75
+```
+
+These enable click-to-maintain healing, mark your healing target, and show automatic calls from injured teammates. The 75% threshold is adjustable. citeturn235925search0
+
+## 4. Reduce visual clutter without making the game unreadable
+
+For persistent mastercomfig adjustments, create a second file:
+
+```text
+Team Fortress 2/tf/cfg/overrides/modules.cfg
+```
+
+I’d begin with:
+
+```cfg
+motion_blur=off
+vsync=off
+ragdolls=off
+gibs=off
+anti_aliasing=off
+fpscap=300
+```
+
+These are mastercomfig module settings, so keep them in `modules.cfg`, not mixed into the regular console-command block above. citeturn345016view1
+
+**300 FPS is an example cap, not a competitive requirement.** Raise it for a 360 Hz display, or adjust it after measuring performance. A higher cap can reduce input delay, while a lower one can improve consistency and reduce power consumption; don’t choose it solely because a player uses that number. citeturn841665view3
+
+My starting preference is fullscreen, native resolution, and the monitor’s highest refresh rate. Test lower resolutions rather than assuming stretched or low-resolution gameplay is necessary. Prioritize how the game behaves during fights—not the FPS number while staring at an empty wall.
+
+## 5. Leave networking to mastercomfig initially
+
+Keep its default **standard packet rate and automatic snapshot buffering**. Standard uses 66 updates, while automatic buffering adjusts interpolation by class. citeturn345016view1
+
+Don’t layer a second internet “best interp” config over it. The lowest buffering value leaves less tolerance for delayed or missing updates. For an unstable connection, `snapshot_buffer=x1` or `snapshot_buffer=x2` in `modules.cfg` provides more buffering, but does not repair the connection itself. citeturn345016view1
+
+## 6. Choose a readable HUD and crosshair
+
+A custom HUD is optional. I’d consider **rayshud** for its less-cluttered presentation and readable health/ammo indicators, or **budhud** for another configurable layout. Use their current releases rather than copies bundled into old configs. citeturn517018search4turn517018search2
+
+For example, budhud should end up with a structure like:
+
+```text
+Team Fortress 2/tf/custom/budhud/
+├── info.vdf
+├── resource/
+├── scripts/
+└── ...
+```
+
+Install only one HUD, and avoid accidentally nesting it as `budhud/budhud/`. TF2 needs to find the HUD files directly inside the first folder. citeturn281443view2
+
+On Linux, start with the latest HUD release before applying font workarounds; recent budhud releases specifically include Linux font fixes. citeturn517018search7
+
+For the crosshair, my preference is a small, high-contrast cross or dot that doesn’t obscure the target. Pick something easy to locate against both bright and dark backgrounds. Likewise, start with a short, distinct hitsound rather than a loud novelty sound; the useful part is being able to recognize hits without drowning out other audio.
+
+## 7. Optional Linux tuning: GameMode, then measurement
+
+**GameMode is worth testing, not mandatory.** It can request temporary system-performance adjustments while the game runs. After installing it in a way that is available to your Steam installation, test it from a terminal:
+
+```bash
+gamemoded -t
+```
+
+Then your launch options can become:
+
+```text
+gamemoderun %command% -novid -nojoy -nosteamcontroller -nohltv -particles 1
+```
+
+That prefix is the documented Steam integration; `%command%` belongs here because a wrapper is launching the game. citeturn281443view1
+
+I would **not** begin by replacing the kernel, deleting bundled SDL libraries, or switching between Wayland and X11. Establish a working baseline first, then investigate a specific performance or input problem.
+
+### Check that everything actually loaded
+
+Restart TF2, open the developer console, and enter these separately:
+
+```text
+version_comfig
+fov_desired
+```
+
+The first should report your installed mastercomfig version; the second should show `90`. Mastercomfig also provides `apply_overrides` to reload your personal overrides after editing them. citeturn310406view3turn599353view5
+
+**My recommended starting point:** Medium mastercomfig, the personal config above, minimal visible viewmodels, clear damage feedback, and your existing sensitivity. Add a HUD only when you know what you want to make easier to read.
+
+What distro and Steam package—native or Flatpak—are you using, and what are your CPU/GPU, monitor refresh rate, and main classes?

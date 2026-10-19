@@ -1,0 +1,13 @@
+bash -lc mkdir -p /mnt/data/tf2_hud_work && cp /mnt/data/setup_tf2_bazzite.py /mnt/data/tf2_hud_work/setup_tf2_bazzite_v1.2.0.py && python3 - <<'PY'
+import urllib.request, json, pathlib
+for repo in ['idhud-tf2/idhud','CriticalFlaw/tf2hud-fixes']:
+    url='https://api.github.com/repos/'+repo+'/releases/latest'
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent':'TF2-HUD-review'}),timeout=20) as r:
+            data=json.load(r)
+        print(repo, data['tag_name'], data['published_at'])
+        for a in data['assets']:
+            print(a['name'],a['size'],a.get('digest'),a['browser_download_url'])
+        pathlib.Path('/mnt/data/tf2_hud_work/'+repo.split('/')[1]+'-release.json').write_text(json.dumps(data,indent=2))
+    except Exception as e: print(type(e).__name__,e)
+PY

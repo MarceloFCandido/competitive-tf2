@@ -1,0 +1,1 @@
+bash -lc ls -l /mnt/data/setup_tf2_bazzite.py && grep -n -E 'dry.?run|argparse|add_argument|def main|def install|def restore' /mnt/data/setup_tf2_bazzite.py

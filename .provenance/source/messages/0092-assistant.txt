@@ -1,0 +1,1 @@
+bash -lc find /mnt/data/tf2_setup_work -maxdepth 2 -type f -printf '%f\n' | head -30; sed -n '1,200p' /mnt/data/setup_tf2_bazzite.py

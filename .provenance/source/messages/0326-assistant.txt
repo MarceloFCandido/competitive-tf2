@@ -1,0 +1,1 @@
+Improved Default HUD looks like the closest fit, preserving TF2’s styling while improving damage text, target labels, and the scoreboard; switching HUDs won’t alter applied gameplay settings.

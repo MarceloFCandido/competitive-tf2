@@ -1,0 +1,40 @@
+{
+  "source_url": "https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66",
+  "title": "TF2 Competitive Setup Linux",
+  "captured_at_utc": "2026-10-19T13:26:27.054350+00:00",
+  "computer": "NEBULOSA-2.local",
+  "http_status": 200,
+  "source_bytes": 2105678,
+  "source_sha256": "5e5e32ba53ed0ab4d9d2000879e77c3646bdb900c472801bb64d2de757c5888a",
+  "nodes": 615,
+  "code_messages": 89,
+  "redacted_tool_nodes": 213,
+  "direct_conversation_search_used": false,
+  "browser": "Unavailable: Mac locked; explicit public share downloaded instead.",
+  "engineering_guidance": [
+    "/Users/marcelofcandido/.codex/plugins/cache/claude-cowork/engineering/1.1.0/README.md",
+    "/Users/marcelofcandido/.codex/plugins/cache/claude-cowork/engineering/1.1.0/skills/documentation/SKILL.md",
+    "/Users/marcelofcandido/.codex/plugins/cache/claude-cowork/engineering/1.1.0/skills/code-review/SKILL.md"
+  ],
+  "policy": "Archive only; recovered installers, patch scripts, tests and configurations were never run.",
+  "dates": "New import commits. AuthorDate preserves source-message UTC time; CommitDate records the import. These are not original Git commits.",
+  "classification": {
+    "available_literal": 18,
+    "static_reconstruction": 22,
+    "partial_static_candidate": 2
+  },
+  "artifact_paths": 27,
+  "revision_records": 42,
+  "validation": {
+    "sha256_revision_checks": 42,
+    "python_static_parses": 31,
+    "recovered_code_executions": 0
+  },
+  "direct_conversation_search_attempted_after_user_enabled_memory": true,
+  "direct_conversation_search_content_used": false,
+  "original_conversation_id": "6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "original_conversation_url": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+  "original_context_attempt": "Personal context is unavailable for this conversation.",
+  "read_conversation_context_api": "Not exposed in this executor.",
+  "final_browser_attempt": "Mac remains locked; authenticated attachments unavailable."
+}

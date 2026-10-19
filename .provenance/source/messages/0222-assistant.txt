@@ -1,0 +1,1 @@
+bash -lc sed -n '240,560p' /mnt/data/setup_tf2_bazzite.py && sed -n '560,940p' /mnt/data/setup_tf2_bazzite.py && find /mnt/data/tf2-script-tests -maxdepth 2 -type f -printf '\n%p\n'

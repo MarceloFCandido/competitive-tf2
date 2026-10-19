@@ -1,0 +1,67 @@
+iturn147702image1
+
+**Added Improved Default HUD (IDHUD) as a new option, while keeping rayshud and budhud available.** IDHUD is the closest match to what you described: it preserves TF2’s original visual style and corner-based layout, while improving damage-number readability, target identification, and parts of the scoreboard. It explicitly supports Linux. citeturn147702view1turn215167view0
+
+### [Download the updated installer — v1.3.0](sandbox:/mnt/data/setup_tf2_bazzite.py)
+
+“Alongside” means **available as another choice**, not two HUDs layered together. When switching, the script backs up your existing HUD outside `tf/custom` before installing the selected one.
+
+## Try IDHUD without resetting your setup
+
+Replace your previously downloaded script with this version. First, preview the change:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud idhud --replace-hud --dry-run
+```
+
+For this HUD-only command, the preview should report **“Configuration files: no changes.”** It also lists which existing HUD files or folders would be replaced. Nothing is downloaded or modified during the preview.
+
+Then fully exit **TF2 and Steam**, and apply:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud idhud --replace-hud
+```
+
+Run it as your normal user, **without `sudo`**.
+
+These commands leave your existing configuration files alone: **no mastercomfig reinstall, preset or FPS-cap reset, or changes to your applied animation reductions, weapon visibility, sensitivity, binds, or crosshair commands.** You do not need to repeat `--visual-clarity` or your other earlier options.
+
+The new option is pinned to **IDHUD 4.0.8**, with checksum verification before installation. fileciteturn9file0L2-L2
+
+## Available choices
+
+| Option | What it does |
+|---|---|
+| **`--hud idhud`** | Installs Improved Default HUD—the stock-style option I recommend starting with. |
+| **`--hud rayshud`** | Keeps the previous bold, simplified redesign available. citeturn551797view1 |
+| **`--hud budhud`** | Keeps the alternative HUD inspired by yahud and rayshud available. citeturn551797view2 |
+| **`--hud stock`** | Backs up and removes detected custom HUDs, returning to TF2’s built-in HUD files without resetting your other settings. |
+| **`--hud keep`** | Leaves your current HUD untouched. This remains the default. |
+
+You can display the choices directly:
+
+```bash
+python3 setup_tf2_bazzite.py --list-huds
+```
+
+**To recover your exact previous HUD, including any customizations, use the `--restore` command printed after the update.** Selecting `--hud rayshud` again installs a clean pinned copy; it does not retrieve a customized copy from your backup.
+
+## Other community HUDs worth considering
+
+These are **additional recommendations, not installer options in this version**.
+
+**Community HUD Fixes — for an almost-stock experience.** This focuses on correcting overlapping elements, inconsistent counters, menu issues, and other defects in the default interface. It also offers optional quality-of-life changes and includes adjustments for Linux ammo-counter cutoffs. This would be my other main candidate for your preference. citeturn551797view3
+
+**Middle-Mann — TF2’s original artwork, with information nearer the center.** It retains the familiar visual style but moves health, ammo, and other elements inward. Consider this when you like the stock aesthetic but find yourself looking too far toward the screen corners. It changes the layout more substantially than IDHUD. citeturn551797view4
+
+**ToonHUD — for choosing the appearance yourself.** Its browser editor lets you customize and share themes, and its documentation includes Linux installation. The result depends on the theme: it can be restrained or a much larger visual departure, so it is less of a straightforward “stock, but improved” choice. citeturn706509search4turn551797view0
+
+For your stated preference, **start with IDHUD rather than another complete redesign**.
+
+---
+
+**Validation:** all **48 [offline regression tests](sandbox:/mnt/data/test_setup_tf2_bazzite.py)** passed, covering HUD switching, configuration preservation, dry runs, backups, restoration, and rollback. I checked the upstream release metadata and source layout, but could not retrieve the actual new ZIP into this environment; the tests used synthetic archives, not a running TF2 installation on Bazzite.
+
+The [installation and rollback notes](sandbox:/mnt/data/TF2_HUD_Update_README.md) include the commands and those limitations.

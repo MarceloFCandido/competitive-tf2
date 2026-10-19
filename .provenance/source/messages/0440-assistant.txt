@@ -1,0 +1,1 @@
+bash -lc grep -nE '^def |HUDS|HUD_POLICY|1\.3\.0|middle' /mnt/data/setup_tf2_bazzite.py && sed -n '470,665p' /mnt/data/setup_tf2_bazzite.py && sed -n '780,950p' /mnt/data/setup_tf2_bazzite.py && sed -n '1,165p' /mnt/data/test_setup_tf2_bazzite.py

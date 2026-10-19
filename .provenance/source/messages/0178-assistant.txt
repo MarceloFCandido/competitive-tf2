@@ -1,0 +1,1 @@
+I’ll check what the script already disables, then identify additional distracting effects TF2 can safely reduce without hiding useful gameplay cues.

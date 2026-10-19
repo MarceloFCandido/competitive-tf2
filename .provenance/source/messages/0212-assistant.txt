@@ -1,0 +1,1 @@
+Since you’ve already applied the earlier version, I’ll make this a targeted update that preserves your preset, FPS cap, HUD, and other existing settings.

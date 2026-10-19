@@ -1,0 +1,1 @@
+I’ll focus on current competitive settings and Linux-friendly configs, separating useful changes from outdated tweaks. It also matters whether you run native TF2 or Proton.

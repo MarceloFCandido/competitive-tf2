@@ -1,0 +1,1 @@
+bash -lc sed -n '945,990p' /mnt/data/setup_tf2_bazzite.py; tail -45 /mnt/data/test_setup_tf2_bazzite.py; cat /mnt/data/TF2_HUD_Update_README.md

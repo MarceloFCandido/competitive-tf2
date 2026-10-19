@@ -1,0 +1,8 @@
+bash -lc grep -nE '^def |hud-zip|list-huds|cfg scripts|download|hud.*notes' /mnt/data/setup_tf2_bazzite.py; sed -n '1,120p' /mnt/data/TF2_HUD_Visual_Comparison.html; find /mnt/data/hud_gallery_work -maxdepth 2 -type f -printf '%f %s\n'; python - <<'PY'
+import requests
+u='https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp'
+try:
+ r=requests.get(u,timeout=12); print('NETWORK',r.status_code,r.headers.get('Content-Type'),len(r.content));print(r.text[:160] if not r.ok else '')
+ if r.ok: open('/mnt/data/hud_gallery_work/centerhud.webp','wb').write(r.content)
+except requests.RequestException as e:print(type(e).__name__,str(e))
+PY

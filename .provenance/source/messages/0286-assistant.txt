@@ -1,0 +1,1 @@
+I’ll add a stock-style HUD option alongside rayshud and budhud, evaluate other suitable alternatives, and ensure switching keeps only one HUD active at a time.

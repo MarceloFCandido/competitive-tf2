@@ -1,0 +1,1 @@
+Middle Mann looks like the better fit: centered health and ammo with TF2-style panels and lettering. I’m adding it without altering your existing gameplay or visual-clarity settings.

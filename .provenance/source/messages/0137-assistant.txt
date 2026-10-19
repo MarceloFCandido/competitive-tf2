@@ -1,0 +1,44 @@
+bash -lc python - <<'PY'
+from pathlib import Path
+import importlib.util, tempfile, py_compile
+p = Path('/mnt/data/setup_tf2_bazzite.py')
+s = p.read_text()
+s = s.replace("print('Keep controller launch options enabled when you use a controller.')", "print('For a controller, omit -nojoy and -nosteamcontroller.')")
+p.write_text(s)
+py_compile.compile(str(p), doraise=True)
+spec = importlib.util.spec_from_file_location('tf2_setup', p)
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+with tempfile.TemporaryDirectory() as d:
+    root = Path(d); home=root/'home'; steam=home/'.local/share/Steam'
+    game=steam/'steamapps/common/Team Fortress 2'; tf=game/'tf'
+    (tf/'cfg').mkdir(parents=True); (tf/'custom').mkdir()
+    (tf/'gameinfo.txt').write_text('"GameInfo" {}')
+    (tf/'cfg/autoexec.cfg').write_text('sensitivity 2.25\nbind q lastinv\n')
+    (tf/'cfg/scout.cfg').write_text('echo scout\n')
+    (tf/'custom/my-mod.vpk').write_bytes(b'unrelated mod')
+    original=m.tree_hash(tf/'cfg')
+    assert m.discover_games(home)==[game.resolve()]
+    assert m.validate_game(tf)==game.resolve()
+    staged=root/'staged'; m.stage_cfg(tf, staged, 'medium', '300')
+    assert not (staged/'autoexec.cfg').exists()
+    auto=(staged/'overrides/autoexec.cfg').read_text()
+    assert 'sensitivity 2.25' in auto and 'bind q lastinv' in auto
+    assert 'fov_desired 90' in auto and auto.count(m.BEGIN)==1
+    assert 'preset=medium' in (staged/'overrides/setup_hook.cfg').read_text()
+    state=root/'backups'; state.mkdir()
+    base=root/'base.vpk'; base.write_bytes(b'test config data')
+    backup=m.transact(tf, {'cfg':staged,'custom/mastercomfig-base.vpk':base},state,'test')
+    assert (tf/'custom/my-mod.vpk').read_bytes()==b'unrelated mod'
+    staged2=root/'staged2'; m.stage_cfg(tf, staged2, 'low', '240')
+    assert (staged2/'overrides/autoexec.cfg').read_text().count(m.BEGIN)==1
+    target, ops=m.load_restore(backup); m.transact(target,ops,state,'restore-test')
+    assert m.tree_hash(tf/'cfg')==original
+    assert not (tf/'custom/mastercomfig-base.vpk').exists()
+    assert (tf/'custom/my-mod.vpk').exists()
+    for bad in ('../bad', 'custom/../../bad', '/tmp/bad', 'custom'):
+        try: m.target_path(tf,bad)
+        except m.SetupError: pass
+        else: raise AssertionError(bad)
+print('PASS: syntax, native Steam discovery, configuration migration, repeat-run markers, backup/restore, unrelated-mod preservation, unsafe-path rejection.')
+print('Not tested in a running TF2 installation or on Bazzite hardware.')
+PY

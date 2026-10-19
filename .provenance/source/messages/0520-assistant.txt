@@ -1,0 +1,9 @@
+bash -lc python - <<'PY'
+import requests
+from bs4 import BeautifulSoup
+u='https://comfig.app/huds/page/center-hud/'
+r=requests.get(u, timeout=20); print(r.status_code)
+s=BeautifulSoup(r.text,'html.parser')
+for a in s.select('a[href]'):
+ if a.find('img'): print(a.get('href'))
+PY

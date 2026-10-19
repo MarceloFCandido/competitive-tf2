@@ -1,0 +1,1 @@
+Your GitHub account is connected, but the available connector doesn’t expose gist creation. I’ll also check whether an authenticated GitHub CLI offers another route.

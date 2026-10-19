@@ -1,0 +1,1 @@
+bash -lc sed -n '420,505p' /mnt/data/setup_tf2_bazzite.py; sed -n '790,1048p' /mnt/data/setup_tf2_bazzite.py; sed -n '1048,1285p' /mnt/data/setup_tf2_bazzite.py; head -n 65 /mnt/data/test_setup_tf2_bazzite.py; cat /mnt/data/hud_gallery_work/fetch-results.json

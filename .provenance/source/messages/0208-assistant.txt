@@ -1,0 +1,1 @@
+bash -lc sed -n '76,140p' /mnt/data/setup_tf2_bazzite.py && sed -n '236,318p' /mnt/data/setup_tf2_bazzite.py && id

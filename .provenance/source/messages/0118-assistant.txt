@@ -1,0 +1,1 @@
+I’ll also omit GameMode because Bazzite doesn’t support `gamemoderun`, and add preview/restore modes. I can’t publish a gist here, but I can provide the script and publishing command.

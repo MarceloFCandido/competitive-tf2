@@ -1,0 +1,10 @@
+bash -lc python3 - <<'PY'
+import urllib.request, json
+url = 'https://api.github.com/repos/mastercomfig/mastercomfig/git/trees/9.100.1?recursive=1'
+try:
+    with urllib.request.urlopen(url, timeout=15) as r:
+        data = json.load(r)
+    print('\n'.join(i['path'] for i in data['tree'] if ('modules' in i['path'] or i['path'].endswith('medium.cfg') or i['path'].endswith('low.cfg')) and i['path'].startswith('config/')))
+except Exception as e:
+    print(type(e).__name__, str(e))
+PY

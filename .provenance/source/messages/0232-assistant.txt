@@ -1,0 +1,9 @@
+bash -lc sed -n '1,180p' /mnt/data/tf2-script-tests/update_script.py && sed -n '1,125p' /mnt/data/tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py && python3 - <<'PY'
+import urllib.request,json
+u='https://api.github.com/repos/raysfire/rayshud/releases/tags/2026.0111'
+try:
+    d=json.load(urllib.request.urlopen(u,timeout=20))
+    print('\nRAYSHUD ASSETS:')
+    for a in d['assets']: print(a['name'],a['browser_download_url'],a.get('digest'),a['size'])
+except Exception as e: print(type(e).__name__,str(e))
+PY

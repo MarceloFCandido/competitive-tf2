@@ -1,0 +1,716 @@
+[
+  {
+    "original_path": "/mnt/data/TF2_HUD_Gallery.html",
+    "messages": [
+      550
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 550,
+        "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+        "repo_path": "TF2_HUD_Gallery.html",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/TF2_HUD_UPDATE_README.md",
+    "messages": [
+      336,
+      388,
+      550
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 336,
+        "commit": "9012c1f4d6cce7876854e105204ed65366a98a45",
+        "repo_path": "case-variants/TF2_HUD_UPDATE_README.md",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 550,
+        "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+        "repo_path": "case-variants/TF2_HUD_UPDATE_README.md",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/TF2_HUD_Update_README.md",
+    "messages": [
+      405,
+      419,
+      449,
+      458,
+      468,
+      497,
+      550,
+      570
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 405,
+        "commit": "bfe941721a8a9948eb3dd798eaf737a1b11c1256",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 458,
+        "commit": "31c94af6162a77d3abe574bda4f7a5d023bee75b",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 550,
+        "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+        "repo_path": "TF2_HUD_Update_README.md",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/TF2_HUD_Visual_Comparison.html",
+    "messages": [
+      570,
+      573,
+      577,
+      589
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/add_hud_tests.py",
+    "messages": [
+      548
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 548,
+        "commit": "572c7e493d2875c7ef54e87cf9d01b950a793e6d",
+        "repo_path": "add_hud_tests.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/build_hud_gallery.py",
+    "messages": [
+      550
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 550,
+        "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+        "repo_path": "build_hud_gallery.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/extend_huds.py",
+    "messages": [
+      544
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 544,
+        "commit": "39ebe36108371e0e7bdeeb24a5058b44ad57aef2",
+        "repo_path": "extend_huds.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/hud_gallery_work",
+    "messages": [
+      577,
+      589
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/hud_gallery_work/centerhud.webp",
+    "messages": [
+      589
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/hud_gallery_work/fetch-results.json",
+    "messages": [
+      577,
+      598
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/hud_preview_sources.json",
+    "messages": [
+      550
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 550,
+        "commit": "f3fb8d7a32e58ba1a839531ceb6b27b8b0fcde42",
+        "repo_path": "hud_preview_sources.json",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/hud_test_output.txt",
+    "messages": [
+      548
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/previous",
+    "messages": [
+      544
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/previous/setup_tf2_bazzite_v1_4_0.py",
+    "messages": [
+      544
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/previous/test_setup_tf2_bazzite_v1_4_0.py",
+    "messages": [
+      544
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/research",
+    "messages": [
+      485
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/setup_tf2_bazzite.py",
+    "messages": [
+      84,
+      92,
+      100,
+      102,
+      128,
+      130,
+      137,
+      162,
+      165,
+      167,
+      172,
+      177,
+      180,
+      188,
+      205,
+      208,
+      216,
+      220,
+      222,
+      246,
+      251,
+      271,
+      287,
+      294,
+      296,
+      303,
+      307,
+      325,
+      336,
+      341,
+      349,
+      351,
+      353,
+      359,
+      388,
+      398,
+      401,
+      403,
+      405,
+      419,
+      429,
+      440,
+      442,
+      446,
+      449,
+      451,
+      453,
+      456,
+      458,
+      468,
+      471,
+      475,
+      482,
+      497,
+      504,
+      511,
+      513,
+      537,
+      544,
+      570,
+      587,
+      589,
+      598,
+      609
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 84,
+        "commit": "3cfea1d9f05e3b4cd3d55490ca68814ec64f997f",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 137,
+        "commit": "a33a7684ffbd49ec59e3a02330589e281b864838",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 205,
+        "commit": "47a105c9f3c70e157b0110c60650f40d1714d6c6",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 246,
+        "commit": "16becb3a4cf79253d583931aa78a932ed6994b35",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 251,
+        "commit": "afbaf1363f119465df4e1da6888bece1c56df777",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 325,
+        "commit": "95ae8ec13ba5e78d80e2e088b1f9313e94fa5336",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 398,
+        "commit": "64bc53a219dbb12e790c26989bb2bc06b178033c",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 451,
+        "commit": "48556b89bba3f8a4c9d846af7d45d313ebeca7b7",
+        "repo_path": "setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 544,
+        "commit": "39ebe36108371e0e7bdeeb24a5058b44ad57aef2",
+        "repo_path": "reconstructions/incomplete-v1.5.0/setup_tf2_bazzite.py",
+        "status": "partial_static_candidate"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+    "messages": [
+      328,
+      336,
+      388,
+      405,
+      419,
+      440,
+      442,
+      446,
+      449,
+      451,
+      453,
+      456,
+      468,
+      475,
+      482,
+      497,
+      511,
+      537,
+      544,
+      546,
+      548,
+      570,
+      598,
+      609
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 328,
+        "commit": "a1eadbe3853fab924e7b04d7d36bf971f024f58d",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 405,
+        "commit": "bfe941721a8a9948eb3dd798eaf737a1b11c1256",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 451,
+        "commit": "48556b89bba3f8a4c9d846af7d45d313ebeca7b7",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 456,
+        "commit": "6325fc3421ad8bb65266d7ac9361740ee0c6eeb6",
+        "repo_path": "test_setup_tf2_bazzite.py",
+        "status": "static_reconstruction"
+      },
+      {
+        "sequence": 548,
+        "commit": "572c7e493d2875c7ef54e87cf9d01b950a793e6d",
+        "repo_path": "reconstructions/incomplete-v1.5.0/test_setup_tf2_bazzite.py",
+        "status": "partial_static_candidate"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests",
+    "messages": [
+      205,
+      222
+    ],
+    "status": "directory_reference",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py",
+    "messages": [
+      205,
+      232
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 205,
+        "commit": "47a105c9f3c70e157b0110c60650f40d1714d6c6",
+        "repo_path": "tf2-script-tests/setup_tf2_bazzite_before_visual_clarity.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+    "messages": [
+      246
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 246,
+        "commit": "16becb3a4cf79253d583931aa78a932ed6994b35",
+        "repo_path": "tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/test_results.txt",
+    "messages": [
+      248,
+      251
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/test_setup_v1_2.py",
+    "messages": [
+      248,
+      251
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 248,
+        "commit": "84446fec6c96f4cddd3c60fd9c168bc19a0a6f30",
+        "repo_path": "tf2-script-tests/test_setup_v1_2.py",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 251,
+        "commit": "afbaf1363f119465df4e1da6888bece1c56df777",
+        "repo_path": "tf2-script-tests/test_setup_v1_2.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/update_script.py",
+    "messages": [
+      205,
+      232
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 205,
+        "commit": "47a105c9f3c70e157b0110c60650f40d1714d6c6",
+        "repo_path": "tf2-script-tests/update_script.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2-script-tests/upgrade_v1_2.py",
+    "messages": [
+      246
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 246,
+        "commit": "16becb3a4cf79253d583931aa78a932ed6994b35",
+        "repo_path": "tf2-script-tests/upgrade_v1_2.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work",
+    "messages": [
+      359
+    ],
+    "status": "directory_reference",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/",
+    "messages": [
+      359
+    ],
+    "status": "directory_reference",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+    "messages": [
+      359,
+      403
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 359,
+        "commit": "ffbd3936693afef2a7cd2f3f61c213b150e3e809",
+        "repo_path": "tf2_hud_work/setup_tf2_bazzite_v1.2.0.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/test-results-final.txt",
+    "messages": [
+      405
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/test-results.txt",
+    "messages": [
+      401
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/test_setup_tf2_bazzite.py",
+    "messages": [
+      401,
+      405
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 401,
+        "commit": "4f3c0e051c3010f9cd0196be04df49cca4707314",
+        "repo_path": "tf2_hud_work/test_setup_tf2_bazzite.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_hud_work/upgrade_script.py",
+    "messages": [
+      398
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 398,
+        "commit": "64bc53a219dbb12e790c26989bb2bc06b178033c",
+        "repo_path": "tf2_hud_work/upgrade_script.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_setup_work",
+    "messages": [
+      68,
+      92,
+      102
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_setup_work/",
+    "messages": [
+      68
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_work",
+    "messages": [
+      307,
+      446
+    ],
+    "status": "directory_reference",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/",
+    "messages": [
+      307
+    ],
+    "status": "directory_reference",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/middlemann.zip",
+    "messages": [
+      446
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/setup_tf2_bazzite_v1_2_0.py",
+    "messages": [
+      307,
+      325
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 307,
+        "commit": "570ab1d8c476426a4561716b5da7a7ee44300104",
+        "repo_path": "tf2_work/setup_tf2_bazzite_v1_2_0.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/setup_tf2_bazzite_v1_3_0.py",
+    "messages": [
+      446,
+      458
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 446,
+        "commit": "90f7dffc9ec51f5baf231b1f0baca281476bd17f",
+        "repo_path": "tf2_work/setup_tf2_bazzite_v1_3_0.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/test_run.log",
+    "messages": [
+      451,
+      456
+    ],
+    "status": "unavailable",
+    "revisions": []
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/test_v1_3_0.py",
+    "messages": [
+      446
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 446,
+        "commit": "90f7dffc9ec51f5baf231b1f0baca281476bd17f",
+        "repo_path": "tf2_work/test_v1_3_0.py",
+        "status": "static_reconstruction"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/update_script.py",
+    "messages": [
+      325,
+      451
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 325,
+        "commit": "95ae8ec13ba5e78d80e2e088b1f9313e94fa5336",
+        "repo_path": "tf2_work/update_script.py",
+        "status": "available_literal"
+      },
+      {
+        "sequence": 451,
+        "commit": "48556b89bba3f8a4c9d846af7d45d313ebeca7b7",
+        "repo_path": "tf2_work/update_script.py",
+        "status": "available_literal"
+      }
+    ]
+  },
+  {
+    "original_path": "/mnt/data/tf2_work/v1_3_1.diff",
+    "messages": [
+      458
+    ],
+    "status": "archived",
+    "revisions": [
+      {
+        "sequence": 458,
+        "commit": "31c94af6162a77d3abe574bda4f7a5d023bee75b",
+        "repo_path": "tf2_work/v1_3_1.diff",
+        "status": "static_reconstruction"
+      }
+    ]
+  }
+]

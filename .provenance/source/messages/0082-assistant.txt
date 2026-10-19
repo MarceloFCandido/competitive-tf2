@@ -1,0 +1,1 @@
+I’ll use mastercomfig’s current base-package plus preset-selector layout, keep Bazzite system settings untouched, and make the HUD optional. Steam launch and compatibility options will remain manual.

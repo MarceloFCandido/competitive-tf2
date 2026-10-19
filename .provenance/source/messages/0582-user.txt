@@ -1,0 +1,1 @@
+Seems some HUDs need external files. Could the script download those or at least the script point where to acquire them?

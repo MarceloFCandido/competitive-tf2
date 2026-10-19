@@ -1,0 +1,18 @@
+**Yes—the [script](sandbox:/mnt/data/setup_tf2_bazzite.py) already has a `--dry-run` mode.** Run this from the folder containing it:
+
+```bash
+python3 setup_tf2_bazzite.py --dry-run
+```
+
+That previews the defaults: **Medium preset, 300 FPS cap, and keeping your existing HUD**. You can also preview different options:
+
+```bash
+python3 setup_tf2_bazzite.py --dry-run \
+  --preset low --fps-cap 240 --hud budhud
+```
+
+It detects your TF2 installation, displays the planned changes, and checks for some configuration conflicts. **It does not download anything, modify files, or create backups.**
+
+One limitation: it provides a **summary of planned actions**, not a line-by-line configuration diff, and does not test the downloads or installation.
+
+Run it as your normal user, **without `sudo`**. To apply the settings, run the same command with `--dry-run` removed; it will ask for confirmation before proceeding.

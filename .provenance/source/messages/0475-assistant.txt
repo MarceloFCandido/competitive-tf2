@@ -1,0 +1,1 @@
+bash -lc grep -nE '^def |^class ' /mnt/data/setup_tf2_bazzite.py && sed -n '335,645p' /mnt/data/setup_tf2_bazzite.py && sed -n '1040,1220p' /mnt/data/setup_tf2_bazzite.py && sed -n '1,120p' /mnt/data/test_setup_tf2_bazzite.py

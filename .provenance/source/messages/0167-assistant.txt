@@ -1,0 +1,1 @@
+bash -lc sed -n '1,145p' /mnt/data/setup_tf2_bazzite.py; sed -n '460,615p' /mnt/data/setup_tf2_bazzite.py; grep -n '^def ' /mnt/data/setup_tf2_bazzite.py

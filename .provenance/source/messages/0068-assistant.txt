@@ -1,0 +1,12 @@
+bash -lc mkdir -p /mnt/data/tf2_setup_work && python - <<'PY'
+import urllib.request,json
+from pathlib import Path
+for repo in ('mastercomfig/mastercomfig','rbjaxter/budhud'):
+ req=urllib.request.Request(f'https://api.github.com/repos/{repo}/releases/latest',headers={'User-Agent':'tf2-setup-check'})
+ try:
+  with urllib.request.urlopen(req,timeout=20) as r: data=json.load(r)
+  print(repo,data['tag_name'])
+  for a in data['assets']: print(a['name'],a['size'],a.get('digest'),a['browser_download_url'])
+  Path('/mnt/data/tf2_setup_work/'+repo.split('/')[1]+'-release.json').write_text(json.dumps(data))
+ except Exception as e: print(type(e).__name__,str(e))
+PY

@@ -1,0 +1,1 @@
+bash -lc sed -n '240,540p' /mnt/data/setup_tf2_bazzite.py

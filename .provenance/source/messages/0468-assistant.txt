@@ -1,0 +1,65 @@
+iturn895703image0
+
+**Then Middle Mann is the one I’d try first.** You want **rayshud’s centered information, but with TF2’s visual style**—not a return to the stock corner layout. My IDHUD recommendation missed that distinction.
+
+## Why Middle Mann fits
+
+Middle Mann brings health, ammunition, and other HUD elements toward the center while retaining TF2’s familiar visual design. Its stated aim is to make information easier to read during fights without replacing the game’s style with plain floating numbers. The screenshot above shows an example. citeturn820874search3
+
+**My assessment:** it is a good compromise between the two things you like. You get centralized information, but the panels still look like they belong in TF2. The trade-off is that those decorative panels occupy more space than rayshud’s stripped-down presentation.
+
+**Center HUD is the other close match.** Its project explicitly focuses on putting critical information in the center while retaining the default HUD’s style, with additional customization and fixes. I would consider that next rather than more corner-based HUDs. fileciteturn15file0L2-L2
+
+## Added to your script
+
+### [Download the updated installer — v1.4.0](sandbox:/mnt/data/setup_tf2_bazzite.py)
+
+This version adds **`--hud middlemann`**, pinned to the upstream **v26.1** release with checksum verification. Rayshud, budhud, and IDHUD remain available; Center HUD is a recommendation only, not an installer option yet. The Middle Mann release and its checksum were checked against GitHub’s release metadata. fileciteturn13file0L2-L2
+
+Replace the previously downloaded script, then preview:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud middlemann --replace-hud --dry-run
+```
+
+For this HUD-only operation, the preview should report:
+
+```text
+Configuration files: no changes.
+```
+
+After reviewing it, fully exit **TF2 and Steam**, then apply:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud middlemann --replace-hud
+```
+
+Run it **without `sudo`**. It backs up the detected previous HUD before replacing it.
+
+**Your existing performance and visual-clarity configuration is left alone.** These commands do not reinstall mastercomfig, reset your FPS cap, change weapon visibility, or rewrite your sensitivity and binds. There is no need to repeat your previous options.
+
+## One important layout setting
+
+Middle Mann expects **`cl_hud_minmode 0`**: its normal layout is already centered. Its upstream startup file explicitly says minimal HUD mode is unsupported. fileciteturn14file0L2-L2
+
+The installer deliberately does not change that preference automatically. After installing, check it in TF2’s developer console:
+
+```text
+cl_hud_minmode
+```
+
+When it reports `1`, record that previous value and use:
+
+```text
+cl_hud_minmode 0
+```
+
+The installer also excludes Middle Mann’s bundled startup override, so it does not apply that file’s cache-disabling and delayed HUD-reload commands. Omitting those workarounds protects your existing startup configuration, but may leave rendering quirks that depended on them. fileciteturn14file0L2-L2
+
+**To recover your exact previous rayshud—including customizations—use the restore command printed after the switch.** Selecting `--hud rayshud` instead installs a clean pinned copy.
+
+All **56 offline regression tests passed**, including configuration preservation and exact HUD restoration. I have **not** tested Middle Mann in a running Bazzite/TF2 session, and this environment could not fetch the actual release ZIP.
+
+[Installation and restoration notes](sandbox:/mnt/data/TF2_HUD_Update_README.md) · [Updated test suite](sandbox:/mnt/data/test_setup_tf2_bazzite.py)

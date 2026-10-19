@@ -1,0 +1,1 @@
+I’ll exclude rayshud’s startup file because it toggles anti-aliasing. Simulated incremental-update tests preserved existing settings and binds, and undo restored the prior setup; HUD appearance remains untested in-game.

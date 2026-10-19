@@ -1,0 +1,1 @@
+I’ll check the comparison page and replace remote images with embedded copies so the gallery no longer depends on external image hosts.

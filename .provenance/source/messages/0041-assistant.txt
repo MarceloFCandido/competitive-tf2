@@ -1,0 +1,9 @@
+bash -lc python - <<'PY'
+import requests
+url='https://api.github.com/repos/ValveSoftware/source-sdk-2013/git/trees/master?recursive=1'
+r=requests.get(url,timeout=20); r.raise_for_status()
+paths=[x['path'] for x in r.json()['tree']]
+for p in paths:
+ if 'damageaccount' in p.lower() or 'tf_advanced' in p.lower() or p.endswith('user.scr') or p.endswith('tf_hud_optionsdialog.cpp'):
+  print(p)
+PY

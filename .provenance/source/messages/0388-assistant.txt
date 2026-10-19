@@ -1,0 +1,78 @@
+iturn215167image1
+
+**Yes—v1.3.0 adds Improved Default HUD and Middle Mann, while keeping rayshud and budhud available.** The image above shows an example of Improved Default HUD.
+
+### [Download the updated script — v1.3.0](sandbox:/mnt/data/setup_tf2_bazzite.py)
+
+They are **selectable alternatives**, not overlapping installations. Only one HUD should be active at a time; multiple HUDs can conflict. When switching, the script backs up the previous HUD outside the game’s active `custom` directory. citeturn656884view0
+
+## Which one to try
+
+**I recommend Improved Default HUD first.** It keeps TF2’s original visual style and familiar corner placement, while improving damage-number readability, target identification, the scoreboard, and other interface details. Its project explicitly lists Linux support. citeturn147702view0
+
+| HUD | What to expect | Script option |
+|---|---|---|
+| **Improved Default HUD — new** | Closest to the original interface: familiar placement and appearance, with readability improvements and fixes. citeturn147702view0 | `--hud idhud` |
+| **Middle Mann — new** | Keeps TF2’s visual style, but moves health and ammunition closer to the center. A useful compromise between stock styling and a more centralized layout. citeturn147702search0 | `--hud middlemann` |
+| **rayshud — retained** | The bigger redesign you tried, with simplified panels and strong health/ammunition color cues. citeturn706509search9 | `--hud rayshud` |
+| **budhud — retained** | A customizable alternative inspired by yahud and rayshud, rather than a lightly modified stock interface. citeturn656884view0 | `--hud budhud` |
+
+I also added **`--hud stock`**, which backs up and removes detected custom HUDs without resetting your gameplay configuration. **`--hud keep`** remains the default and leaves your current HUD alone.
+
+## Apply only the HUD change
+
+Replace your old downloaded script with the new file. From the folder containing it, preview the switch:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud idhud --replace-hud --dry-run
+```
+
+For this HUD-only update, the preview should say:
+
+```text
+Configuration files: no changes.
+```
+
+It should also list your existing HUD under the planned replacements. After reviewing that, **fully exit TF2 and Steam**, then run:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only \
+  --hud idhud --replace-hud
+```
+
+Run as your normal Bazzite user, **without `sudo`**. It asks for confirmation before applying the update.
+
+To try Middle Mann instead, replace `idhud` with `middlemann`. The same applies to `rayshud`, `budhud`, or `stock`.
+
+You can display the available choices and compatibility notes without changing anything:
+
+```bash
+python3 setup_tf2_bazzite.py --list-huds
+```
+
+## Your existing configuration stays intact
+
+**Those HUD-only commands do not change your mastercomfig preset, FPS cap, effects reductions, weapon visibility, sensitivity, or binds.** You do not need to repeat `--visual-clarity` or any settings from your earlier installation.
+
+The two new HUD downloads are pinned to specific releases and checked against SHA-256 digests. Your existing mastercomfig, rayshud, and budhud version selections are unchanged.
+
+The installer also continues excluding bundled HUD startup overrides. One caveat for **Middle Mann**: its startup configuration says it expects `cl_hud_minmode 0`; the installer deliberately does **not** force that value or apply its caching/reload tweaks. This is another reason I would start with Improved Default HUD for your setup. fileciteturn14file0L2-L2
+
+**Restoration preserves customizations:** the undo command printed after switching restores the exact previous HUD files. Switching back using `--hud rayshud` installs the pinned upstream rayshud release instead—it does not recover personal edits from your old copy.
+
+## Other HUDs worth considering
+
+These are **additional suggestions, not automatic installation options in this version**.
+
+| HUD | Why it might suit you |
+|---|---|
+| **Community HUD Fixes** | Another close-to-stock option, focused on interface bugs, overlapping elements, readability, and quality-of-life changes. It includes fixes for ammunition-text clipping on Linux. citeturn551797view1 |
+| **MaxiHud** | Retains a TF2-like appearance while adding substantially more interface features and customization. I would consider it after the simpler options, because its installation and configuration interactions deserve a separate review. citeturn551797view0 |
+| **ToonHUD** | Useful for choosing your own theme rather than adopting someone else’s complete design. Its browser-based editor lets you customize and share themes; the project’s changelog includes Linux font support. citeturn706509search12 |
+
+For your stated preference, my order would be **Improved Default HUD → Middle Mann → Community HUD Fixes**.
+
+**Testing:** all **48 offline tests passed**, including switching, exact restoration, rollback, dry-run behavior, and preservation of existing settings. These used temporary game directories and synthetic downloads—not a running TF2 installation on Bazzite. I verified the new release URLs and checksums through GitHub’s API, but could not test the live binary downloads here.
+
+[Compatibility and restoration notes](sandbox:/mnt/data/TF2_HUD_UPDATE_README.md) · [Offline test suite](sandbox:/mnt/data/test_setup_tf2_bazzite.py)

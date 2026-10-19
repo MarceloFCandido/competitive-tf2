@@ -1,0 +1,1 @@
+I’ll include labeled in-game screenshots for every HUD option so you can compare layouts beforehand; ToonHUD’s appearance will naturally depend on the theme you choose.

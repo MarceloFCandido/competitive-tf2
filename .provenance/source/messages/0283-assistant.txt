@@ -1,0 +1,5 @@
+Yes—**rayshud is a community-made TF2 HUD**, originally created by **raysfire**, not an official Valve interface. It is an existing project, not a HUD I designed; I added it as an installation option in your script. citeturn761063search0
+
+It deliberately departs from TF2’s original appearance, removing decorative clutter and using prominent health/ammo numbers and strong color cues to make important information easier to notice. That’s why it feels like a substantial redesign rather than a small improvement to the stock HUD. citeturn761063search0
+
+I interpreted “more interesting” as a bigger visual change. Would you prefer something that **keeps TF2’s original aesthetic while improving readability**?

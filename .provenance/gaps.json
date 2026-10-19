@@ -1,0 +1,78 @@
+[
+  {
+    "id": "version_1_4_0",
+    "message": 468,
+    "detail": "Response advertises v1.4.0, but the last available edit sets SCRIPT_VERSION to 1.3.1. No complete v1.4.0 bytes or intervening version edit are present."
+  },
+  {
+    "id": "branch_restart",
+    "messages": [
+      325,
+      359,
+      398
+    ],
+    "detail": "Two v1.3.0 implementations exist. Patch 398 requires v1.2.0 text, not the prior v1.3.0 implementation. Both are preserved; the baseline choice is a documented inference."
+  },
+  {
+    "id": "version_1_5_0",
+    "message": 544,
+    "detail": "The v1.5.0 edit expects the missing v1.4.0 baseline. Only an incomplete candidate is archived. The exact installer remains unavailable.",
+    "unmatched_replacements": [
+      {
+        "operation": "replace",
+        "source_line": 4,
+        "old": "SCRIPT_VERSION = '1.4.0'",
+        "new": "SCRIPT_VERSION = '1.5.0'",
+        "limit": -1,
+        "matches": 0
+      }
+    ]
+  },
+  {
+    "id": "visual_comparison",
+    "messages": [
+      570,
+      573,
+      577
+    ],
+    "detail": "Linked TF2_HUD_Visual_Comparison.html has no full file body or rename/copy from TF2_HUD_Gallery.html. Do not invent it."
+  },
+  {
+    "id": "redacted_tool_results",
+    "detail": "222 tool-text nodes exist; many contain only The output of this plugin was redacted. Logs, fetched JSON, image downloads, ZIPs and test results cannot be verified."
+  },
+  {
+    "id": "gallery_repair",
+    "messages": [
+      571,
+      577,
+      582,
+      589
+    ],
+    "detail": "A fetch/repair attempt is shown, but downloaded images and a completed repaired HTML file are absent."
+  },
+  {
+    "id": "last_request",
+    "messages": [
+      582,
+      606
+    ],
+    "detail": "The conversation ends with a request to handle external HUD dependencies and an intention to update. No completed new revision is available."
+  },
+  {
+    "id": "sandbox_attachments",
+    "detail": "sandbox:/mnt/data links refer to the original conversation runtime, not public download URLs. Exact attachment bytes were not recovered; no content is guessed from a filename."
+  },
+  {
+    "id": "generated_configuration",
+    "detail": "Generated autoexec.cfg/modules.cfg/setup_hook.cfg, class CFG migrations, manifests, downloaded HUD assets/VPKs/ZIPs and test fixtures depend on inputs or redacted outputs. Only the explicitly supplied guide CFG blocks are instantiated; other templates remain embedded in the archived scripts."
+  },
+  {
+    "id": "original_context_access",
+    "target": "https://chatgpt.com/c/6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+    "status": "unavailable",
+    "reason": "Personal context is unavailable for this conversation.",
+    "paginated_api": "Not exposed in this executor.",
+    "authenticated_browser": "Mac remains locked; authenticated attachments unavailable."
+  }
+]

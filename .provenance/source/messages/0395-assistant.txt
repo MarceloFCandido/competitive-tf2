@@ -1,0 +1,1 @@
+Improved Default HUD is the closest fit, retaining TF2’s layout while improving damage text, target IDs, and scoreboard; I’ll add `--hud idhud` and stock restoration.

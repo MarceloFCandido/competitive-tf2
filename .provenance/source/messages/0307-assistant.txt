@@ -1,0 +1,15 @@
+bash -lc mkdir -p /mnt/data/tf2_work && cp /mnt/data/setup_tf2_bazzite.py /mnt/data/tf2_work/setup_tf2_bazzite_v1_2_0.py && python3 - <<'PY'
+import urllib.request,json
+from pathlib import Path
+repos={'idhud':'idhud-tf2/idhud','middlemann':'Vexcenot/-middle-mann','hud-fixes':'CriticalFlaw/tf2hud-fixes'}
+for name,repo in repos.items():
+    try:
+        req=urllib.request.Request(f'https://api.github.com/repos/{repo}/releases?per_page=3',headers={'User-Agent':'TF2-setup-review'})
+        with urllib.request.urlopen(req,timeout=12) as f: data=json.load(f)
+        Path('/mnt/data/tf2_work/'+name+'-releases.json').write_text(json.dumps(data,indent=2))
+        print(name)
+        for r in data:
+            print(r['tag_name'], r['published_at'], 'prerelease:',r['prerelease'])
+            print([(a['name'],a['size'],a.get('digest'),a['browser_download_url']) for a in r['assets']])
+    except Exception as e: print(type(e).__name__,e)
+PY

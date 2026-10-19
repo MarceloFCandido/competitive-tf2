@@ -1,0 +1,29 @@
+bash -lc mkdir -p /mnt/data/hud_gallery_work && python - <<'PY'
+from bs4 import BeautifulSoup
+from pathlib import Path
+import concurrent.futures, requests, json, time
+p=Path('/mnt/data/TF2_HUD_Visual_Comparison.html')
+soup=BeautifulSoup(p.read_text(),'html.parser')
+items=[]
+for section in soup.select('section[id]'):
+    for i,img in enumerate(section.select('img'),1):
+        items.append((section['id'], i, img['src']))
+def fetch(item):
+    name, i, url=item
+    result={'hud':name,'index':i,'url':url}
+    try:
+        r=requests.get(url,timeout=(8,16),headers={'User-Agent':'Mozilla/5.0'})
+        result.update(status=r.status_code,mime=r.headers.get('content-type'),size=len(r.content))
+        if r.ok and r.headers.get('content-type','').startswith('image/'):
+            target=Path('/mnt/data/hud_gallery_work')/(name+'-'+str(i)+Path(url).suffix)
+            target.write_bytes(r.content)
+            result['path']=str(target)
+        else:
+            result['body']=r.text[:200]
+    except Exception as e: result['error']=str(e)
+    return result
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+    results=list(ex.map(fetch, items))
+Path('/mnt/data/hud_gallery_work/fetch-results.json').write_text(json.dumps(results,indent=2))
+for r in results: print(json.dumps(r))
+PY

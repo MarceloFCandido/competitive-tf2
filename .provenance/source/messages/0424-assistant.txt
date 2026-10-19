@@ -1,0 +1,1 @@
+I’ll focus on HUDs that combine rayshud-style centered information with TF2’s original visual character, while checking Linux compatibility and configuration requirements.

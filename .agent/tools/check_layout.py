@@ -96,7 +96,7 @@ def verify_local_link(source, target, html_ids=None):
     return bool(parsed.path or parsed.fragment)
 
 
-def verify_consolidation():
+def verify_consolidation(maintenance):
     receipt = json.loads((MANIFESTS / 'documentation-consolidation.json').read_text())
     found = []
     for directory, dirs, files in os.walk(ROOT):
@@ -105,14 +105,15 @@ def verify_consolidation():
             if 'readme' in name.lower():
                 found.append((Path(directory) / name).relative_to(ROOT).as_posix())
     assert sorted(found) == ['README.md'], ('Extra README filename or variant', found)
-    assert sha(ROOT / 'README.md') == receipt['main_document_sha256']
+    snapshot = git('show', maintenance['documentation_snapshot_commit'] + ':README.md')
+    assert hashlib.sha256(snapshot).hexdigest() == receipt['main_document_sha256']
     for item in receipt['documentation_inputs']:
         raw = git('show', receipt['base_commit'] + ':' + item['path'])
         assert hashlib.sha256(raw).hexdigest() == item['sha256']
     for item in receipt['literal_documents_preserved']:
         assert sha(ROOT / item['current_path']) == item['sha256']
     removed = {item['path'] for item in receipt['removed_files']}
-    allowed = set(receipt['allowed_changed_current_paths'])
+    allowed = set(receipt['allowed_changed_current_paths']) | set(maintenance['allowed_changed_paths'])
     exact = 0
     total = 0
     for entry in git('ls-tree', '-rz', '--full-tree', receipt['base_commit']).split(b'\0'):
@@ -142,8 +143,33 @@ def verify_consolidation():
             'literal_document_bodies_preserved': len(receipt['literal_documents_preserved'])}
 
 
+def verify_maintenance():
+    receipt = json.loads((MANIFESTS / 'maintenance.json').read_text())
+    audit = json.loads((ROOT / receipt['source_audit']).read_text())
+    assert receipt['version'] == '1.6.1' and receipt['tests_executed'] == 119
+    assert not receipt['HUD_cfg_executed'] and not receipt['real_game_modified']
+    for name, hashes in receipt['product_files'].items():
+        prior = git('show', receipt['base_commit'] + ':' + name)
+        assert hashlib.sha256(prior).hexdigest() == hashes['before_sha256']
+        assert sha(ROOT / name) == hashes['after_sha256']
+    tree = ast.parse((ROOT / 'setup_tf2_bazzite.py').read_text())
+    constants = {node.targets[0].id: ast.literal_eval(node.value) for node in tree.body
+                 if isinstance(node, ast.Assign) and len(node.targets) == 1
+                 and isinstance(node.targets[0], ast.Name)
+                 and node.targets[0].id in ('SCRIPT_VERSION', 'MAXIHUD_REVIEWED_SHA256')}
+    assert constants['SCRIPT_VERSION'] == receipt['version']
+    assert constants['MAXIHUD_REVIEWED_SHA256'] == audit['reviewed_source_sha256']
+    assert audit['test_run']['result'] == 'OK' and audit['test_run']['tests'] == 119
+    assert audit['test_run']['installer_sha256'] == sha(ROOT / 'setup_tf2_bazzite.py')
+    assert audit['test_run']['tests_sha256'] == sha(ROOT / 'test_setup_tf2_bazzite.py')
+    assert audit['test_run']['live_HTTP_blocked']
+    assert audit['known_queue_mode_commands_removed'] == 4 and not audit['runtime_visual_tested']
+    return receipt
+
+
 def verify(bootstrap=False):
     layout = json.loads((MANIFESTS / 'layout.json').read_text())
+    maintenance = verify_maintenance()
     relocated = 0
     unchanged_relocated = 0
     changed_docs = []
@@ -162,7 +188,7 @@ def verify(bootstrap=False):
         if not row['content_changed']:
             assert row['before_sha256'] == row['after_sha256']
         else:
-            assert row['current_path'].endswith('.md') and row.get('change_reason')
+            assert (row['current_path'].endswith('.md') or row['current_path'] in maintenance['product_files']) and row.get('change_reason')
             changed_docs.append(row['current_path'])
         if row['previous_path'] != row['current_path']:
             relocated += 1
@@ -172,7 +198,9 @@ def verify(bootstrap=False):
     assert all(not row['content_changed'] for row in protected), 'Historical provenance was edited'
     for name in ('setup_tf2_bazzite.py', 'test_setup_tf2_bazzite.py'):
         row = next(row for row in layout['files'] if row['previous_path'] == name)
-        assert row['current_path'] == name and not row['content_changed'], name
+        assert row['current_path'] == name, name
+        assert row['before_sha256'] == maintenance['product_files'][name]['before_sha256'], name
+        assert row['after_sha256'] == maintenance['product_files'][name]['after_sha256'], name
     assert (ROOT / 'test_setup_tf2_bazzite.py').with_name('setup_tf2_bazzite.py').is_file()
     history = git('rev-list', '--reverse', 'HEAD').decode().splitlines()
     previous = layout['previous_commits']
@@ -205,8 +233,10 @@ def verify(bootstrap=False):
     section = re.compile(r'^## HUD comparison\n.*?(?=^## |\Z)', re.M | re.S)
     prior_comparison = section.search(verified_readme.decode()).group()
     current_comparison = section.search((ROOT / 'README.md').read_text()).group()
-    assert prior_comparison == current_comparison
-    assert hashlib.sha256(current_comparison.encode()).hexdigest() == visual['comparison_section_sha256']
+    assert hashlib.sha256(prior_comparison.encode()).hexdigest() == visual['comparison_section_sha256']
+    image_lines = lambda body: [line for line in body.splitlines() if line.startswith('[![')]
+    assert image_lines(prior_comparison) == image_lines(current_comparison)
+    assert hashlib.sha256('\n'.join(image_lines(current_comparison)).encode()).hexdigest() == visual['current_image_markdown_sha256']
     page = ROOT / visual['source_html_previous_path']
     source_html = git('show', visual['source_html_commit'] + ':' + visual['source_html_previous_path'])
     assert hashlib.sha256(source_html).hexdigest() == visual['source_html_sha256']
@@ -230,7 +260,7 @@ def verify(bootstrap=False):
     assert declared_flags == set(audit['declared_flags'])
     for target in parser.links:
         local_links += verify_local_link(page, target, parser.ids)
-    consolidation = verify_consolidation()
+    consolidation = verify_consolidation(maintenance)
     current_checks = 0
     hashes_file = MANIFESTS / 'files.sha256.json'
     if not bootstrap:
@@ -244,7 +274,7 @@ def verify(bootstrap=False):
             'repository': str(ROOT), 'head': git('rev-parse', 'HEAD').decode().strip(),
             'original_files_accounted_for': len(layout['files']), 'files_relocated': relocated,
             'relocated_files_byte_identical': unchanged_relocated,
-            'files_preserved_only_in_Git': history_only, 'curated_documents_updated': changed_docs,
+            'files_preserved_only_in_Git': history_only, 'curated_or_maintained_files_updated': changed_docs,
             'historical_provenance_files_byte_identical': len(protected),
             'prior_commits_preserved': len(previous), 'historical_revision_hashes_checked': revision_checks,
             'README_original_image_URLs_matched': len(readme_images),
@@ -252,7 +282,9 @@ def verify(bootstrap=False):
             'rendered_image_confirmation_receipt_verified': True,
             'active_markdown_documents_checked': len(active_docs), 'local_links_checked': local_links,
             'current_manifest_files_checked': current_checks, 'current_manifest_skipped_for_bootstrap': bootstrap,
-            'product_code_test_execution': False, 'network_requests': 0,
+            'this_verifier_executes_product_code': False, 'network_requests': 0,
+            'recorded_synthetic_tests_executed': maintenance['tests_executed'],
+            'HUD_cfg_executed': False, 'real_game_modified': False,
             **consolidation}
 
 

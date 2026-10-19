@@ -288,8 +288,11 @@
   "HTML_retention": "Removed from the current working tree only after successful rendered-image inspection; the original is preserved at source_html_commit:source_html_previous_path.",
   "limitation": "This verifies Safari rendering of the actual Markdown through Pandoc, not a hosted GitHub page. External images still depend on their original hosts; this is not an offline bundle.",
   "verified_README_commit": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
-  "current_README_sha256": "dd255ab57ce1b745f6af2a3a47c8c900973e3ab9e6dba5c363c1f4a182bbf358",
+  "current_README_sha256": "b1df08adb913de0cdb3542970eeede9bd486aff1669cc00ed7d2af979f35de89",
   "comparison_section_sha256": "79a4dd19d6fe17e93acc703e28d11ea7a290661e0ac05e8c4b68a4af99162f5e",
   "comparison_unchanged_after_documentation_consolidation": true,
-  "consolidation_note": "The earlier Safari inspection applies to the exact unchanged HUD comparison section. The README outside that section was consolidated later; the original verified README remains in verified_README_commit."
+  "consolidation_note": "The earlier Safari inspection applies to the exact unchanged HUD comparison section. The README outside that section was consolidated later; the original verified README remains in verified_README_commit.",
+  "current_image_markdown_sha256": "663fa59cf984d9b63a96eff978ef38399e068a06000712324b3c0de5e3e36bed",
+  "image_embeddings_unchanged_after_maintenance": true,
+  "maintenance_note": "The v1.6.1 update changes explanatory MaxiHUD text. All 15 image Markdown lines are identical to the browser-verified snapshot; runtime TF2 rendering is not verified by that browser check."
 }

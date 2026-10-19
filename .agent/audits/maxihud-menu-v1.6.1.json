@@ -1,0 +1,138 @@
+{
+  "upstream_commit": "18fb7f1e2903ebab15e811c9718726ddce51b0f4",
+  "method": "Read upstream bytes and apply Python text transformations only; no Source cfg or downloaded program was executed.",
+  "reviewed_source_sha256": {
+    "cfg/maxihud_customization_general.cfg": "106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8",
+    "cfg/maxihud_customization_colors.cfg": "2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40",
+    "cfg/maxihud_customization_fonts.cfg": "6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32",
+    "cfg/maxihud_customization_crosshairs.cfg": "62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13",
+    "cfg/maxihud_customization_streamer.cfg": "b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5",
+    "cfg/maxihud_customization_reset.cfg": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3",
+    "resource/gamemenu.res": "be223080e0b0c7be85ef85529de39945b4ed258daf8652d5c7609e9db75f8e68",
+    "resource/ui/customizations/#customization_menu/hud_customization_frame.res": "a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c",
+    "scripts/hudlayout.res": "acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558"
+  },
+  "transformed_sha256": {
+    "cfg/maxihud_customization_general.cfg": "5a1193bda0542e0f9cd196157873bc343270f872773119ef544931b7d0421105",
+    "cfg/maxihud_customization_colors.cfg": "091bd6a92269888b161dd1bc20e18e246667e8e421dc690e12eeb20eaa65442b",
+    "cfg/maxihud_customization_fonts.cfg": "632d3afd1a0848aa809500961e8b6de01918cdf802bbb9e74ec60b0fcc77be97",
+    "cfg/maxihud_customization_crosshairs.cfg": "d1917385da9864cd804d65ceac7f1a8f53e75c7c7a6a34523b2257409f613dc5",
+    "cfg/maxihud_customization_streamer.cfg": "a51b10210bb1c9859b0a5537442ab253bb39c3fb8b1862c5bd663b8d0473418f",
+    "cfg/maxihud_customization_reset.cfg": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3",
+    "resource/gamemenu.res": "fd18a65f56fef492ade8e32acc8bbf7fa54b9982559809c2c4a0cd703e064ce0",
+    "resource/ui/customizations/#customization_menu/hud_customization_frame.res": "c89170f749e22f92470fe557cd3d1f4ee879be21f3add6bf97457d9d8cca3c15",
+    "cfg/tf2_competitive_maxihud_menu.cfg": "d4bc93a6259ac827817dba8ac1210bfaa979ee06bacec9b6a520f282d03c0379"
+  },
+  "alias_definitions_by_file": {
+    "cfg/maxihud_customization_general.cfg": 263,
+    "cfg/maxihud_customization_colors.cfg": 342,
+    "cfg/maxihud_customization_fonts.cfg": 4,
+    "cfg/maxihud_customization_crosshairs.cfg": 159,
+    "cfg/maxihud_customization_streamer.cfg": 39,
+    "cfg/maxihud_customization_reset.cfg": 32
+  },
+  "total_alias_definitions": 839,
+  "known_queue_mode_commands_removed": 4,
+  "loader": "tf2_competitive_maxihud_menu.cfg",
+  "logging_restore_alias": "tf2_setup_maxihud_log_restore",
+  "logging_snapshot_automatic": false,
+  "runtime_visual_tested": false,
+  "reviewed_at_utc": "2026-10-19T19:56:32.088334+00:00",
+  "source_files_read": [
+    {
+      "path": "cfg/maxihud_customization_general.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_general.cfg",
+      "bytes": 56252,
+      "sha256": "106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8"
+    },
+    {
+      "path": "cfg/maxihud_customization_colors.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_colors.cfg",
+      "bytes": 75897,
+      "sha256": "2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40"
+    },
+    {
+      "path": "cfg/maxihud_customization_fonts.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_fonts.cfg",
+      "bytes": 1171,
+      "sha256": "6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32"
+    },
+    {
+      "path": "cfg/maxihud_customization_crosshairs.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_crosshairs.cfg",
+      "bytes": 24617,
+      "sha256": "62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13"
+    },
+    {
+      "path": "cfg/maxihud_customization_streamer.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_streamer.cfg",
+      "bytes": 7215,
+      "sha256": "b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5"
+    },
+    {
+      "path": "cfg/maxihud_customization_reset.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization_reset.cfg",
+      "bytes": 4056,
+      "sha256": "26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3"
+    },
+    {
+      "path": "cfg/valve.rc",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/valve.rc",
+      "bytes": 1455,
+      "sha256": "991626c67c1adc2eb073155b71e40a90707ef7efbe292cc17724cdff29b595e6"
+    },
+    {
+      "path": "cfg/maxihud_first_run.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_first_run.cfg",
+      "bytes": 2611,
+      "sha256": "795f39a45890139e837e09a71e70804b88d2cd66e099ce9c0d1c41a65482de62"
+    },
+    {
+      "path": "resource/gamemenu.res",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/resource/gamemenu.res",
+      "bytes": 1992,
+      "sha256": "be223080e0b0c7be85ef85529de39945b4ed258daf8652d5c7609e9db75f8e68"
+    },
+    {
+      "path": "resource/ui/customizations/#customization_menu/hud_customization_frame.res",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/resource/ui/customizations/%23customization_menu/hud_customization_frame.res",
+      "bytes": 15586,
+      "sha256": "a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c"
+    },
+    {
+      "path": "scripts/hudlayout.res",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/scripts/hudlayout.res",
+      "bytes": 1007,
+      "sha256": "acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558"
+    },
+    {
+      "path": "cfg/maxihud_customization.cfg",
+      "url": "https://raw.githubusercontent.com/maxiandrew/maxihud/18fb7f1e2903ebab15e811c9718726ddce51b0f4/cfg/maxihud_customization.cfg",
+      "bytes": 3047,
+      "sha256": "3613d73ed6b459823a6d431e29cb8bddd7cfed11761a5fe32ccf28472dbc4d6b"
+    }
+  ],
+  "mastercomfig_startup_reference": "https://docs.comfig.app/latest/customization/custom_configs/",
+  "excluded_bootstraps": [
+    "cfg/valve.rc",
+    "cfg/joystick.cfg",
+    "cfg/maxihud_first_run.cfg",
+    "cfg/maxihud_customization.cfg"
+  ],
+  "logging_default": "con_logfile console.log; con_timestamp 0",
+  "logging_limit": "Runtime ConVars are not automatically captured. A separate preserved alias profile specifies the restoration state. Only menu actions start temporary timestamp-free logging.",
+  "test_run": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_setup_tf2_bazzite.py",
+    "tests": 119,
+    "duration_seconds": 1.958,
+    "result": "OK",
+    "live_HTTP_blocked": true,
+    "fixtures": "Artificial TF2 directories and ZIP/image data; reviewed upstream cfgs were read/transformed as data separately, never executed.",
+    "log_sha256": "10c35c8d951a883d8f081446f9b321b580d4a925c413ae039446ea903804d5b5",
+    "installer_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781",
+    "tests_sha256": "f9cfebb8fae2c6ec8fd004b9fe7b22af39061a72569153651ef4e3181e3c7bee"
+  },
+  "real_game_modified": false,
+  "TF2_Bazzite_visual_validation": "pending user check",
+  "all_839_upstream_alias_lines_reviewed_as_single_quoted_definitions": true
+}

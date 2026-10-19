@@ -63,8 +63,10 @@ HUDs:
     --hud toonhud --hud-zip /path/to/toonhud.zip imports your exported theme.
     --hud-sha256 optionally checks a local ZIP against a hash you supply.
     Local ZIP hashes track content; they do NOT authenticate its publisher.
-    For these FOUR new choices, all bundled cfg scripts are excluded to avoid
-    startup/first-run changes. Their scripted customization menus may not work.
+    Center HUD, HUD Fixes and ToonHUD exclude bundled cfg scripts. MaxiHUD
+    v17.5 keeps six checksum-reviewed alias files with a minimal menu loader,
+    excludes valve.rc/first-run, and removes four menu mat_queue_mode writes.
+    Menu file writes use a configurable explicit logging-restore profile.
     Existing options, pins, and gameplay config are unchanged on HUD-only updates.
     An installer cannot guarantee compatibility with every runtime HUD/UI command.
     --hud middlemann installs Middle Mann: TF2-styled panels with centered
@@ -137,7 +139,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.6.0'
+SCRIPT_VERSION = '1.6.1'
 
 COMFIG = {
     'version': '9.100.1',
@@ -185,7 +187,7 @@ HUD_FOLDERS = {'centerhud': 'center-hud', 'hudfixes': 'tf2hud-fixes'}
 HUD_DESCRIPTIONS = {
     'centerhud': 'Center HUD: TF2-style central layout; customization scripts omitted.',
     'hudfixes': 'Community HUD Fixes: stock-style layout fixes; customization scripts omitted.',
-    'maxihud': 'MaxiHud: centered TF2-style UI; requires your upstream ZIP; scripts omitted.',
+    'maxihud': 'MaxiHud: centered TF2-style UI; reviewed v17.5 ZIP; minimal menu support.',
     'toonhud': 'ToonHUD: your exported theme ZIP; scripts omitted; compatibility unverified.',
     'middlemann': 'Middle Mann: TF2-styled panels with health/ammo toward the center.',
     'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',
@@ -243,8 +245,11 @@ HUD_HELP = {
         'notes': ['Acquire Source code (zip) from release v17.5. That release does not publish a separate release asset with a digest.',
                   'The installer imports your ZIP; it does not claim upstream authentication for that archive.',
                   'The installed folder is named maxihud as required by the project.',
+                  'The persistent loader is appended to overrides/autoexec.cfg without rewriting existing settings.',
+                  'Menu writes temporarily require con_timestamp 0. Logging restoration is explicit in tf2_competitive_maxihud_logging.cfg; runtime state is not auto-captured.',
+                  'The default restores con_logfile console.log and con_timestamp 0 after a menu write. Edit that profile for your own logging settings.',
                   'The project lists optional add-ons; they are not automatically installed as dependencies.',
-                  'This installer excludes cfg scripts; initialization/customization is incomplete. Review its launch-option and Mod Limit Fix notes before manual changes.'],
+                  'This installer loads six reviewed customization alias files, omits first-run/startup cfgs and removes the four menu mat_queue_mode changes. Optional add-ons remain manual.'],
         'links': [('Release and Source code (zip)', 'https://github.com/maxiandrew/maxihud/releases/tag/v17.5'),
                   ('Direct source ZIP (no trusted digest pinned here)', 'https://github.com/maxiandrew/maxihud/archive/refs/tags/v17.5.zip'),
                   ('Installation, compatibility, optional add-ons', 'https://github.com/maxiandrew/maxihud/blob/v17.5/README.md')]},
@@ -262,6 +267,29 @@ HUD_HELP = {
 }
 
 GALLERY_ITEMS = ({'name': 'middlemann', 'title': 'Middle Mann', 'image': 'https://static.tf2huds.dev/-Middle-Mann/img/Bki5t1X.png', 'gallery': 'https://tf2huds.dev/hud/-Middle-Mann', 'description': 'Default-style health and ammo panels moved toward the center. A first candidate for your preference.'}, {'name': 'centerhud', 'title': 'Center HUD', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/center-hud/centerhudimage.webp', 'gallery': 'https://comfig.app/huds/page/center-hud/', 'description': 'Critical information moved centrally while retaining the default HUD style.'}, {'name': 'maxihud', 'title': 'MaxiHud', 'image': 'https://images.gamebanana.com/img/ss/mods/6997885801058.jpg', 'gallery': 'https://github.com/maxiandrew/maxihud#screenshots', 'description': 'A centered vanilla-inspired interface with more menu and customization features. The author notes that some screenshots show older versions.'}, {'name': 'rayshud', 'title': 'rayshud', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/rayshud/hud.webp', 'gallery': 'https://comfig.app/huds/page/rayshud/', 'description': 'Your current reference: prominent health/ammo numbers and little decoration.'}, {'name': 'budhud', 'title': 'budhud', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/budhud/budhud-04-player.webp', 'gallery': 'https://comfig.app/huds/page/budhud/', 'description': 'Another redesigned HUD, inspired by yahud and rayshud; not a stock-art-style restoration.'}, {'name': 'idhud', 'title': 'Improved Default HUD', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/improved-default-hud/2-combat.webp', 'gallery': 'https://comfig.app/huds/page/improved-default-hud/', 'description': 'Retains the original layout with damage-text, target-ID and other UI improvements. Not a centered rayshud replacement.'}, {'name': 'hudfixes', 'title': 'Community HUD Fixes', 'image': 'https://raw.githubusercontent.com/mastercomfig/hud-db/main/hud-resources/hud-fixes/hud.webp', 'gallery': 'https://comfig.app/huds/page/hud-fixes/', 'description': 'Default-style interface repairs and quality-of-life changes, rather than a centralized redesign.'}, {'name': 'toonhud', 'title': 'ToonHUD', 'image': 'https://static.tf2huds.dev/ToonHUD/img/VkMCo8g.jpg', 'gallery': 'https://tf2huds.dev/hud/ToonHUD', 'description': 'An example only: you choose the fonts, colors and theme. ToonHUD has default and centered modes.'})
+
+
+# Reviewed v17.5 commit 18fb7f1e2903ebab15e811c9718726ddce51b0f4.
+MAXIHUD_ALIAS_FILES = ('cfg/maxihud_customization_general.cfg',
+ 'cfg/maxihud_customization_colors.cfg',
+ 'cfg/maxihud_customization_fonts.cfg',
+ 'cfg/maxihud_customization_crosshairs.cfg',
+ 'cfg/maxihud_customization_streamer.cfg',
+ 'cfg/maxihud_customization_reset.cfg')
+MAXIHUD_REVIEWED_SHA256 = {'cfg/maxihud_customization_general.cfg': '106e0b445a283da35b1e4f2fdba138cdceb7e1c42ce3fb752e55ba58935c5de8',
+ 'cfg/maxihud_customization_colors.cfg': '2874760f46e47eba485482a54856ede0477ddeee489a94e41a4552b8524c7d40',
+ 'cfg/maxihud_customization_fonts.cfg': '6d5d8700fd4fa4908daa9b92730b5e52b9c4178209edd47c35ce08635e728e32',
+ 'cfg/maxihud_customization_crosshairs.cfg': '62f859f791eacbdec4c5cee873a4dd617d0676f2b7068ee908cce2675b1aee13',
+ 'cfg/maxihud_customization_streamer.cfg': 'b272041a2779e0945d16943e756e57b4ca026c39c435fbce295bd2eeb7596bd5',
+ 'cfg/maxihud_customization_reset.cfg': '26fbe600861d566e23e9400e80a0ea7f01f1b914cba056c77f85f1114e9634a3',
+ 'resource/gamemenu.res': 'be223080e0b0c7be85ef85529de39945b4ed258daf8652d5c7609e9db75f8e68',
+ 'resource/ui/customizations/#customization_menu/hud_customization_frame.res': 'a9961efb0981626cf93cb17fd437bf823385b8212c51f336f7108ede9c05055c',
+ 'scripts/hudlayout.res': 'acdefa793bc561816ab911eb462288c2f331164c73134b997c885b1ca5d3a558'}
+MAXIHUD_MENU_FRAME = 'resource/ui/customizations/#customization_menu/hud_customization_frame.res'
+MAXIHUD_LOADER = 'tf2_competitive_maxihud_menu.cfg'
+MAXIHUD_LOG_ALIAS = 'tf2_setup_maxihud_log_restore'
+MAXIHUD_LOG_DEFAULT = 'alias tf2_setup_maxihud_log_restore "con_logfile console.log; con_timestamp 0"\n'
+MAXIHUD_HOOK = b'\n// BEGIN TF2-COMPETITIVE-MAXIHUD-MENU\nexec tf2_competitive_maxihud_menu.cfg\n// END TF2-COMPETITIVE-MAXIHUD-MENU\n'
 
 HUD_MARKER = '.tf2-competitive-setup-hud.json'
 HUD_POLICY = 'preserve-startup-v1'
@@ -874,6 +902,8 @@ def hud_relative(name: str) -> str:
 
 
 def hud_policy(name: str) -> str:
+    if name == 'maxihud':
+        return 'maxihud-menu-v1'
     return 'isolate-cfg-v1' if name in ISOLATED_HUDS else HUD_POLICY
 
 
@@ -944,6 +974,9 @@ def local_hud_asset(args: argparse.Namespace) -> dict | None:
         prefix = roots[0]
         if args.hud == 'maxihud' and prefix + 'cfg/maxihud_customization.cfg' not in names:
             raise SetupError('ZIP does not have the expected MaxiHud layout.')
+        if args.hud == 'maxihud':
+            maxihud_menu_files({rel: zf.read(prefix + rel) for rel in MAXIHUD_REVIEWED_SHA256
+                                if prefix + rel in names})
         if args.hud == 'toonhud' and 'toonhud' not in prefix.lower():
             raise SetupError('ToonHUD ZIP must contain its exported toonhud folder.')
     if args.hud in HUDS:
@@ -1003,11 +1036,101 @@ def plan_hud(tf: Path, name: str, replace: bool, asset: dict | None = None) -> t
     return not same, [path.relative_to(tf).as_posix() for path in other]
 
 
+def maxihud_menu_files(source: dict[str, bytes]) -> dict[str, bytes]:
+    """Adapt only reviewed v17.5 data; never run HUD cfgs or the first-run loader."""
+    for rel, expected in MAXIHUD_REVIEWED_SHA256.items():
+        if rel not in source or hashlib.sha256(source[rel]).hexdigest() != expected:
+            raise SetupError('MaxiHUD menu support requires the reviewed v17.5 files: ' + rel
+                             + '. Obtain the unmodified v17.5 source ZIP; nothing was applied.')
+    result = {}
+    for rel in MAXIHUD_ALIAS_FILES:
+        text = source[rel].decode('utf-8')
+        # Upstream has one uncommented separator, not an engine command.
+        text = re.sub(r'(?m)^=+\s*$', '// separator', text)
+        text = re.sub(r'\bconsole_unlog\b', MAXIHUD_LOG_ALIAS, text)
+        # Timestamp only during a menu file write, not at startup. The last
+        # command restores the user's explicit logging profile, inline.
+        text = re.sub(r'\bcon_logfile (?=cfg/maxihud/)',
+                      'con_timestamp 0; con_logfile ', text)
+        result[rel] = text.encode('utf-8')
+    commands = {
+        'resource/gamemenu.res': [
+            'engine toggle cl_mainmenu_safemode; mat_queue_mode 0'],
+        MAXIHUD_MENU_FRAME: [
+            'engine cl_mainmenu_safemode 0; mat_queue_mode -1; gameui_allowescape',
+            'engine gameui_allowescape; mat_queue_mode -1; gamemenucommand RestartWithNewLanguage',
+            'engine cl_mainmenu_safemode 0; gameui_allowescape; mat_queue_mode -1; hud_reloadscheme'],
+    }
+    for rel, values in commands.items():
+        text = source[rel].decode('utf-8')
+        for value in values:
+            quoted = '"' + value + '"'
+            if text.count(quoted) != 1:
+                raise SetupError('Unexpected MaxiHUD menu command; refusing a broad resource edit: ' + rel)
+            replacement = re.sub(r'; mat_queue_mode (?:0|-1)', '', value)
+            text = text.replace(quoted, '"' + replacement + '"')
+        if re.search(r'\bmat_queue_mode\b', text):
+            raise SetupError('Unexpected MaxiHUD queue-mode command remains: ' + rel)
+        result[rel] = text.encode('utf-8')
+    loader = ('// Minimal MaxiHUD v17.5 menu: definitions only; no first-run configuration.\n'
+              + MAXIHUD_LOG_DEFAULT + 'exec tf2_competitive_maxihud_logging.cfg\n'
+              + ''.join('exec ' + PurePosixPath(rel).name + '\n' for rel in MAXIHUD_ALIAS_FILES))
+    result['cfg/' + MAXIHUD_LOADER] = loader.encode()
+    return result
+
+
+def plan_maxihud_support(cfg: Path, hud: str,
+                         changes: dict[str, bytes]) -> dict[str, bytes]:
+    """Append/remove our own startup block; retain every other config byte."""
+    if hud == 'keep':
+        return changes
+    result = dict(changes)
+    auto_rel = 'cfg/overrides/autoexec.cfg'
+    auto = cfg / 'overrides/autoexec.cfg'
+    old = result.get(auto_rel, auto.read_bytes() if auto.is_file() else b'')
+    begin = MAXIHUD_HOOK.splitlines()[1]
+    end = MAXIHUD_HOOK.splitlines()[-1]
+    if old.count(begin) != old.count(end) or old.count(begin) > 1:
+        raise SetupError('Malformed/duplicate MaxiHUD menu startup block; no config overwritten.')
+    if begin in old and old.count(MAXIHUD_HOOK) != 1:
+        raise SetupError('The MaxiHUD menu startup block was edited; review it before updating.')
+    desired = old if hud == 'maxihud' else old.replace(MAXIHUD_HOOK, b'')
+    if hud == 'maxihud' and begin not in old:
+        desired += MAXIHUD_HOOK
+    if desired != old:
+        result[auto_rel] = desired
+    if hud != 'maxihud':
+        return result
+    profile = cfg / 'tf2_competitive_maxihud_logging.cfg'
+    assert_plain(profile)
+    if profile.exists() and not profile.is_file():
+        raise SetupError('MaxiHUD logging profile must be a regular cfg file.')
+    if not profile.exists():
+        result['cfg/' + profile.name] = (
+            '// Used only after a menu write. Change this alias to match your logging preferences.\n'
+            '// Source aliases cannot automatically snapshot arbitrary runtime ConVars.\n'
+            + MAXIHUD_LOG_DEFAULT).encode()
+    data = cfg / 'maxihud'
+    assert_plain(data)
+    if data.exists() and not data.is_dir():
+        raise SetupError('tf/cfg/maxihud must be an ordinary directory.')
+    menu = data / 'maxihud_customization_menu.txt'
+    if not menu.exists():
+        result['cfg/maxihud/maxihud_customization_menu.txt'] = b'"X" {}\n'
+    elif not menu.is_file():
+        raise SetupError('MaxiHUD customization menu data must be a regular file.')
+    return result
+
+
 def prepare_hud(archive: Path, dest: Path, name: str, asset: dict | None = None) -> Path:
     asset = asset or HUDS.get(name)
     if not asset:
         raise SetupError('A local HUD ZIP must be validated before preparing it.')
     root = extract_hud(archive, dest)
+    menu_files = {}
+    if name == 'maxihud':
+        menu_files = maxihud_menu_files({rel: (root / rel).read_bytes()
+                                      for rel in MAXIHUD_REVIEWED_SHA256 if (root / rel).is_file()})
     if name in ISOLATED_HUDS:
         # Avoid joystick.cfg bootstrap, autoexec/class scripts, first-run resets,
         # and optional customization aliases writing settings outside this HUD.
@@ -1015,8 +1138,13 @@ def prepare_hud(archive: Path, dest: Path, name: str, asset: dict | None = None)
             remove_item(root / 'cfg')
         if any(p.suffix.lower() == '.vpk' for p in root.rglob('*')):
             raise SetupError('Packed HUD data could contain startup scripts; refusing it.')
-        print('  Omitted the new HUD cfg directory; optional scripted menus may not work.')
+        if name != 'maxihud':
+            print('  Omitted the new HUD cfg directory; optional scripted menus may not work.')
         print('  No claim of exact upstream behavior or complete runtime isolation is made.')
+    for rel, data in menu_files.items():
+        target = root / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(data)
     if name == 'idhud' and exists(root / 'cfg'):
         raise SetupError('Unexpected cfg directory in the pinned IDHUD package; refusing startup changes.')
     if name == 'middlemann' and exists(root / 'cfg'):
@@ -1055,7 +1183,8 @@ def print_diff(tf: Path, changes: dict[str, bytes]) -> None:
     if not changes:
         print('Configuration files: no changes.')
     for rel, data in changes.items():
-        old = target_path(tf, rel).read_bytes().decode('utf-8', errors='surrogateescape')
+        path = target_path(tf, rel)
+        old = (path.read_bytes() if path.is_file() else b'').decode('utf-8', errors='surrogateescape')
         new = data.decode('utf-8', errors='surrogateescape')
         print(''.join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True),
                                          fromfile=rel + ' (current)', tofile=rel + ' (planned)')), end='')
@@ -1511,12 +1640,16 @@ def main() -> int:
             # Capture guards before computing the preview; reject stale plans later.
             guard = {rel: fingerprint(tf, rel) for rel in MANAGED_FILES}
             guard['custom/mastercomfig-base.vpk'] = fingerprint(tf, 'custom/mastercomfig-base.vpk')
-            changes = plan_update(tf, args)
+            if args.hud == 'maxihud':
+                for rel in ('cfg/maxihud', 'cfg/tf2_competitive_maxihud_logging.cfg'):
+                    guard[rel] = fingerprint(tf, rel)
+            changes = plan_maxihud_support(tf / 'cfg', args.hud, plan_update(tf, args))
             print('Unspecified settings stay unchanged. No mastercomfig download or config migration.')
             print('Preset: ' + (args.preset or 'keep') + '; FPS cap: ' + (args.fps_cap or 'keep')
                   + '; weapon visibility: ' + (args.viewmodels or 'keep'))
             print_diff(tf, changes)
         else:
+            plan_maxihud_support(tf / 'cfg', args.hud, {})  # Read-only validation before preview.
             args.preset = args.preset or 'medium'
             args.fps_cap = args.fps_cap or '300'
             args.viewmodels = args.viewmodels or 'minimal'
@@ -1567,7 +1700,13 @@ def main() -> int:
                 else:
                     print(f'HUD install: {args.hud} {asset["version"]} '
                           '(pinned release; SHA-256 checked before any game-file changes).')
-                if args.hud in ISOLATED_HUDS:
+                if args.hud == 'maxihud':
+                    print('MaxiHUD: six reviewed alias files and a minimal persistent menu loader.')
+                    print('No valve.rc, first-run cfg, demo recording or server-command permission changes.')
+                    print('Four reviewed menu mat_queue_mode assignments are removed; other UI actions remain upstream.')
+                    print('Menu writes use con_timestamp 0 then the explicit tf2_competitive_maxihud_logging.cfg profile.')
+                    print('Default restoration: con_logfile console.log; con_timestamp 0. Adjust the profile for custom logging.')
+                elif args.hud in ISOLATED_HUDS:
                     print('All bundled HUD cfg scripts are omitted to avoid first-run/startup resets.')
                     print('Scripted customization menus may not work. Upstream screenshots may differ.')
                     print('Gameplay configuration files are preserved; runtime UI compatibility is untested.')
@@ -1620,12 +1759,17 @@ def main() -> int:
                 tmp = Path(tmpdir)
                 if update:
                     ops: dict[str, Path | None] = {}
+                    new_maxi_data = not exists(tf / 'cfg/maxihud')
                     for rel, data in changes.items():
                         staged = tmp / rel
                         staged.parent.mkdir(parents=True, exist_ok=True)
                         staged.write_bytes(data)
-                        staged.chmod(stat.S_IMODE(target_path(tf, rel).stat().st_mode))
-                        ops[rel] = staged
+                        target = target_path(tf, rel)
+                        staged.chmod(stat.S_IMODE(target.stat().st_mode) if target.exists() else 0o644)
+                        if new_maxi_data and rel.startswith('cfg/maxihud/'):
+                            ops['cfg/maxihud'] = tmp / 'cfg/maxihud'
+                        else:
+                            ops[rel] = staged
                 else:
                     base = tmp / 'mastercomfig-base.vpk'
                     download(COMFIG, base, 20 * 1024 * 1024)
@@ -1633,6 +1777,10 @@ def main() -> int:
                     cfg = tmp / 'cfg'
                     stage_cfg(tf, cfg, args.preset, args.fps_cap,
                               visual_clarity=args.visual_clarity, viewmodels=args.viewmodels)
+                    for rel, data in plan_maxihud_support(cfg, args.hud, {}).items():
+                        staged = cfg / PurePosixPath(rel).relative_to('cfg')
+                        staged.parent.mkdir(parents=True, exist_ok=True)
+                        staged.write_bytes(data)
                     ops = {'cfg': cfg, 'custom/mastercomfig-base.vpk': base}
                     for old in old_presets(tf):
                         ops['custom/' + old.name] = None

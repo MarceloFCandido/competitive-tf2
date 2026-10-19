@@ -1,14 +1,14 @@
 {
-  "verified_at_utc": "2026-10-19T18:51:08.644426+00:00",
+  "verified_at_utc": "2026-10-19T19:58:51.889489+00:00",
   "repository": "/Users/marcelofcandido/code/git/personal/games/competitive-tf2",
-  "head": "0d0457707e0c0d60dbe1f376289c015a72d3fff6",
+  "head": "12b99160a64f594907b9e8d917de8cfafdd6c98d",
   "original_files_accounted_for": 247,
   "files_relocated": 243,
   "relocated_files_byte_identical": 236,
   "files_preserved_only_in_Git": [
     "TF2_HUD_Visual_Comparison.html"
   ],
-  "curated_documents_updated": [
+  "curated_or_maintained_files_updated": [
     ".agent/docs/ATTACHMENTS.md",
     ".agent/docs/BROWSER_ACCESS.md",
     ".agent/docs/GAPS.md",
@@ -16,27 +16,32 @@
     ".agent/docs/REFRESH.md",
     ".agent/docs/REVISIONS.md",
     ".agent/docs/UPLOADS.md",
-    ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md"
+    ".agent/reconstructions/incomplete-v1.5.0/CANDIDATE.md",
+    "setup_tf2_bazzite.py",
+    "test_setup_tf2_bazzite.py"
   ],
   "historical_provenance_files_byte_identical": 211,
-  "prior_commits_preserved": 34,
+  "prior_commits_preserved": 35,
   "historical_revision_hashes_checked": 52,
   "README_original_image_URLs_matched": 15,
   "README_flags_checked_statically": 19,
   "rendered_image_confirmation_receipt_verified": true,
   "active_markdown_documents_checked": 11,
-  "local_links_checked": 49,
-  "current_manifest_files_checked": 255,
+  "local_links_checked": 54,
+  "current_manifest_files_checked": 257,
   "current_manifest_skipped_for_bootstrap": false,
-  "product_code_test_execution": false,
+  "this_verifier_executes_product_code": false,
   "network_requests": 0,
+  "recorded_synthetic_tests_executed": 119,
+  "HUD_cfg_executed": false,
+  "real_game_modified": false,
   "README_filename_variants_found": [
     "README.md"
   ],
   "prior_snapshot_files_accounted_for": 256,
-  "prior_snapshot_files_preserved_byte_identical": 243,
+  "prior_snapshot_files_preserved_byte_identical": 241,
   "renamed_files_in_this_change": 6,
   "redundant_files_retained_in_prior_commit": 1,
   "literal_document_bodies_preserved": 3,
-  "scope": "Verified before the single-README documentation commit. The 34 prior commits, literal provenance, code and tests remain preserved. The earlier visual inspection is tied to its original snapshot; the complete comparison section is unchanged."
+  "scope": "Before the v1.6.1 maintenance commit: 119 authorized synthetic product tests executed; no HUD cfg or real game execution. Historical source revisions and literal provenance stay intact. Browser image receipt is tied to its original snapshot, with all 15 image Markdown lines unchanged."
 }

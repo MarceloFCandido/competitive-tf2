@@ -1,6 +1,6 @@
 {
-  "inspected_version": "1.6.0",
-  "installer_sha256": "2512eb82e0bdbe1a3a1dd95de8493416f38338496627273e65b06eac31c926ca",
+  "inspected_version": "1.6.1",
+  "installer_sha256": "99af13e2002e71e3a7a415ff4435ebb292a859e4b46916d4883ce4179d912781",
   "method": "AST and source reading only; installer, argparse and test module were not executed",
   "declared_flags": [
     "--build-gallery",
@@ -47,15 +47,17 @@
     "--visual-clarity"
   ],
   "source_functions": [
-    "parser",
-    "main",
+    "build_gallery",
     "discover_games",
-    "validate_game",
-    "resource_mode",
-    "recognized_install",
-    "transact",
     "load_restore",
-    "build_gallery"
+    "main",
+    "maxihud_menu_files",
+    "parser",
+    "plan_maxihud_support",
+    "recognized_install",
+    "resource_mode",
+    "transact",
+    "validate_game"
   ],
   "documentation_consolidation_base_commit": "0d0457707e0c0d60dbe1f376289c015a72d3fff6"
 }

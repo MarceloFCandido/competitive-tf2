@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py v1.6.0.
+"""Offline regression tests for setup_tf2_bazzite.py v1.6.1.
 
 Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
 Steam, network, fonts, or downloaded HUD assets are needed or exercised.
@@ -53,6 +53,30 @@ def archive_bytes(name='idhud', extra=None, folder=None):
     return out.getvalue()
 
 
+def maxihud_fixture():
+    """Artificial aliases/resources only; no upstream cfg is executed by tests."""
+    files = {}
+    for group in ('general', 'colors', 'fonts', 'crosshairs', 'streamer', 'reset'):
+        files['cfg/maxihud_customization_' + group + '.cfg'] = (
+            'alias "m0_' + group + '_log" "con_logfile cfg/maxihud/' + group + '.txt"\n'
+            'alias "m0_' + group + '" "m0_' + group + '_log; echo X{}; console_unlog"\n')
+    files['cfg/maxihud_customization_general.cfg'] += (
+        'alias "m0_customization_menu_clear" "sixense_clear_bindings; sixense_write_bindings maxihud/maxihud_customization_menu.txt"\n'
+        'alias "m0_customization_menu_log" "con_logfile cfg/maxihud/maxihud_customization_menu.txt"\n'
+        'alias "m0_custom_settings" "m0_customization_menu_clear; m0_customization_menu_log; echo X{Settings{Visible 1}}; console_unlog"\n'
+        'alias "m0_custom_colors" "m0_customization_menu_clear; m0_customization_menu_log; echo X{Colors{Visible 1}}; console_unlog"\n'
+        '================================================================\n')
+    files['resource/gamemenu.res'] = (
+        '"command" "engine toggle cl_mainmenu_safemode; mat_queue_mode 0"\n'
+        '"other" "engine echo KeepThis"\n')
+    files[m.MAXIHUD_MENU_FRAME] = (
+        '"Command" "engine cl_mainmenu_safemode 0; mat_queue_mode -1; gameui_allowescape"\n'
+        '"Command" "engine gameui_allowescape; mat_queue_mode -1; gamemenucommand RestartWithNewLanguage"\n'
+        '"Command" "engine cl_mainmenu_safemode 0; gameui_allowescape; mat_queue_mode -1; hud_reloadscheme"\n')
+    files['scripts/hudlayout.res'] = '#base "../../../cfg/maxihud/maxihud_customization_menu.txt"\n'
+    return files
+
+
 class Response(io.BytesIO):
     def geturl(self):
         return 'https://github.com/example/release.zip'
@@ -60,6 +84,18 @@ class Response(io.BytesIO):
 
 class SetupTests(unittest.TestCase):
     def setUp(self):
+        platform = patch.object(m.sys, 'platform', 'linux')
+        platform.start()
+        self.addCleanup(platform.stop)
+        network = patch.object(m.urllib.request, 'urlopen', side_effect=AssertionError('Unexpected live HTTP in offline tests'))
+        network.start()
+        self.addCleanup(network.stop)
+        fixture = maxihud_fixture()
+        reviewed = patch.object(m, 'MAXIHUD_REVIEWED_SHA256',
+                                {rel: hashlib.sha256(fixture[rel].encode()).hexdigest()
+                                 for rel in m.MAXIHUD_REVIEWED_SHA256})
+        reviewed.start()
+        self.addCleanup(reviewed.stop)
         self.temp = tempfile.TemporaryDirectory(prefix='tf2-regression-')
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
@@ -570,9 +606,10 @@ class SetupTests(unittest.TestCase):
 
 
     def make_local_zip(self, name='toonhud', extra=None):
-        contents = dict(extra or {})
+        contents = maxihud_fixture() if name == 'maxihud' else {}
+        contents.update(extra or {})
         if name == 'maxihud':
-            contents['cfg/maxihud_customization.cfg'] = 'echo customization'
+            contents.setdefault('cfg/maxihud_customization.cfg', 'exec maxihud_first_run')
         path = self.root / ('input-' + name + '.zip')
         write(path, archive_bytes(name, contents))
         return path
@@ -618,9 +655,13 @@ class SetupTests(unittest.TestCase):
                                              'cfg/overrides/scout.cfg': 'sensitivity 9'})
             asset = {'version': 'fixture', 'sha256': m.tree_hash(path)}
             dest = m.prepare_hud(path, self.root / (name + '-isolated'), name, asset)
-            self.assertFalse((dest / 'cfg').exists())
+            if name == 'maxihud':
+                self.assertEqual({p.name for p in (dest / 'cfg').iterdir()},
+                                 {Path(p).name for p in m.MAXIHUD_ALIAS_FILES} | {m.MAXIHUD_LOADER})
+            else:
+                self.assertFalse((dest / 'cfg').exists())
             self.assertTrue(m.hud_is_current(dest, name, asset))
-            self.assertEqual(json.loads((dest / m.HUD_MARKER).read_text())['policy'], 'isolate-cfg-v1')
+            self.assertEqual(json.loads((dest / m.HUD_MARKER).read_text())['policy'], m.hud_policy(name))
 
     def test_local_choices_require_zip(self):
         before = self.snapshot()
@@ -641,7 +682,10 @@ class SetupTests(unittest.TestCase):
             before = self.snapshot()
             result = self.run_main('--update-only', '--hud', name, '--hud-zip', str(path),
                                    '--replace-hud', '--dry-run')
-            self.assertIn('Configuration files: no changes.', result[1])
+            if name == 'maxihud':
+                self.assertIn('TF2-COMPETITIVE-MAXIHUD-MENU', result[1])
+            else:
+                self.assertIn('Configuration files: no changes.', result[1])
             self.assertIn('NOT authenticated', result[1])
             self.assertFalse(result[3].called)
             self.assertFalse(result[4].called)
@@ -654,8 +698,14 @@ class SetupTests(unittest.TestCase):
             before = self.snapshot(self.tf / 'cfg')
             result = self.run_main('--update-only', '--hud', name, '--hud-zip', str(path), '--replace-hud')
             self.assertFalse(result[3].called)
-            self.assertFalse((self.tf / m.hud_relative(name) / 'cfg').exists())
-            self.assertEqual(before, self.snapshot(self.tf / 'cfg'))
+            self.assertEqual((self.tf / m.hud_relative(name) / 'cfg').exists(), name == 'maxihud')
+            after = self.snapshot(self.tf / 'cfg')
+            for rel, data in before.items():
+                if rel == 'overrides/autoexec.cfg':
+                    expected = data + m.MAXIHUD_HOOK if name == 'maxihud' else data.replace(m.MAXIHUD_HOOK, b'')
+                    self.assertEqual(after[rel], expected)
+                else:
+                    self.assertEqual(after[rel], data)
             self.assertEqual([p.name for p in m.hud_candidates(self.tf)], [name])
 
     def test_local_zip_repeat_is_noop(self):
@@ -740,6 +790,242 @@ class SetupTests(unittest.TestCase):
         result = self.run_main('--update-only')
         self.assertIn('Already configured', result[1])
         self.assertEqual(before, self.snapshot())
+
+    def test_maxihud_only_reviewed_aliases_and_loader_are_installed(self):
+        path = self.make_local_zip('maxihud', {
+            'cfg/maxihud_first_run.cfg': 'record unsafe; sv_allow_point_servercommand always',
+            'cfg/joystick.cfg': 'exec maxihud_first_run',
+            'cfg/autoexec.cfg': 'fps_max 10',
+            'cfg/overrides/scout.cfg': 'sensitivity 9'})
+        asset = m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+        dest = m.prepare_hud(path, self.root / 'maxi-prepared', 'maxihud', asset)
+        self.assertEqual({p.name for p in (dest / 'cfg').iterdir()},
+                         {Path(p).name for p in m.MAXIHUD_ALIAS_FILES} | {m.MAXIHUD_LOADER})
+        loader = (dest / 'cfg' / m.MAXIHUD_LOADER).read_text()
+        expected = ['tf2_competitive_maxihud_logging.cfg'] + [Path(p).name for p in m.MAXIHUD_ALIAS_FILES]
+        self.assertEqual([line[5:] for line in loader.splitlines() if line.startswith('exec ')], expected)
+        self.assertTrue(all(line.startswith(('//', 'alias ', 'exec ')) for line in loader.splitlines()))
+        self.assertNotIn('first_run', loader)
+        self.assertNotIn('valve.rc', loader)
+        self.assertEqual(json.loads((dest / m.HUD_MARKER).read_text())['policy'], 'maxihud-menu-v1')
+
+    def test_maxihud_tab_aliases_timestamp_and_namespaced_logging(self):
+        source = {p: body.encode() for p, body in maxihud_fixture().items()}
+        prepared = m.maxihud_menu_files(source)
+        general = prepared['cfg/maxihud_customization_general.cfg'].decode()
+        self.assertIn('alias "m0_custom_settings"', general)
+        self.assertIn('alias "m0_custom_colors"', general)
+        self.assertIn('sixense_write_bindings maxihud/maxihud_customization_menu.txt', general)
+        self.assertIn('con_timestamp 0; con_logfile cfg/maxihud/maxihud_customization_menu.txt', general)
+        for rel in m.MAXIHUD_ALIAS_FILES:
+            text = prepared[rel].decode()
+            self.assertNotIn('console_unlog', text)
+            self.assertIn(m.MAXIHUD_LOG_ALIAS, text)
+            self.assertTrue(all(line.startswith(('alias ', '//')) for line in text.splitlines() if line.strip()))
+        self.assertIn('alias ' + m.MAXIHUD_LOG_ALIAS, prepared['cfg/' + m.MAXIHUD_LOADER].decode())
+        self.assertLessEqual(len(m.MAXIHUD_LOG_ALIAS), 31)
+
+    def test_maxihud_only_four_queue_mode_assignments_are_removed(self):
+        source = {p: body.encode() for p, body in maxihud_fixture().items()}
+        prepared = m.maxihud_menu_files(source)
+        self.assertEqual(prepared['resource/gamemenu.res'],
+                         source['resource/gamemenu.res'].replace(b'; mat_queue_mode 0', b''))
+        self.assertEqual(prepared[m.MAXIHUD_MENU_FRAME],
+                         source[m.MAXIHUD_MENU_FRAME].replace(b'; mat_queue_mode -1', b''))
+        self.assertIn(b'cl_mainmenu_safemode', prepared[m.MAXIHUD_MENU_FRAME])
+        self.assertIn(b'hud_reloadscheme', prepared[m.MAXIHUD_MENU_FRAME])
+        self.assertIn(b'RestartWithNewLanguage', prepared[m.MAXIHUD_MENU_FRAME])
+        self.assertIn(b'KeepThis', prepared['resource/gamemenu.res'])
+
+    def test_maxihud_unreviewed_or_missing_file_rejected_even_in_preview(self):
+        for rel in m.MAXIHUD_REVIEWED_SHA256:
+            with self.subTest(file=rel):
+                path = self.make_local_zip('maxihud', {rel: 'unreviewed data'})
+                before = self.snapshot()
+                with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+                    self.run_main('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--dry-run')
+                self.assertEqual(before, self.snapshot())
+        source = {p: body.encode() for p, body in maxihud_fixture().items()}
+        del source['cfg/maxihud_customization_general.cfg']
+        with self.assertRaisesRegex(m.SetupError, 'reviewed v17.5'):
+            m.maxihud_menu_files(source)
+
+    def test_maxihud_unknown_queue_command_is_not_broadly_sanitized(self):
+        source = {p: body.encode() for p, body in maxihud_fixture().items()}
+        rel = 'resource/gamemenu.res'
+        source[rel] += b'"Command" "engine mat_queue_mode 2"\n'
+        expected = dict(m.MAXIHUD_REVIEWED_SHA256, **{rel: hashlib.sha256(source[rel]).hexdigest()})
+        with patch.object(m, 'MAXIHUD_REVIEWED_SHA256', expected):
+            with self.assertRaisesRegex(m.SetupError, 'queue-mode command remains'):
+                m.maxihud_menu_files(source)
+
+    def test_maxihud_hud_only_keeps_competitive_config_bytes_and_is_idempotent(self):
+        auto = self.tf / 'cfg/overrides/autoexec.cfg'
+        old = b'\xef\xbb\xbf' + auto.read_bytes().replace(b'\n', b'\r\n').rstrip(b'\r\n')
+        auto.write_bytes(old)
+        before = {rel: (self.tf / rel).read_bytes() for rel in m.MANAGED_FILES}
+        path = self.make_local_zip('maxihud')
+        args = ('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        result = self.run_main(*args)
+        self.assertFalse(result[3].called)
+        self.assertEqual(auto.read_bytes(), old + m.MAXIHUD_HOOK)
+        for rel in (m.MANAGED_FILES[0], m.MANAGED_FILES[2]):
+            self.assertEqual((self.tf / rel).read_bytes(), before[rel])
+        self.assertEqual((self.tf / 'cfg/maxihud/maxihud_customization_menu.txt').read_bytes(), b'"X" {}\n')
+        snapshot = self.snapshot()
+        result = self.run_main(*args)
+        self.assertIn('Already configured', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertEqual(snapshot, self.snapshot())
+
+    def test_maxihud_dry_run_does_not_create_loader_hook_data_or_backup(self):
+        path = self.make_local_zip('maxihud')
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--dry-run')
+        self.assertIn('TF2-COMPETITIVE-MAXIHUD-MENU', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertFalse(result[5].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_maxihud_first_install_and_restore_preserve_original_configs(self):
+        shutil.rmtree(self.tf / 'cfg')
+        (self.tf / 'custom/mastercomfig-base.vpk').unlink()
+        write(self.tf / 'cfg/autoexec.cfg', 'sensitivity 1.37\nbind mouse4 +attack2\n')
+        path = self.make_local_zip('maxihud')
+        before = self.snapshot(self.tf)
+        result = self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        auto = (self.tf / 'cfg/overrides/autoexec.cfg').read_bytes()
+        self.assertIn(b'sensitivity 1.37\nbind mouse4 +attack2', auto)
+        self.assertEqual(auto.count(m.MAXIHUD_HOOK), 1)
+        self.assertEqual(self.downloads, [m.COMFIG['url']])
+        self.assertTrue((self.tf / 'custom/maxihud/cfg' / m.MAXIHUD_LOADER).is_file())
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-maxi-first-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_maxihud_migration_from_old_policy_has_exact_restore(self):
+        path = self.make_local_zip('maxihud')
+        asset = m.local_hud_asset(self.args('--hud', 'maxihud', '--hud-zip', str(path)))
+        dest = self.tf / 'custom/maxihud'
+        write(dest / 'info.vdf', '"HUD" { "ui_version" "3" }')
+        write(dest / 'resource/personal.res', 'personal HUD edit')
+        m.save_json(dest / m.HUD_MARKER, {'hud': 'maxihud', 'archive_sha256': asset['sha256'],
+                    'policy': 'isolate-cfg-v1', 'tree_sha256': m.tree_hash(dest)})
+        before = self.snapshot(self.tf)
+        self.assertFalse(m.hud_is_current(dest, 'maxihud', asset))
+        self.run_main('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        self.assertTrue(m.hud_is_current(dest, 'maxihud', asset))
+        backup = next(self.state.rglob('manifest.json')).parent
+        entries = {x['path'] for x in json.loads((backup / 'manifest.json').read_text())['entries']}
+        self.assertIn('cfg/overrides/autoexec.cfg', entries)
+        self.assertIn('cfg/maxihud', entries)
+        self.assertIn('cfg/tf2_competitive_maxihud_logging.cfg', entries)
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-maxi-migrate-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_maxihud_data_and_custom_logging_profile_survive_reapply(self):
+        profile = self.tf / 'cfg/tf2_competitive_maxihud_logging.cfg'
+        original = ('alias ' + m.MAXIHUD_LOG_ALIAS + ' "con_logfile tournament.log; con_timestamp 1"\n').encode()
+        write(profile, original)
+        write(self.tf / 'cfg/maxihud/maxihud_customization_menu.txt', '"X" {"personal" "yes"}')
+        write(self.tf / 'cfg/maxihud/personal.txt', 'keep colors')
+        before = self.snapshot(self.tf / 'cfg/maxihud')
+        path = self.make_local_zip('maxihud')
+        args = ('--update-only', '--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        self.run_main(*args)
+        self.run_main(*args)
+        self.assertEqual(before, self.snapshot(self.tf / 'cfg/maxihud'))
+        self.assertEqual(profile.read_bytes(), original)
+
+    def test_maxihud_existing_data_directory_missing_menu_is_restorable(self):
+        write(self.tf / 'cfg/maxihud/personal.txt', 'keep me')
+        path = self.make_local_zip('maxihud')
+        before = self.snapshot(self.tf)
+        self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        backup = next(self.state.rglob('manifest.json')).parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-maxi-data-restore')
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_maxihud_switch_to_stock_removes_only_owned_hook(self):
+        auto = self.tf / 'cfg/overrides/autoexec.cfg'
+        before = auto.read_bytes()
+        path = self.make_local_zip('maxihud')
+        self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        snapshot = self.snapshot(self.tf)
+        self.run_main('--update-only', '--hud', 'stock', '--replace-hud')
+        self.assertEqual(auto.read_bytes(), before)
+        self.assertTrue((self.tf / 'cfg/maxihud').is_dir())
+        self.assertTrue((self.tf / 'cfg/tf2_competitive_maxihud_logging.cfg').is_file())
+        backups = list(self.state.rglob('manifest.json'))
+        backup = max(backups, key=lambda p: p.stat().st_mtime_ns).parent
+        tf, ops = m.load_restore(backup)
+        m.transact(tf, ops, backup.parent, 'test-maxi-stock-restore')
+        self.assertEqual(snapshot, self.snapshot(self.tf))
+
+    def test_maxihud_apply_failure_rolls_back_hook_profile_and_data_directory(self):
+        self.install_hud_fixture(customized=True)
+        path = self.make_local_zip('maxihud')
+        before = self.snapshot(self.tf)
+        copy = m.copy_item
+        failed = False
+        def fail_once(src, dst):
+            nonlocal failed
+            if dst.resolve() == (self.tf / 'custom/maxihud').resolve() and not failed:
+                failed = True
+                raise OSError('injected MaxiHUD copy failure')
+            return copy(src, dst)
+        with patch.object(m, 'copy_item', side_effect=fail_once):
+            with self.assertRaisesRegex(OSError, 'injected MaxiHUD'):
+                self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        self.assertTrue(failed)
+        self.assertEqual(before, self.snapshot(self.tf))
+        self.assertEqual(json.loads(next(self.state.rglob('manifest.json')).read_text())['status'], 'rolled-back')
+
+    def test_maxihud_support_data_race_stops_before_game_apply(self):
+        path = self.make_local_zip('maxihud')
+        auto = (self.tf / 'cfg/overrides/autoexec.cfg').read_bytes()
+        prepare = m.prepare_hud
+        def concurrent_change(*args):
+            result = prepare(*args)
+            write(self.tf / 'cfg/maxihud/concurrent.txt', 'new user data')
+            return result
+        with patch.object(m, 'prepare_hud', side_effect=concurrent_change):
+            with self.assertRaisesRegex(m.SetupError, 'changed after the preview'):
+                self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        self.assertEqual((self.tf / 'cfg/overrides/autoexec.cfg').read_bytes(), auto)
+        self.assertFalse((self.tf / 'custom/maxihud').exists())
+        self.assertFalse(list(self.state.rglob('manifest.json')))
+
+    def test_maxihud_modified_startup_block_is_not_overwritten(self):
+        path = self.make_local_zip('maxihud')
+        auto = self.tf / 'cfg/overrides/autoexec.cfg'
+        with auto.open('ab') as stream:
+            stream.write(m.MAXIHUD_HOOK.replace(b'exec tf2_', b'exec user_tf2_'))
+        before = self.snapshot()
+        with self.assertRaisesRegex(m.SetupError, 'startup block was edited'):
+            self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--replace-hud')
+        self.assertEqual(before, self.snapshot())
+
+    def test_maxihud_wrong_data_type_and_symlink_profile_are_rejected(self):
+        path = self.make_local_zip('maxihud')
+        data = self.tf / 'cfg/maxihud'
+        write(data, 'ordinary file, not a directory')
+        before = self.snapshot()
+        with self.assertRaisesRegex(m.SetupError, 'ordinary directory'):
+            self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--dry-run')
+        self.assertEqual(before, self.snapshot())
+        data.unlink()
+        target = self.root / 'logging.cfg'
+        write(target, 'private file')
+        (self.tf / 'cfg/tf2_competitive_maxihud_logging.cfg').symlink_to(target)
+        with self.assertRaisesRegex(m.SetupError, 'Symlink'):
+            self.run_main('--hud', 'maxihud', '--hud-zip', str(path), '--dry-run')
+        self.assertEqual(target.read_text(), 'private file')
 
     def resource_main(self, *args):
         """Resource helpers must not discover TF2 or run any setup operation."""

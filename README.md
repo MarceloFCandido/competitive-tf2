@@ -1,6 +1,6 @@
 # TF2 Competitive Setup — Bazzite/Linux
 
-A reproducible TF2 setup with selectable HUDs, incremental updates, backups and restoration. The current installer is **v1.6.0**.
+A reproducible TF2 setup with selectable HUDs, incremental updates, backups and restoration. The current installer is **v1.6.1**.
 
 ## Motivation
 
@@ -52,7 +52,7 @@ python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-
 python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 ```
 
-`--update-only` refuses to install a baseline if it cannot recognize the previous setup. A HUD-only update should report `Configuration files: no changes.` Do not repeat preset, FPS, clarity or viewmodel flags unless you intend to change them. `--replace-hud` permits backing up/replacing existing or customized HUDs; choices are alternatives, not layers.
+`--update-only` refuses to install a baseline if it cannot recognize the previous setup. HUD-only updates preserve competitive settings. Enabling the MaxiHUD menu adds a startup block and support data to the preview; updates to other HUDs normally report `Configuration files: no changes.` Do not repeat preset, FPS, clarity or viewmodel flags unless you intend to change them. `--replace-hud` permits backing up/replacing existing or customized HUDs; choices are alternatives, not layers.
 
 | Option | Behavior |
 |---|---|
@@ -67,7 +67,7 @@ python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 
 ### Acquire and import HUD packages
 
-These are the release pins in the v1.6.0 installer, rather than a list of the latest upstream releases:
+These are the release pins in the v1.6.1 installer, rather than a list of the latest upstream releases:
 
 | HUD choice | Package |
 |---|---|
@@ -95,11 +95,49 @@ For a ToonHUD **Custom** font, obtain the chosen font from its publisher, instal
 
 ### HUD configuration compatibility
 
-Center HUD, Community HUD Fixes, MaxiHud and ToonHUD are installed without their bundled `cfg` directories. Downloading the same ZIP again will not enable those omitted scripts. Initialization, customization aliases and menu features may therefore be incomplete. Center HUD's upstream first-run script writes configuration and uses demo/logging commands; MaxiHud's startup script changes console settings. The installer does not enable those scripts automatically.
+Center HUD, Community HUD Fixes and ToonHUD are installed without their bundled `cfg` directories. MaxiHUD uses the minimal integration described below. Downloading the same ZIP again will not enable those omitted scripts. Initialization, customization aliases and menu features may therefore be incomplete. Center HUD's upstream first-run script writes configuration and uses demo/logging commands. MaxiHUD's full startup script also changes console settings. Those full startup scripts remain excluded.
 
 For Middle Mann, rayshud and budhud, bundled resources are retained but `cfg/valve.rc` is excluded to preserve startup settings. The pinned IDHUD package has no `cfg` directory; its optional recommended console settings are not applied. Arbitrary combinations of other mods and HUD menus can still affect runtime behavior.
 
 Middle Mann expects `cl_hud_minmode 0`. ToonHUD centered mode uses minimal **HUD** mode, which is separate from minimal weapon viewmodels. The installer preserves your current HUD mode; record its value before changing it manually.
+
+## Repair or enable the MaxiHUD v17.5 Settings tabs
+
+Version **1.6.1** fixes the v1.6.0 installation that opened Settings without switching categories. It retains six checksum-reviewed customization files (general, colors, fonts, crosshairs, streamer and reset) and loads their alias definitions through `tf2_competitive_maxihud_menu.cfg`. A separate block is appended to `tf/cfg/overrides/autoexec.cfg`, the mastercomfig startup override. Existing config bytes, binds, sensitivity, preset, FPS cap, visual-clarity settings and viewmodel choices are preserved.
+
+The script creates `tf/cfg/maxihud/` and a minimal menu-data file when needed. Existing customization data and your logging profile are retained. It still excludes `valve.rc`, `joystick.cfg`, the full customization bootstrap and `maxihud_first_run.cfg`; it does not enable demo-recording initialization or `sv_allow_point_servercommand always`.
+
+Only the four reviewed `mat_queue_mode` assignments in the menu's open, close, restart and Apply commands are removed. The remaining menu commands and resource content stay in place. Buttons such as **Reset All** can still change the upstream HUD's console settings when you choose them; registration of aliases does not execute those actions. This is not a guarantee that every optional HUD feature works.
+
+Use the unmodified [v17.5 Source code ZIP](https://github.com/maxiandrew/maxihud/archive/refs/tags/v17.5.zip). The six cfg files, two patched menu resources and layout include are checked against [commit 18fb7f1](https://github.com/maxiandrew/maxihud/tree/18fb7f1e2903ebab15e811c9718726ddce51b0f4); missing or changed support files stop the operation before applying game changes. Other resource files and the complete user-selected ZIP are not authenticated by these nine checks.
+
+On the Bazzite PC, use your actual ZIP filename; this example assumes `~/Downloads/maxihud-17.5.zip`:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud maxihud --hud-zip "$HOME/Downloads/maxihud-17.5.zip" --replace-hud --dry-run
+```
+
+Review the startup block, support files and replacement, then fully close Steam/TF2 and apply:
+
+```bash
+python3 setup_tf2_bazzite.py --update-only --hud maxihud --hud-zip "$HOME/Downloads/maxihud-17.5.zip" --replace-hud
+```
+
+The old `isolate-cfg-v1` MaxiHUD is recognized as needing replacement. The new menu policy is idempotent: repeating the same options with unchanged files creates no new backup. Switching to another HUD removes only the added startup block; customization data and the logging profile remain for future use. The printed restore command recovers the files affected by this operation.
+
+### Logging behavior and in-game verification
+
+Upstream menu actions write their selected layout into `tf/cfg/maxihud/*.txt` using Source console logging. Each write temporarily uses `con_timestamp 0`, then calls the separate `tf2_setup_maxihud_log_restore` alias. Loading the definitions does not change logging. The default restoration is **`con_logfile console.log; con_timestamp 0`**, matching the upstream unlog convention, rather than an automatic snapshot of your session.
+
+For different logging preferences, edit `tf/cfg/tf2_competitive_maxihud_logging.cfg` before using the menu. For example, to restore a chosen log file with timestamps:
+
+```cfg
+alias tf2_setup_maxihud_log_restore "con_logfile tournament.log; con_timestamp 1"
+```
+
+That profile is preserved on reapplication. Source aliases cannot capture arbitrary current ConVar values; set the restore profile to your intended values, and close the menu before manually changing logging. Menu writes temporarily redirect console output, and later in-game changes are outside the installer's file-backup guarantee.
+
+After restarting TF2, open **Settings**, try **General/Colors/Fonts**, then **Apply/Close**, and compare `mat_queue_mode` before and after. Check `con_logfile` and `con_timestamp` against your restore profile. The installer and synthetic regression suite were tested with temporary files; actual menu rendering and behavior on TF2/Bazzite still need your verification.
 
 ## Backups and restoration
 
@@ -192,7 +230,7 @@ A centered vanilla-inspired interface with more menu and customization features.
 
 `--hud maxihud` — Import a selected upstream ZIP with --hud-zip.
 
-Import your chosen upstream ZIP. No independently verified release digest is provided. Bundled cfg scripts are omitted; optional scripted features may not work.
+Six reviewed customization alias files and a minimal persistent loader enable menu categories. Full startup and first-run scripts stay excluded. The whole ZIP has no pinned release digest; optional features and TF2 rendering still need verification.
 
 [![MaxiHud — published example 1](https://images.gamebanana.com/img/ss/mods/6997885801058.jpg)](https://images.gamebanana.com/img/ss/mods/6997885801058.jpg)
 
@@ -294,16 +332,16 @@ All three files retain their original bytes.
 
 ## Tests
 
-The [regression suite](test_setup_tf2_bazzite.py) has 103 test methods using synthetic archives/images and temporary directories. To run it manually:
+The [regression suite](test_setup_tf2_bazzite.py) has 119 test methods using synthetic archives/images and temporary directories. To run it manually:
 
 ```bash
 python3 -m unittest -v test_setup_tf2_bazzite.py
 ```
 
-The installer and tests were not executed during this documentation/repository reorganization. Commands were checked against the v1.6.0 argument declarations and code.
+All 119 offline tests pass with artificial game folders, archives and images, with live HTTP blocked. They cover the MaxiHUD alias/loader policy, precise menu edits, preservation, first installation, HUD-only migration, repeat/no-op, race checks, backups, exact restoration, rollback and dry-run. No HUD cfg was executed and no real TF2 installation was changed. Earlier archive-only operations did not execute the installer or tests.
 
 ## Source and archive records
 
-The installer keeps acquisition/dependency links in `HUD_HELP` and screenshot sources in `GALLERY_ITEMS`. These notes describe the pinned v1.6.0 behavior; upstream hosts and optional requirements may change. Support-file references include [Center HUD](https://github.com/RoseyLemonz/center-hud/tree/v24/cfg), [Community HUD Fixes](https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg), [MaxiHud](https://github.com/maxiandrew/maxihud/tree/v17.5/cfg) and the [budhud installation guide](https://github.com/rbjaxter/budhud/wiki/Installation).
+The installer keeps acquisition/dependency links in `HUD_HELP` and screenshot sources in `GALLERY_ITEMS`. These notes describe the pinned v1.6.1 behavior; upstream hosts and optional requirements may change. Support-file references include [Center HUD](https://github.com/RoseyLemonz/center-hud/tree/v24/cfg), [Community HUD Fixes](https://github.com/CriticalFlaw/tf2hud-fixes/tree/11.0/cfg), [MaxiHud](https://github.com/maxiandrew/maxihud/tree/v17.5/cfg) and the [budhud installation guide](https://github.com/rbjaxter/budhud/wiki/Installation).
 
 Recovery records and tools are indexed in [.agent/ARCHIVE.md](.agent/ARCHIVE.md). Literal historical guides are retained there as source evidence, and previous filenames remain in Git. This root file is the single current README and the source of installation instructions.

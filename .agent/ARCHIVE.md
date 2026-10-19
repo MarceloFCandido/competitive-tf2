@@ -1,6 +1,6 @@
 # Agent archive and recovery records
 
-The current installer, product tests, usage guide and illustrated HUD comparison are reached through the [main README](../README.md). Original configuration examples are in [the configuration examples section](../README.md#configuration-examples).
+The maintained installer, product tests, usage guide and illustrated HUD comparison are reached through the [main README](../README.md). Original configuration examples are in [the configuration examples section](../README.md#configuration-examples).
 
 | Area | Contents |
 |---|---|
@@ -33,7 +33,7 @@ The original comparison HTML was removed from the working tree after all 15 imag
 git show 618beb0913ab4670bdc0a035e4fa7fe376a99963:TF2_HUD_Visual_Comparison.html
 ```
 
-[Visual verification](manifests/visual-comparison.json) records the source images, HTTP preflight, browser decoding, visible inspection and limits. The README references the original remote images; it is not an offline image bundle. [Command verification](manifests/command-audit.json) records static inspection of the v1.6.0 options and relevant behavior.
+[Visual verification](manifests/visual-comparison.json) records the source images, HTTP preflight, browser decoding, visible inspection and limits. The README references the original remote images; it is not an offline image bundle. [Command verification](manifests/command-audit.json) records static inspection of the maintained v1.6.1 options and relevant behavior.
 
 The historical [final-files manifest](provenance/final-files.sha256.json) belongs to the snapshot before organization. The [current manifest](manifests/files.sha256.json) covers all current files declared by this organization except itself. The [validation receipt](manifests/validation.json) records checks before the latest documentation commit. The [consolidation record](manifests/documentation-consolidation.json) lists the former documentation paths, renames and merged sections.
 
@@ -49,6 +49,10 @@ This verifier only reads files, Git objects, hashes and links. It does not impor
 - [Earlier cumulative HUD guide](history/guides/cumulative-hud-update-original.md)
 
 These literal bodies preserve historical claims, commands and test reports from their authors. Use the [root README](../README.md) for current instructions; the original guide filenames can be recovered from their recorded commits. The examples index was merged into that README and remains recoverable from the consolidation base commit.
+
+## Authored maintenance after recovery
+
+The current installer/test suite is maintained beyond the imported v1.6.0 originals. The v1.6.1 MaxiHUD menu correction has a [source and test audit](audits/maxihud-menu-v1.6.1.json) and a [maintenance receipt](manifests/maintenance.json). Its 119 offline tests use synthetic files with HTTP blocked; they do not execute HUD cfgs or apply to a real game. The original captured 52 revision records and 211 provenance files remain intact in Git. The existing browser image receipt applies to the same 15 image embeddings; later text changes are recorded separately.
 
 ## Optional local documentation preview
 

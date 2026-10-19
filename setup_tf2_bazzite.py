@@ -1,43 +1,72 @@
 #!/usr/bin/env python3
-"""Reversible TF2 competitive-style baseline for Bazzite/Linux (Python 3.9+).
+"""Reversible TF2 setup and incremental updates for Bazzite/Linux (Python 3.9+).
 
 Run as your normal user in Desktop Mode, with TF2 and Steam fully exited.
 No sudo, pip, package installs, Steam-account edits, or OS tuning.
 Downloads only pinned upstream game data; never executes downloaded programs.
 
-Examples:
+Already applied an earlier version? Use:
+    python3 setup_tf2_bazzite.py --update-only --dry-run --visual-clarity --hud rayshud --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --visual-clarity --hud rayshud --replace-hud
+
+Other examples:
+    python3 setup_tf2_bazzite.py --update-only --viewmodels hidden --dry-run
+    python3 setup_tf2_bazzite.py --update-only --viewmodels minimal
+    python3 setup_tf2_bazzite.py --update-only --hud budhud --replace-hud
     python3 setup_tf2_bazzite.py --dry-run
-    python3 setup_tf2_bazzite.py --dry-run --visual-clarity --viewmodels hidden
-    python3 setup_tf2_bazzite.py --visual-clarity
-    python3 setup_tf2_bazzite.py
-    python3 setup_tf2_bazzite.py --preset low --fps-cap 240 --hud budhud
+    python3 setup_tf2_bazzite.py --preset low --fps-cap 240
     python3 setup_tf2_bazzite.py --tf2-dir '/path/to/Team Fortress 2'
-    python3 setup_tf2_bazzite.py --restore '/path/printed/after/install'
+    python3 setup_tf2_bazzite.py --restore '/path/printed/after/apply'
 
-Optional visibility settings:
-    --visual-clarity: reduce cosmetic effects with normal config settings.
-    --viewmodels hidden: hide your first-person weapon/hands, including their
-        firing/reload animations. Does not shorten reloads or change weapons.
-    Defaults remain the original baseline: minimal visible weapons, no extra
-        clarity overrides. Repeat your chosen flags on subsequent runs; options
-        are not remembered. Class scripts or binds can override viewmodels.
-    This does not install replacement animations/particles or remove all
-        explosions, flames, status overlays, camera recoil, or screen shake.
+Update behavior:
+    Existing script-managed installations automatically use incremental mode.
+    --update-only additionally refuses to run without a recognized installation.
+    Unspecified settings stay as they are: no preset/FPS reset, base redownload,
+    class-config migration, or changes to binds, sensitivity, or Steam settings.
+    Only explicitly requested keys are edited. Repeated settings are no-ops.
+    Ambiguous duplicate/scripted settings in edited files cause a safe stop.
+    Arbitrary class scripts, other mods and in-game binds are not rewritten;
+    they can still override these settings. Review warnings and test in-game.
 
-Sources (original setup checked 2026-10-17; visibility checked 2026-10-18):
+Visual options:
+    --visual-clarity reduces cosmetic motion, first-person tracers, Pyrovision
+    vignette, bloom/HDR and the 3D HUD portrait. It PRESERVES the effects module:
+    it never raises your existing low/very_low particle/impact-effects setting.
+    --viewmodels hidden hides your first-person weapon/hands and their visual
+    firing/reload animations. Timing, camera recoil and screen shake remain.
+    Without --viewmodels, updates preserve your current weapon visibility/FOV.
+    No replacement animation/particle mods or sv_cheats commands are installed.
+    Not every flame, explosion, flash or status overlay can be disabled.
+
+HUDs:
+    --hud rayshud or --hud budhud installs one pinned, checksum-verified HUD.
+    --replace-hud permits backing up/replacing detected existing HUDs, including
+    a customized copy of the chosen HUD. Otherwise conflicts stop installation.
+    Bundled cfg/valve.rc files are excluded to preserve your startup/settings;
+    this also omits their automatic HUD-specific tweaks (e.g. menu dimmer fix).
+    Detection is conservative; arbitrary packed/renamed mods may go undetected.
+
+Dry runs never download, write game files, or create backups. Incremental dry
+runs show config diffs and planned HUD replacements. Backups from older script
+versions remain restorable. The program prints an undo command after changes.
+
+Sources checked 2026-10-18:
     https://docs.comfig.app/latest/setup/install/
     https://docs.comfig.app/latest/customization/custom_configs/
     https://docs.comfig.app/latest/customization/modules/
     https://docs.comfig.app/latest/tf2/cvarlist_linux/
     https://github.com/ValveSoftware/source-sdk-2013/blob/master/src/game/client/viewrender.cpp
     https://github.com/mastercomfig/mastercomfig/releases/tag/9.100.1
+    https://github.com/raysfire/rayshud/releases/tag/2026.0111
+    https://github.com/raysfire/rayshud/blob/2026.0111/cfg/valve.rc
     https://github.com/rbjaxter/budhud/releases/tag/2511_01
-    https://github.com/rbjaxter/budhud/wiki/Installation
+    https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc
 """
 from __future__ import annotations
 
 import argparse
 import datetime as dt
+import difflib
 import fcntl
 import hashlib
 import json
@@ -55,7 +84,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.1.0'
+SCRIPT_VERSION = '1.2.0'
 
 COMFIG = {
     'version': '9.100.1',
@@ -67,6 +96,16 @@ BUDHUD = {
     'url': 'https://github.com/rbjaxter/budhud/releases/download/2511_01/budhud.zip',
     'sha256': 'f42f2af1d6469c80a01f093930a0db32f901e0a03bad5aaa1dbe7e17749335c2',
 }
+RAYSHUD = {
+    'version': '2026.0111',
+    'url': 'https://github.com/raysfire/rayshud/releases/download/2026.0111/rayshud.zip',
+    'sha256': '09c695faa1243d649dff5636d1ccb0c831a6f4f6d118380b2e40d451f6dbd014',
+}
+HUDS = {'budhud': BUDHUD, 'rayshud': RAYSHUD}
+HUD_MARKER = '.tf2-competitive-setup-hud.json'
+HUD_POLICY = 'preserve-startup-v1'
+MANAGED_FILES = ('cfg/overrides/setup_hook.cfg', 'cfg/overrides/autoexec.cfg',
+                 'cfg/overrides/modules.cfg')
 FPS_CAPS = ('60', '75', '120', '144', '160', '165', '180', '200', '240',
             '300', '360', '400', '1000')
 MIGRATE = ('autoexec.cfg', 'listenserver.cfg', 'scout.cfg', 'soldier.cfg',
@@ -99,12 +138,10 @@ con_enable 1
 echo "TF2 competitive baseline loaded"
 '''
 
-# Keep impact effects rather than using effects=low/very_low. Some effects are
-# already reduced by Medium. These explicit choices also apply with --preset
-# high/low; effects=medium intentionally keeps more impact cues than Low does.
-# Descriptions describe upstream intentions, not a promise about every effect.
+# Deliberately leave the effects module alone. Raising Low to Medium would
+# re-enable impact cues/particles; the user requested an additive update.
+# These descriptions are upstream intentions, not guarantees for every effect.
 CLARITY_MODULES = (
-    ('effects', 'medium', 'Reduce supported weather, muzzle flashes, casings and particle density; keep impact effects'),
     ('tracers', 'low', 'Hide first-person bullet tracers (not all world/projectile trails)'),
     ('post_processing', 'off', 'Disable standard bloom/HDR post-processing'),
     ('pyrovision', 'low', 'Remove Pyrovision vignette and depth-of-field effects, not all Pyroland assets'),
@@ -352,7 +389,8 @@ def extract_hud(archive: Path, dest: Path) -> Path:
             p = PurePosixPath(item.filename)
             mode = item.external_attr >> 16
             if (p.is_absolute() or '..' in p.parts or '\\' in item.filename
-                    or stat.S_ISLNK(mode) or item.flag_bits & 1):
+                    or (stat.S_IFMT(mode) not in (0, stat.S_IFREG, stat.S_IFDIR))
+                    or item.flag_bits & 1):
                 raise SetupError('Unsafe HUD archive member: ' + item.filename)
             if not p.parts:
                 continue
@@ -385,10 +423,12 @@ def remove_item(path: Path) -> None:
         path.unlink()
 
 
-def tree_hash(path: Path) -> str:
+def tree_hash(path: Path, ignore_root: tuple[str, ...] = ()) -> str:
     h = hashlib.sha256()
     if path.is_dir():
         for entry in sorted(path.rglob('*')):
+            if entry.relative_to(path).parts[0] in ignore_root:
+                continue
             rel = entry.relative_to(path).as_posix().encode('utf-8', errors='surrogateescape')
             h.update((b'D' if entry.is_dir() else b'F') + rel + b'\0')
             if entry.is_file():
@@ -492,24 +532,6 @@ def old_presets(tf: Path) -> list[Path]:
                   if re.fullmatch(r'mastercomfig-[\w.-]+-preset(?:_dir)?\.vpk', p.name))
 
 
-def check_hud_conflicts(tf: Path) -> None:
-    custom = tf / 'custom'
-    if not custom.is_dir():
-        return
-    conflicts = []
-    for p in custom.iterdir():
-        if p.name == 'budhud':
-            continue
-        # Conservative detection; packed/renamed HUDs cannot all be recognized.
-        is_hud = p.is_dir() and ((p / 'info.vdf').is_file() and
-                                 ((p / 'resource').is_dir() or (p / 'scripts/hudlayout.res').is_file()))
-        if is_hud or (p.suffix.lower() == '.vpk' and 'hud' in p.name.lower()):
-            conflicts.append(p.name)
-    if conflicts:
-        raise SetupError('Another possible HUD is installed: ' + ', '.join(conflicts)
-                         + '. Move it outside tf/custom first, or omit --hud budhud.')
-
-
 def confirm(yes: bool) -> bool:
     if yes:
         return True
@@ -518,30 +540,285 @@ def confirm(yes: bool) -> bool:
     return input('Apply these changes? [y/N] ').strip().lower() in ('y', 'yes')
 
 
-def main() -> int:
+
+def active_line(line: str) -> str:
+    """Strip // comments, respecting quoted strings; never evaluate CFG code."""
+    quoted = escaped = False
+    for i, char in enumerate(line):
+        if escaped:
+            escaped = False
+        elif char == '\\' and quoted:
+            escaped = True
+        elif char == '"':
+            quoted = not quoted
+        elif not quoted and line[i:i + 2] == '//':
+            return line[:i]
+    return line.rstrip('\r\n')
+
+
+def managed_bounds(text: str, label: str) -> tuple[list[str], int, int]:
+    """Recognize the old and new script's exact, single managed block."""
+    lines = text.splitlines(keepends=True)
+    begin = [i for i, line in enumerate(lines) if line.strip() == BEGIN]
+    end = [i for i, line in enumerate(lines) if line.strip() == END]
+    if (len(begin) != 1 or len(end) != 1 or begin[0] >= end[0]
+            or text.count(BEGIN) != 1 or text.count(END) != 1):
+        raise SetupError(f'{label}: missing, duplicate, or malformed managed markers. '
+                         'No incremental changes will be guessed.')
+    return lines, begin[0], end[0]
+
+
+def recognized_install(tf: Path) -> bool:
+    """Partial script installations are errors, not invitations to overwrite."""
+    texts = [read_cfg(target_path(tf, rel)) for rel in MANAGED_FILES]
+    if not any(BEGIN in text or END in text for text in texts):
+        return False
+    for rel, text in zip(MANAGED_FILES, texts):
+        managed_bounds(text, rel)
+    base = target_path(tf, 'custom/mastercomfig-base.vpk')
+    assert_plain(base)
+    if not base.is_file():
+        raise SetupError('Managed settings exist but mastercomfig-base.vpk is missing. '
+                         'Restore it before applying an incremental update.')
+    validate_vpk(base)
+    if old_presets(tf):
+        raise SetupError('Both the managed base and old preset VPKs exist. '
+                         'Resolve that existing mastercomfig conflict first.')
+    return True
+
+
+def scalar_occurrences(text: str, key: str, sep: str, label: str) -> list[tuple[int, re.Match]]:
+    """Accept only one simple unconditional definition, anywhere in the file.
+
+    Refuse alias/bind/semicolon expressions involving the requested key instead
+    of silently overriding them. Untargeted commands remain byte-for-byte intact.
+    """
+    boundary = re.compile(r'(?<![\w])' + re.escape(key) + r'(?![\w])', re.I)
+    between = '=' if sep == '=' else r'[ \t]+'
+    pattern = re.compile(r'(?P<prefix>[ \t]*' + re.escape(key) + between + r')'
+                         r'(?P<value>"?[\w.+-]+"?)(?P<space>[ \t]*)$', re.I)
+    found = []
+    for i, line in enumerate(text.splitlines(keepends=True)):
+        active = active_line(line)
+        if not boundary.search(active):
+            continue
+        match = pattern.fullmatch(active)
+        if match is None:
+            raise SetupError(f'{label}:{i + 1}: scripted or ambiguous use of {key}. '
+                             'Resolve it manually; no files have been changed.')
+        found.append((i, match))
+    if len(found) > 1:
+        raise SetupError(f'{label}: multiple active definitions of {key}. '
+                         'Resolve this existing conflict first; no files have been changed.')
+    return found
+
+
+def patch_scalar(text: str, key: str, value: str, sep: str, label: str) -> str:
+    lines, _, end = managed_bounds(text, label)
+    matches = scalar_occurrences(text, key, sep, label)
+    if matches:
+        index, match = matches[0]
+        old = match.group('value')
+        if old.strip('"') == value:
+            return text
+        replacement = '"' + value + '"' if old.startswith('"') else value
+        # Replace only the value, preserving comments, whitespace and line ends.
+        line = lines[index]
+        lines[index] = line[:match.start('value')] + replacement + line[match.end('value'):]
+    else:
+        newline = '\r\n' if lines[end].endswith('\r\n') else '\n'
+        lines.insert(end, key + sep + value + newline)
+    return ''.join(lines)
+
+
+def plan_update(tf: Path, args: argparse.Namespace) -> dict[str, bytes]:
+    """Build a delta in memory; no downloads, temporary files or disk writes."""
+    originals = {rel: target_path(tf, rel).read_bytes() for rel in MANAGED_FILES}
+    texts = {rel: data.decode('utf-8', errors='surrogateescape') for rel, data in originals.items()}
+    # A UTF-8 BOM cannot occur at the managed marker in an old-script file.
+    # Preserve it and all other existing bytes on update.
+    edits: dict[str, list[tuple[str, str, str]]] = {}
+    if args.preset is not None:
+        edits.setdefault(MANAGED_FILES[0], []).append(('preset', args.preset, '='))
+    if args.fps_cap is not None:
+        edits.setdefault(MANAGED_FILES[2], []).append(('fpscap', args.fps_cap, '='))
+    if args.visual_clarity:
+        edits.setdefault(MANAGED_FILES[2], []).extend((key, value, '=')
+                                                     for key, value, _ in CLARITY_MODULES)
+    if args.viewmodels is not None:
+        edits.setdefault(MANAGED_FILES[1], []).append(
+            ('r_drawviewmodel', '0' if args.viewmodels == 'hidden' else '1', ' '))
+        if args.viewmodels == 'minimal':
+            edits[MANAGED_FILES[1]].append(('tf_use_min_viewmodels', '1', ' '))
+    changed = {}
+    for rel, operations in edits.items():
+        text = texts[rel]
+        for key, value, sep in operations:
+            text = patch_scalar(text, key, value, sep, rel)
+        data = text.encode('utf-8', errors='surrogateescape')
+        if data != originals[rel]:
+            changed[rel] = data
+    return changed
+
+
+def warn_other_scripts(tf: Path, args: argparse.Namespace) -> None:
+    keys = []
+    if args.visual_clarity:
+        keys += [key for key, _, _ in CLARITY_MODULES]
+        keys += ['r_drawtracers_firstperson', 'r_jiggle_bones', 'tf_sheen_framerate',
+                 'cl_hud_playerclass_use_playermodel', 'mat_postprocessing_combine']
+    if args.viewmodels:
+        keys += ['r_drawviewmodel', 'tf_use_min_viewmodels']
+    if not keys:
+        return
+    expression = re.compile(r'(?<!\w)(?:' + '|'.join(map(re.escape, keys)) + r')(?!\w)', re.I)
+    hits = []
+    for path in sorted((tf / 'cfg/overrides').rglob('*.cfg')):
+        if path.relative_to(tf).as_posix() in MANAGED_FILES:
+            continue
+        for number, line in enumerate(read_cfg(path).splitlines(), 1):
+            if expression.search(active_line(line)):
+                hits.append(f'{path.relative_to(tf)}:{number}')
+    if hits:
+        warn('Other scripts reference the requested visual settings and are NOT rewritten: '
+             + ', '.join(hits[:12]) + (', ...' if len(hits) > 12 else '')
+             + '. Class changes or binds may override the selection. Review these before applying.')
+
+
+def hud_candidates(tf: Path) -> list[Path]:
+    custom = tf / 'custom'
+    if not custom.is_dir():
+        return []
+    found = []
+    signatures = ('scripts/hudlayout.res', 'resource/clientscheme.res',
+                  'resource/ui/hudplayerhealth.res')
+    for path in sorted(custom.iterdir()):
+        name = path.name.lower()
+        if name.startswith('mastercomfig-'):
+            continue
+        looks_like_hud = (path.is_dir() and
+                          (any((path / rel).is_file() for rel in signatures)
+                           or ('hud' in name and (path / 'info.vdf').is_file())))
+        if looks_like_hud or (path.suffix.lower() == '.vpk' and 'hud' in name):
+            found.append(path)
+    return found
+
+
+def hud_is_current(path: Path, name: str) -> bool:
+    marker = path / HUD_MARKER
+    if not marker.is_file():
+        return False
+    try:
+        saved = json.loads(marker.read_text(encoding='utf-8'))
+        return (saved.get('hud') == name and saved.get('archive_sha256') == HUDS[name]['sha256']
+                and saved.get('policy') == HUD_POLICY
+                and saved.get('tree_sha256') == tree_hash(path, (HUD_MARKER,)))
+    except (ValueError, OSError, AttributeError):
+        return False
+
+
+def plan_hud(tf: Path, name: str, replace: bool) -> tuple[bool, list[str]]:
+    if name == 'keep':
+        if replace:
+            raise SetupError('--replace-hud requires --hud rayshud or --hud budhud.')
+        return False, []
+    selected = target_path(tf, 'custom/' + name)
+    candidates = hud_candidates(tf)
+    if exists(selected) and selected not in candidates:
+        candidates.append(selected)
+    for path in candidates:
+        assert_plain(target_path(tf, path.relative_to(tf).as_posix()))
+    same = selected.is_dir() and hud_is_current(selected, name)
+    other = [path for path in candidates if path != selected]
+    conflicts = other + ([selected] if exists(selected) and not same else [])
+    if conflicts and not replace:
+        names = ', '.join(str(p.relative_to(tf)) for p in conflicts)
+        raise SetupError('Existing HUD or customized HUD would be replaced: ' + names
+                         + '. Preview again with --replace-hud to authorize backing up '
+                         'and replacing these items; no files have been changed.')
+    # The chosen directory is replaced by its source operation, not a second delete.
+    return not same, [path.relative_to(tf).as_posix() for path in other]
+
+
+def prepare_hud(archive: Path, dest: Path, name: str) -> Path:
+    root = extract_hud(archive, dest)
+    startup = root / 'cfg/valve.rc'
+    if startup.is_file():
+        startup.unlink()
+        print('  Excluded HUD cfg/valve.rc; preserving existing startup and graphics settings.')
+    # These are not in the pinned releases. Refuse a surprise startup override.
+    for rel in ('cfg/autoexec.cfg', 'cfg/config.cfg', 'cfg/overrides'):
+        if exists(root / rel):
+            raise SetupError('Unexpected HUD startup override: ' + rel)
+    if (root / 'cfg').is_dir() and not any((root / 'cfg').iterdir()):
+        (root / 'cfg').rmdir()
+    if exists(root / HUD_MARKER):
+        raise SetupError('Unexpected installer metadata in upstream HUD archive.')
+    save_json(root / HUD_MARKER, {'hud': name, 'version': HUDS[name]['version'],
+                                'archive_sha256': HUDS[name]['sha256'], 'policy': HUD_POLICY,
+                                'tree_sha256': tree_hash(root, (HUD_MARKER,))})
+    return root
+
+
+def fingerprint(tf: Path, rel: str) -> str | None:
+    path = target_path(tf, rel)
+    assert_plain(path)
+    return tree_hash(path) if path.exists() else None
+
+
+def print_diff(tf: Path, changes: dict[str, bytes]) -> None:
+    if not changes:
+        print('Configuration files: no changes.')
+    for rel, data in changes.items():
+        old = target_path(tf, rel).read_bytes().decode('utf-8', errors='surrogateescape')
+        new = data.decode('utf-8', errors='surrogateescape')
+        print(''.join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True),
+                                         fromfile=rel + ' (current)', tofile=rel + ' (planned)')), end='')
+        if not new.endswith('\n'):
+            print()
+
+
+def parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--tf2-dir', type=Path, help='Team Fortress 2 folder; auto-detected by default')
-    ap.add_argument('--preset', choices=('medium', 'low', 'high'), default='medium')
-    ap.add_argument('--fps-cap', choices=FPS_CAPS, default='300', help='in-game cap; default: 300')
-    ap.add_argument('--hud', choices=('keep', 'budhud'), default='keep', help='default: keep your HUD')
+    ap.add_argument('--update-only', action='store_true',
+                    help='require an existing script-managed setup; never reinstall the baseline')
+    ap.add_argument('--preset', choices=('medium', 'low', 'high'),
+                    help='new installs: medium; updates: keep unless explicitly supplied')
+    ap.add_argument('--fps-cap', choices=FPS_CAPS,
+                    help='new installs: 300; updates: keep unless explicitly supplied')
+    ap.add_argument('--hud', choices=('keep', 'budhud', 'rayshud'), default='keep',
+                    help='default: keep your HUD')
+    ap.add_argument('--replace-hud', action='store_true',
+                    help='back up and replace detected old HUD(s); required for customized/existing copies')
     ap.add_argument('--visual-clarity', action='store_true',
-                    help='reduce cosmetic effects; keeps impact cues with effects=medium')
-    ap.add_argument('--viewmodels', choices=('minimal', 'hidden'), default='minimal',
-                    help='first-person weapon/hands: minimal visible (default) or hidden')
-    ap.add_argument('--dry-run', action='store_true', help='preview only; no downloads or writes')
+                    help='add cosmetic-motion reductions without changing your effects level')
+    ap.add_argument('--viewmodels', choices=('minimal', 'hidden'),
+                    help='minimal visible or hidden weapons; updates keep the current choice by default')
+    ap.add_argument('--dry-run', action='store_true', help='preview diffs/actions only; no downloads or writes')
     ap.add_argument('--version', action='version', version='%(prog)s ' + SCRIPT_VERSION)
-    ap.add_argument('--restore', type=Path, help='restore a backup; save current affected files first')
-    ap.add_argument('--yes', action='store_true', help='skip the interactive confirmation')
-    args = ap.parse_args()
+    ap.add_argument('--restore', type=Path, help='restore an old or new backup; save current affected files first')
+    ap.add_argument('--yes', action='store_true', help='skip the interactive confirmation after previewing')
+    return ap
+
+
+def main() -> int:
+    args = parser().parse_args()
     if sys.platform != 'linux':
         raise SetupError('This script is intended for Linux.')
     if os.geteuid() == 0:
         raise SetupError('Run as your normal desktop user, not with sudo/root.')
     state = Path(os.environ.get('XDG_STATE_HOME', str(Path.home() / '.local/state')))
     state = (state.expanduser() / 'tf2-competitive-backups').resolve()
+    changes: dict[str, bytes] = {}
+    guard: dict[str, str | None] = {}
+    hud_install = False
+    hud_remove: list[str] = []
+    update = False
     if args.restore:
-        if args.tf2_dir:
-            raise SetupError('--restore uses its recorded installation; omit --tf2-dir.')
+        if (args.tf2_dir or args.update_only or args.preset or args.fps_cap or args.visual_clarity
+                or args.viewmodels or args.hud != 'keep' or args.replace_hud):
+            raise SetupError('--restore cannot be combined with installation/update options.')
         tf, restore_ops = load_restore(args.restore.expanduser().resolve())
         print(f'Restore to: {tf}\nRestore affected items: ' + ', '.join(restore_ops))
         print('Your current affected files will be backed up before restoration.')
@@ -556,45 +833,78 @@ def main() -> int:
                                  + '\nUse --tf2-dir with the folder from Steam > Properties > Installed Files > Browse.')
             game = validate_game(games[0])
         tf = game / 'tf'
-        target_path(tf, 'cfg')
+        assert_plain(target_path(tf, 'cfg'))
         target_path(tf, 'custom/mastercomfig-base.vpk')
-        assert_plain(tf / 'cfg')
-        if args.hud == 'budhud':
-            check_hud_conflicts(tf)
-        print(f'TF2: {game}\nmastercomfig: {COMFIG["version"]}; preset: {args.preset}; '
-              f'cap: {args.fps_cap} FPS; HUD: {args.hud}')
-        print(f'Visual clarity: {"on" if args.visual_clarity else "off"}; '
-              f'viewmodels: {args.viewmodels}')
-        print('Baseline: motion_blur=off; ragdolls=off; gibs=off.')
+        update = recognized_install(tf)
+        if args.update_only and not update:
+            raise SetupError('--update-only did not find the earlier script-managed setup. '
+                             'Check --tf2-dir; no baseline will be installed.')
+        hud_install, hud_remove = plan_hud(tf, args.hud, args.replace_hud)
+        print(f'TF2 setup {SCRIPT_VERSION}\nTF2: {game}\nMode: ' +
+              ('incremental update (existing setup preserved)' if update else 'first-time baseline install'))
+        if update:
+            # Capture guards before computing the preview; reject stale plans later.
+            guard = {rel: fingerprint(tf, rel) for rel in MANAGED_FILES}
+            guard['custom/mastercomfig-base.vpk'] = fingerprint(tf, 'custom/mastercomfig-base.vpk')
+            changes = plan_update(tf, args)
+            print('Unspecified settings stay unchanged. No mastercomfig download or config migration.')
+            print('Preset: ' + (args.preset or 'keep') + '; FPS cap: ' + (args.fps_cap or 'keep')
+                  + '; weapon visibility: ' + (args.viewmodels or 'keep'))
+            print_diff(tf, changes)
+        else:
+            args.preset = args.preset or 'medium'
+            args.fps_cap = args.fps_cap or '300'
+            args.viewmodels = args.viewmodels or 'minimal'
+            guard = {'cfg': fingerprint(tf, 'cfg'),
+                     'custom/mastercomfig-base.vpk': fingerprint(tf, 'custom/mastercomfig-base.vpk')}
+            print(f'mastercomfig: {COMFIG["version"]}; preset: {args.preset}; cap: {args.fps_cap} FPS')
+            print('Back up tf/cfg; migrate standard autoexec/class files into cfg/overrides.')
+            print('Baseline: FOV 90, minimal weapons, raw mouse input, hit feedback, auto-reload.')
+            print('Baseline modules: motion blur, VSync, ragdolls, gibs and anti-aliasing off; '
+                  'standard packet rate; automatic snapshot buffering.')
+            for old in old_presets(tf):
+                rel = old.relative_to(tf).as_posix()
+                guard[rel] = fingerprint(tf, rel)
+                print('Back up and remove old preset: ' + rel)
+            if any((tf / 'cfg' / n).is_file() for n in MIGRATE):
+                warn('Existing config content will be migrated; arbitrary old FPS/class scripts '
+                     'are not automatically sanitized. Inspect their settings before first install.')
         if args.visual_clarity:
-            print('Additional clarity overrides:')
-            for name, value, description in CLARITY_MODULES:
-                print(f'  {name}={value}: {description}.')
-            print('  effects=medium is intentional even with --preset low: preserve impact cues.')
-            print('  These settings cannot suppress every effect; no replacement particle/animation mods.')
-        print(f'  r_drawviewmodel {int(args.viewmodels == "minimal")}')
+            print('Requested clarity options (already-set values are not duplicated):')
+            for key, value, description in CLARITY_MODULES:
+                print(f'  {key}={value}: {description}.')
+            print('  effects module is unchanged, including any stricter low/very_low setting.')
         if args.viewmodels == 'hidden':
-            print('  Hides your weapon/hands and their firing/reload animations, not their timing.')
-            print('  You lose visual weapon/reload cues; camera recoil and screen shake are unchanged.')
-            print('  Session-only recovery in the TF2 console: r_drawviewmodel 1')
-            print('  Existing class scripts or weapon binds may turn viewmodels back on.')
-        print('Back up tf/cfg and affected custom items; keep unrelated custom mods.')
-        print('Migrate standard autoexec/class scripts into cfg/overrides; append the baseline.')
-        print('Leave sensitivity, binds, crosshair, resolution, Steam settings, and the OS alone.')
-        print('Repeat your chosen options each run; previous CLI options are not remembered.')
-        for old in old_presets(tf):
-            print('Back up and remove old preset: ' + old.name)
-        if any((tf / 'cfg' / n).is_file() for n in MIGRATE) or (tf / 'cfg/overrides').exists():
-            warn('Existing script content will be kept. Old FPS/network commands or class configs '
-                 'may conflict; this does not automatically sanitize arbitrary existing configs.')
-        extras = [p.name for p in (tf / 'custom').glob('*.vpk')
-                  if 'addon' in p.name.lower() or p.name.startswith('comfig-')]
-        if extras:
-            warn('Existing addons left unchanged; check their compatibility: ' + ', '.join(extras))
+            print('Hidden viewmodels remove visible weapon/hands and their animations, NOT reload timing.')
+            print('Camera recoil/shake and some world/status effects remain; weapon/reload cues are lost.')
+            print('Session-only recovery in the TF2 console: r_drawviewmodel 1')
+        warn_other_scripts(tf, args)
+        if args.hud != 'keep':
+            rel = 'custom/' + args.hud
+            guard[rel] = fingerprint(tf, rel)
+            for rel in hud_remove:
+                guard[rel] = fingerprint(tf, rel)
+                print('HUD replacement: back up and remove ' + rel)
+            if hud_install:
+                print(f'HUD install: {args.hud} {HUDS[args.hud]["version"]} '
+                      '(pinned release; SHA-256 checked before any game-file changes).')
+                print('HUD cfg/valve.rc will be excluded to preserve existing startup/settings.')
+                print('This omits automatic HUD-specific tweaks; layout may need adjustment for nondefault HUD settings.')
+                if exists(tf / 'custom' / args.hud):
+                    print('The existing chosen HUD directory will be backed up, then replaced.')
+            else:
+                print(f'HUD: unchanged {args.hud} release already installed; no download.')
+            warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')
+        else:
+            print('HUD: keep existing files.')
+        print('No edits to keybinds, sensitivity, crosshair commands, resolution, Steam settings, or the OS.')
     if state == tf or tf in state.parents:
         raise SetupError('The backup directory must be outside the game tf directory.')
     if args.dry_run:
-        print('Preview only. No files changed or downloaded.')
+        print('Preview only. No files changed, downloaded, or backed up.')
+        return 0
+    if update and not changes and not hud_install and not hud_remove:
+        print('Already configured for these options. No writes, downloads, or new backup needed.')
         return 0
     require_closed()
     if not confirm(args.yes):
@@ -607,39 +917,57 @@ def main() -> int:
         except BlockingIOError as exc:
             raise SetupError('Another copy of this script is running.') from exc
         if args.restore:
+            # Re-validate the backup after confirmation, not only before it.
+            tf, restore_ops = load_restore(args.restore.expanduser().resolve())
             backup = transact(tf, restore_ops, state, 'before-restore')
-            print('Restoration complete. Steam launch options must be reverted manually.')
+            print('Restoration complete. Steam launch options, if changed manually, are not restored.')
         else:
             with tempfile.TemporaryDirectory(prefix='tf2-setup-') as tmpdir:
                 tmp = Path(tmpdir)
-                base = tmp / 'mastercomfig-base.vpk'
-                download(COMFIG, base, 20 * 1024 * 1024)
-                validate_vpk(base)
-                cfg = tmp / 'cfg'
-                stage_cfg(tf, cfg, args.preset, args.fps_cap,
-                          visual_clarity=args.visual_clarity, viewmodels=args.viewmodels)
-                ops = {'cfg': cfg, 'custom/mastercomfig-base.vpk': base}
-                for old in old_presets(tf):
-                    ops['custom/' + old.name] = None
-                if args.hud == 'budhud':
-                    archive = tmp / 'budhud.zip'
-                    download(BUDHUD, archive, 50 * 1024 * 1024)
-                    ops['custom/budhud'] = extract_hud(archive, tmp / 'hud-unpacked')
-                require_closed()  # Check again in case Steam was restarted during download.
-                backup = transact(tf, ops, state, 'install')
-            print('\nInstalled. Restart Steam. For keyboard/mouse, set TF2 Launch Options to:')
-            print('  ' + LAUNCH)
-            print('Use native Linux TF2; do not force Proton. Do not choose Legacy OpenGL.')
-            print('For a controller, omit -nojoy and -nosteamcontroller.')
-            print('Verify in the TF2 console: version_comfig; preset_level; fov_desired; fps_max; r_drawviewmodel')
+                if update:
+                    ops: dict[str, Path | None] = {}
+                    for rel, data in changes.items():
+                        staged = tmp / rel
+                        staged.parent.mkdir(parents=True, exist_ok=True)
+                        staged.write_bytes(data)
+                        ops[rel] = staged
+                else:
+                    base = tmp / 'mastercomfig-base.vpk'
+                    download(COMFIG, base, 20 * 1024 * 1024)
+                    validate_vpk(base)
+                    cfg = tmp / 'cfg'
+                    stage_cfg(tf, cfg, args.preset, args.fps_cap,
+                              visual_clarity=args.visual_clarity, viewmodels=args.viewmodels)
+                    ops = {'cfg': cfg, 'custom/mastercomfig-base.vpk': base}
+                    for old in old_presets(tf):
+                        ops['custom/' + old.name] = None
+                if hud_install:
+                    archive = tmp / (args.hud + '.zip')
+                    download(HUDS[args.hud], archive, 50 * 1024 * 1024)
+                    ops['custom/' + args.hud] = prepare_hud(archive, tmp / 'hud-unpacked', args.hud)
+                for rel in hud_remove:
+                    ops[rel] = None
+                require_closed()
+                for rel, before in guard.items():
+                    if fingerprint(tf, rel) != before:
+                        raise SetupError(f'{rel} changed after the preview. No game files were changed; preview again.')
+                # Stop if another HUD appeared while the download/confirmation was in progress.
+                if args.hud != 'keep' and plan_hud(tf, args.hud, args.replace_hud) != (hud_install, hud_remove):
+                    raise SetupError('Installed HUDs changed after the preview. Run the preview again.')
+                backup = transact(tf, ops, state, 'update' if update else 'install')
+            print('\nUpdate applied. Restart Steam/TF2.' if update else '\nBaseline installed. Restart Steam/TF2.')
+            if not update:
+                print('For keyboard/mouse, manually set TF2 Launch Options to:\n  ' + LAUNCH)
+                print('Use native Linux TF2, not Proton or Legacy OpenGL.')
+                print('For a controller, omit -nojoy and -nosteamcontroller.')
+            print('Verify in the TF2 console: version_comfig; preset_level; fps_max; r_drawviewmodel')
             if args.visual_clarity:
                 print('Check selected clarity modules in the TF2 console: module_levels')
             if args.viewmodels == 'hidden':
-                print('Show weapons for this session: r_drawviewmodel 1')
-                print('For persistent visible weapons, rerun with --viewmodels minimal and your other options.')
+                print('Persistent visible weapons: rerun with --update-only --viewmodels minimal.')
             print('Settings: ' + str(tf / 'cfg/overrides'))
         command = ['python3', str(Path(__file__).resolve()), '--restore', str(backup)]
-        print('\nTo undo this operation after fully exiting TF2 and Steam:\n  ' + shlex.join(command))
+        print('\nTo undo ONLY this operation after fully exiting TF2 and Steam:\n  ' + shlex.join(command))
     return 0
 
 

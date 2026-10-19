@@ -1,0 +1,115 @@
+{
+  "sequence": 246,
+  "message_id": "f8f4bff1-4e92-4c77-bb82-89158dabcc5a",
+  "source_timestamp": 1792376991.200525,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2-script-tests/upgrade_v1_2.py",
+      "repo_path": "tf2-script-tests/upgrade_v1_2.py",
+      "status": "available_literal",
+      "sha256": "b13d9cc7981e0740c6b48397b0d3db97036c959f8aff00babb45ab1ab637e393",
+      "bytes": 5979,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+      "repo_path": "tf2-script-tests/setup_tf2_bazzite_v1_1.py",
+      "status": "static_reconstruction",
+      "sha256": "b5baed3a758a35917db5833cc3a51be91feede7238e063675e5fa431b3a3136e",
+      "bytes": 29575,
+      "recipe": [
+        {
+          "operation": "copy",
+          "from": "setup_tf2_bazzite.py",
+          "note": "Copy command present; execution output redacted."
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "857fa84060f554b6652d39b2ba3d3ed04d30196a6cf91aa76aeda0bfe2e87b23",
+      "bytes": 46248,
+      "recipe": [
+        {
+          "operation": "replace_opening_docstring",
+          "source_line": 6
+        },
+        {
+          "operation": "replace",
+          "source_line": 69,
+          "old": "import datetime as dt\n",
+          "new": "import datetime as dt\nimport difflib\n",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 70,
+          "old": "SCRIPT_VERSION = '1.1.0'",
+          "new": "SCRIPT_VERSION = '1.2.0'",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "splice",
+          "start": "FPS_CAPS = ",
+          "end": null,
+          "insert": "RAYSHUD = {\n    'version': '2026.0111',\n    'url': 'https://github.com/raysfire/rayshud/releases/download/2026.0111/rayshud.zip',\n    'sha256': '09c695faa1243d649dff5636d1ccb0c831a6f4f6d118380b2e40d451f6dbd014',\n}\nHUDS = {'budhud': BUDHUD, 'rayshud': RAYSHUD}\nHUD_MARKER = '.tf2-competitive-setup-hud.json'\nHUD_POLICY = 'preserve-startup-v1'\nMANAGED_FILES = ('cfg/overrides/setup_hook.cfg', 'cfg/overrides/autoexec.cfg',\n                 'cfg/overrides/modules.cfg')\n"
+        },
+        {
+          "operation": "splice",
+          "start": "# Keep impact effects",
+          "end": "CLARITY_MODULES = (",
+          "insert": "# Deliberately leave the effects module alone. Raising Low to Medium would\n# re-enable impact cues/particles; the user requested an additive update.\n# These descriptions are upstream intentions, not guarantees for every effect.\n"
+        },
+        {
+          "operation": "replace",
+          "source_line": 89,
+          "old": "    ('effects', 'medium', 'Reduce supported weather, muzzle flashes, casings and particle density; keep impact effects'),\n",
+          "new": "",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 90,
+          "old": "def tree_hash(path: Path) -> str:\n",
+          "new": "def tree_hash(path: Path, ignore_root: tuple[str, ...] = ()) -> str:\n",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 91,
+          "old": "        for entry in sorted(path.rglob('*')):\n            rel = entry.relative_to(path).as_posix().encode('utf-8', errors='surrogateescape')",
+          "new": "        for entry in sorted(path.rglob('*')):\n            if entry.relative_to(path).parts[0] in ignore_root:\n                continue\n            rel = entry.relative_to(path).as_posix().encode('utf-8', errors='surrogateescape')",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 93,
+          "old": "or stat.S_ISLNK(mode) or item.flag_bits & 1):",
+          "new": "or (stat.S_IFMT(mode) not in (0, stat.S_IFREG, stat.S_IFDIR))\n                    or item.flag_bits & 1):",
+          "limit": 1,
+          "matches": 1
+        },
+        {
+          "operation": "splice",
+          "start": "\ndef check_hud_conflicts(",
+          "end": "\ndef confirm(",
+          "insert": ""
+        },
+        {
+          "operation": "cut_old_main_and_append_literal",
+          "source": "heredocs/0246-append-setup_tf2_bazzite.py.txt"
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}

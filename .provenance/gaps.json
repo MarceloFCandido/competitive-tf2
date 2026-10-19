@@ -108,5 +108,14 @@
     },
     "detail": "The complete direct-text audit reports no omitted text, but supplies no attachment bytes. 19 message+attachment references do not establish 19 distinct binary revisions.",
     "evidence": ".provenance/supplemental-evidence/complete-attachment-audit-parent-report.json"
+  },
+  {
+    "id": "updated_share_still_serves_same_message_content",
+    "status": "public_response_content_limitation",
+    "target": "https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66",
+    "metadata_update_time_utc": "2026-10-19T14:55:52.628028+00:00",
+    "detail": "The server metadata records an update at 2026-10-19T14:55:52.628028Z, but both HTTP 200 responses still contain exactly the earlier 615 message nodes and 89 code messages. Safe URLs are the same set of 331 entries; only ordering changed. The v1.6.0 message and new file contents are not exposed in these public responses.",
+    "evidence": ".provenance/source/refresh-20261019T145800Z/comparison.json",
+    "next_recovery_input": "A shared response containing the later message/file content, or original attachment bytes from the authenticated conversation/export/backups. No guarantee is made that expired/overwritten historical bytes still exist."
   }
 ]

@@ -66,3 +66,7 @@ A captura pública é anterior e não contém essa mensagem. O anúncio também 
 ## Reconciliação com os links de anexos
 
 A sequência completa de oito mensagens com links, incluindo o relink sem versão nova e os dois anúncios v1.3.0, está em [ATTACHMENTS.md](ATTACHMENTS.md). São 19 pares únicos mensagem + anexo, não 19 versões binárias confirmadas. `1.3.1` permanece como estado literal de código/README das mensagens 451 e 458; não foi promovido a anúncio de lançamento. Os 42 registros de revisão, 27 caminhos de artefatos e todos os commits anteriores foram preservados.
+
+## Capturas atualizadas sem nova revisão de artefato
+
+As consultas HTTP de 19/10/2026 às 14:57 e 14:58 UTC confirmaram a atualização de `update_time` do compartilhamento, mas não acrescentaram mensagens, código ou referências de anexos. O mapa de 615 nós e as 89 mensagens de código são idênticos à captura inicial. O commit da rechecagem preserva as duas respostas e sua comparação; os 42 registros de revisão de artefatos permanecem inalterados. Veja [REFRESH.md](REFRESH.md).

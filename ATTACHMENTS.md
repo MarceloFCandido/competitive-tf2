@@ -24,3 +24,5 @@ O README de 03:34 usa `TF2_HUD_UPDATE_README.md`; a partir de 03:45, os anúncio
 A mensagem v1.6.0 confirma que os binários dos screenshots não foram baixados e que a galeria offline deveria ser construída no PC. Uma galeria já reparada não foi entregue como anexo.
 
 Dados estruturados: `.provenance/attachment-references.json`, `.provenance/announced-revisions.json` e `.provenance/code-version-states.json`. O relato da auditoria está preservado em `.provenance/supplemental-evidence/complete-attachment-audit-parent-report.json`.
+
+Rechecagem de 19/10/2026 às 14:57/14:58 UTC: o link atualizado ainda contém as mesmas 16 referências literais das sete primeiras mensagens. A mensagem v1.6.0 e suas três referências continuam ausentes da resposta pública e fundamentadas no relato do pai. Nenhuma nova referência ou identidade binária foi confirmada.

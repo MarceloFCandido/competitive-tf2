@@ -1,0 +1,120 @@
+{
+  "refresh_reason": "User supplied the same shared URL after updating the share.",
+  "original_capture_sha256": "5e5e32ba53ed0ab4d9d2000879e77c3646bdb900c472801bb64d2de757c5888a",
+  "requests": [
+    {
+      "request_kind": "normal",
+      "source_url": "https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66",
+      "http_status": 200,
+      "requested_headers": {},
+      "captured_at_utc": "2026-10-19T14:57:17.964827+00:00",
+      "raw_file": "shared-chat-updated.html",
+      "raw_bytes": 2110133,
+      "raw_sha256": "6927ebb4af48a6fb9457f0b95bd355b032f796346775d25c5c9841440a6a98c6",
+      "backing_conversation_id": "6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+      "share_metadata_update_time_utc": "2026-10-19T14:55:52.628028+00:00",
+      "previous_share_metadata_update_time_utc": "2026-10-19T12:59:54.052416+00:00",
+      "nodes": 615,
+      "linear_nodes": 615,
+      "new_node_ids": [],
+      "removed_node_ids": [],
+      "changed_node_ids": [],
+      "mapping_equal": true,
+      "linear_conversation_equal": true,
+      "mapping_canonical_sha256": "a54469380631e1e556eaaada3431768075d292dafca15bf7d0d68b09b85906df",
+      "previous_mapping_canonical_sha256": "a54469380631e1e556eaaada3431768075d292dafca15bf7d0d68b09b85906df",
+      "code_message_count": 89,
+      "code_messages_equal": true,
+      "code_canonical_sha256": "89af6b65eb02c59a819d264780b74e843e6c3a9fc7bfa4c30c70619f0be3af39",
+      "current_node": "6300a988-456c-4c43-bc20-c2eb770c75ad",
+      "current_node_timestamp_utc": "2026-10-19T12:56:12.535328+00:00",
+      "later_v1_6_message_present": false,
+      "literal_version_1_6_0_present": false,
+      "safe_url_count": 331,
+      "added_safe_urls": [],
+      "removed_safe_urls": [],
+      "safe_url_sequence_equal": false,
+      "safe_url_set_equal": true,
+      "unique_literal_message_attachment_refs": 16,
+      "new_literal_message_attachment_refs": [],
+      "removed_literal_message_attachment_refs": [],
+      "changed_conversation_fields": [
+        "safe_urls",
+        "update_time"
+      ],
+      "archived_raw_path": ".provenance/source/refresh-20261019T145800Z/normal.html.txt",
+      "archived_conversation_path": ".provenance/source/refresh-20261019T145800Z/normal-conversation.json"
+    },
+    {
+      "request_kind": "no-cache",
+      "source_url": "https://chatgpt.com/share/6ad6143e-d894-83e9-a306-302b4fc65c66",
+      "http_status": 200,
+      "requested_headers": {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache"
+      },
+      "captured_at_utc": "2026-10-19T14:58:00.239528+00:00",
+      "raw_file": "shared-chat-recheck.html",
+      "raw_bytes": 2109960,
+      "raw_sha256": "6b29518d459f03aa3449e01df359a9f404f8d193b4f99b4dad3ce9747bdfdc91",
+      "backing_conversation_id": "6acfa42a-f8fc-83e8-b025-370fd5942d5b",
+      "share_metadata_update_time_utc": "2026-10-19T14:55:52.628028+00:00",
+      "previous_share_metadata_update_time_utc": "2026-10-19T12:59:54.052416+00:00",
+      "nodes": 615,
+      "linear_nodes": 615,
+      "new_node_ids": [],
+      "removed_node_ids": [],
+      "changed_node_ids": [],
+      "mapping_equal": true,
+      "linear_conversation_equal": true,
+      "mapping_canonical_sha256": "a54469380631e1e556eaaada3431768075d292dafca15bf7d0d68b09b85906df",
+      "previous_mapping_canonical_sha256": "a54469380631e1e556eaaada3431768075d292dafca15bf7d0d68b09b85906df",
+      "code_message_count": 89,
+      "code_messages_equal": true,
+      "code_canonical_sha256": "89af6b65eb02c59a819d264780b74e843e6c3a9fc7bfa4c30c70619f0be3af39",
+      "current_node": "6300a988-456c-4c43-bc20-c2eb770c75ad",
+      "current_node_timestamp_utc": "2026-10-19T12:56:12.535328+00:00",
+      "later_v1_6_message_present": false,
+      "literal_version_1_6_0_present": false,
+      "safe_url_count": 331,
+      "added_safe_urls": [],
+      "removed_safe_urls": [],
+      "safe_url_sequence_equal": false,
+      "safe_url_set_equal": true,
+      "unique_literal_message_attachment_refs": 16,
+      "new_literal_message_attachment_refs": [],
+      "removed_literal_message_attachment_refs": [],
+      "changed_conversation_fields": [
+        "safe_urls",
+        "update_time"
+      ],
+      "archived_raw_path": ".provenance/source/refresh-20261019T145800Z/no-cache.html.txt",
+      "archived_conversation_path": ".provenance/source/refresh-20261019T145800Z/no-cache-conversation.json"
+    }
+  ],
+  "filtered_no_cache_response_headers": [
+    {
+      "status_line": "HTTP/2 200 "
+    },
+    {
+      "name": "date",
+      "value": "Mon, 19 Oct 2026 14:58:00 GMT"
+    },
+    {
+      "name": "content-type",
+      "value": "text/html; charset=utf-8"
+    },
+    {
+      "name": "cf-cache-status",
+      "value": "DYNAMIC"
+    }
+  ],
+  "fresh_message_content_recovered": false,
+  "new_artifact_revisions_recovered": 0,
+  "evidence_conclusion": "The server metadata records an update at 2026-10-19T14:55:52.628028Z, but both HTTP 200 responses still contain exactly the earlier 615 message nodes and 89 code messages. Safe URLs are the same set of 331 entries; only ordering changed. The v1.6.0 message and new file contents are not exposed in these public responses.",
+  "remaining_blocker": "Current public shared responses omit later message/file content. Original attachment bytes remain unavailable through the public capture. No authenticated-browser attempt or unlock assumption was made during this refresh.",
+  "recorded_at_utc": "2026-10-19T15:01:50.869021+00:00",
+  "prior_head_preserved": "26961a7b00c8698be650480e62b8482626e9a112",
+  "browser_attempted_during_refresh": false,
+  "mac_unlock_assumed": false
+}

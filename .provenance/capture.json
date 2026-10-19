@@ -68,5 +68,25 @@
     },
     "verified_distinct_binary_revisions": null,
     "literal_code_version_1_3_1_distinct_from_visible_announcements": true
+  },
+  "latest_refresh": {
+    "comparison": ".provenance/source/refresh-20261019T145800Z/comparison.json",
+    "request_times_utc": [
+      "2026-10-19T14:57:17.964827+00:00",
+      "2026-10-19T14:58:00.239528+00:00"
+    ],
+    "request_count": 2,
+    "http_statuses": [
+      200,
+      200
+    ],
+    "no_cache_recheck": true,
+    "confirmed_share_metadata_update_time_utc": "2026-10-19T14:55:52.628028+00:00",
+    "message_nodes_unchanged": true,
+    "code_messages_unchanged": true,
+    "new_artifact_revisions_recovered": 0,
+    "later_v1_6_message_present": false,
+    "browser_attempted": false,
+    "mac_unlock_assumed": false
   }
 }

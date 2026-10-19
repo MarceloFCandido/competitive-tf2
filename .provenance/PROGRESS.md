@@ -23,3 +23,8 @@
 - 2026-10-19T13:45:58.545590+00:00: auditoria completa do pai reconciliada: 26 mensagens, três páginas esgotadas, sem content_omitted; 19 pares únicos mensagem+anexo (8 instalador, 5 testes, 5 README, 1 HTML), sem confirmação de identidade binária.
 - Sete mensagens/16 pares conferidos contra a captura pública; v1.6.0/3 pares permanecem como relato suplementar.
 - Estado literal de código/README 1.3.1 diferenciado de anúncios visíveis. Nenhum estado recuperado removido; nenhuma galeria reparada alegada.
+
+- 2026-10-19T15:01:50.869021+00:00: retomada a pedido do usuário com o mesmo link atualizado; estado inicial limpo e 25 commits verificados.
+- Novos downloads em 14:57:17 e 14:58:00 UTC, ambos HTTP 200; segundo com cabeçalhos no-cache e resposta DYNAMIC.
+- Metadados confirmam atualização do link em 14:55:52 UTC; apenas update_time e ordenação de safe_urls mudaram. Os mesmos 615 nós, 89 mensagens de código e 16 pares literais de mensagem+anexo permanecem inalterados.
+- Zero novas revisões recuperadas. Capturas preservadas em diretório próprio; inventário e lacunas atualizados sem criar conteúdo faltante. Nenhuma tentativa de navegador ou suposição de desbloqueio do Mac.

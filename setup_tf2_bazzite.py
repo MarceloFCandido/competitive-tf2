@@ -6,8 +6,8 @@ No sudo, pip, package installs, Steam-account edits, or OS tuning.
 Downloads only pinned upstream game data; never executes downloaded programs.
 
 Already applied an earlier version? Use:
-    python3 setup_tf2_bazzite.py --update-only --dry-run --hud idhud --replace-hud
-    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --dry-run --hud middlemann --replace-hud
+    python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud
 
 Other examples:
     python3 setup_tf2_bazzite.py --list-huds
@@ -42,6 +42,8 @@ Visual options:
     Not every flame, explosion, flash or status overlay can be disabled.
 
 HUDs:
+    --hud middlemann installs Middle Mann: TF2-style panels with centered
+    health, ammo and class meters. It does not restore disabled 3D portraits.
     --hud idhud installs Improved Default HUD: original TF2 style/positions with
     readability and UI fixes. --hud rayshud and --hud budhud remain available.
     --list-huds lists the installer choices without scanning or changing files.
@@ -60,13 +62,17 @@ HUDs:
     this also omits their automatic HUD-specific tweaks (e.g. menu dimmer fix).
     The pinned IDHUD package contains no cfg folder; no startup patch is needed.
     IDHUD's optional recommended ConVars are NOT applied by the installer.
+    Middle Mann expects cl_hud_minmode 0. Its bundled startup override is
+    excluded too: minmode, caching and automatic reload tweaks are NOT applied.
+    If needed, set cl_hud_minmode 0 explicitly in TF2; this is HUD layout mode,
+    not minimal weapon viewmodels. Test rendering on your own display.
     Detection is conservative; arbitrary packed/renamed mods may go undetected.
 
 Dry runs never download, write game files, or create backups. Incremental dry
 runs show config diffs and planned HUD replacements. Backups from older script
 versions remain restorable. The program prints an undo command after changes.
 
-Baseline sources checked 2026-10-18; IDHUD addition checked 2026-10-19:
+Baseline sources checked 2026-10-18; HUD additions checked 2026-10-19:
     https://docs.comfig.app/latest/setup/install/
     https://docs.comfig.app/latest/customization/custom_configs/
     https://docs.comfig.app/latest/customization/modules/
@@ -79,6 +85,9 @@ Baseline sources checked 2026-10-18; IDHUD addition checked 2026-10-19:
     https://github.com/rbjaxter/budhud/blob/2511_01/cfg/valve.rc
     https://github.com/idhud-tf2/idhud/releases/tag/4.0.8
     https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md
+    https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1
+    https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc
+    https://github.com/Vexcenot/-middle-mann/issues/166
 """
 from __future__ import annotations
 
@@ -102,7 +111,7 @@ import urllib.parse
 import urllib.request
 import zipfile
 
-SCRIPT_VERSION = '1.3.0'
+SCRIPT_VERSION = '1.3.1'
 
 COMFIG = {
     'version': '9.100.1',
@@ -124,15 +133,22 @@ IDHUD = {
     'url': 'https://github.com/idhud-tf2/idhud/releases/download/4.0.8/idhud.zip',
     'sha256': '3adbeffdee96f5555cd2c862a479e3248a4e62a4da6858200e2e99913e518719',
 }
+MIDDLEMANN = {
+    'version': 'v26.1',
+    'url': 'https://github.com/Vexcenot/-middle-mann/releases/download/v26.1/-middle-mann-v26.1.zip',
+    'sha256': '4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899',
+}
 # Do not silently upgrade the HUDs or mastercomfig from the earlier installer.
-HUDS = {'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
+HUDS = {'middlemann': MIDDLEMANN, 'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}
 HUD_CHOICES = ('keep', 'stock', *HUDS)
 HUD_DESCRIPTIONS = {
+    'middlemann': 'Middle Mann: TF2-style panels with centered health, ammo and class meters.',
     'idhud': 'Improved Default HUD: original TF2 style and corner layout; readability/UI fixes.',
     'rayshud': 'Simplified, bold redesign; the HUD offered in the previous installer.',
     'budhud': 'A more extensively redesigned HUD inspired by yahud and rayshud.',
 }
 HUD_PAGES = {
+    'middlemann': 'https://github.com/Vexcenot/-middle-mann',
     'idhud': 'https://github.com/idhud-tf2/idhud',
     'rayshud': 'https://github.com/raysfire/rayshud',
     'budhud': 'https://github.com/rbjaxter/budhud',
@@ -791,6 +807,11 @@ def prepare_hud(archive: Path, dest: Path, name: str) -> Path:
     root = extract_hud(archive, dest)
     if name == 'idhud' and exists(root / 'cfg'):
         raise SetupError('Unexpected cfg directory in the pinned IDHUD package; refusing startup changes.')
+    if name == 'middlemann' and exists(root / 'cfg'):
+        # The inspected v26.1 source has only valve.rc here. Fail closed on surprises.
+        cfg = root / 'cfg'
+        if not cfg.is_dir() or any(entry.name != 'valve.rc' for entry in cfg.iterdir()):
+            raise SetupError('Unexpected Middle Mann cfg content; refusing startup changes.')
     startup = root / 'cfg/valve.rc'
     if startup.is_file():
         startup.unlink()
@@ -833,10 +854,12 @@ def print_hud_catalog() -> None:
     print('keep    Leave the current HUD alone (default).')
     print('stock   Remove detected custom HUDs after backup; no HUD download.')
     for name, asset in HUDS.items():
-        print(f'{name:<8}{HUD_DESCRIPTIONS[name]}')
-        print(f'        Pinned release: {asset["version"]}; {HUD_PAGES[name]}')
+        print(f'{name:<12}{HUD_DESCRIPTIONS[name]}')
+        print(f'            Pinned release: {asset["version"]}; {HUD_PAGES[name]}')
+        if name == 'middlemann':
+            print('            Expects cl_hud_minmode 0; this installer preserves your current value.')
     print('\nChoose one HUD at a time. Switching backs up the current HUD outside tf/custom.')
-    print('Preview: python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run')
+    print('Preview: python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-run')
     print('Omitted preset/FPS/visual options keep your earlier setup unchanged on updates.')
     print('To recover local HUD customizations, use the printed --restore command, not --hud NAME.')
 
@@ -973,6 +996,10 @@ def main() -> int:
             if hud_remove or (args.hud in HUDS and exists(tf / 'custom' / args.hud) and hud_install):
                 print('The printed --restore command recovers the previous HUD, including local customizations.')
                 print('Selecting a HUD name again downloads a clean pinned copy, not its customized backup.')
+            if args.hud == 'middlemann':
+                print('Middle Mann expects cl_hud_minmode 0; check it in the TF2 console.')
+                print('Its startup minmode/caching/reload tweaks are NOT applied; no gameplay cvars are reset.')
+                print('Tournament spectator overlap has been reported upstream (#166); test your modes/display.')
             warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')
         else:
             print('HUD: keep existing files.')

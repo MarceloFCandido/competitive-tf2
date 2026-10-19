@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression tests for setup_tf2_bazzite.py v1.3.0.
+"""Offline regression tests for setup_tf2_bazzite.py v1.3.1.
 
 Uses artificial TF2 folders and small artificial HUD archives. No real TF2,
 Steam, network, fonts, or downloaded HUD assets are needed or exercised.
@@ -121,8 +121,62 @@ class SetupTests(unittest.TestCase):
             result = m.main()
         return result, stdout.getvalue(), stderr.getvalue(), download, confirm, closed
 
+    def test_middlemann_dry_run_preserves_everything(self):
+        self.install_hud_fixture('rayshud', customized=True)
+        write(self.tf / 'cfg/config.cfg', 'cl_hud_minmode 1\nvolume 0.65\n')
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud', '--dry-run')
+        self.assertEqual(result[0], 0)
+        self.assertIn('Configuration files: no changes.', result[1])
+        self.assertIn('Middle Mann expects cl_hud_minmode 0', result[1])
+        self.assertIn('v26.1', result[1])
+        self.assertFalse(result[3].called)
+        self.assertFalse(result[4].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_middlemann_switch_and_exact_restore(self):
+        self.install_hud_fixture('rayshud', customized=True)
+        before = self.snapshot(self.tf)
+        cfg_before = self.snapshot(self.tf / 'cfg')
+        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud')
+        self.assertEqual(result[0], 0)
+        self.assertEqual(cfg_before, self.snapshot(self.tf / 'cfg'))
+        self.assertFalse((self.tf / 'custom/rayshud').exists())
+        self.assertTrue(m.hud_is_current(self.tf / 'custom/middlemann', 'middlemann'))
+        self.assertFalse((self.tf / 'custom/middlemann/cfg/valve.rc').exists())
+        self.assertEqual(self.downloads, [m.MIDDLEMANN['url']])
+        backup = next(self.state.rglob('manifest.json')).parent
+        self.run_main('--restore', str(backup))
+        self.assertEqual(before, self.snapshot(self.tf))
+
+    def test_middlemann_reapply_is_noop(self):
+        self.install_hud_fixture('middlemann')
+        before = self.snapshot()
+        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud')
+        self.assertIn('Already configured', result[1])
+        self.assertFalse(result[3].called)
+        self.assertEqual(before, self.snapshot())
+
+    def test_middlemann_realistic_root_and_startup_exclusion(self):
+        archive = self.root / 'middlemann-test.zip'
+        write(archive, archive_bytes('middlemann',
+                                    folder='-middle-mann-v26.1',
+                                    extra={'customizations/vignette.res': '// off\n',
+                                           'cfg/valve.rc': 'cl_hud_minmode 0\nvgui_cache_res_files 0\nwait 200; hud_reloadscheme\n'}))
+        root = m.prepare_hud(archive, self.root / 'middlemann-stage', 'middlemann')
+        self.assertEqual(root.name, '-middle-mann-v26.1')
+        self.assertFalse((root / 'cfg').exists())
+        self.assertEqual((root / 'customizations/vignette.res').read_text(), '// off\n')
+        self.assertTrue(m.hud_is_current(root, 'middlemann'))
+
+    def test_middlemann_unexpected_startup_refused(self):
+        archive = self.root / 'middlemann-test.zip'
+        write(archive, archive_bytes('middlemann', extra={'cfg/joystick.cfg': 'exec bad.cfg'}))
+        with self.assertRaisesRegex(m.SetupError, 'Unexpected Middle Mann cfg'):
+            m.prepare_hud(archive, self.root / 'middlemann-stage', 'middlemann')
+
     def test_catalog_choices_include_previous_and_new(self):
-        self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'idhud', 'rayshud', 'budhud'})
+        self.assertEqual(set(m.HUD_CHOICES), {'keep', 'stock', 'idhud', 'rayshud', 'budhud', 'middlemann'})
         self.assertEqual(self.args().hud, 'keep')
         self.assertEqual(self.args('--hud', 'idhud').hud, 'idhud')
 

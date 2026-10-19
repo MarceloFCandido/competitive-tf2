@@ -1,0 +1,164 @@
+{
+  "sequence": 451,
+  "message_id": "5bd64030-9aa7-4890-8d69-d72572b6defb",
+  "source_timestamp": 1792410734.619248,
+  "notes": [],
+  "writes": [
+    {
+      "original_path": "/mnt/data/tf2_work/update_script.py",
+      "repo_path": "tf2_work/update_script.py",
+      "status": "available_literal",
+      "sha256": "405aab7a0913d298ac9dc16679761f02822a39f5deea7647ddeb2afbd43d5ae4",
+      "bytes": 7806,
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/setup_tf2_bazzite.py",
+      "repo_path": "setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "d968561069ae0a2ef9adf508658480e4b4321dc9d203be778ac1f170c30c058b",
+      "bytes": 53285,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 4,
+          "old": "SCRIPT_VERSION = '1.3.0'",
+          "new": "SCRIPT_VERSION = '1.3.1'",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 5,
+          "old": "    python3 setup_tf2_bazzite.py --update-only --dry-run --hud idhud --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud",
+          "new": "    python3 setup_tf2_bazzite.py --update-only --dry-run --hud middlemann --replace-hud\n    python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 6,
+          "old": "HUDs:\n    --hud idhud",
+          "new": "HUDs:\n    --hud middlemann installs Middle Mann: TF2-style panels with centered\n    health, ammo and class meters. It does not restore disabled 3D portraits.\n    --hud idhud",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 7,
+          "old": "    IDHUD's optional recommended ConVars are NOT applied by the installer.\n",
+          "new": "    IDHUD's optional recommended ConVars are NOT applied by the installer.\n    Middle Mann expects cl_hud_minmode 0. Its bundled startup override is\n    excluded too: minmode, caching and automatic reload tweaks are NOT applied.\n    If needed, set cl_hud_minmode 0 explicitly in TF2; this is HUD layout mode,\n    not minimal weapon viewmodels. Test rendering on your own display.\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 8,
+          "old": "Baseline sources checked 2026-10-18; IDHUD addition checked 2026-10-19:",
+          "new": "Baseline sources checked 2026-10-18; HUD additions checked 2026-10-19:",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 9,
+          "old": "    https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md\n",
+          "new": "    https://github.com/idhud-tf2/idhud/blob/4.0.8/README.md\n    https://github.com/Vexcenot/-middle-mann/releases/tag/v26.1\n    https://github.com/Vexcenot/-middle-mann/blob/v26.1/cfg/valve.rc\n    https://github.com/Vexcenot/-middle-mann/issues/166\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 10,
+          "old": "# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.\nHUDS = {'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}",
+          "new": "MIDDLEMANN = {\n    'version': 'v26.1',\n    'url': 'https://github.com/Vexcenot/-middle-mann/releases/download/v26.1/-middle-mann-v26.1.zip',\n    'sha256': '4cc9721be700e6530f2cb731fae14ddc1d27b2b4c4aa7b42e69a3621513cf899',\n}\n# Do not silently upgrade the HUDs or mastercomfig from the earlier installer.\nHUDS = {'middlemann': MIDDLEMANN, 'idhud': IDHUD, 'rayshud': RAYSHUD, 'budhud': BUDHUD}",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 11,
+          "old": "HUD_DESCRIPTIONS = {\n",
+          "new": "HUD_DESCRIPTIONS = {\n    'middlemann': 'Middle Mann: TF2-style panels with centered health, ammo and class meters.',\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 12,
+          "old": "HUD_PAGES = {\n",
+          "new": "HUD_PAGES = {\n    'middlemann': 'https://github.com/Vexcenot/-middle-mann',\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 13,
+          "old": "    startup = root / 'cfg/valve.rc'\n",
+          "new": "    if name == 'middlemann' and exists(root / 'cfg'):\n        # The inspected v26.1 source has only valve.rc here. Fail closed on surprises.\n        cfg = root / 'cfg'\n        if not cfg.is_dir() or any(entry.name != 'valve.rc' for entry in cfg.iterdir()):\n            raise SetupError('Unexpected Middle Mann cfg content; refusing startup changes.')\n    startup = root / 'cfg/valve.rc'\n",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 14,
+          "old": "        print(f'{name:<8}{HUD_DESCRIPTIONS[name]}')\n        print(f'        Pinned release: {asset[\"version\"]}; {HUD_PAGES[name]}')",
+          "new": "        print(f'{name:<12}{HUD_DESCRIPTIONS[name]}')\n        print(f'            Pinned release: {asset[\"version\"]}; {HUD_PAGES[name]}')\n        if name == 'middlemann':\n            print('            Expects cl_hud_minmode 0; this installer preserves your current value.')",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 15,
+          "old": "Preview: python3 setup_tf2_bazzite.py --update-only --hud idhud --replace-hud --dry-run",
+          "new": "Preview: python3 setup_tf2_bazzite.py --update-only --hud middlemann --replace-hud --dry-run",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 16,
+          "old": "            warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')",
+          "new": "            if args.hud == 'middlemann':\n                print('Middle Mann expects cl_hud_minmode 0; check it in the TF2 console.')\n                print('Its startup minmode/caching/reload tweaks are NOT applied; no gameplay cvars are reset.')\n                print('Tournament spectator overlap has been reported upstream (#166); test your modes/display.')\n            warn('HUD detection cannot prove compatibility with every renamed/packed custom mod.')",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    },
+    {
+      "original_path": "/mnt/data/test_setup_tf2_bazzite.py",
+      "repo_path": "test_setup_tf2_bazzite.py",
+      "status": "static_reconstruction",
+      "sha256": "81eef7f7bc652a3f1d10fdf21cae156417ea98a77090fbc342c7c8407ad6bad0",
+      "bytes": 26936,
+      "recipe": [
+        {
+          "operation": "replace",
+          "source_line": 20,
+          "old": "v1.3.0.",
+          "new": "v1.3.1.",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 21,
+          "old": "{'keep', 'stock', 'idhud', 'rayshud', 'budhud'}",
+          "new": "{'keep', 'stock', 'idhud', 'rayshud', 'budhud', 'middlemann'}",
+          "limit": -1,
+          "matches": 1
+        },
+        {
+          "operation": "replace",
+          "source_line": 78,
+          "old": "    def test_catalog_choices_include_previous_and_new(self):",
+          "new": "    def test_middlemann_dry_run_preserves_everything(self):\n        self.install_hud_fixture('rayshud', customized=True)\n        write(self.tf / 'cfg/config.cfg', 'cl_hud_minmode 1\\nvolume 0.65\\n')\n        before = self.snapshot()\n        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud', '--dry-run')\n        self.assertEqual(result[0], 0)\n        self.assertIn('Configuration files: no changes.', result[1])\n        self.assertIn('Middle Mann expects cl_hud_minmode 0', result[1])\n        self.assertIn('v26.1', result[1])\n        self.assertFalse(result[3].called)\n        self.assertFalse(result[4].called)\n        self.assertEqual(before, self.snapshot())\n\n    def test_middlemann_switch_and_exact_restore(self):\n        self.install_hud_fixture('rayshud', customized=True)\n        before = self.snapshot(self.tf)\n        cfg_before = self.snapshot(self.tf / 'cfg')\n        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud')\n        self.assertEqual(result[0], 0)\n        self.assertEqual(cfg_before, self.snapshot(self.tf / 'cfg'))\n        self.assertFalse((self.tf / 'custom/rayshud').exists())\n        self.assertTrue(m.hud_is_current(self.tf / 'custom/middlemann', 'middlemann'))\n        self.assertFalse((self.tf / 'custom/middlemann/cfg/valve.rc').exists())\n        self.assertEqual(self.downloads, [m.MIDDLEMANN['url']])\n        backup = next(self.state.rglob('manifest.json')).parent\n        self.run_main('--restore', str(backup))\n        self.assertEqual(before, self.snapshot(self.tf))\n\n    def test_middlemann_reapply_is_noop(self):\n        self.install_hud_fixture('middlemann')\n        before = self.snapshot()\n        result = self.run_main('--update-only', '--hud', 'middlemann', '--replace-hud')\n        self.assertIn('Already configured', result[1])\n        self.assertFalse(result[3].called)\n        self.assertEqual(before, self.snapshot())\n\n    def test_middlemann_realistic_root_and_startup_exclusion(self):\n        archive = self.root / 'middlemann-test.zip'\n        write(archive, archive_bytes('middlemann',\n                                    folder='-middle-mann-v26.1',\n                                    extra={'customizations/vignette.res': '// off\\n',\n                                           'cfg/valve.rc': 'cl_hud_minmode 0\\nvgui_cache_res_files 0\\nwait 200; hud_reloadscheme\\n'}))\n        root = m.prepare_hud(archive, self.root / 'middlemann-stage', 'middlemann')\n        self.assertEqual(root.name, '-middle-mann-v26.1')\n        self.assertFalse((root / 'cfg').exists())\n        self.assertEqual((root / 'customizations/vignette.res').read_text(), '// off\\n')\n        self.assertTrue(m.hud_is_current(root, 'middlemann'))\n\n    def test_middlemann_unexpected_startup_refused(self):\n        archive = self.root / 'middlemann-test.zip'\n        write(archive, archive_bytes('middlemann', extra={'cfg/joystick.cfg': 'exec bad.cfg'}))\n        with self.assertRaisesRegex(m.SetupError, 'Unexpected Middle Mann cfg'):\n            m.prepare_hud(archive, self.root / 'middlemann-stage', 'middlemann')\n\n    def test_catalog_choices_include_previous_and_new(self):",
+          "limit": -1,
+          "matches": 1
+        }
+      ],
+      "static_syntax": "parsed_without_execution"
+    }
+  ]
+}
